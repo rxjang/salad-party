@@ -1,1 +1,1 @@
-# saladp-arty
+# salad-party
