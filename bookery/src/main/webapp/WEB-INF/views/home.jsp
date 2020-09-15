@@ -46,7 +46,7 @@
     .mylib-menu{left:25%;}
     
     
-	@media (max-width:1000px) {/*작은 화면용 CSS*/
+	@media (max-width:1000px) {/*중간 이하 화면용 CSS*/
 		#menu{
 			height:50px;
 			border-bottom:0px;
@@ -60,9 +60,8 @@
 			height:66px;
 			color:#666666;
 		}
-		.add-jung{font-size:0.7em;}
-		.nav{
-			width:100%;
+		.add-jung{
+			font-size:0.7em;
 		}
 		.menu-icon{
 			padding-top:0px;
@@ -72,8 +71,7 @@
     		right:35;
     		left:auto;
     	}
-    	.nav>li>a {
-			padding-top:0px}
+    	.nav>li>a {padding-top:0px}
 	    /*******************모바일 서브메뉴 CSS*******************/
     	.sub-menu{
     		position:fixed;
@@ -82,7 +80,15 @@
 			border-bottom: 0px;
 			float: left;
  	   }
+ 	   .nav>li{
+ 	  		padding:0 2.5%;
+ 	   }
  	   .mylib-menu{left:auto;}/**pc버전의 left속성 없앰**/
+	}
+	@media (max-width:800px) {/**작은화면을 위한 CSS**/
+ 	   .nav>li{
+ 	  		padding:0;
+ 	   }
 	}
 </style>
 <script type="text/javascript">
