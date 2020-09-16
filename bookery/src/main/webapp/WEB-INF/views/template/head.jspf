@@ -1,10 +1,68 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fm" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css"/>
+<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
+ --%>
+
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/js/jquery-1.12.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath }/resources/node_modules/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/node_modules/aos/css/styles.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/node_modules/aos/dist/aos.css" />
+<script src="${pageContext.request.contextPath }/resources/node_modules/aos/dist/aos.js"></script>
+
+<!-- 
+***************
+	--선언 목록--
+ 
+ 	추가하신분은 리스트업해주세요
+	
+	1.태그 라이브러리 jstl core
+	2.태그 라이브러리 jstl fmt
+	3.뷰 포트
+	4.제이쿼리 min.js
+	5.부트스트랩 min.css
+	6.부트스트랩.js
+	7.달콤알림 SweetAlert.min.js
+	8.AOS 스크롤애니메이션 styles.css
+	9.AOS aos.css
+	10.AOS aos.js
+ 
+***************
+ -->
 <style>
+	/**** 크롬 input 자동포커스 아웃라인, 자동 배경색 채우기 해제 ****/
+	input,button{
+		outline-style: none;
+	}
+	input:-webkit-autofill,
+	   input:-webkit-autofill:hover,
+	   input:-webkit-autofill:focus,
+	   input:-webkit-autofill:active {
+	 transition: background-color 5000s ease-in-out 0s;
+	 -webkit-transition: background-color 9999s ease-out;
+	    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+	    -webkit-text-fill-color: black !important;
+	  }
+	/******************************		크롬	****************************/
+
+.bottom-line{
+	/**** 페이지 밑 줄
+		div class = col-md-12 col-xs-12 bottom-line 으로 사용하면
+		화면 전체 가로지르는 밑줄 그을 수 있다. 
+	****/
+	margin-top:20px;
+	margin-bottom:20px;
+	border-bottom:1px solid #e4e4e4;
+}
+
  	#menu{
  		height:66px;
 		line-height:40px;
