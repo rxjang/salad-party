@@ -4,13 +4,13 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
-	<title>Bookery</title>
 <style>
  	#menu{
  		height:66px;
 		line-height:40px;
 		border-bottom: 1px solid #e4e4e4;
 		font-size: 1.3em;
+		background-color:white;
 	}
 	#menu a,.sub-menu a{color:black;}
 	#menu a:hover, .sub-menu a:hover{
@@ -40,7 +40,7 @@
     .footer-title{
     	font-size:1.3em;
     	font-weight:bold;
-    	padding-top:20px;
+    	padding-top:15px;
     }
 	.footer-content{padding-left:65px;}/*좌측 적당한 공간 띄움*/
     /*******************서브메뉴 CSS*******************/
@@ -48,7 +48,6 @@
     	height:44px;
 		border-bottom: 1px solid #e4e4e4;
     }
-    /*******************내서재 메뉴 CSS*******************/
     .mylib-menu{left:25%;}
     .feed-menu{left:42%;}
     
@@ -56,7 +55,6 @@
 		#menu{
 			height:50px;
 			border-bottom:0px;
-			background-color:white;
 		}
 		.menu-setting{padding:0px 25px;}
 		.pull-right{padding:23px 25px;}
@@ -66,10 +64,10 @@
 			border-top:1px solid #e4e4e4;
 			height:66px;
 			color:#666666;
+			background-color:white;
+			z-index:10;
 		}
-		.add-jung{
-			font-size:0.7em;
-		}
+		.add-jung{font-size:0.7em;}
 		.menu-icon{
 			padding-top:5px;
 			font-size:1.4em;
@@ -78,10 +76,16 @@
     		right:35;
     		left:auto;
     	}
+    	.nav{
+    		text-align:center;
+    		position:relative;
+    	}
  	   .nav>li{
- 	  		padding:0 2.5%;
+ 	   		float:none;
+ 	   		display:inline-block;
+ 	   		margin:0 2.5%;
  	   }
-    	.nav>li>a {padding-top:0px}
+		.nav>li>a {padding-top:0px}
 	    /*******************모바일 서브메뉴 CSS*******************/
     	.sub-menu{
     		position:fixed;
@@ -91,17 +95,12 @@
 			float: left;
  	   }
  	   #footer{margin-bottom:80px;}
- 	   .footer-title{
-    	font-size:1.3em;
-    	padding-top:15px;}
  	   .footer-content{padding-left:25px;}/*좌측 적당한 공간 띄움*/
  	   .mylib-menu, .feed-menu{left:auto;}/**pc버전의 left속성 없앰**/
 	}
 	
-	@media (max-width:800px) {/**작은화면을 위한 CSS**/
- 	   .nav>li{
- 	  		padding:0;
- 	   }
+	@media (max-width:800px) {/**모바일 위한 CSS-서브메뉴 간격 조절**/
+ 	   .nav>li{margin:0;}
 	}
 </style>
 <script type="text/javascript">
@@ -119,10 +118,12 @@ $(function(){
 	  $('.add-jung').mouseenter(function(){
 	    $(this).children().css('color','black');
 		$(this).css('font-weight','bold');
+		$(this).prev().css('font-weight','bold');
 	  });
 	  $('.add-jung').mouseleave(function(){
 	    $(this).children().css('color','white');
 	    $(this).css('font-weight','normal').css('background-color','none');
+		$(this).prev().css('font-weight','normal');
 	  });
 	  
 	  $(".nav li").click( function() { 
@@ -137,9 +138,6 @@ $(function(){
 	});
 	
 function mobile(){
-	$('.real-menu').addClass('col-xs-12');
-	$('.nav').css('text-align','center').css('position','realtive');
-	$('.nav li').css('float','none').css('display','inline-block').css('margin','auto');
 	$('.jung').text('');
 	$( "<span class=\"menu-icon glyphicon glyphicon-pencil\"></span>" ).insertBefore( ".menu-today" );
 	$( "<span class=\"menu-icon glyphicon glyphicon-book\"></span>" ).insertBefore( ".menu-mylib" );
@@ -148,9 +146,6 @@ function mobile(){
 	$( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span>" ).insertBefore( ".menu-feed" );
 }
 function pc(){
-	$('.real-menu').removeClass('col-xs-12');
-	$('.nav').css('text-algin','none');
-	$('.nav li').css('float','left').css('display','inline');
 	$('.jung').text('#');
 	$('.menu-icon').remove();
 }

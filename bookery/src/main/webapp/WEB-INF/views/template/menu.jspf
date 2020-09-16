@@ -7,7 +7,7 @@
 			<h3><a href="#">Bookery</a></h3>
 		</div>
 	<!--메인 메뉴 위치 -->
-		<div class="col-md-8 real-menu">
+		<div class="col-md-8 col-xs-12 real-menu">
 		<ul class="nav">
 			<li><a href="#" class="add-jung menu-today"><span class="jung"></span>오늘의 기록</a></li>
 			<li><a href="#" class="add-jung menu-mylib"><span class="jung"></span>내서재</a></li>
