@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
 <html>
 <head>
-<meta charset="UTF-8">
-<%@ include file="../template/head.jspf"%>
+	<title>Bookery</title>
+<%@ include file="../template/head.jspf" %>
 <!--  
 rss   -   디버그를 쉽게 하고 RSS 리더기만으로 이용할 수 있게 하기 위해 만든 RSS 포맷의 컨테이너이며 그 외의 특별한 의미는 없다.
 channel   -   색 결과를 포함하는 컨테이너이다. 이 안에 있는 title, link, description 등의 항목은 참고용으로 무시해도 무방하다.
@@ -53,6 +53,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 	var result;
 	var startResult = 1;
 	var scrollMove_cnt;
+	var owlItems;
 	
 	function bookDetail(){
 		/***********	책 이미지 눌렀을 때 bid를 이용해 서버에서 해당 책정보 받아오기	**********/
@@ -164,10 +165,59 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 	        });
 	      }//if
 		
+
+
 	/*********************** 더보기, 내서재담기 버튼 숨기기  ***********************/
 		$('#putChapters,#moreResult,#moveTop').hide();
-		
+
+		//	carousel_items = owlItems(window.innerWidth);
+		startCarousel(owlItems(window.innerWidth));
+
+		$(window).resize(function() {
+			//	carousel_items = owlItems(window.innerWidth);
+			console.log('체인지');
+			console.log('체인지22');
+		//	updateDiv();
+			startCarousel(owlItems(window.innerWidth));
+		});
+		/* *********************    캐러셀    ********************* */
+
 	});//ready
+	var owlEvent;
+	function owlItems(width) {
+		var number;
+		if (width >= 1200) {
+			number = 8;
+		} else if (width<=1200&&width >= 750) {
+			number = 5;
+		} else if (width <= 749) {
+			number = 3;
+		}
+		return number;
+	}
+	function startCarousel(i) {
+		console.log(i);
+		$('.owl-stage-outer').owlCarousel({
+			items : i,
+			loop : true,
+			autoplay : true,
+			margin : 10,
+			merge : true,
+			nav : false,
+			responsive : {
+				678 : {
+					mergeFit : true
+				},
+				1000 : {
+					mergeFit : false
+				}
+			}
+		});//owl캐러셀
+	}
+
+	function updateDiv() {
+		$("#owl").load(window.location.href + " #owl");
+	}
 </script>
 <style type="text/css">
 
@@ -175,25 +225,27 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 	margin-bottom: 15px;
 }
 .input-search {/* 검색form안의 div */
-	line-height: 20px;
+ 	height:30px;
+ 	border-radius:25px;
 	border-bottom:1px solid #e4e4e4;
+	box-shadow:#e4e4e4 0px 0px 3px;
 	width:100%;
 
 }
 #search{/* 검색 input */
 	display: block;
 	width: 100%;
-	height: 34px;
 	padding: 6px 12px;
-	font-size: 14px;
-	line-height: 1.42857143;
+ 	font-size: 14px;
 	border:0px;
+ 	border-radius:25px;
  
 }
 
-
 #search-btn{	/* 검색버튼 */
-	border:0px;
+	border:0px;	
+	width:90%;
+	border-radius: 25px;
 }
 #search-btn:hover{
 	background-color: white;
@@ -202,29 +254,24 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 	width:30px;
 }
 </style>
-<title>Insert title here</title>
-
+</head>
 <body>
-<%@ include file="../template/menu.jspf"%>
-<!-- ************************************ ↑ nav-bar **************************************** -->
-
-<div class="container-fluid">
-			<div class="row" id="search_bar">
-			
-				<div class="col-md-2"></div>
-				<div class="col-xs-12 col-md-10">
-					<div>
+<%@ include file="../template/menu.jspf" %>
+	<!-- **********content start**********--> 
+			<div class="row"></div>	
+	
+			<div class="row">
+				<div class="col-md-2">&nbsp;</div>
+				<div class="col-md-8 col-xs-12">
 						<h3>
-							<span class="glyphicon glyphicon-book" aria-hidden="true"></span> 책 찾기 <br/><small id="cntOfTotal">책 제목을 입력하세요.</small>
+							<span class="glyphicon glyphicon-book" aria-hidden="true"></span> 책 찾기<small id="cntOfTotal">책 제목을 입력하세요.</small>
 						</h3>
-					</div>
 				</div>
 				<div class="bottom-line col-xs-12 col-md-12"></div>
-				
 			</div>
 
-			<div class="row">
-			<div class="col-md-2"></div>
+			<div class="row">	<!--************ 검색 바 **********-->
+			<div class="col-md-3">&nbsp;</div>
 			<div class="col-xs-12 col-md-6">
 					<form action="#" class="search-form form-inline">
 						<div class="input-search input-group">
@@ -239,21 +286,42 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 						<a id="putChapters" class="btn btn-default" role="button"
 							href="put.bit">내 서재에 담기</a>
 			</div>
-			<div class="col-md-4"></div>
+			<div class="col-md-3"></div>
 			</div>
 				
 			<div class="row">			
-				<div class="col-md-2"></div>
+				<div class="col-md-2">&nbsp;</div>
 				<div class="col-xs-12 col-md-10">
 					<a id="inputBook" class="text-success" href="#">+직접 입력하기</a>
 				</div>
-			</div>	
-	
-			<div class="row empty-space"><br/>컨텐츠를 좀 넣어놔야할듯<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1
-			<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1<br/>1
-			</div>			
-	
-		<div class="row" id="contents">
+			</div>
+
+	<div class="row">
+		<!-- **************OWL캐러셀************  -->
+
+		<div class="col-md-2">&nbsp;</div>
+		<div class="col-xs-12 col-md-10">
+			<h5 class="text-success">최근 많이 공부하는 책</h5>
+		</div>
+		<div class="col-md-2">&nbsp;</div>
+		<div class="col-xs-12 col-md-8"   id="owl">
+			<div class="owl-carousel owl-themeowl-loading owl-loaded">
+				<div class="owl-stage-outer" >
+					<div class="owl-stage owl-refresh" >
+						<div class="owl-item"><img alt="" src="https://bookthumb-phinf.pstatic.net/cover/164/924/16492408.jpg?type=m140&udate=20200911"/></div>
+						<div class="owl-item"><img alt="" src="https://bookthumb-phinf.pstatic.net/cover/145/282/14528209.jpg?type=m140&udate=20191227"/></div>
+						<div class="owl-item"><img alt="" src="https://bookthumb-phinf.pstatic.net/cover/159/895/15989502.jpg?type=m140&udate=20200111"/></div>
+						<div class="owl-item"><img alt="" src="https://bookthumb-phinf.pstatic.net/cover/121/018/12101803.jpg?type=m140&udate=20191227"/></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-md-2">&nbsp;</div>
+		<div class="bottom-line col-xs-12 col-md-12"></div>
+	</div>
+
+	<div class="row" id="contents">
 				<!-- <input type="file" name="camara" id="camera" accept="image/*" capture="camera"/> -->
 			<br/>
 			<div class="col-md-2"></div>
@@ -261,17 +329,16 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 		</div>
 		
 		<div class="row">
-			<div class="col-md-2"></div>
+			<div class="col-md-2">&nbsp;</div>
 			<div class="col-xs-12 col-md-10">
 			<button id="moreResult" class="btn btn-default"> 더 보기 </button>
 			<button id="moveTop" class="btn btn-default"> Top </button>
 			</div>
 			<span id="aMove"></span>
-		</div>
 		<div class="col-md-12 col-xs-12">&nbsp;</div>
-	</div>
+		</div>
 
-</div>
-<%@ include file="../template/footer.jspf"%>	
+	<!--**********content end**********-->
+<%@ include file="../template/footer.jspf" %>
 </body>
 </html>

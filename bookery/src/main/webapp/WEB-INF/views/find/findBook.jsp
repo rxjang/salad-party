@@ -1,15 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
 <html>
 <head>
-<meta charset="UTF-8">
-<%@ include file="../template/head.jspf"%>
-<title>Bookery</title>
-
-<style type="text/css">
-
-</style>
+	<title>Bookery</title>
+<%@ include file="../template/head.jspf" %>
 
 <script type="text/javascript">
 var chapters, book_id, title, writer, publisher, pages, category, isbn, translator, title_original, publication_date, revision,imgUrl;
@@ -80,7 +75,7 @@ $(function(){
 			imgUrl = $(bookInfo).find('.thumb_type img').attr('src');
 			//image url 이미지 URL
 			//https://bookthumb-phinf.pstatic.net/cover/163/114/16311458.jpg?type=m140&udate=20200701
-			//console.log(imgUrl);
+			console.log(imgUrl);
 			
 
 			var book_info_html =  '<div class="media">';
@@ -200,16 +195,10 @@ $(function(){
 	      }
 	});//ready
 </script>
-
-
+</head>
 <body>
-<%@ include file="../template/menu.jspf"%>
-<!-- ************************************ ↑ nav-bar **************************************** -->
-
-
-
-<div class="container-fluid">
-
+<%@ include file="../template/menu.jspf" %>
+	<!-- **********content start**********--> 
 	<div class="row">
 	<div class="col-md-2"></div>
 		<div class="col-xs-12 col-md-6">
@@ -240,9 +229,7 @@ $(function(){
 		<div class="col-md-4"></div>
 		<div class="col-md-12 col-xs-12">&nbsp;</div>
 	</div>
-</div>
-
-</div>
-<%@ include file="../template/footer.jspf"%>	
+	<!--**********content end**********-->
+<%@ include file="../template/footer.jspf" %>
 </body>
 </html>
