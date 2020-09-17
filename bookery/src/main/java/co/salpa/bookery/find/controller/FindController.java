@@ -32,20 +32,20 @@ public class FindController {
 	@Autowired
 	TocDao tocDao;
 
-	@RequestMapping("/find") // °Ë»öÆäÀÌÁö·Î ÀÌµ¿
+	@RequestMapping("/find") // ê²€ìƒ‰í˜ì´ì§€ë¡œ ì´ë™
 	public String find() {
-		return "/find/find"; // findÆú´õ¾Æ·¡ find.jsp
+		return "/find/find"; // findí´ë”ì•„ë˜ find.jsp
 	}
 
-	@RequestMapping("/find/result") // °Ë»öÆäÀÌÁö¿¡ °Ë»ö°á°ú Àü´Ş
+	@RequestMapping("/find/result") // ê²€ìƒ‰í˜ì´ì§€ì— ê²€ìƒ‰ê²°ê³¼ ì „ë‹¬
 	public ModelAndView searchBooks(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		String clientId = "INyNwc8RvDNjUoCD9lHg"; // HyeongJin naver api key
 		String clientSecret = "e4hlkduAe3";
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("application/json;charset=utf-8");
-		String text = request.getParameter("search");// Á¤º¸Ã³¸®
-		String start = "&start=" + request.getParameter("start");// °Ë»ö°á°ú ¹®¼­µé ÀĞ´Â ½ÃÀÛ¼ø¼­.
+		String text = request.getParameter("search");// ì •ë³´ì²˜ë¦¬
+		String start = "&start=" + request.getParameter("start");// ê²€ìƒ‰ê²°ê³¼ ë¬¸ì„œë“¤ ì½ëŠ” ì‹œì‘ìˆœì„œ.
 		System.out.println(text + start);
 
 		try {
@@ -61,15 +61,15 @@ public class FindController {
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("X-Naver-Client-Id", clientId);
 		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-		String responseBody = get(apiURL, requestHeaders);// ³×ÀÌ¹öºÏ °Ë»ö°á°ú ÆäÀÌÁö ³»¿ëÀ» responseBody¿¡ ´ãÀ½
+		String responseBody = get(apiURL, requestHeaders);// ë„¤ì´ë²„ë¶ ê²€ìƒ‰ê²°ê³¼ í˜ì´ì§€ ë‚´ìš©ì„ responseBodyì— ë‹´ìŒ
 
 		System.out.println(responseBody);
 
-		PrintWriter out = response.getWriter(); // bookery°Ë»öÆäÀÌÁö¿¡ ³×ÀÌ¹öÃ¥ ÆäÀÌÁö¹®¼­¸¦ Àü´ŞÇÔ
+		PrintWriter out = response.getWriter(); // bookeryê²€ìƒ‰í˜ì´ì§€ì— ë„¤ì´ë²„ì±… í˜ì´ì§€ë¬¸ì„œë¥¼ ì „ë‹¬í•¨
 		out.print(responseBody);
 		out.close();
 
-		return null;// ajaxÅë½ÅÀÌ¶ó view°¡ ¾øÀ½
+		return null;// ajaxí†µì‹ ì´ë¼ viewê°€ ì—†ìŒ
 	}// searchBooks
 
 	private static String get(String apiUrl, Map<String, String> requestHeaders) {
@@ -81,7 +81,7 @@ public class FindController {
 			}
 
 			int responseCode = con.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) { // success ¿¬°á¼º°ø
+			if (responseCode == HttpURLConnection.HTTP_OK) { // success ì—°ê²°ì„±ê³µ
 				return readBody(con.getInputStream());
 			} else { // error
 				return readBody(con.getErrorStream());
@@ -106,7 +106,7 @@ public class FindController {
 
 	private static String readBody(InputStream body) throws UnsupportedEncodingException {
 		InputStreamReader streamReader = new InputStreamReader(body, "utf-8");
-		// °Ë»öÇÑ Ã¥ ÆäÀÌÁöÀÇ ¹®¼­³»¿ëÀ» responseBody¿¡ ´ã¾Æ¼­ ¹İÈ¯ÇÑ´Ù.
+		// ê²€ìƒ‰í•œ ì±… í˜ì´ì§€ì˜ ë¬¸ì„œë‚´ìš©ì„ responseBodyì— ë‹´ì•„ì„œ ë°˜í™˜í•œë‹¤.
 		try (BufferedReader lineReader = new BufferedReader(streamReader)) {
 			StringBuilder responseBody = new StringBuilder();
 
@@ -123,14 +123,14 @@ public class FindController {
 	}// readBody
 
 	/***************************
-	 * Ã¥»ó¼¼º¸±â ÆäÀÌÁö°¡ ·ÎµùµÉ ¶§ ºñµ¿±â·Î Ã¥Á¤º¸ Å©·Ñ¸µÇØ¼­ °¡Á®°¨
+	 * ì±…ìƒì„¸ë³´ê¸° í˜ì´ì§€ê°€ ë¡œë”©ë  ë•Œ ë¹„ë™ê¸°ë¡œ ì±…ì •ë³´ í¬ë¡¤ë§í•´ì„œ ê°€ì ¸ê°
 	 **********************************/
 	@RequestMapping("/find/crawling")
 	public ModelAndView crawlingBook(int bid, HttpServletResponse response) throws IOException {
 //		int bid = Integer.parseInt(request.getParameter("bid"));
 		String url = "https://book.naver.com/bookdb/book_detail.nhn?bid=" + bid;
 		Document doc = null;
-		System.out.println("Å©·Ñ¸µ!! url = " + url);
+		System.out.println("í¬ë¡¤ë§!! url = " + url);
 		try {
 			doc = Jsoup.connect(url).get();
 			// System.out.println(doc);
@@ -145,4 +145,4 @@ public class FindController {
 		return null;
 	}// crawlingBook
 
-}
+}//classEnd

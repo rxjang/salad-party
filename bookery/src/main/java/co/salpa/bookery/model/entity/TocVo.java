@@ -11,9 +11,8 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TocVo { //목차테이블
+public class TocVo { //紐⑹감
 	
-	//toc id는 자동증가ai
 	private int book_bid;
 	private String toc;
 }

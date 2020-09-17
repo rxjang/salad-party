@@ -22,7 +22,7 @@ public class BookDaoImpl implements BookDao {
 	SqlSessionFactory sqlSessionFactory;
 	
 	@Override
-	public List<BookVo> selectAll() throws SQLException {
+	public List<BookVo> selectAll() throws SQLException { //책 목록조회
 		// TODO Auto-generated method stub
 		List<BookVo> list =new ArrayList<BookVo>();
 		
@@ -33,7 +33,7 @@ public class BookDaoImpl implements BookDao {
 	}//selectAll
 
 	@Override
-	public BookVo selectOne(int key) throws SQLException {
+	public BookVo selectOne(int key) throws SQLException { //특정 책 상세
 		// TODO Auto-generated method stub
 		BookVo bean = null;
 		try(SqlSession session = sqlSessionFactory.openSession()){
@@ -43,7 +43,7 @@ public class BookDaoImpl implements BookDao {
 	}//selectOne
 
 	@Override
-	public void insertOne(BookVo bean) throws SQLException {
+	public void insertOne(BookVo bean) throws SQLException { //책 입력
 		// TODO Auto-generated method stub
 		try(SqlSession session = sqlSessionFactory.openSession()){
 			session.insert("book.insertOne", bean);
