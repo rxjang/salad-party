@@ -121,14 +121,13 @@
 			bottom:0;
 			border-top:1px solid #e4e4e4;
 			height:66px;
-			color:#666666;
 			background-color:white;
 			z-index:10;
 		}
 		.add-jung{font-size:0.7em;}
 		.menu-icon{
 			padding-top:5px;
-			font-size:1.4em;
+			font-size:1.7em;
 		}
 		.dropdown-menu{/*드롭다운 메뉴 이동 방지*/
     		right:35;
@@ -141,7 +140,7 @@
  	   .nav>li{
  	   		float:none;
  	   		display:inline-block;
- 	   		margin:0 2.5%;
+ 	   		margin:0 2.8%;
  	   }
 		.nav>li>a {padding-top:0px}
 	    /*******************모바일 서브메뉴 CSS*******************/
@@ -158,7 +157,10 @@
 	}
 	
 	@media (max-width:800px) {/**모바일 위한 CSS-서브메뉴 간격 조절**/
- 	   .nav>li{margin:0;}
+ 	   .nav>li{margin:0 0.7%;}
+ 	   body{
+ 	   	font-size:1.2em;
+ 	   }
 	}
 </style>
 <script type="text/javascript">
@@ -174,12 +176,12 @@ mql.addListener(function(e) {
 
 $(function(){
 	  $('.add-jung').mouseenter(function(){
-	    $(this).children().css('color','black');
+	    $(this).children(".jung").css('color','black');
 		$(this).css('font-weight','bold');
 		$(this).prev().css('font-weight','bold');
 	  });
 	  $('.add-jung').mouseleave(function(){
-	    $(this).children().css('color','white');
+	    $(this).children(".jung").css('color','white');
 	    $(this).css('font-weight','normal').css('background-color','none');
 		$(this).prev().css('font-weight','normal');
 	  });
@@ -197,15 +199,18 @@ $(function(){
 	
 function mobile(){
 	$('.jung').text('');
-	$( "<span class=\"menu-icon glyphicon glyphicon-pencil\"></span>" ).insertBefore( ".menu-today" );
-	$( "<span class=\"menu-icon glyphicon glyphicon-book\"></span>" ).insertBefore( ".menu-mylib" );
-	$( "<span class=\"menu-icon glyphicon glyphicon-link\"></span>" ).insertBefore( ".menu-club" );
-	$( "<span class=\"menu-icon glyphicon glyphicon-search\"></span>" ).insertBefore( ".menu-search" );
-	$( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span>" ).insertBefore( ".menu-feed" );
+	$( ".menu-today" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-pencil\"></span><br/>" );
+	$( ".menu-mylib" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-book\"></span><br/>" );
+	$( ".menu-club" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-link\"></span><br/>" );
+	$( ".menu-find" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-search\"></span><br/>" );
+	$( ".menu-feed" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span><br/>" );
+	$( ".add-jung" ).css("color","#666666");
 }
 function pc(){
 	$('.jung').text('#');
 	$('.menu-icon').remove();
+	$('.add-jung').children('br').remove();
+	$( ".add-jung" ).css("color","black");
 }
 
 </script>
