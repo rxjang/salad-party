@@ -22,7 +22,7 @@ public class StudyDaoImpl implements StudyDao {
 	SqlSessionFactory sqlSessionFactory;
 
 	@Override
-	public List<StudyVo> selectAll() throws SQLException { // ¸ðµç ½ºÅÍµðÁ¤º¸ Á¶È¸
+	public List<StudyVo> selectAll() throws SQLException { // ëª¨ë“  ìŠ¤í„°ë””ì •ë³´ ì¡°íšŒ
 		// TODO Auto-generated method stub
 		List<StudyVo> list = new ArrayList<StudyVo>();
 		try (SqlSession session = sqlSessionFactory.openSession()) {
@@ -32,7 +32,7 @@ public class StudyDaoImpl implements StudyDao {
 	}// selectAll
 
 	@Override
-	public StudyVo selectOne(int key) throws SQLException { // Æ¯Á¤ ½ºÅÍµð Á¶È¸
+	public StudyVo selectOne(int key) throws SQLException { // íŠ¹ì • ìŠ¤í„°ë”” ì¡°íšŒ
 		// TODO Auto-generated method stub
 		StudyVo bean = null;
 		try (SqlSession session = sqlSessionFactory.openSession()) {
@@ -42,7 +42,7 @@ public class StudyDaoImpl implements StudyDao {
 	}// selectOne
 
 	@Override
-	public void insertOne(StudyVo bean) throws SQLException { // ½ºÅÍµð Ãß°¡
+	public void insertOne(StudyVo bean) throws SQLException { // ìŠ¤í„°ë”” ì¶”ê°€
 		// TODO Auto-generated method stub
 		try (SqlSession session = sqlSessionFactory.openSession()) {
 			session.insert("study.insertOne", bean);

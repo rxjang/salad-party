@@ -28,7 +28,7 @@ import co.salpa.bookery.model.entity.TocVo;
 @RequestMapping("/find")
 public class FindBookController {
 	
-	static private int uesr_test_cnt = 1;//test¿ë userid
+	static private int uesr_test_cnt = 1;//testìš© userid
 	@Autowired
 	private TocDao tocDao;
 	@Autowired
@@ -37,7 +37,7 @@ public class FindBookController {
 	private StudyDao studyDao;
 	
 	
-/***************************°Ë»ö¸ñ·Ï¿¡¼­ Ã¥ ´­·¶À» ¶§ Ã¥ »ó¼¼º¸±â ÆäÀÌÁö·Î ÀÌµ¿**********************************/
+/***************************ê²€ìƒ‰ëª©ë¡ì—ì„œ ì±… ëˆŒë €ì„ ë•Œ ì±… ìƒì„¸ë³´ê¸° í˜ì´ì§€ë¡œ ì´ë™**********************************/
 	
 	@RequestMapping("/book")
 	public ModelAndView findBook(int bid) {
@@ -45,7 +45,7 @@ public class FindBookController {
 	}
 	
 	
-/*************************** ÀÓ½Ã : book Å×ÀÌºí Á¶È¸ ¹× ¸ñÂ÷ Á¶È¸ ÆäÀÌÁö**********************************/
+/*************************** ì„ì‹œ : book í…Œì´ë¸” ì¡°íšŒ ë° ëª©ì°¨ ì¡°íšŒ í˜ì´ì§€**********************************/
 	@RequestMapping("/mylib")
 	public ModelAndView showBooks() throws Exception {
 		return new ModelAndView("/find/mybooks", "books", bookDao.selectAll());

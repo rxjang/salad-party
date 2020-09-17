@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookVo { //책테이블
+public class BookVo {
 
 	private int bid;
 	private String title,writer,publisher;

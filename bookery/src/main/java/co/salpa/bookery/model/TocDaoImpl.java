@@ -38,7 +38,7 @@ public class TocDaoImpl implements TocDao {
 		// TODO Auto-generated method stub
 		List<TocVo> list = new ArrayList<TocVo>();
 
-		try (SqlSession session = sqlSessionFactory.openSession()) {// Ã¥ ÇÑ±ÇÀÇ ¸ñÂ÷µéÀ» ¸®½ºÆ®¿¡ ´ã¾Æ ¹İÈ¯
+		try (SqlSession session = sqlSessionFactory.openSession()) {// ì±… í•œê¶Œì˜ ëª©ì°¨ë“¤ì„ ë¦¬ìŠ¤íŠ¸ì— ë‹´ì•„ ë°˜í™˜
 			list = session.selectList("toc.selectOne", key);
 		} // try
 		return list;
@@ -47,7 +47,7 @@ public class TocDaoImpl implements TocDao {
 	@Override
 	public void insertOne(TocVo bean) throws SQLException {
 		// TODO Auto-generated method stub
-		try (SqlSession session = sqlSessionFactory.openSession()) {// ¸ñÂ÷ ÀÔ·Â
+		try (SqlSession session = sqlSessionFactory.openSession()) {// ëª©ì°¨ ì…ë ¥
 			session.insert("toc.insertOne", bean);
 		} // try
 	}// insertOne

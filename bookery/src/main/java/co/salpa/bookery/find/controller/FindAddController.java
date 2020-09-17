@@ -26,35 +26,35 @@ public class FindAddController {
 	@Autowired
 	private StudyDao studyDao;
 	
-/***************************°Ë»öµÈ Ã¥ »ó¼¼º¸±â¿¡¼­ ³»¼­Àç ´ã±â ´­·¶À» ¶§.**********************************/
-	@RequestMapping("/put") //³» ¼­Àç ´ã±â ±â´É Book, Toc, Study Å×ÀÌºí¿¡ Ã¥ ÀÔ·Â
+/***************************ê²€ìƒ‰ëœ ì±… ìƒì„¸ë³´ê¸°ì—ì„œ ë‚´ì„œì¬ ë‹´ê¸° ëˆŒë €ì„ ë•Œ.**********************************/
+	@RequestMapping("/put") //ë‚´ ì„œì¬ ë‹´ê¸° ê¸°ëŠ¥ Book, Toc, Study í…Œì´ë¸”ì— ì±… ì…ë ¥
 	public ModelAndView insertChapters(@ModelAttribute BookVo book, @ModelAttribute StudyVo study, String chapters)
 			throws Exception {
-		// Book talble¿¡ Ã¥ Á¤º¸ÀÔ·Â
+		// Book talbleì— ì±… ì •ë³´ì…ë ¥
 		bookDao.insertOne(book);
 
 
-		// Toc¸ñÂ÷ Å×ÀÌºí¿¡ ÀÔ·Â
+		// Tocëª©ì°¨ í…Œì´ë¸”ì— ì…ë ¥
 		if (tocDao.selectOne(book.getBid()).size() != 0) {
-			log.info("¸ñÂ÷ ÀÔ·Â : fail ");
-			//toc¿¡ °°ÀºÃ¥ÀÇ ¸ñÂ÷°¡ ÀÖÀ¸¸é insertÇÏÁö¾ÊÀ½
+			log.info("ëª©ì°¨ ì…ë ¥ : fail ");
+			//tocì— ê°™ì€ì±…ì˜ ëª©ì°¨ê°€ ìˆìœ¼ë©´ insertí•˜ì§€ì•ŠìŒ
 		} else {
-			//**************³ªÁß¿¡ TocDaoImpl·Î Ã³¸®¸¦ ¿Å°Ü ²À Æ®·£Àè¼Ç Ã³¸® ÇÏ±â***********************
+			//**************ë‚˜ì¤‘ì— TocDaoImplë¡œ ì²˜ë¦¬ë¥¼ ì˜®ê²¨ ê¼­ íŠ¸ëœì­ì…˜ ì²˜ë¦¬ í•˜ê¸°***********************
 			String[] tmp = chapters.split("\n");
 			System.out.println(tmp.toString());
 			for (String chapter : tmp) {
-				if (chapter.trim().equals("")) { // ºóÁÙÁ¦°Å
+				if (chapter.trim().equals("")) { // ë¹ˆì¤„ì œê±°
 					continue;
 				} else {
-					tocDao.insertOne(new TocVo(book.getBid(), chapter.trim()));//¸ñÂ÷¿Í ÇØ´ç¸ñÂ÷ÀÇ Ã¥¹øÈ£
+					tocDao.insertOne(new TocVo(book.getBid(), chapter.trim()));//ëª©ì°¨ì™€ í•´ë‹¹ëª©ì°¨ì˜ ì±…ë²ˆí˜¸
 				} // if
 			} // for
 			
-			log.info("¸ñÂ÷ ÀÔ·Â !! success");
-			// test¿ë user_id
+			log.info("ëª©ì°¨ ì…ë ¥ !! success");
+			// testìš© user_id
 		}//out if
 		
-//ÃßÈÄ Ãß°¡¿¹Á¤ 
+//ì¶”í›„ ì¶”ê°€ì˜ˆì • 
 //		study.setUser_id(uesr_test_cnt);
 //		study.setBook_bid(book.getBid());
 //		studyDao.insertOne(study);
