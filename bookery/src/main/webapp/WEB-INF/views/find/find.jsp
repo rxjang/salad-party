@@ -122,7 +122,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 					content += '<div class="media-body">' 
 					content += '<h4 class="media-heading">' + result[i].title + '</h4>' 
 					content += '<p>' + result[i].author + '</p>';
-					content += '<p>' + result[i].isbn + '</p>';
+					content += '<p>' + result[i].description + '</p>';
 					content += '</div>'  
 					content += '</div><br/>'
 					$('#result').append(content);
@@ -325,7 +325,8 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 				<!-- <input type="file" name="camara" id="camera" accept="image/*" capture="camera"/> -->
 			<br/>
 			<div class="col-md-2"></div>
-			<div class="col-xs-12 col-md-10" id="result"></div>
+			<div class="col-xs-12 col-md-8" id="result"></div>
+			<div class="col-md-2"></div>
 		</div>
 		
 		<div class="row">
