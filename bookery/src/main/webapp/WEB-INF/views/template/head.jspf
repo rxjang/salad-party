@@ -17,6 +17,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/node_modules/aos/css/styles.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/node_modules/aos/dist/aos.css" />
 <script src="${pageContext.request.contextPath }/resources/node_modules/aos/dist/aos.js"></script>
+<script src="${pageContext.request.contextPath }/resources/owl-carousel/owl.carousel.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/owl-carousel/owl.carousel.min.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/owl-carousel/owl.theme.default.min.css" />
 
 <!-- 
 ***************
@@ -34,11 +37,22 @@
 	8.AOS 스크롤애니메이션 styles.css
 	9.AOS aos.css
 	10.AOS aos.js
+	11.owl캐러셀 .css
+	12.owl캐러셀 theme.css
+	13.owl캐러셀 .js
  
 ***************
  -->
 <style>
-	/**** 크롬 input 자동포커스 아웃라인, 자동 배경색 채우기 해제 ****/
+	/**** 크롬 자동포커스 아웃라인, 자동 배경색 채우기 해제 ****/
+	textarea:focus { outline: none; } 
+	.btn-default:focus,
+	.btn-default.focus,
+	.btn.focus,.btn:focus,.btn:hover,
+	.btn-default:hover,
+	.btn:active.focus,.btn:active:focus
+	 { border:0px; outline: none; } 
+
 	input,button{
 		outline-style: none;
 	}
@@ -123,6 +137,7 @@
 			height:66px;
 			background-color:white;
 			z-index:10;
+    		text-align:center;
 		}
 		.add-jung{font-size:0.7em;}
 		.menu-icon{
@@ -133,23 +148,21 @@
     		right:35;
     		left:auto;
     	}
-    	.nav{
-    		text-align:center;
-    		position:relative;
-    	}
- 	   .nav>li{
+ 	   .real-menu li{
  	   		float:none;
  	   		display:inline-block;
  	   		margin:0 2.8%;
  	   }
-		.nav>li>a {padding-top:0px}
+		.real-menu li>a {
+			padding-top:0px;
+			display: block;
+		}
 	    /*******************모바일 서브메뉴 CSS*******************/
     	.sub-menu{
-    		position:fixed;
-    		top:50;
-    		height:30px;
 			border-bottom: 0px;
-			float: left;
+			line-height:0.3em;
+			height:20px;
+			margin-bottom:30px;
  	   }
  	   #footer{margin-bottom:80px;}
  	   .footer-content{padding-left:25px;}/*좌측 적당한 공간 띄움*/
@@ -157,10 +170,8 @@
 	}
 	
 	@media (max-width:800px) {/**모바일 위한 CSS-서브메뉴 간격 조절**/
- 	   .nav>li{margin:0 0.7%;}
- 	   body{
- 	   	font-size:1.2em;
- 	   }
+ 	   .real-menu li{margin:0 0.7%;}
+ 	   body{font-size: 1.2em;}
 	}
 </style>
 <script type="text/javascript">

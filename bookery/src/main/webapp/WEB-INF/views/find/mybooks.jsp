@@ -1,44 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
+</head>
 <body>
 	<%@ include file="../template/menu.jspf"%>
-	<!-- ************************************ ↑ nav-bar **************************************** -->
+	<!-- **********content start**********-->
+	<div class="row" id="content">
+		<div class="col-xs-12 col-md-12 page-header">
+			<h2>
+				내 서재 <small>책 목록 -임시 페이지</small>
+			</h2>
+		</div>
+		<div class="col-xs-12 col-md-12">
+			<table class="table">
+				<tr>
+					<th>bid</th>
+					<th>title</th>
+				</tr>
 
-	<div class="container-fluid">
-		<div class="row" id="content">
-			<div class="col-xs-12 col-md-12 page-header">
-				<h2>
-					내 서재 <small>책 목록</small>
-				</h2>
-			</div>
-			<div class="col-xs-12 col-md-12">
-				<table class="table">
+				<c:forEach items="${books }" var="bean">
 					<tr>
-						<th>bid</th>
-						<th>title</th>
+						<td><a
+							href="${pageContext.request.contextPath }/find/chapters.bit?book_id=${bean.bid }">${bean.bid }</a></td>
+						<td>${bean.title }</td>
 					</tr>
-
-					<c:forEach items="${books }" var="bean">
-						<tr>
-							<td><a
-								href="${pageContext.request.contextPath }/find/chapters.bit?book_id=${bean.bid }">${bean.bid }</a></td>
-							<td>${bean.title }</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
-
+				</c:forEach>
+			</table>
 		</div>
 
 	</div>
-	</div>
-	<!-- container -->
+	<!--**********content end**********-->
 	<%@ include file="../template/footer.jspf"%>
 </body>
 </html>

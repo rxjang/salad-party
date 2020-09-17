@@ -3,9 +3,9 @@
 	<div class="row sub-menu">
 		<div class="col-xs-12 col-md-12 feed-menu">
 			<ul class="nav">
-				<li><a href="#">베스트 서적</a></li>
-				<li><a href="#">랭킹</a></li>
-				<li><a href="#">책거리 알림</a></li>
+				<li><a href="${pageContext.request.contextPath }/fedd/best">베스트 서적</a></li>
+				<li><a href="${pageContext.request.contextPath }/fedd/lank">랭킹</a></li>
+				<li><a href="${pageContext.request.contextPath }/feed/notice">책거리 알림</a></li>
 			</ul>
 		</div>
 	</div>

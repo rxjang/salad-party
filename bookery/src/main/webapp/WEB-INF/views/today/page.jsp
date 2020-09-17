@@ -8,37 +8,10 @@
 </head>
 <body>
 <%@ include file="../template/menu.jspf" %>
-<%@ include file="../template/mylib-menu.jspf" %>
 	<!-- **********content start**********--> 
 <div class="row">
 	<div class="col-xs-12 col-md-12">
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
-	1<br/>
+	
 	</div>
 </div>
 	<!--**********content end**********-->
