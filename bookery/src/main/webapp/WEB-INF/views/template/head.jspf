@@ -17,6 +17,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/node_modules/aos/css/styles.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/node_modules/aos/dist/aos.css" />
 <script src="${pageContext.request.contextPath }/resources/node_modules/aos/dist/aos.js"></script>
+<script src="${pageContext.request.contextPath }/resources/owl-carousel/owl.carousel.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/owl-carousel/owl.carousel.min.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/owl-carousel/owl.theme.default.min.css" />
 
 <!-- 
 ***************
@@ -34,11 +37,22 @@
 	8.AOS 스크롤애니메이션 styles.css
 	9.AOS aos.css
 	10.AOS aos.js
+	11.owl캐러셀 .css
+	12.owl캐러셀 theme.css
+	13.owl캐러셀 .js
  
 ***************
  -->
 <style>
-	/**** 크롬 input 자동포커스 아웃라인, 자동 배경색 채우기 해제 ****/
+	/**** 크롬 자동포커스 아웃라인, 자동 배경색 채우기 해제 ****/
+	textarea:focus { outline: none; } 
+	.btn-default:focus,
+	.btn-default.focus,
+	.btn.focus,.btn:focus,.btn:hover,
+	.btn-default:hover,
+	.btn:active.focus,.btn:active:focus
+	 { border:0px; outline: none; } 
+
 	input,button{
 		outline-style: none;
 	}
@@ -143,7 +157,10 @@
  	   		display:inline-block;
  	   		margin:0 2.5%;
  	   }
-		.nav>li>a {padding-top:0px}
+		.nav>li>a {
+			padding-top:0px;
+			display: block;
+		}
 	    /*******************모바일 서브메뉴 CSS*******************/
     	.sub-menu{
     		position:fixed;
@@ -158,7 +175,8 @@
 	}
 	
 	@media (max-width:800px) {/**모바일 위한 CSS-서브메뉴 간격 조절**/
- 	   .nav>li{margin:0;}
+ 	   .nav>li{margin:0 0.7%;}
+ 	   body{font-size: 1.2em;}
 	}
 </style>
 <script type="text/javascript">
