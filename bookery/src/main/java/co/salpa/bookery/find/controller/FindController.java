@@ -28,6 +28,8 @@ import lombok.Setter;
 
 @Controller
 public class FindController {
+   private final String CLIENTID = "INyNwc8RvDNjUoCD9lHg"; // HyeongJin naver api key
+   private final String CLIENTSECRET = "e4hlkduAe3";
 
 	@Autowired
 	TocDao tocDao;
@@ -38,29 +40,30 @@ public class FindController {
 	}
 
 	@RequestMapping("/find/result") // 검색페이지에 검색결과 전달
-	public ModelAndView searchBooks(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView searchBooks(String search, String select,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-		String clientId = "INyNwc8RvDNjUoCD9lHg"; // HyeongJin naver api key
-		String clientSecret = "e4hlkduAe3";
-		request.setCharacterEncoding("utf-8");
+		//request.setCharacterEncoding("utf-8");
 		response.setContentType("application/json;charset=utf-8");
-		String text = request.getParameter("search");// 정보처리
+		//String text = request.getParameter("search");// 정보처리
 		String start = "&start=" + request.getParameter("start");// 검색결과 문서들 읽는 시작순서.
-		System.out.println(text + start);
+		
+		//select = {제목,저자,출판사} 상세검색 요청변수 생성
+		String findOpt=detailSeach(select,search);
 
+		System.out.println(search + start);
 		try {
-			text = URLEncoder.encode(text, "UTF-8");
-			System.out.println(text);
+			search = URLEncoder.encode(search, "UTF-8");
+			System.out.println(search);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("encoding error", e);
 		} // catch
 
-		String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + text + start; // book search json
+		String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + search + start+findOpt; // book search json
 		System.out.println(apiURL);
 
 		Map<String, String> requestHeaders = new HashMap<>();
-		requestHeaders.put("X-Naver-Client-Id", clientId);
-		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+		requestHeaders.put("X-Naver-Client-Id", CLIENTID);
+		requestHeaders.put("X-Naver-Client-Secret", CLIENTSECRET);
 		String responseBody = get(apiURL, requestHeaders);// 네이버북 검색결과 페이지 내용을 responseBody에 담음
 
 		System.out.println(responseBody);
@@ -92,6 +95,19 @@ public class FindController {
 			con.disconnect();
 		}
 	}// get
+	
+	public String detailSeach(String select, String word) {
+		String findOpt = null;
+		if(select.equals("저자")) {
+			findOpt = "&d_auth=";
+		}else if(select.equals("제목")) {
+			findOpt = "&d_titl=";
+		}else if(select.equals("출판사")) {
+			findOpt = "&d_publ=";
+		}
+		findOpt+=word;
+		return findOpt;
+	}
 
 	private static HttpURLConnection connect(String apiUrl) {
 		try {
