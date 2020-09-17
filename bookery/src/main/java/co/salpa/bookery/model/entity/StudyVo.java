@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudyVo { //공부테이블
+public class StudyVo {
 
 	private int id;
 	private Date createtime,updatetime,startdate,enddate,dday;
