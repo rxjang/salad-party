@@ -9,11 +9,11 @@
 	<!--메인 메뉴 위치 -->
 		<div class="col-md-8 col-xs-12 real-menu">
 		<ul class="nav">
-			<li><a href="#" class="add-jung menu-today"><span class="jung"></span>오늘의 기록</a></li>
-			<li><a href="#" class="add-jung menu-mylib"><span class="jung"></span>내서재</a></li>
-			<li><a href="#" class="add-jung menu-club"><span class="jung"></span>북클럽</a></li>
-			<li><a href="${pageContext.request.contextPath }/find" class="add-jung menu-search"><span class="jung"></span>검색</a></li>
-			<li><a href="#" class="add-jung menu-feed"><span class="jung"></span>책거리 뉴스</a></li>
+			<li><a href="${pageContext.request.contextPath }/today" class="add-jung menu-today"><span class="jung"></span>오늘의 기록</a></li>
+			<li><a href="${pageContext.request.contextPath }/mylib" class="add-jung menu-mylib"><span class="jung"></span>내서재</a></li>
+			<li><a href="${pageContext.request.contextPath }/board" class="add-jung menu-club"><span class="jung"></span>북클럽</a></li>
+			<li><a href="${pageContext.request.contextPath }/find" class="add-jung menu-find"><span class="jung"></span>검색</a></li>
+			<li><a href="${pageContext.request.contextPath }/feed" class="add-jung menu-feed"><span class="jung"></span>책거리 뉴스</a></li>
 		</ul>
 		</div>
 	<!-- 설정 메뉴 위치 -->
