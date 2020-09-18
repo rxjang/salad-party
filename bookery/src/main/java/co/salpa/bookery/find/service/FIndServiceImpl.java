@@ -13,30 +13,47 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import co.salpa.bookery.model.BookDao;
+import co.salpa.bookery.model.StudyDao;
+import co.salpa.bookery.model.TocDao;
+import co.salpa.bookery.model.entity.BookVo;
+import co.salpa.bookery.model.entity.StudyVo;
+import co.salpa.bookery.model.entity.TocVo;
 
 @Service
 public class FIndServiceImpl implements FindService {
+
+	Logger log = LoggerFactory.getLogger(this.getClass());
+
 	private final String CLIENTID = "INyNwc8RvDNjUoCD9lHg"; // HyeongJin naver api key
 	private final String CLIENTSECRET = "e4hlkduAe3";
+
+	@Autowired
+	SqlSession sqlsession;
 
 	/******************************************************************************************
 	 * 
 	 * 검색페이지에서 검색항목(저자, 출판사, 제목) 선택해서 검색하면 검색결과를 보여주는 순서 start와 검색어search, 검색항목
 	 * select를 받아 검색한 뒤 html문서 전체를 결과로 String으로 반환해준다.
 	 * 
-	 * ****************************************************************************************
-	 */
+	 ****************************************************************************************/
 	@Override
 	public String searchService(int start, String search, String select) {
 		// TODO Auto-generated method stub
 
 		String param_start = "&start=" + start;// 검색결과 문서들 읽는 시작순서.
-
+		String findOpt=null;
 		// select = {제목,저자,출판사} 상세검색 요청변수 생성
-		String findOpt = detailSearch(select, search);
+			findOpt = detailSearch(select, search);
 
 		System.out.println(search + start);
 		try {
@@ -57,7 +74,7 @@ public class FIndServiceImpl implements FindService {
 		return responseBody;
 	}// searchService
 
-	public String detailSearch(String select, String word) { //apiURL 요청변수 양식에 맞게 변환
+	public String detailSearch(String select, String word) { // apiURL 요청변수 양식에 맞게 변환
 		String findOpt = null;
 		if (select.equals("저자")) {
 			findOpt = "&d_auth=";
@@ -65,7 +82,7 @@ public class FIndServiceImpl implements FindService {
 			findOpt = "&d_titl=";
 		} else if (select.equals("출판사")) {
 			findOpt = "&d_publ=";
-		}
+		} 
 		findOpt += word;
 		return findOpt;
 	}
@@ -119,41 +136,106 @@ public class FIndServiceImpl implements FindService {
 			throw new RuntimeException("API Reading response fail", e);
 		}
 	}// readBody
-	
+
 	/******************************************************************************************
 	 * 
 	 * naver books bid로 책 상세검색을 한 결과를 jsoup Document 타입으로 반환한다.
 	 * 
-	 * ****************************************************************************************
-	 */
+	 ****************************************************************************************/
 
 	@Override
 	public Document crawlingService(int bid) {
 		// TODO Auto-generated method stub
 		String url = "https://book.naver.com/bookdb/book_detail.nhn?bid=" + bid;
 		Document doc = null;
-		System.out.println("크롤링!! url = " + url);
+		System.out.println("크롤링 url = " + url);
 		try {
 			doc = Jsoup.connect(url).get();
 			// System.out.println(doc);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//System.out.println(doc);
+		// System.out.println(doc);
 		return doc;
-	}//crawlingService
+	}// crawlingService
 
+	/****************************************************************************************
+	 * 
+	 * 목차 중복 처리 및 목차입력, 서비스 트랜잭션과 비즈니스로직 분리
+	 * 
+	 ****************************************************************************************/
 	@Override
-	public void listService() throws SQLException {
+	public Model listTocService(Model model, int bid) throws SQLException {
 		// TODO Auto-generated method stub
 
+		// req.setAttribute("book", bookDao.selectOne(bid));
+//		request.setAttribute("book", bookDao.selectOne(bid));
+//	//	System.out.println(bookDao.selectOne(bid));
+//		return new ModelAndView("/find/mybookchapters", "bookChapters", tocDao.selectOne(bid));//서비스호출
+//		
+		BookDao bookDao = sqlsession.getMapper(BookDao.class);
+		TocDao tocDao = sqlsession.getMapper(TocDao.class);
+
+		model.addAttribute("book", bookDao.selectOne(bid));
+		model.addAttribute("bookChapters", tocDao.selectOne(bid));
+
+		return model;
 	}//
 
+	/****************************************************************************************
+	 * 
+	 * 책 리스트 반환
+	 * 
+	 ****************************************************************************************/
 	@Override
-	public void oneAddService() throws SQLException {
+	public Model listBookService(Model model) throws SQLException {
 		// TODO Auto-generated method stub
+		BookDao bookDao = sqlsession.getMapper(BookDao.class);
+		return model.addAttribute("books", bookDao.selectAll());
+	}
 
-	}//
+	/****************************************************************************************
+	 * 
+	 * 목차 중복 처리 및 목차입력, 서비스 트랜잭션과 비즈니스로직 분리
+	 * 
+	 ****************************************************************************************/
+
+	public void tocsPut(BookVo book, TocDao tocDao, String chapters) throws SQLException {
+
+		if (tocDao.selectOne(book.getBid()).size() != 0) {
+			log.info("목차 입력 : 중복 fail ");
+		} else {
+			String[] tmp = chapters.split("\n");
+			System.out.println(tmp.toString());
+			for (String chapter : tmp) {
+				if (chapter.trim().equals("")) { // 빈줄제거
+					continue;
+				} else {
+					tocDao.insertOne(new TocVo(book.getBid(), chapter.trim()));// 목차와 해당목차의 책번호
+				} // if
+			} // for
+			log.info("목차 입력 success");
+		} // out if
+	}// tocsPut
+
+	/****************************************************************************************
+	 * 
+	 * 검색해서 선택한 책정보를 book테이블에 추가하고 그 책의 목차를 toc테이블에 추가한다.
+	 * 
+	 * 그리고 study테이블에도 책정보와함게 스터디생성
+	 * 
+	 ****************************************************************************************/
+	@Override
+	public void studyAddService(BookVo book, StudyVo study, String chapters) throws SQLException {
+		// TODO Auto-generated method stub
+		BookDao bookDao = sqlsession.getMapper(BookDao.class);
+		TocDao tocDao = sqlsession.getMapper(TocDao.class);
+		StudyDao studyDao = sqlsession.getMapper(StudyDao.class);
+
+		bookDao.insertOne(book);// 책입력
+		tocsPut(book, tocDao, chapters);// 목차들 입력
+
+	}// studyAddService
 
 	@Override
 	public void detailService() throws SQLException {
@@ -173,4 +255,4 @@ public class FIndServiceImpl implements FindService {
 
 	}//
 
-}//ClassEnd
+}// ClassEnd

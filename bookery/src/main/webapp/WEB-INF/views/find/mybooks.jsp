@@ -26,7 +26,7 @@
 				<c:forEach items="${books }" var="bean">
 					<tr>
 						<td><a
-							href="${pageContext.request.contextPath }/find/chapters.bit?book_id=${bean.bid }">${bean.bid }</a></td>
+							href="${pageContext.request.contextPath }/find/chapters.bit?bid=${bean.bid }">${bean.bid }</a></td>
 						<td>${bean.title }</td>
 					</tr>
 				</c:forEach>
