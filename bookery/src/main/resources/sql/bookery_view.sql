@@ -1,7 +1,4 @@
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `scott`@`%` 
-    SQL SECURITY DEFINER
 VIEW `v_checkchap_actual_cnt` AS
     SELECT 
         MAX(`checkchap`.`study_id`) AS `study_id`,
@@ -11,12 +8,9 @@ VIEW `v_checkchap_actual_cnt` AS
     WHERE
         ((`checkchap`.`actualtime` <= NOW())
             AND (`checkchap`.`deleted` = 0))
-    GROUP BY `checkchap`.`study_id`
+    GROUP BY `checkchap`.`study_id`;
 
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `scott`@`%` 
-    SQL SECURITY DEFINER
 VIEW `v_checkchap_plan_cnt` AS
     SELECT 
         MAX(`checkchap`.`study_id`) AS `study_id`,
@@ -26,12 +20,9 @@ VIEW `v_checkchap_plan_cnt` AS
     WHERE
         ((`checkchap`.`plantime` <= NOW())
             AND (`checkchap`.`deleted` = 0))
-    GROUP BY `checkchap`.`study_id`
+    GROUP BY `checkchap`.`study_id`;
 
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `scott`@`%` 
-    SQL SECURITY DEFINER
 VIEW `v_checkchap_total_cnt` AS
     SELECT 
         MAX(`checkchap`.`study_id`) AS `study_id`,
@@ -40,12 +31,9 @@ VIEW `v_checkchap_total_cnt` AS
         `checkchap`
     WHERE
         (`checkchap`.`deleted` = 0)
-    GROUP BY `checkchap`.`study_id`
+    GROUP BY `checkchap`.`study_id`;
 
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `scott`@`%` 
-    SQL SECURITY DEFINER
 VIEW `v_checkpage_todate` AS
     SELECT 
         MAX(`checkpage`.`study_id`) AS `study_id`,
@@ -57,12 +45,9 @@ VIEW `v_checkpage_todate` AS
     WHERE
         ((`checkpage`.`deleted` = 0)
             AND (`checkpage`.`date` <= NOW()))
-    GROUP BY `checkpage`.`study_id`
+    GROUP BY `checkpage`.`study_id`;
 
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `scott`@`%` 
-    SQL SECURITY DEFINER
+CREATE
 VIEW `v_checkpage_total` AS
     SELECT 
         MAX(`checkpage`.`study_id`) AS `study_id`,
@@ -72,12 +57,9 @@ VIEW `v_checkpage_total` AS
         `checkpage`
     WHERE
         (`checkpage`.`deleted` = 0)
-    GROUP BY `checkpage`.`study_id`
+    GROUP BY `checkpage`.`study_id`;
 
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `scott`@`%` 
-    SQL SECURITY DEFINER
+CREATE
 VIEW `salpa`.`v_study` AS
     SELECT 
         `salpa`.`study`.`user_id` AS `user_id`,
@@ -120,4 +102,4 @@ VIEW `salpa`.`v_study` AS
         LEFT JOIN `salpa`.`user` ON ((`salpa`.`study`.`user_id` = `salpa`.`user`.`id`)))
         LEFT JOIN `salpa`.`book` ON ((`salpa`.`study`.`book_bid` = `salpa`.`book`.`bid`)))
     WHERE
-        (`salpa`.`study`.`deleted` = 0)
+        (`salpa`.`study`.`deleted` = 0);
