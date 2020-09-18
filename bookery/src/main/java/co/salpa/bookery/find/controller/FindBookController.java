@@ -48,7 +48,7 @@ public class FindBookController {
 /*************************** 임시 : book 테이블 조회 및 목차 조회 페이지**********************************/
 	@RequestMapping("/mylib")
 	public ModelAndView showBooks() throws Exception {
-		return new ModelAndView("/find/mybooks", "books", bookDao.selectAll());
+		return new ModelAndView("/find/mybooks", "books", bookDao.selectAll());//서비스호출
 	}//showBooks
 	
 	@RequestMapping("/chapters")
@@ -56,7 +56,7 @@ public class FindBookController {
 	//	req.setAttribute("book", bookDao.selectOne(bid));
 		request.setAttribute("book", bookDao.selectOne(bid));
 	//	System.out.println(bookDao.selectOne(bid));
-		return new ModelAndView("/find/mybookchapters", "bookChapters", tocDao.selectOne(bid));
+		return new ModelAndView("/find/mybookchapters", "bookChapters", tocDao.selectOne(bid));//서비스호출
 	}//
 
 }//ClassEnd

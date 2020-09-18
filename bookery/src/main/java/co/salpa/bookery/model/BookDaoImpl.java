@@ -50,4 +50,16 @@ public class BookDaoImpl implements BookDao {
 		}//try
 	}//insertOne
 
+	@Override
+	public int updateOne(BookVo bean) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteOne(int key) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }//classEnd
