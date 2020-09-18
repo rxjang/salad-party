@@ -180,7 +180,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 			margin : 10,
 			merge : false,
 			nav : false,
-			responsive : {
+			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 				480 : {
 					items:3
 				},
@@ -188,7 +188,6 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 					items:5
 				},
 				1200 : {
-					
 					items:8
 				}
 			}

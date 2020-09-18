@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.TocVo;
 
 public interface TocDao {
@@ -14,4 +15,8 @@ public interface TocDao {
 	List<TocVo> selectOne(int key) throws SQLException;
 
 	void insertOne(TocVo bean) throws SQLException;
+
+	int updateOne(TocVo bean) throws SQLException;
+
+	int deleteOne(int key) throws SQLException;
 }
