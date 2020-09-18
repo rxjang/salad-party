@@ -1,4 +1,4 @@
-package co.salpa.bookery.today;
+package co.salpa.bookery.today.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
