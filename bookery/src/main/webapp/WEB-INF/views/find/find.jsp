@@ -75,7 +75,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 	}//bookDetail function
 	
 
-	function bookSearch(start) {
+	function bookSearch(start,findOpt) {
 		
 		if($('#search').val().trim()==''){ 
 			swal("검색 실패", "검색어를 입력해주세요.", "error");
@@ -90,17 +90,17 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 		}
 		$.ajax('${pageContext.request.contextPath }/find/result', {
 			'method' : 'get',
-			'data' : 'search=' + $('#search').val()+'&start='+start,
+			'data' : 'search=' + $('#search').val()+'&start='+start+'&select='+findOpt,
 			'dataType' : 'json',
 			'success' : function(data) {
 				result = data.items;
 				//console.log(result);
 				//console.log('total = ',data.total);
+			//	console.log('total = ',data.display);
 				$('#cntOfTotal').text(data.total+'건의 책이 검색되었습니다.');
 				if(data.total==0||data.total<=10){ 
 					$('#moreResult').hide();//더 보기 버튼 비활성화
 					$('#moveTop').hide();//탑 버튼 비활성화
-					return;
 				}
 				/************	검색된 책들 화면에 불러오기	*************/
 				for (var i = 0; i < result.length; i++) {
@@ -122,6 +122,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 					content += '<div class="media-body">' 
 					content += '<h4 class="media-heading">' + result[i].title + '</h4>' 
 					content += '<p>' + result[i].author + '</p>';
+					content += '<p>' + result[i].publisher + '</p>';
 					content += '<p>' + result[i].description + '</p>';
 					content += '</div>'  
 					content += '</div><br/>'
@@ -151,10 +152,11 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 	/*********************** 검색 form 전송  ***********************/
 		$('.search-form').submit(function() { 
 			$('#result').html('');
+			var selectOpt_val = $('#selectOpt').text();//검색 옵션값(제목 저자 출판사)
 			startResult=1; //검색결과들 중 읽어올 문서의 순서. ex:start=2 라면 10개 검색됐으면 2번째부터 출력
 			scrollMove_cnt=1; //더보기 눌렀을 때 스크롤 이동시키기 위한 id값,검색버튼 누를때마다 초기화.
-			bookSearch(startResult);
-			return false
+			bookSearch(startResult,selectOpt_val);
+			return false;
 		});//submit
 		
 		
@@ -167,57 +169,46 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 		
 
 
-	/*********************** 더보기, 내서재담기 버튼 숨기기  ***********************/
+	/*********************** 더보기, 내서재담기 버튼 숨기기 ***********************/
 		$('#putChapters,#moreResult,#moveTop').hide();
-
-		//	carousel_items = owlItems(window.innerWidth);
-		startCarousel(owlItems(window.innerWidth));
-
-		$(window).resize(function() {
-			//	carousel_items = owlItems(window.innerWidth);
-			console.log('체인지');
-			console.log('체인지22');
-		//	updateDiv();
-			startCarousel(owlItems(window.innerWidth));
-		});
-		/* *********************    캐러셀    ********************* */
-
-	});//ready
-	var owlEvent;
-	function owlItems(width) {
-		var number;
-		if (width >= 1200) {
-			number = 8;
-		} else if (width<=1200&&width >= 750) {
-			number = 5;
-		} else if (width <= 749) {
-			number = 3;
-		}
-		return number;
-	}
-	function startCarousel(i) {
-		console.log(i);
+	      
+	 
+	/**********************    캐러셀    **********************/
 		$('.owl-stage-outer').owlCarousel({
-			items : i,
 			loop : true,
 			autoplay : true,
 			margin : 10,
-			merge : true,
+			merge : false,
 			nav : false,
-			responsive : {
-				678 : {
-					mergeFit : true
+			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
+				480 : {
+					items:3
 				},
-				1000 : {
-					mergeFit : false
+				800 : {
+					items:5
+				},
+				1200 : {
+					items:8
 				}
 			}
 		});//owl캐러셀
-	}
+		
+		
+		$('#opt-tit').click(function(){
+			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
+			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
+		});		
+		$('#opt-auth').click(function(){
+			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
+			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
+		});		
+		$('#opt-pub').click(function(){
+			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
+			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
+		});		
 
-	function updateDiv() {
-		$("#owl").load(window.location.href + " #owl");
-	}
+	});//ready
+
 </script>
 <style type="text/css">
 
@@ -253,6 +244,18 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 #input_group_btn{
 	width:30px;
 }
+.dropdown-menu{
+	left: 0px;
+}
+.dropdown-toggle{
+	border-radius:25px;
+	border:0px;
+	box-shadow: #e4e4e4 0px 0px 3px;
+}
+.media-object{
+	width:120px;
+}
+
 </style>
 </head>
 <body>
@@ -264,9 +267,22 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 				<div class="col-md-2">&nbsp;</div>
 				<div class="col-md-8 col-xs-12">
 						<h3>
-							<span class="glyphicon glyphicon-book" aria-hidden="true"></span> 책 찾기<small id="cntOfTotal">책 제목을 입력하세요.</small>
-						</h3>
+							<span class="glyphicon glyphicon-book" aria-hidden="true"></span> 책 찾기
+						<!-- Single button -->
+							  <div class="btn-group" role="group">
+							    <button type="button" id="selectOpt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							      제목
+							      <span class="caret"/>
+							    </button>
+							    <ul class="dropdown-menu">
+							      <li><a id="opt-tit" href="#">제목 </a></li>
+							      <li><a id="opt-auth" href="#">저자 </a></li>
+							      <li><a id="opt-pub" href="#">출판사 </a></li>
+							    </ul>
+							  </div>
+						</h3><h4><small id="cntOfTotal"></small></h4>
 				</div>
+				
 				<div class="bottom-line col-xs-12 col-md-12"></div>
 			</div>
 
@@ -275,7 +291,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 			<div class="col-xs-12 col-md-6">
 					<form action="#" class="search-form form-inline">
 						<div class="input-search input-group">
-							<input type="text" class="" placeholder="Search" name="search" id="search"/>
+							<input type="text" class="" placeholder="제목을 입력하세요." name="search" id="search"/>
 							<span class="input-group-btn" id="input_group_btn">
 								<button type="submit" id="search-btn" class="btn btn-default btn-md">
 									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -295,16 +311,15 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 					<a id="inputBook" class="text-success" href="#">+직접 입력하기</a>
 				</div>
 			</div>
-
 	<div class="row">
-		<!-- **************OWL캐러셀************  -->
+			<!-- **************OWL캐러셀************  -->
 
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-xs-12 col-md-10">
 			<h5 class="text-success">최근 많이 공부하는 책</h5>
 		</div>
-		<div class="col-md-2">&nbsp;</div>
-		<div class="col-xs-12 col-md-8"   id="owl">
+		<div class="col-md-1">&nbsp;</div>
+		<div class="col-xs-12 col-md-10"   id="owl">
 			<div class="owl-carousel owl-themeowl-loading owl-loaded">
 				<div class="owl-stage-outer" >
 					<div class="owl-stage owl-refresh" >
@@ -317,11 +332,11 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 			</div>
 
 		</div>
-		<div class="col-md-2">&nbsp;</div>
+		<div class="col-md-1">&nbsp;</div>
 		<div class="bottom-line col-xs-12 col-md-12"></div>
-	</div>
+	</div><!-- /캐러셀 -->
 
-	<div class="row" id="contents">
+	<div class="row">
 				<!-- <input type="file" name="camara" id="camera" accept="image/*" capture="camera"/> -->
 			<br/>
 			<div class="col-md-2"></div>

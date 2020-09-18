@@ -52,4 +52,16 @@ public class TocDaoImpl implements TocDao {
 		} // try
 	}// insertOne
 
+	@Override
+	public int updateOne(TocVo bean) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteOne(int key) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }//classEnd
