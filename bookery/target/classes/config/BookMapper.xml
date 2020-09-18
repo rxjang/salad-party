@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="book">
+<mapper namespace="co.salpa.bookery.model.BookDao">
 	<select id="selectAll" resultType="bookBean">
 		select * from book
 	</select>

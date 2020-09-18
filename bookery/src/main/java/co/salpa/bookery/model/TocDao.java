@@ -3,9 +3,6 @@ package co.salpa.bookery.model;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
-import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.TocVo;
 
 public interface TocDao {

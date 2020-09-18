@@ -54,6 +54,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 	var startResult = 1;
 	var scrollMove_cnt;
 	var owlItems;
+	var selectOpt_val = '제목';
 	
 	function bookDetail(){
 		/***********	책 이미지 눌렀을 때 bid를 이용해 서버에서 해당 책정보 받아오기	**********/
@@ -152,7 +153,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 	/*********************** 검색 form 전송  ***********************/
 		$('.search-form').submit(function() { 
 			$('#result').html('');
-			var selectOpt_val = $('#selectOpt').text();//검색 옵션값(제목 저자 출판사)
+			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			startResult=1; //검색결과들 중 읽어올 문서의 순서. ex:start=2 라면 10개 검색됐으면 2번째부터 출력
 			scrollMove_cnt=1; //더보기 눌렀을 때 스크롤 이동시키기 위한 id값,검색버튼 누를때마다 초기화.
 			bookSearch(startResult,selectOpt_val);
@@ -197,14 +198,17 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 		$('#opt-tit').click(function(){
 			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
 			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
+			selectOpt_val = $(this).text();
 		});		
 		$('#opt-auth').click(function(){
 			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
 			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
+			selectOpt_val = $(this).text();
 		});		
 		$('#opt-pub').click(function(){
 			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
 			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
+			selectOpt_val = $(this).text();
 		});		
 
 	});//ready
