@@ -1,6 +1,7 @@
 package co.salpa.bookery.find.service;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.BookDao;
@@ -29,6 +31,8 @@ import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.StudyVo;
 import co.salpa.bookery.model.entity.TocVo;
 
+//클래스 내 메소드들을 트랜잭션 처리함. 예외발생 시 데이터액세스 작업의 경우 롤백처리
+@Transactional
 @Service
 public class FIndServiceImpl implements FindService {
 
@@ -166,19 +170,17 @@ public class FIndServiceImpl implements FindService {
 	 ****************************************************************************************/
 	@Override
 	public Model listTocService(Model model, int bid) throws SQLException {
-		// TODO Auto-generated method stub
-
-		// req.setAttribute("book", bookDao.selectOne(bid));
-//		request.setAttribute("book", bookDao.selectOne(bid));
-//	//	System.out.println(bookDao.selectOne(bid));
-//		return new ModelAndView("/find/mybookchapters", "bookChapters", tocDao.selectOne(bid));//서비스호출
-//		
+		// TODO Auto-generated method stub	
 		BookDao bookDao = sqlsession.getMapper(BookDao.class);
 		TocDao tocDao = sqlsession.getMapper(TocDao.class);
-
 		model.addAttribute("book", bookDao.selectOne(bid));
 		model.addAttribute("bookChapters", tocDao.selectOne(bid));
-
+		
+		//bookDao.insertOne(new BookVo(1212, null, null, null,  0, null, null, null, null, null, null));
+		/*	트랜잭션 속성에 list* 메소드 read-only속성을 지정해둬서 데이터조작 이 발생하면 예외가 발생한다.
+		 * SQL []; Connection is read-only. Queries leading to data modification are not allowed;
+		 *  nested exception is java.sql.SQLException: Connection is read-only.
+		 */
 		return model;
 	}//
 
@@ -197,13 +199,13 @@ public class FIndServiceImpl implements FindService {
 	/****************************************************************************************
 	 * 
 	 * 목차 중복 처리 및 목차입력, 서비스 트랜잭션과 비즈니스로직 분리
+	 * @throws Exception 
 	 * 
 	 ****************************************************************************************/
 
 	public void tocsPut(BookVo book, TocDao tocDao, String chapters) throws SQLException {
 
 		if (tocDao.selectOne(book.getBid()).size() != 0) {
-			log.info("목차 입력 : 중복 fail ");
 		} else {
 			String[] tmp = chapters.split("\n");
 			System.out.println(tmp.toString());
@@ -212,9 +214,11 @@ public class FIndServiceImpl implements FindService {
 					continue;
 				} else {
 					tocDao.insertOne(new TocVo(book.getBid(), chapter.trim()));// 목차와 해당목차의 책번호
+					//트랜잭션
+					//throw new Exception(); 목차를 하나 입력하고 강제예외발생시키면 
+					//먼저 입력한 책 제목 또한 롤백처리됨. 
 				} // if
 			} // for
-			log.info("목차 입력 success");
 		} // out if
 	}// tocsPut
 
@@ -223,10 +227,12 @@ public class FIndServiceImpl implements FindService {
 	 * 검색해서 선택한 책정보를 book테이블에 추가하고 그 책의 목차를 toc테이블에 추가한다.
 	 * 
 	 * 그리고 study테이블에도 책정보와함게 스터디생성
+	 * Transactional 어노테이션으로 insertStudyService 메소드가 정상종료되기전에 예외가 발생하면
+	 * 모두 롤백된다.
 	 * 
 	 ****************************************************************************************/
 	@Override
-	public void studyAddService(BookVo book, StudyVo study, String chapters) throws SQLException {
+	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException {
 		// TODO Auto-generated method stub
 		BookDao bookDao = sqlsession.getMapper(BookDao.class);
 		TocDao tocDao = sqlsession.getMapper(TocDao.class);
@@ -234,7 +240,6 @@ public class FIndServiceImpl implements FindService {
 
 		bookDao.insertOne(book);// 책입력
 		tocsPut(book, tocDao, chapters);// 목차들 입력
-
 	}// studyAddService
 
 	@Override
