@@ -23,7 +23,7 @@ public class FindAddController {
 	@RequestMapping("/put") //내 서재 담기 기능 Book, Toc, Study 테이블에 책 입력
 	public ModelAndView insertChapters(@ModelAttribute BookVo book, @ModelAttribute StudyVo study, String chapters)
 			throws Exception {
-		findService.studyAddService(book, study, chapters);
+		findService.insertStudyService(book, study, chapters);
 		
 //추후 추가예정 
 //		study.setUser_id(uesr_test_cnt);

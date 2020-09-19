@@ -17,7 +17,7 @@ public interface FindService {
 	
 	public Model listBookService(Model model) throws SQLException;
 
-	public void studyAddService(BookVo book, StudyVo study, String chapters) throws SQLException;
+	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException;
 
 	public void detailService() throws SQLException;
 
