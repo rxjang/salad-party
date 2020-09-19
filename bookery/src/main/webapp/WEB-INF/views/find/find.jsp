@@ -251,7 +251,7 @@ $('.book_info_inner div:contains("페이지")').text().substring( $('.book_info_
 .dropdown-menu{
 	left: 0px;
 }
-.dropdown-toggle{
+#selectOpt{
 	border-radius:25px;
 	border:0px;
 	box-shadow: #e4e4e4 0px 0px 3px;
