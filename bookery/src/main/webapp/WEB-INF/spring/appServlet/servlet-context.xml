@@ -26,21 +26,27 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="co.salpa.bookery" />
+	<aop:aspectj-autoproxy/>
 	
-		
+	<aop:config>
+		<aop:pointcut expression="execution(* co.salpa.bookery.*.*service.*Impl.*(..))" id="txCut"/>
+		<!-- service패캐지의 impl클래스들이 비즈니스로직 및 데이터액세스 작업하므로 트랜잭션 처리 및 어드바이스의 대상이됨 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txCut"/>
+	</aop:config>
+	
+	
+	<!-- transactionManager 트랜잭션 시작 -->
 	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<beans:property name="dataSource" ref="dataSource"/>
 	</beans:bean>
 	
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
+			<!-- aop point cut 이 가르키는 모든 위치의 메소드에게 트랜잭션 디폴트속성으로 적용 -->
 			<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED"/>
+			<!-- 다른 메소드에 다른 속성을 부여하고 싶으면 tx:method name="get*" 처럼 이름패턴을 지정하고 원하는 속성부여해 태그 추가 -->
 		</tx:attributes>
 	</tx:advice>
 	
-	<aop:config>
-		<aop:pointcut expression="execution(* co.salpa.bookery.*.*.*(..))" id="txCut"/>
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="txCut"/>
-	</aop:config>
 	
 </beans:beans>
