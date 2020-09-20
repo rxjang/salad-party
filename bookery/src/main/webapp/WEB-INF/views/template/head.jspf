@@ -82,7 +82,11 @@
 		line-height:40px;
 		border-bottom: 1px solid #e4e4e4;
 		font-size: 1.3em;
-		background-color:white;
+	 	background-color:white;
+	 	position:fixed;
+	 	top:0;
+	 	width:100%;
+	 	z-index:10;
 	}
 	#menu a,.sub-menu a{color:black;}
 	#menu a:hover, .sub-menu a:hover{
@@ -107,21 +111,46 @@
     	left:auto;
     }
     #footer{
+    	position:sticky;
 		border-top: 1px solid #e4e4e4;
+		background-color:white;
+		z-index:8;
     }
     .footer-title{
     	font-size:1.3em;
     	font-weight:bold;
     	padding-top:15px;
     }
-	.footer-content{padding-left:65px;}/*좌측 적당한 공간 띄움*/
+	.footer-content{padding-left:65px; padding-bottom:15px;}/*좌측 적당한 공간 띄움*/
     /*******************서브메뉴 CSS*******************/
     .sub-menu{
+    	display:inline-block;
+    	top:66px;
     	height:44px;
 		border-bottom: 1px solid #e4e4e4;
+		background-color:white;
+		position:fixed;
+		top:66px;
+		z-index:9;
+		width:100%
     }
     .mylib-menu{left:25%;}
     .feed-menu{left:42%;}
+    /************메뉴 상단 고정을 위해 컨텐츠 위치 조절******************/
+	.main{
+		position: -webkit-sticky; /* 사파리 브라우저 지원 */
+	    position: sticky;
+	    top: 66px;
+	   	margin-bottom:120px;
+	}
+    /************서브메뉴가 있는 경우의 CSS******************/
+	.submenu-main{
+		position: -webkit-sticky; /* 사파리 브라우저 지원 */
+	    position: sticky;
+	    top: 110px;
+	    margin-top:44px;
+	    margin-bottom:120px;
+	}
     
 	@media (max-width:1000px) {/*중간 이하 화면용 CSS*/
 		#menu{
@@ -160,12 +189,20 @@
 	    /*******************모바일 서브메뉴 CSS*******************/
     	.sub-menu{
 			border-bottom: 0px;
-			line-height:0.3em;
-			height:20px;
-			margin-bottom:30px;
+			line-height:1.5em;
+			height:40px;
+			top:50px;
+ 	   }
+ 	   .main{
+ 	   		top:50px;
+ 	   		 margin-bottom:180px;
+ 	   }
+ 	   .submenu-main{
+ 	   		top:90px;
+ 	   		 margin-bottom:200px;
  	   }
  	   #footer{margin-bottom:80px;}
- 	   .footer-content{padding-left:25px;}/*좌측 적당한 공간 띄움*/
+ 	   .footer-content{padding-left:25px; padding-bottom:10px;}/*좌측 적당한 공간 띄움*/
  	   .mylib-menu, .feed-menu{left:auto;}/**pc버전의 left속성 없앰**/
 	}
 	
@@ -206,7 +243,9 @@ $(function(){
 		} else {
 			pc()
 		}//최초 접속 상태로 판단
-	});
+
+});//function
+	 
 	
 function mobile(){
 	$('.jung').text('');

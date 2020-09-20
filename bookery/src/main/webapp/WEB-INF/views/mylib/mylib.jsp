@@ -8,7 +8,6 @@
 <Script type="text/javascript">
 $(function() {
 	$('.owl-carousel').owlCarousel({
-	    loop:true,
 	    margin:30,
 	    nav:true,
 	    autoWidth:true,
@@ -16,28 +15,24 @@ $(function() {
 	    responsive:{
 	    	0:{
 	   	     items:1,
-	         nav:true
 	        },
 	        600:{
   	         items:3,
 	       	},
 	       	1000:{
 	          items:5,
-	          loop:false
 	        }
 	    }
 	})
 });
 </Script>
 <style type="text/css">
-	#mylib-info{
+	#mylib{
 		width:90%;
 		height:280px;
 		background:url('${pageContext.request.contextPath}/resources/imgs/library.jpeg')center/cover;
 		margin:0 auto;
 		color:white;
-	}
-	.jumbotron{
 		padding:30px 60px;
 	}
 	.jumbotron a{color:white}
@@ -46,7 +41,7 @@ $(function() {
 		margin-top:30px;
 		font-size:1.3em;
 		color:white;
-		width:40%
+		width:40%;
 	}
 	.table>tbody>tr>td{opacity: 0.8;}
 	.table>tbody>tr>td, .table>tbody>tr>th{
@@ -58,9 +53,10 @@ $(function() {
 	.mylib-info-ment span{opacity: 0.8;}
 	#mylib-contents{width:90%; margin:0 auto;}
 	
-	
 	@media (max-width:1000px) {
-		#mylib-info{width:100%; height:250px;}
+		#mylib{width:100%; height:250px; padding:20px; padding-left:30px;}
+		#mylib h3, .table, .table>tbody>tr>td{font-weight:bold}
+		.mylib-info-ment{font-weight:bold; text-shadow: 3px 3px 3px #000000; font-size:1.1em;}
 	}
 </style>
 <script type="text/javascript">
@@ -70,15 +66,15 @@ $(function() {
 <body>
 <%@ include file="../template/menu.jspf" %>
 <%@ include file="../template/mylib-menu.jspf" %>
-	<!-- **********content start**********--> 
+	<!-- **********content start**********-->
 <div class="row">
-	<div class="col-xs-12 col-md-12 mylib-main">
-		<div class="jumbotron" id="mylib-info">
+	<div class="col-xs-12 col-md-12">
+		<div class="jumbotron" id="mylib">
 			<h3>김셀파님의 서재</h3>
 			<div id="table">
 			<table class="table">
 				<tr>
-					<td>미독</td>
+					<td>미독&nbsp;&nbsp;</td>
 					<td>미완독</td>
 					<td>완독</td>
 				</tr>
@@ -97,20 +93,30 @@ $(function() {
 			</div><!-- .mylib-info-ment end -->
 		</div><!-- .jumbotron end -->
 		<div id="mylib-contents">
+			<span class="glyphicon glyphicon-remove" style="color:#CAAD7E"></span>&nbsp;아직 목표 설정을 하지 않았어요
+			<h6>책을 클릭하여 공부를 시작해 보세요</h6>	
 			<div class="owl-carousel owl-theme">
 				<c:forEach items="${nogoalbooklist }" var="bean1">
-				    <div class="item"><img class="media-object" src="${bean1.coverurl }" alt="책 이미지"></div>
+				    <div class="item">
+				    	<img class="media-object" src="${bean1.coverurl }" alt="책 이미지">
+				    </div>
 				</c:forEach>
-				<br/>
+			</div>
+			<span class="glyphicon glyphicon-minus" style="color:#C4DEA4"></span>&nbsp;현재 공부 중인 책들이예요
+			<h6>책을 클릭하여 오늘의 진도를 입력해 보아요</h6>	
+			<div class="owl-carousel owl-theme">
 				<c:forEach items="${studyingbooklist }" var="bean2">
 				    <div class="item"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></div>
 				</c:forEach>
-				<br/>
+			</div>
+			<span class="glyphicon glyphicon-ok" style="color:#A7D489"></span>&nbsp;완료한 책
+			<h6>책을 클릭하면 과거의 기록을 볼 수 있어요</h6>	
+			<div class="owl-carousel owl-theme">
 				<c:forEach items="${finishedbooklist }" var="bean3">
 				    <div class="item"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지"></div>
 				</c:forEach>
 			</div>
-			
+		</div>			
 	</div>
 </div><!-- .row end -->
 	<!--**********content end**********-->
