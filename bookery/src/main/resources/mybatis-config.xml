@@ -18,5 +18,6 @@
 		<mapper resource="config/BookMapper.xml" />
 		<mapper resource="config/StudyMapper.xml" />
 		<mapper resource="config/TocMapper.xml" />
+		<mapper resource="config/MylibMapper.xml" />
 	</mappers>
 </configuration>

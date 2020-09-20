@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="mylib">
+ 	<select id="selectNoGoalBook" resultType="bookBean" parameterType="_int">
+ 		select coverurl from user, (select coverurl,user_id,bid from study,book where study.book_bid=book.bid) as ex where ex.user_id=id and id=#{id}
+ 	</select>
+ </mapper>
