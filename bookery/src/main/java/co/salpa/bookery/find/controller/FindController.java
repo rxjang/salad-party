@@ -5,9 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +24,12 @@ public class FindController {
 	FindService findService;
 
 	@RequestMapping("/find") // 검색페이지로 이동
-	public String find() {
+	public String find(Model model) {
+		try {
+			findService.listMostBookService(model);
+		} catch (SQLException e) {
+			return "redirect:/";
+		}
 		return "/find/find"; // find폴더아래 find.jsp
 	}
 	

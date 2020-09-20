@@ -299,12 +299,8 @@ pubdate	datetime	출간일 정보이다.
 			<div class="owl-carousel owl-themeowl-loading owl-loaded">
 				<div class="owl-stage-outer" >
 					<div class="owl-stage owl-refresh" >
-						<div class="owl-item"><img alt="" src="https://bookthumb-phinf.pstatic.net/cover/164/924/16492408.jpg?type=m140&udate=20200911"/></div>
-						<div class="owl-item"><img alt="" src="https://bookthumb-phinf.pstatic.net/cover/145/282/14528209.jpg?type=m140&udate=20191227"/></div>
-						<div class="owl-item"><img alt="" src="https://bookthumb-phinf.pstatic.net/cover/159/895/15989502.jpg?type=m140&udate=20200111"/></div>
-						<div class="owl-item"><img alt="" src="https://bookthumb-phinf.pstatic.net/cover/121/018/12101803.jpg?type=m140&udate=20191227"/></div>
 					<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
-					<div class="owl-item"><img alt="" src="${bean.coverurl }"></div>
+					<div class="owl-item"><a href="#"><img alt="" src="${bean.coverurl }"></a></div>
 					</c:forEach>
 					
 					</div>
