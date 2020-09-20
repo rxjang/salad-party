@@ -17,15 +17,15 @@ public class LoggerAspect {
 
 	//FindService 메소드에만 적용되어있다.
 	// 메소드 시작 전에 실행
-	@Before("execution(* co.salpa.bookery.find.service.*Impl.*(..))")
+	@Before("execution(* co.salpa.bookery.*.service.*Impl.*(..))")
 	public void before(JoinPoint joinPoint) {
 		// getSignature : 조인포인트인 메소드에 대한 정보를 가진 시그니쳐오브젝트 반환
-		log.debug("before dao..getDeclaringTypeName." + joinPoint.getSignature().getDeclaringTypeName());
+		log.info("before dao..getDeclaringTypeName." + joinPoint.getSignature().getDeclaringTypeName());
 		//Type
-		log.debug("before dao..getName." + joinPoint.getSignature().getName());
+		log.info("before dao..getName." + joinPoint.getSignature().getName());
 		//Method Name
 		for (Object obj : joinPoint.getArgs()) {
-			log.debug("before dao..obj." + obj);
+			log.info("before dao..obj." + obj);
 		} // for
 		//Parameter Names
 		
@@ -34,9 +34,9 @@ public class LoggerAspect {
 	
 	
 	
-	@AfterReturning(pointcut="execution(* co.salpa.bookery.find.service.*Impl.*(..))",returning="retval")
+	@AfterReturning(pointcut="execution(* co.salpa.bookery.*.service.*Impl.*(..))",returning="retval")
 	public void afterReturn(Object retval) {
-		log.debug("after success...");
+		log.info("after success...");
 		//log.debug("after success..retval."+retval);
 	}//@AfterReturning target메소드가 정상종료됐을 때 수행. 리턴값을 받을 수 있다.
 
