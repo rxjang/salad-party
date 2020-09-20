@@ -147,8 +147,7 @@
 	.submenu-main{
 		position: -webkit-sticky; /* 사파리 브라우저 지원 */
 	    position: sticky;
-	    top: 110px;
-	    margin-top:44px;
+	    margin-top:110px;
 	    margin-bottom:120px;
 	}
     
@@ -198,8 +197,8 @@
  	   		 margin-bottom:180px;
  	   }
  	   .submenu-main{
- 	   		top:90px;
- 	   		 margin-bottom:200px;
+ 	   		margin-top:90px;
+ 	   		margin-bottom:200px;
  	   }
  	   #footer{margin-bottom:80px;}
  	   .footer-content{padding-left:25px; padding-bottom:10px;}/*좌측 적당한 공간 띄움*/
