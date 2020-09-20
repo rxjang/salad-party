@@ -113,6 +113,7 @@ $(function() {
 			
 	</div>
 </div><!-- .row end -->
+</div>
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
 </body>
