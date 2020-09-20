@@ -20,7 +20,7 @@
 	<beans:bean id="dataSource"
 		class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
 		p:driverClass="com.mysql.cj.jdbc.Driver"
-		p:url="jdbc:mysql://localhost:3306/salpa?useUnicode=true&amp;characterEncoding=utf8&amp;verifyServerCertificate=false&amp;useSSL=false&amp;serverTimezone=UTC"
+		p:url="jdbc:mysql://localhost:3306/salpa?useUnicode=true&amp;characterEncoding=utf8&amp;verifyServerCertificate=false&amp;useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"
 		p:username="scott" p:password="tiger" />
 
 	<context:annotation-config />
@@ -29,6 +29,10 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource"
 		p:configLocation="classpath:/mybatis-config.xml" />
+		
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+				<beans:constructor-arg ref="sqlSessionFactory" index="0"> </beans:constructor-arg>
+	</beans:bean>
 		
 		
 </beans:beans>

@@ -1,10 +1,14 @@
 package co.salpa.bookery.model;
 
-import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.dao.DataAccessException;
 
 import co.salpa.bookery.model.entity.BookVo;
 
 public interface MylibDao {
 	
-	BookVo selectNoGoalBook(int id) throws SQLException;
+	List<BookVo> selectNoGoalBook(int id) throws DataAccessException;
+	List<BookVo> selectStudyingBook(int id) throws DataAccessException;
+	List<BookVo> selectFinishedBook(int id) throws DataAccessException;
 }

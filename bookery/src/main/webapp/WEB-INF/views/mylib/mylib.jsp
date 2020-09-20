@@ -5,6 +5,30 @@
 <head>
 	<title>Bookery</title>
 <%@ include file="../template/head.jspf" %>
+<Script type="text/javascript">
+$(function() {
+	$('.owl-carousel').owlCarousel({
+	    loop:true,
+	    margin:30,
+	    nav:true,
+	    autoWidth:true,
+	    responsiveClass:true,
+	    responsive:{
+	    	0:{
+	   	     items:1,
+	         nav:true
+	        },
+	        600:{
+  	         items:3,
+	       	},
+	       	1000:{
+	          items:5,
+	          loop:false
+	        }
+	    }
+	})
+});
+</Script>
 <style type="text/css">
 	#mylib-info{
 		width:90%;
@@ -73,36 +97,20 @@
 			</div><!-- .mylib-info-ment end -->
 		</div><!-- .jumbotron end -->
 		<div id="mylib-contents">
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		1<br/>
-		</div>
+			<div class="owl-carousel owl-theme">
+				<c:forEach items="${nogoalbook }" var="bean1">
+				    <div class="item"><img class="media-object" src="${bean1.coverurl }" alt="책 이미지"></div>
+				</c:forEach>
+				<br/>
+				<c:forEach items="${studyingbook }" var="bean2">
+				    <div class="item"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></div>
+				</c:forEach>
+				<br/>
+				<c:forEach items="${finishedbook }" var="bean3">
+				    <div class="item"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지"></div>
+				</c:forEach>
+			</div>
+			
 	</div>
 </div><!-- .row end -->
 	<!--**********content end**********-->
