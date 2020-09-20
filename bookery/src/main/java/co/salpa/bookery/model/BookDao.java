@@ -8,6 +8,8 @@ import co.salpa.bookery.model.entity.BookVo;
 public interface BookDao {
 	List<BookVo> selectAll() throws SQLException;
 
+	List<BookVo> selectMostBook() throws SQLException;//스터디 테이블에 가장 많이 등록된 책 순서대로
+
 	BookVo selectOne(int key) throws SQLException;
 
 	void insertOne(BookVo bean) throws SQLException;

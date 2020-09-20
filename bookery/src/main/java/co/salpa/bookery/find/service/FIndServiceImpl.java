@@ -12,6 +12,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -44,12 +45,13 @@ public class FIndServiceImpl implements FindService {
 	@Autowired
 	SqlSession sqlsession;
 
-	/******************************************************************************************
+	/****
 	 * 
 	 * 검색페이지에서 검색항목(저자, 출판사, 제목) 선택해서 검색하면 검색결과를 보여주는 순서 start와 검색어search, 검색항목
 	 * select를 받아 검색한 뒤 html문서 전체를 결과로 String으로 반환해준다.
 	 * 
-	 ****************************************************************************************/
+	 ****/
+	
 	@Override
 	public String searchService(int start, String search, String select) {
 		// TODO Auto-generated method stub
@@ -141,11 +143,11 @@ public class FIndServiceImpl implements FindService {
 		}
 	}// readBody
 
-	/******************************************************************************************
+	/****
 	 * 
 	 * naver books bid로 책 상세검색을 한 결과를 jsoup Document 타입으로 반환한다.
 	 * 
-	 ****************************************************************************************/
+	 ****/
 
 	@Override
 	public Document crawlingService(int bid) {
@@ -163,11 +165,11 @@ public class FIndServiceImpl implements FindService {
 		return doc;
 	}// crawlingService
 
-	/****************************************************************************************
+	/****
 	 * 
 	 * 목차 중복 처리 및 목차입력, 서비스 트랜잭션과 비즈니스로직 분리
 	 * 
-	 ****************************************************************************************/
+	 ****/
 	@Override
 	public Model listTocService(Model model, int bid) throws SQLException {
 		// TODO Auto-generated method stub	
@@ -184,11 +186,11 @@ public class FIndServiceImpl implements FindService {
 		return model;
 	}//
 
-	/****************************************************************************************
+	/****
 	 * 
 	 * 책 리스트 반환
 	 * 
-	 ****************************************************************************************/
+	 ****/
 	@Override
 	public Model listBookService(Model model) throws SQLException {
 		// TODO Auto-generated method stub
@@ -196,12 +198,11 @@ public class FIndServiceImpl implements FindService {
 		return model.addAttribute("books", bookDao.selectAll());
 	}
 
-	/****************************************************************************************
+	/****
 	 * 
 	 * 목차 중복 처리 및 목차입력, 서비스 트랜잭션과 비즈니스로직 분리
-	 * @throws Exception 
 	 * 
-	 ****************************************************************************************/
+	 ****/
 
 	public void tocsPut(BookVo book, TocDao tocDao, String chapters) throws SQLException {
 
@@ -222,7 +223,7 @@ public class FIndServiceImpl implements FindService {
 		} // out if
 	}// tocsPut
 
-	/****************************************************************************************
+	/****
 	 * 
 	 * 검색해서 선택한 책정보를 book테이블에 추가하고 그 책의 목차를 toc테이블에 추가한다.
 	 * 
@@ -230,7 +231,7 @@ public class FIndServiceImpl implements FindService {
 	 * Transactional 어노테이션으로 insertStudyService 메소드가 정상종료되기전에 예외가 발생하면
 	 * 모두 롤백된다.
 	 * 
-	 ****************************************************************************************/
+	 ****/
 	@Override
 	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException {
 		// TODO Auto-generated method stub
@@ -242,6 +243,22 @@ public class FIndServiceImpl implements FindService {
 		tocsPut(book, tocDao, chapters);// 목차들 입력
 	}// studyAddService
 
+	
+
+	/****
+	 * 
+	 * 가장 많이 공부중인 책 리스트
+	 * 
+	 ****/
+	
+	@Override
+	public Model listMostBookService(Model model) throws SQLException {
+		// TODO Auto-generated method stub
+		BookDao bookDao = sqlsession.getMapper(BookDao.class);
+		List<BookVo> list = bookDao.selectMostBook();
+		model.addAttribute("most_list",list);
+		return model;
+	}
 	@Override
 	public void detailService() throws SQLException {
 		// TODO Auto-generated method stub
@@ -259,5 +276,6 @@ public class FIndServiceImpl implements FindService {
 		// TODO Auto-generated method stub
 
 	}//
+
 
 }// ClassEnd
