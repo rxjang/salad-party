@@ -11,5 +11,4 @@ public interface MylibDao {
 	List<BookVo> selectNoGoalBook(int id) throws DataAccessException;
 	List<BookVo> selectStudyingBook(int id) throws DataAccessException;
 	List<BookVo> selectFinishedBook(int id) throws DataAccessException;
-	
 }
