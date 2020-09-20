@@ -60,8 +60,8 @@ pubdate	datetime	출간일 정보이다.
 			$('#moveTop').hide();//탑 버튼 비활성화
 			return;
 		}else{
-			$('#moreResult').show();//더 보기 버튼 활성화
-			$('#moveTop').show();//탑 버튼 비활성화
+			//$('#moreResult').show();//더 보기 버튼 활성화
+			//$('#moveTop').show();//탑 버튼 비활성화
 		}
 		$.ajax('${pageContext.request.contextPath }/find/result', {
 			'method' : 'get',
@@ -105,7 +105,12 @@ pubdate	datetime	출간일 정보이다.
 				}
 				/***********	책 이미지 눌렀을 때 bid를 이용해 서버에서 해당 책정보 받아오기	**********/
 				 bookDetail(); //비동기 웹 크롤링
-			}//success
+				$('#moreResult').show();//더 보기 버튼 활성화
+				$('#moveTop').show();//탑 버튼 비활성화
+			},//success
+			'error':function(){
+				swal("검색 실패", "검색어를 바르게 입력해주세요.", "error");
+			}//error
 		});//ajax
 	}//booksearch function
 	

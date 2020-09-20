@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
 var chapters, book_id, title, writer, publisher, pages, category, isbn, translator, title_original, publication_date, revision,imgUrl;
+var description;
 var img_link;
 var bid = ${bid}; //컨트롤러에서 bid를 받아온다.
 $(function(){
@@ -26,6 +27,8 @@ $(function(){
 			//console.log('title = ' + title);
 			title_original = bookInfo.find('.tit_ori').text().replace('원제','').trim(); //원제
 			//console.log('original_title = '+title_original);
+			description = $(data).find('#bookIntroContent').html(); //책 소개
+			$('#bookIntroContent').html(description);
 			var translator_cnt = 1;
 			var author_cnt = 1;
 			$(data).find('.book_info_inner').children().eq(1).find('a').each(function(){
@@ -75,8 +78,7 @@ $(function(){
 			imgUrl = $(bookInfo).find('.thumb_type img').attr('src');
 			//image url 이미지 URL
 			//https://bookthumb-phinf.pstatic.net/cover/163/114/16311458.jpg?type=m140&udate=20200701
-			console.log(imgUrl);
-			
+			//console.log(imgUrl);
 
 			var book_info_html =  '<div class="media">';
 				book_info_html += '<div class="media-left media-middle">';
@@ -150,6 +152,9 @@ $(function(){
 		//chapters, book_id, title, writer, publisher, pages, category, isbn, translator, title_original, publication_date, revision;
 		/*******  body에 있는 내서재가기 a tag : display none상태-검색된 책누르면 show()  ******/
 		$('#putChapters').on('click', function() {
+			
+			location.href = '${pageContext.request.contextPath }/mylib';
+			//시간이 오래걸리는 목차 입력은 비동기로 요청해두고 내서재 페이지이동을 먼저한다.
 			$.post('${pageContext.request.contextPath }/find/put', {
 				'chapters' : chapters,
 				'bid' : bid,
@@ -166,11 +171,6 @@ $(function(){
 				'coverurl': imgUrl
 			}, function() {
 				//DB에 목차정보랑 책ID를 전달함
-				location.href = '${pageContext.request.contextPath }/find/chapters?bid=' + bid;
-				//목차정보는 목차정보 DB에 insert하는 컨트롤러로 비동기처리하고 페이지는 원하는 곳으로 이동시킴
-				//페이지 이동시키지 않고 그냥 서재에 담았다고 alert로 확인 메세지 띄워도되고
-				//다른페이지 이동가능
-				//목차보는 페이지로 바로 이동시키면 db insert 오래걸려서 로딩속도가 좀 걸림
 			}).fail(function() {
 				swal("통신 에러");
 			});//ajax
@@ -192,41 +192,79 @@ $(function(){
 	        document.addEventListener('aos:in', function(e) {
 	          //console.log('in!', e.detail);
 	        });
-	      }
+	      }//AOS
+	      
+	      
+	      $('.panel-body').hide();//책소개 내용 처음엔 숨김
+	      $('.panel-heading').css('cursor','pointer');
+	      $('.panel-heading').on('click',function(){ //책소개 클릭 시 책소개 내용 Slide down
+				if($(this).find('.triangle').text() == '▷'){
+					
+					$(this).find('.triangle').text('▼');
+				//	$(this).css('border-bottom-left-radius','0px')
+				//		   .css('border-bottom-right-radius','0px')
+				//		   .css('box-shadow','0px');
+					$(this).next().slideDown(500);
+				}else if($(this).find('.triangle').text() == '▼'){
+					
+					$(this).find('.triangle').text('▷');
+					$(this).next().slideUp(500,function(){
+						//$(this).prev().css('border-bottom-left-radius','5px')
+						//			  .css('border-bottom-right-radius','5px')
+						//			  .css('box-shadow','0px');
+					});//slideup
+				}//else
+			})//click
+			
+			
 	});//ready
 </script>
 </head>
 <body>
 <%@ include file="../template/menu.jspf" %>
 	<!-- **********content start**********--> 
+	<div class="row"><br/><br/></div>
+
 	<div class="row">
-	<div class="col-md-2"></div>
+		<div class="col-md-3"></div>
+			<div id="book_detail" class="col-xs-12 col-md-6"></div>
+		<div class="col-md-4"></div>
+	</div>
+	<br/>
+		<div class="row">
+	<div class="col-md-3"></div>
 		<div class="col-xs-12 col-md-6">
 			<a id="putChapters" class="btn btn-default" role="button" href="#">내
 				서재에 담기</a>
 			<a id="" class="btn btn-default" role="button" href="#">공부방 참여하기</a>
 		</div>
-	<div class="col-md-4"></div>
+	<div class="col-md-3"></div>
 	</div>
+
 	<br/>
 	<div class="row">
-		<div class="col-md-2"></div>
-			<div id="book_detail" class="col-xs-12 col-md-6"></div>
-		<div class="col-md-4"></div>
+		<div class="col-md-3"></div>
+		<div class="faq-box col-xs-12 col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading"><span class="triangle">▷</span>&nbsp;책 소개</div>
+				<div class="panel-body" id="bookIntroContent">${description }</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
 	</div>
-	<br/>
+
 	<div class="row">
-		<div class="col-md-2"></div>
+		<div class="col-md-3"></div>
 			<div id="chapter_list" class="col-xs-12 col-md-6"></div>
-		<div class="col-md-4"></div>
+		<div class="col-md-3"></div>
 	</div>
 	<br />
 	<div class="row">
-		<div class="col-md-2"></div>
+		<div class="col-md-3"></div>
 			<div class="col-xs-12 col-md-6">
 				<button id="moveTop" class="btn btn-default">Top</button>
 			</div>
-		<div class="col-md-4"></div>
+		<div class="col-md-3"></div>
 		<div class="col-md-12 col-xs-12">&nbsp;</div>
 	</div>
 	<!--**********content end**********-->
