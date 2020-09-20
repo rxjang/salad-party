@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="co.salpa.bookery">
-		<level value="debug" />
+		<level value="INFO" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
