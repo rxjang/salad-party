@@ -25,16 +25,16 @@ public class MylibDaoImpl implements MylibDao{
 		List<BookVo> list = null;
 		try(SqlSession session = sqlSessionFactory.openSession()){
 			list = session.selectList("selectNoGoalBook", id);
-		}//try
+		}
 		return list;
-	}//selectNoGoalBook
+	}
 
 	@Override
 	public List<BookVo> selectStudyingBook(int id) throws DataAccessException {
 		List<BookVo> list = null;
 		try(SqlSession session = sqlSessionFactory.openSession()){
-			list = session.selectList("studyingBook", id);
-		}//try
+			list = session.selectList("selectStudyingBook", id);
+		}
 		return list;
 	}
 
@@ -42,9 +42,27 @@ public class MylibDaoImpl implements MylibDao{
 	public List<BookVo> selectFinishedBook(int id) throws DataAccessException {
 		List<BookVo> list = null;
 		try(SqlSession session = sqlSessionFactory.openSession()){
-			list = session.selectList("finishedBook", id);
-		}//try
+			list = session.selectList("selectFinishedBook", id);
+		}
 		return list;
+	}
+
+	@Override
+	public int countNoGoalBook(int id) throws DataAccessException {
+		SqlSession session=sqlSessionFactory.openSession();
+		return session.selectOne("countNoGoalBook", id);
+	}
+
+	@Override
+	public int countStudyingBook(int id) throws DataAccessException {
+		SqlSession session=sqlSessionFactory.openSession();
+		return session.selectOne("countStydinglBook", id);
+	}
+
+	@Override
+	public int countFinishedBook(int id) throws DataAccessException {
+		SqlSession session=sqlSessionFactory.openSession();
+		return session.selectOne("countFinishedBook", id);
 	}
 
 }//MylibDaoImpl
