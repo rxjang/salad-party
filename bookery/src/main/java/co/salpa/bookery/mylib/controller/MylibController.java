@@ -19,8 +19,11 @@ public class MylibController {
 	@RequestMapping
 	public String myLib(Model model) throws SQLException {
 		mylibService.listNoGoalBookService(model);
-		mylibService.listStudyinglBookService(model);
-		mylibService.listFinishedlBookService(model);
+		mylibService.listStudyingBookService(model);
+		mylibService.listFinishedBookService(model);
+		mylibService.countNoGoalBookService(model);
+		mylibService.countStudyingBookService(model);
+		mylibService.countFinishedBookService(model);
 		return "mylib/mylib";
 	}
 }

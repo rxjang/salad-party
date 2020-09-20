@@ -8,19 +8,19 @@
  	<select id="selectNoGoalBook" resultType="bookBean" parameterType="_int">
  		select coverurl,title from user, (select coverurl,title,user_id,bid from study,book where study.book_bid=book.bid and type is null) as ex where ex.user_id=id and id=#{id}
  	</select>
- 	<select id="countNoGoalBook" resultType="bookBean" parameterType="_int">
- 		select count(*) from user, (select coverurl,title,user_id,bid from study,book where study.book_bid=book.bid and type is null) as ex where ex.user_id=id and id=#{id}
+ 	<select id="countNoGoalBook" resultType="Integer" parameterType="_int">
+ 		select count(*) from study,book,user where study.book_bid=book.bid and user.id=study.user_id and type is null and user.id=#{id}
  	</select>
  	<select id="selectStudyingBook" resultType="bookBean" parameterType="_int">
- 		select coverurl,title from user, (select coverurl,title,user_id,bid from study,book where study.book_bid=book.bid and enddate &lt; now() and type is not null) as ex where ex.user_id=id and id=#{id}
+ 		select coverurl,title from user, (select coverurl,title,user_id,bid from study,book where study.book_bid=book.bid and enddate &lt; dday and type is not null) as ex where ex.user_id=id and id=#{id}
  	</select>
- 	<select id="countStudyingBook" resultType="bookBean" parameterType="_int">
- 		select count(*) from user, (select coverurl,title,user_id,bid from study,book where study.book_bid=book.bid and enddate &lt; now() and type is not null) as ex where ex.user_id=id and id=#{id}
+ 	<select id="countStudyingBook" resultType="Integer" parameterType="_int">
+ 		select count(*) from study,book,user where study.book_bid=book.bid and user.id=study.user_id and enddate &lt; dday and user.id=#{id}
  	</select>
- 	<select id="selectFinishedBook" resultType="bookBean" parameterType="_int">
- 		select coverurl,title from user, (select coverurl,title,user_id,bid from study,book where study.book_bid=book.bid  and enddate &gt; now() and type is not null) as ex where ex.user_id=id and id=#{id}
+ 	<select id="selectFinishedBook" resultType="BookBean" parameterType="_int">
+ 		select coverurl,title from user, (select coverurl,title,user_id,bid from study,book where study.book_bid=book.bid and enddate &gt; dday and type is not null) as ex where ex.user_id=id and id=#{id}
  	</select>
- 	<select id="countFinishedBook" resultType="bookBean" parameterType="_int">
- 		select count(*) from user, (select coverurl,title,user_id,bid from study,book where study.book_bid=book.bid  and enddate &gt; now() and type is not null) as ex where ex.user_id=id and id=#{id}
+ 	<select id="countFinishedBook" resultType="Integer" parameterType="_int">
+ 		select count(*) from study,book,user where study.book_bid=book.bid and user.id=study.user_id and enddate &gt; dday and user.id=#{id}
  	</select>
  </mapper>

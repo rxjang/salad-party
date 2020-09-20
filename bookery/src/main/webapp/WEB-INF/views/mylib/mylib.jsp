@@ -83,9 +83,9 @@ $(function() {
 					<td>완독</td>
 				</tr>
 				<tr>
-					<th>0</th>
-					<th>0</th>
-					<th>0</th>
+					<th>${countnogoalbook }</th>
+					<th>${countstudyingbook }</th>
+					<th>${countfinishedbook }</th>
 				</tr>
 			</table>
 			</div>
@@ -98,15 +98,15 @@ $(function() {
 		</div><!-- .jumbotron end -->
 		<div id="mylib-contents">
 			<div class="owl-carousel owl-theme">
-				<c:forEach items="${nogoalbook }" var="bean1">
+				<c:forEach items="${nogoalbooklist }" var="bean1">
 				    <div class="item"><img class="media-object" src="${bean1.coverurl }" alt="책 이미지"></div>
 				</c:forEach>
 				<br/>
-				<c:forEach items="${studyingbook }" var="bean2">
+				<c:forEach items="${studyingbooklist }" var="bean2">
 				    <div class="item"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></div>
 				</c:forEach>
 				<br/>
-				<c:forEach items="${finishedbook }" var="bean3">
+				<c:forEach items="${finishedbooklist }" var="bean3">
 				    <div class="item"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지"></div>
 				</c:forEach>
 			</div>
