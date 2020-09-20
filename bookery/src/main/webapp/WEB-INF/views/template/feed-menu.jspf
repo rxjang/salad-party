@@ -9,3 +9,8 @@
 			</ul>
 		</div>
 	</div>
+		$(function(){
+		  $('.main').addClass('submenu-main');
+
+	});//function
+	</script>
