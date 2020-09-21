@@ -133,7 +133,7 @@
     	height:44px;
 		position:fixed;
     	top:66px;
-		width:100%
+		width:100%;
 		z-index:9;
     }
     .mylib-menu{left:25%;}

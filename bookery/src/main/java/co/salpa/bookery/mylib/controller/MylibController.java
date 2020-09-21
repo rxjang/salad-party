@@ -3,6 +3,7 @@ package co.salpa.bookery.mylib.controller;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ public class MylibController {
 	@Autowired MylibService mylibService;
 	
 	@RequestMapping
-	public String myLib(Model model) throws SQLException {
+	public String myLib(Model model) throws DataAccessException {
 		mylibService.listNoGoalBookService(model);
 		mylibService.listStudyingBookService(model);
 		mylibService.listFinishedBookService(model);
@@ -25,5 +26,11 @@ public class MylibController {
 		mylibService.countStudyingBookService(model);
 		mylibService.countFinishedBookService(model);
 		return "mylib/mylib";
+	}
+	
+	@RequestMapping("/plan-page")
+	public String mylibPlanPage() {
+		
+		return "mylib/plan-page";
 	}
 }

@@ -98,7 +98,7 @@ $(function() {
 			<div class="owl-carousel owl-theme">
 				<c:forEach items="${nogoalbooklist }" var="bean1">
 				    <div class="item">
-				    	<img class="media-object" src="${bean1.coverurl }" alt="책 이미지">
+				    	<a href="${pageContext.request.contextPath }/mylib/plan?bid=${bean1.bid }"><img class="media-object" src="${bean1.coverurl }" alt="책 이미지"></a>
 				    </div>
 				</c:forEach>
 			</div>
@@ -106,20 +106,23 @@ $(function() {
 			<h6>책을 클릭하여 오늘의 진도를 입력해 보아요</h6>	
 			<div class="owl-carousel owl-theme">
 				<c:forEach items="${studyingbooklist }" var="bean2">
-				    <div class="item"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></div>
+				    <div class="item">
+				    	<a href="#"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></a>
+				    </div>
 				</c:forEach>
 			</div>
 			<span class="glyphicon glyphicon-ok" style="color:#A7D489"></span>&nbsp;완료한 책
 			<h6>책을 클릭하면 과거의 기록을 볼 수 있어요</h6>	
 			<div class="owl-carousel owl-theme">
 				<c:forEach items="${finishedbooklist }" var="bean3">
-				    <div class="item"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지"></div>
+				    <div class="item">
+				    	<a href="#"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지"></a>
+				    </div>
 				</c:forEach>
 			</div>
 		</div>			
 	</div>
 </div><!-- .row end -->
-</div>
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
 </body>
