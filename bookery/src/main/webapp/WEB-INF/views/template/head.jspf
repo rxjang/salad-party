@@ -78,11 +78,11 @@
 }
 
  	#menu{
- 		height:66px;
-		line-height:40px;
+	 	background-color:white;
 		border-bottom: 1px solid #e4e4e4;
 		font-size: 1.3em;
-	 	background-color:white;
+ 		height:66px;
+		line-height:40px;
 	 	position:fixed;
 	 	top:0;
 	 	width:100%;
@@ -90,8 +90,8 @@
 	}
 	#menu a,.sub-menu a{color:black;}
 	#menu a:hover, .sub-menu a:hover{
-		text-decoration:none;
 		background-color: rgba(255, 0, 0, 0.0) !important;/*기존 부트스트랩 색깔 투명하게 설정*/
+		text-decoration:none;
 	}
 	#menu ul{padding:4px 0px;}
 	.nav li{float:left;}
@@ -100,20 +100,20 @@
 	.pull-right{padding:23px 80px;}
 	.jung{color:white;}/*#처음에 안보이게*/
 	.dropdown-toggle:active, .open .dropdown-toggle {
-		position:absoulte;
-		right:0px;
         background:white !important; 
         color:#000 !important;
+		position:absoulte;
+		right:0px;
 		text-decoration: none;
     }
     .dropdown-menu{/*드롭다운 메뉴 이동 방지*/
-    	right:90;
     	left:auto;
+    	right:90;
     }
     #footer{
-    	position:sticky;
-		border-top: 1px solid #e4e4e4;
 		background-color:white;
+		border-top: 1px solid #e4e4e4;
+    	position:sticky;
 		z-index:8;
     }
     .footer-title{
@@ -121,88 +121,93 @@
     	font-weight:bold;
     	padding-top:15px;
     }
-	.footer-content{padding-left:65px; padding-bottom:15px;}/*좌측 적당한 공간 띄움*/
+	.footer-content{
+		padding-bottom:15px;
+		padding-left:65px;
+	}/*좌측 적당한 공간 띄움*/
     /*******************서브메뉴 CSS*******************/
     .sub-menu{
-    	display:inline-block;
-    	top:66px;
-    	height:44px;
-		border-bottom: 1px solid #e4e4e4;
 		background-color:white;
+		border-bottom: 1px solid #e4e4e4;
+    	display:inline-block;
+    	height:44px;
 		position:fixed;
-		top:66px;
-		z-index:9;
+    	top:66px;
 		width:100%
+		z-index:9;
     }
     .mylib-menu{left:25%;}
     .feed-menu{left:42%;}
     /************메뉴 상단 고정을 위해 컨텐츠 위치 조절******************/
 	.main{
+	   	margin-bottom:120px;
 		position: -webkit-sticky; /* 사파리 브라우저 지원 */
 	    position: sticky;
 	    top: 66px;
-	   	margin-bottom:120px;
 	}
     /************서브메뉴가 있는 경우의 CSS******************/
 	.submenu-main{
+	    margin-top:110px;
+	    margin-bottom:60px;
 		position: -webkit-sticky; /* 사파리 브라우저 지원 */
 	    position: sticky;
-	    margin-top:110px;
-	    margin-bottom:120px;
 	}
     
 	@media (max-width:1000px) {/*중간 이하 화면용 CSS*/
 		#menu{
-			height:50px;
 			border-bottom:0px;
+			height:50px;
 		}
 		.menu-setting{padding:0px 25px;}
 		.pull-right{padding:23px 25px;}
 		.real-menu{
-			position:fixed;
-			bottom:0;
-			border-top:1px solid #e4e4e4;
-			height:66px;
 			background-color:white;
-			z-index:10;
+			border-top:1px solid #e4e4e4;
+			bottom:0;
+			height:66px;
+			position:fixed;
     		text-align:center;
+			z-index:10;
 		}
 		.add-jung{font-size:0.7em;}
 		.menu-icon{
-			padding-top:5px;
 			font-size:1.7em;
+			padding-top:5px;
 		}
 		.dropdown-menu{/*드롭다운 메뉴 이동 방지*/
-    		right:35;
     		left:auto;
+    		right:35;
     	}
- 	   .real-menu li{
- 	   		float:none;
+ 	   	.real-menu li{
  	   		display:inline-block;
+ 	   		float:none;
  	   		margin:0 2.8%;
- 	   }
+ 	   	}
 		.real-menu li>a {
-			padding-top:0px;
 			display: block;
+			padding-top:0px;
 		}
 	    /*******************모바일 서브메뉴 CSS*******************/
     	.sub-menu{
 			border-bottom: 0px;
-			line-height:1.5em;
 			height:40px;
+			line-height:1.5em;
 			top:50px;
- 	   }
- 	   .main{
+ 	   	}
+ 	   	.main{
+ 	   		margin-bottom:180px;
  	   		top:50px;
- 	   		 margin-bottom:180px;
- 	   }
- 	   .submenu-main{
+ 	   	}
+ 	   	.submenu-main{
  	   		margin-top:90px;
- 	   		margin-bottom:200px;
- 	   }
- 	   #footer{margin-bottom:80px;}
- 	   .footer-content{padding-left:25px; padding-bottom:10px;}/*좌측 적당한 공간 띄움*/
- 	   .mylib-menu, .feed-menu{left:auto;}/**pc버전의 left속성 없앰**/
+ 	   		margin-bottom:60px;
+ 	   	}
+ 	  	 #footer{margin-bottom:80px;}
+ 	  	 .footer-content{
+ 	   		padding-bottom:10px;
+ 	   		padding-left:25px;
+ 	   	}/*좌측 적당한 공간 띄움*/
+ 	   	.mylib-menu, .feed-menu{left:auto;}/**pc버전의 left속성 없앰**/
 	}
 	
 	@media (max-width:800px) {/**모바일 위한 CSS-서브메뉴 간격 조절**/
