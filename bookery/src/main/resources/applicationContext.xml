@@ -5,24 +5,26 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
-	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-		
-		<!--
-		log4jdbc 쓰는 경우   
-		p:driverClass="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"
-		p:url="jdbc:log4jdbc:mysql://localhost:3306/bit?characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"
-		 -->
-	<beans:bean id="dataSource"
-		class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
-		p:driverClass="com.mysql.cj.jdbc.Driver"
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-		p:url="jdbc:mysql://localhost:3306/salpa?useUnicode=true&amp;characterEncoding=utf8&amp;verifyServerCertificate=false&amp;useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"
-		p:username="scott" p:password="tiger" />
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<util:properties id="naver" location="classpath:/config/naver.properties"/>
+	<context:property-placeholder location="classpath:/config/db.properties" />
+<!-- 	<context:property-placeholder
+		location="classpath:/config/naverApi.properties" ignore-unresolvable="true" order="2"/> -->
+	<!-- log4jdbc 쓰는 경우 p:driverClass="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" 
+		p:url="jdbc:log4jdbc:mysql://localhost:3306/bit?characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" -->
+	<beans:bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		p:driverClassName="${jdbc.driver}" p:url="${jdbc.url}"
+		p:username="${jdbc.username}" p:password="${jdbc.password}" 
+		p:maxActive="50" p:maxIdle="20"
+		/>
 
 	<context:annotation-config />
 
@@ -30,9 +32,11 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource"
 		p:configLocation="classpath:/mybatis-config.xml" />
-		
-	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-				<beans:constructor-arg ref="sqlSessionFactory" index="0"> </beans:constructor-arg>
+	<beans:bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg ref="sqlSessionFactory"
+			index="0">
+		</beans:constructor-arg>
 	</beans:bean>
-	
+
 </beans:beans>

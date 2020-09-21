@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.salpa.bookery.find.service.FindService;
@@ -33,7 +34,7 @@ public class FindController {
 		return "/find/find"; // find폴더아래 find.jsp
 	}
 	
-	@RequestMapping("/find/result") // 검색페이지에 검색결과 전달
+	@RequestMapping(value = "/find/result",method = RequestMethod.GET) // 검색페이지에 검색결과 전달
 	public ModelAndView searchBooks(int start, String search, String select,HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		response.setContentType("application/json;charset=utf-8");
