@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -14,13 +15,18 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -38,24 +44,42 @@ import co.salpa.bookery.model.entity.TocVo;
 public class FIndServiceImpl implements FindService {
 
 	Logger log = LoggerFactory.getLogger(this.getClass());
-
-	private final String CLIENTID = "INyNwc8RvDNjUoCD9lHg"; // HyeongJin naver api key
-	private final String CLIENTSECRET = "e4hlkduAe3";
-
 	@Autowired
 	SqlSession sqlsession;
-
+	
+	@Value("#{naver['naver.clientid']}")
+	private String client;
+	@Value("#{naver['naver.clientsecret']}")
+	private String secret;
+	
+	/*
+	 * src/main/resources/config/naverApi.properties 파일 불러오기.
+	 */
+//	public void apiKeySet() {
+//		String key_path = "/config/naverApi.properties";
+//		Properties prop = new Properties();
+//        Reader reader;
+//		try {
+//			reader = Resources.getResourceAsReader(key_path);
+//			prop.load(reader);
+//			prop.getProperty("naver.clientid"));
+//			prop.getProperty("naver.clientsecret"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}//naver api keys
+	
 	/****
 	 * 
 	 * 검색페이지에서 검색항목(저자, 출판사, 제목) 선택해서 검색하면 검색결과를 보여주는 순서 start와 검색어search, 검색항목
 	 * select를 받아 검색한 뒤 html문서 전체를 결과로 String으로 반환해준다.
 	 * 
 	 ****/
-	
 	@Override
 	public String searchService(int start, String search, String select) {
 		// TODO Auto-generated method stub
-
+	//	System.out.println(client + secret);
 		String param_start = "&start=" + start;// 검색결과 문서들 읽는 시작순서.
 		String findOpt=null;
 		// select = {제목,저자,출판사} 상세검색 요청변수 생성
@@ -67,14 +91,18 @@ public class FIndServiceImpl implements FindService {
 			System.out.println(search);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("encoding error", e);
+			
+			
 		} // catch
 
 		String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + search + param_start + findOpt; // book
 																													// search
 		System.out.println(apiURL);
+
+		
 		Map<String, String> requestHeaders = new HashMap<>();
-		requestHeaders.put("X-Naver-Client-Id", CLIENTID);
-		requestHeaders.put("X-Naver-Client-Secret", CLIENTSECRET);
+		requestHeaders.put("X-Naver-Client-Id", client);
+		requestHeaders.put("X-Naver-Client-Secret", secret);
 		String responseBody = get(apiURL, requestHeaders);// 네이버북 검색결과 페이지 내용을 responseBody에 담음
 
 		return responseBody;
