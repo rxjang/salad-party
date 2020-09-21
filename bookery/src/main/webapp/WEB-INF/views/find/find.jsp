@@ -64,7 +64,7 @@ pubdate	datetime	출간일 정보이다.
 			//$('#moveTop').show();//탑 버튼 비활성화
 		}
 		$.ajax('${pageContext.request.contextPath }/find/result', {
-			'method' : 'get',
+			'method' : 'GET',
 			'data' : 'search=' + $('#search').val()+'&start='+start+'&select='+findOpt,
 			'dataType' : 'json',
 			'success' : function(data) {
@@ -102,6 +102,7 @@ pubdate	datetime	출간일 정보이다.
 					content += '</div>'  
 					content += '</div><br/>'
 					$('#result').append(content);
+					$('<a href="#scrollMove'+(start-1)+'"/>').wrap($('#aMove')).get(0).click();
 				}
 				/***********	책 이미지 눌렀을 때 bid를 이용해 서버에서 해당 책정보 받아오기	**********/
 				 bookDetail(); //비동기 웹 크롤링
@@ -118,8 +119,12 @@ pubdate	datetime	출간일 정보이다.
 	$(function() {
 		$('#moreResult').on('click',function(){ //더보기 버튼, 검색결과 10개씩 더 불러온다.
 			startResult+=10;
-			bookSearch(startResult);
-			$('<a href="#scrollMove'+startResult+'"/>').wrap($('#aMove')).get(0).click();
+			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
+			bookSearch(startResult, selectOpt_val);
+			//var movePoint = $('#scrollMove'+startResult).scrollTop();
+			//$(document).scrollTop($(movePoint).scrollTop());
+		//$('<a href="#scrollMove'+startResult+'"/>').wrap($('#aMove')).get(0).click();
+			//console.log(startResult);
 		});//moreResult 버튼 클릭
 
 		
@@ -134,7 +139,7 @@ pubdate	datetime	출간일 정보이다.
 			$('#result').html('');
 			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			startResult=1; //검색결과들 중 읽어올 문서의 순서. ex:start=2 라면 10개 검색됐으면 2번째부터 출력
-			scrollMove_cnt=1; //더보기 눌렀을 때 스크롤 이동시키기 위한 id값,검색버튼 누를때마다 초기화.
+			scrollMove_cnt=0; //더보기 눌렀을 때 스크롤 이동시키기 위한 id값,검색버튼 누를때마다 초기화.
 			bookSearch(startResult,selectOpt_val);
 			return false;
 		});//submit
@@ -305,9 +310,8 @@ pubdate	datetime	출간일 정보이다.
 				<div class="owl-stage-outer" >
 					<div class="owl-stage owl-refresh" >
 					<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
-					<div class="owl-item"><a href="#"><img alt="" src="${bean.coverurl }"></a></div>
+					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book?bid=${bean.bid}'><img alt="image loading fail" src="${bean.coverurl }"></a></div>
 					</c:forEach>
-					
 					</div>
 				</div>
 			</div>
