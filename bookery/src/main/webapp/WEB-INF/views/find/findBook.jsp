@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <html>
 <head>
 	<title>Bookery</title>
@@ -11,15 +10,17 @@ var chapters, book_id, title, writer, publisher, pages, category, isbn, translat
 var description;
 var img_link;
 var bid = ${bid}; //컨트롤러에서 bid를 받아온다.
+var owlItem='';
+var bookMap ={};
 $(function(){
 //console.log(bid);
 	writer=''; publisher=''; pages=''; category=''; isbn=''; translator=''; title_original=''; publication_date=''; revision='';
 	img_link='';//혹시 남아있을지 모를 값들을 페이지 로딩할 때 초기화 해둔다.
 	
 	$.ajax('${pageContext.request.contextPath }/find/crawling',{
-		'method':'get',
-		'data':'bid='+bid,
-		'success':function(data){
+		method:'get',
+		data:'bid='+bid,	
+		success:function(data){
 			var bookInfo = $(data).find('.book_info');
 			img_link = bookInfo.find('.thumb_type img').attr('src');
 			//console.log(img_link);
@@ -80,51 +81,101 @@ $(function(){
 			//https://bookthumb-phinf.pstatic.net/cover/163/114/16311458.jpg?type=m140&udate=20200701
 			//console.log(imgUrl);
 
-			var book_info_html =  '<div class="media">';
-				book_info_html += '<div class="media-left media-middle">';
-				book_info_html += '<a href="#">';
-				book_info_html += '<img class="media-object" src="'+img_link+'" alt="...">';
-				book_info_html += '</a>';
-				book_info_html += '</div>';
-				book_info_html += '<div class="media-body">';
+			//bookMap Object에 정보저장. 캐러셀용
+			bookMap.publisher=publisher;
+			bookMap.pages=pages;
+			bookMap.category=category;
+			bookMap.translator=translator;
+			bookMap.publication_date=publication_date;
+			bookMap.revision=revision;
+			owlItem = '<div class="owl-stage">';
+			if(bookMap.publisher!=""){
+				owlItem += '<div class="owl-item">';
+				owlItem += '<p><small>출판사</small></p>';
+				owlItem += '<p><span class="caro-cnt">'+bookMap.publisher+'</span></p>';
+				owlItem += '<p><small>&nbsp;</small></p>';
+				owlItem += '</div>';
+			}
+			if(bookMap.category!=""){
+				owlItem += '<div class="owl-item">';
+				owlItem += '<p><small>장르</small></p>';
+				owlItem += '<p><span class="caro-cnt">'+bookMap.category+'</span></p>';
+				owlItem += '<p><small>&nbsp;</small></p>';
+				owlItem += '</div>';
+			}
+			if(bookMap.pages!=""){
+				owlItem += '<div class="owl-item">';
+				owlItem += '<p><small>길이</small></p>';
+				owlItem += '<p><span class="caro-cnt">'+bookMap.pages+'</span></p>';
+				owlItem += '<p><small>페이지</small></p>';
+				owlItem += '</div>';
+			}
+			if(bookMap.translator!=""){
+				owlItem += '<div class="owl-item">';
+				owlItem += '<p><small>역자</small></p>';
+				owlItem += '<p><span class="caro-cnt">'+bookMap.translator+'</span></p>';
+				owlItem += '<p><small>&nbsp;</small></p>';
+				owlItem += '</div>';
+			}
+			if(bookMap.publication_date!=""){
+				owlItem += '<div class="owl-item">';
+				owlItem += '<p><small>출간일</small></p>';
+				owlItem += '<p><span class="caro-cnt">'+bookMap.publication_date.substring(0,4)+'년</span></p>';
+				owlItem += '<p><small>'+bookMap.publication_date.substring(5,7)+'월'+bookMap.publication_date.substring(8,10)+'일</small></p>';
+				owlItem += '</div>';
+			}
+			if(bookMap.revision!=""){
+				owlItem += '<div class="owl-item">';
+				owlItem += '<p><small>개정</small></p>';
+				owlItem += '<p><span class="caro-cnt">'+bookMap.revision+'</span></p>';
+				owlItem += '<p><small>&nbsp;</small></p>';
+				owlItem += '</div>';
+			}//
+			console.log(owlItem);
+			owlItem+='</div>';
+			$('.owl-stage-outer').html(owlItem);
+			$('.owl-item').css('text-align','center');
+			$('.owl-item small').css('color','#8f8f8f');
+			$('.caro-cnt').css({'font-size':'110%','font-weight':'500'});
+			
+			/**********************    캐러셀    **********************/
+			$('.owl-stage-outer').owlCarousel({
+				items:4,
+				loop : true,
+				autoplay : true,
+				margin : 10,
+				merge : false,
+				nav : false,
+				responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
+				}
+			});//owl캐러셀
+			
+			var book_thumbnail_html = '<div class="media-img">';
+			book_thumbnail_html += '<a href="#">';
+			book_thumbnail_html += '<img class="media-object" src="'+img_link+'" alt="...">';
+			book_thumbnail_html += '</a>';
+			book_thumbnail_html += '</div>';
+			$('#book_thumbnail').html(book_thumbnail_html);
+			var	book_info_html = '<div class="media"><div class="media-body">';
 				book_info_html += '<h4 class="media-heading">'+title+'</h4>';
-				book_info_html += '<p>저자 '+writer+'</p>';
-			if(translator!=''){
-				book_info_html += '<p>역자 '+translator+'</p>';
-			}
+				book_info_html += '<p><small>저자</small> '+writer+'</p>';
 			if(title_original!=''){
-				book_info_html += '<p>원제 '+title_original+'</p>';
+				book_info_html += '<p><small>원제</small> '+title_original+'</p>';
 			}
-				book_info_html += '<p>출판사 '+publisher+'</p>';
-				book_info_html += '<p>출간일 '+publication_date+'</p>';
-				book_info_html += '<p>페이지 '+pages+'</p>';
-			if(revision!=''){
-				book_info_html += '<p>'+revision+'</p>';
-			}			
 				book_info_html += '</div></div>';
-			$('#book_detail').html(book_info_html);
-				var list = $(data).find('#tableOfContentsContent');
+			$('#book_detail').html(book_info_html).css('text-align','center');
+			
+			$('.media-img img').css({'box-shadow':'rgb(135, 165, 134) 5px 5px 10px','display':'block','margin':'auto'});
+			//책 썸네일 그림자색
+			
+			var list = $(data).find('#tableOfContentsContent');
 				/*************	네이버북스 책목차는 tableOfContentsContent아래에 있다	*************/
-				//var sum = bookInfo.html() + list.html();
-			//	$('#chapter_list').html(list);
-
-			//	$('#putChapters').show();//책 내서재에 담으면서 내서재페이지로 이동
 
 				var newLineText = $(list).html().replace(/<(\/br|br)([^>]*)>/gi, "\n");
 				//br태그를 \n으로 변경
 			//	console.log(newLineText);
 				var noTagText = newLineText.replace(/(<([^>]+)>)/ig, "");
 				//모든 태그요소를 제거
-
-								
-								
-/* 			<ul class="list-group">
-  <li class="list-group-item">Cras justo odio</li>
-  <li class="list-group-item">Dapibus ac facilisis in</li>
-  <li class="list-group-item">Morbi leo risus</li>
-  <li class="list-group-item">Porta ac consectetur ac</li>
-  <li class="list-group-item">Vestibulum at eros</li>
-</ul> */					
 
 				var list_group = '<ul class="list-group">';
 				/* ******** 컨트롤러에서 할 일 미리 테스트 ******* */
@@ -146,10 +197,13 @@ $(function(){
 				chapters = noTagText;//가공한 목차 정보
 				//이용자가 책을 선정하면 noTagText를 컨트롤러로 보내서 목차 테이블에 저장
 
-			}//success
+			},
+			'error':function(){
+				swal('error');
+				}//success
+			
 		});//ajax
 
-		//chapters, book_id, title, writer, publisher, pages, category, isbn, translator, title_original, publication_date, revision;
 		/*******  body에 있는 내서재가기 a tag : display none상태-검색된 책누르면 show()  ******/
 		$('#putChapters').on('click', function() {
 			
@@ -194,30 +248,24 @@ $(function(){
 	        });
 	      }//AOS
 	      
-	      
 	      $('.panel-body').hide();//책소개 내용 처음엔 숨김
 	      $('.panel-heading').css('cursor','pointer');
 	      $('.panel-heading').on('click',function(){ //책소개 클릭 시 책소개 내용 Slide down
 				if($(this).find('.triangle').text() == '▷'){
 					
 					$(this).find('.triangle').text('▼');
-				//	$(this).css('border-bottom-left-radius','0px')
-				//		   .css('border-bottom-right-radius','0px')
-				//		   .css('box-shadow','0px');
 					$(this).next().slideDown(500);
 				}else if($(this).find('.triangle').text() == '▼'){
 					
 					$(this).find('.triangle').text('▷');
 					$(this).next().slideUp(500,function(){
-						//$(this).prev().css('border-bottom-left-radius','5px')
-						//			  .css('border-bottom-right-radius','5px')
-						//			  .css('box-shadow','0px');
 					});//slideup
 				}//else
 			})//click
 			
-			
+			$('.mylib-btn').css('text-align','center');//내서재,공부방 버튼 가운데정렬
 	});//ready
+
 </script>
 </head>
 <body>
@@ -227,13 +275,35 @@ $(function(){
 
 	<div class="row">
 		<div class="col-md-3"></div>
+			<div id="book_thumbnail" class="col-xs-12 col-md-6"></div>
+		<div class="col-md-3"></div>
+	<div class="col-md-12 col-xs-12"><br/><br/></div>
+	
+	</div>
+	<div class="row">
+		<div class="col-md-3"></div>
 			<div id="book_detail" class="col-xs-12 col-md-6"></div>
-		<div class="col-md-4"></div>
+		<div class="col-md-3"></div>
+		<div class="col-md-12 col-xs-12 bottom-line"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div id="book_info_carousel" class="col-xs-12 col-md-6">
+			<div class="owl-carousel owl-themeowl-loading owl-loaded">
+				<div class="owl-stage-outer">
+				</div>
+			</div>
+
+
+		</div>
+		<div class="col-md-3"></div>
+		<div class="col-md-12 col-xs-12 bottom-line"></div>
+	
 	</div>
 	<br/>
 		<div class="row">
 	<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6">
+		<div class="col-xs-12 col-md-6 mylib-btn">
 			<a id="putChapters" class="btn btn-default" role="button" href="#">내
 				서재에 담기</a>
 			<a id="" class="btn btn-default" role="button" href="#">공부방 참여하기</a>

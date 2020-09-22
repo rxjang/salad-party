@@ -46,6 +46,7 @@
 			<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED"/>
 			<!-- 다른 메소드에 다른 속성을 부여하고 싶으면 tx:method name="get*" 처럼 이름패턴을 지정하고 원하는 속성부여해 태그 추가 -->
 			<tx:method name="list*" read-only="true"/>
+			<tx:method name="get*" read-only="true"/>
 		</tx:attributes>
 	</tx:advice>
 	

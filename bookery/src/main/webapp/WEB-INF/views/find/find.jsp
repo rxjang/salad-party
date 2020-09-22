@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <html>
 <head>
 	<title>Bookery</title>
@@ -64,10 +63,11 @@ pubdate	datetime	출간일 정보이다.
 			//$('#moveTop').show();//탑 버튼 비활성화
 		}
 		$.ajax('${pageContext.request.contextPath }/find/result', {
-			'method' : 'GET',
-			'data' : 'search=' + $('#search').val()+'&start='+start+'&select='+findOpt,
-			'dataType' : 'json',
-			'success' : function(data) {
+			method : 'GET',
+			data : 'search=' + $('#search').val()+'&start='+start+'&select='+findOpt,
+			dataType : 'json',
+			contentType:'application/json;charset=utf-8',
+			success : function(data) {
 				result = data.items;
 				//console.log(result);
 				//console.log('total = ',data.total);

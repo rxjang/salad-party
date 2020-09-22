@@ -288,3 +288,45 @@ $(function() {
 <%@ include file="../template/footer.jspf" %>
 </body>
 </html>
+<%-- 		ChardJS	<div style="width:75%;margin:0 auto;">
+ 			<canvas id="chartjs-4" style="display:block; height:30%; width:30%;"></canvas> 
+			</div> --%>
+<!-- 	<script type="text/javascript">
+					new Chart(document.getElementById("chartjs-4"), {
+						"type" : "doughnut",
+						"data" : {
+							"labels" : [ "읽은 페이지", "남은 페이지" ],
+							"datasets" : [ {
+							"label" : "My First Dataset",
+							"data" : [ ${v_study.actual_page }, (${v_study.total_pages }-${v_study.actual_page}) ],
+								"backgroundColor" : [ "rgb(73, 101, 77)","rgb(192, 207, 178)" ]
+							} ]
+						},
+					"options": {
+							responsive: false,
+							scales: {
+								
+								yAxes: [{
+									ticks:{
+										fontSize : 0
+									},
+									gridLines:{  display:false
+										//drawOnChartArea: false,
+										//lineWidth: 0
+									}
+								}],
+								xAxes:[{
+									ticks:{
+										fontSize : 0
+									},
+									gridLines:{  display:false
+										//drawOnChartArea: false,
+										//lineWidth: 0
+										}
+								}]
+							}
+					}
+					});
+				
+					
+			</script> -->
