@@ -6,6 +6,7 @@
   "dependencies": {
     "aos": "^2.3.4",
     "bootstrap": "^3.4.1",
+    "chart.js": "^2.9.3",
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {},

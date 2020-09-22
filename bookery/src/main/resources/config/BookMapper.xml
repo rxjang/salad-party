@@ -28,7 +28,7 @@
 		values
 		(#{bid},#{title},#{writer},#{publisher},#{pages},#{category},#{translator},#{titleoriginal},#{publicationdate},#{revision},#{coverurl})
 		on duplicate key update
-		bid=#{bid},title=#{title},publisher=#{publisher},pages=#{pages},category=#{category},
+		bid=#{bid},title=#{title},writer=#{writer},publisher=#{publisher},pages=#{pages},category=#{category},
 		translator=#{translator},titleoriginal=#{titleoriginal},publicationdate=#{publicationdate},revision=#{revision},coverurl=#{coverurl}
 
 	</insert>
