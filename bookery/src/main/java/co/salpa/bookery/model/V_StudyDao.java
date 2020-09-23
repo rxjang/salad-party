@@ -10,7 +10,5 @@ public interface V_StudyDao {
 	
 	List<V_StudyVo> selectAll() throws SQLException;
 	V_StudyVo selectOne(Map<String, Integer> map) throws SQLException;
-  V_StudyVo selectAllByUserId(int key) throws SQLException;
-
-
+	V_StudyVo selectAllByUserId(int key) throws SQLException;
 }
