@@ -10,6 +10,7 @@
 	<typeAlias alias="bookBean" type="co.salpa.bookery.model.entity.BookVo"/>
 	<typeAlias alias="tocBean" type="co.salpa.bookery.model.entity.TocVo"/>
 	<typeAlias alias="studyBean" type="co.salpa.bookery.model.entity.StudyVo"/>
+	<typeAlias alias="userBean" type="co.salpa.bookery.model.entity.UserVo"/>
 
 </typeAliases>
 	
@@ -19,5 +20,6 @@
 		<mapper resource="config/StudyMapper.xml" />
 		<mapper resource="config/TocMapper.xml" />
 		<mapper resource="config/MylibMapper.xml" />
+		<mapper resource="config/UserMapper.xml" />
 	</mappers>
 </configuration>

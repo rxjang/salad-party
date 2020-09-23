@@ -143,6 +143,7 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>  
+		
 		<!-- add libs -->
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
@@ -178,7 +179,6 @@
 			<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
 			<version>1.16</version>
 		</dependency>
-		
 		<!-- jsoup HTML parser library @ https://jsoup.org/ -->
 		<dependency>
 			<groupId>org.jsoup</groupId>

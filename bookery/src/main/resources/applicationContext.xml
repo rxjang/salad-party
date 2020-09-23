@@ -20,7 +20,6 @@
 	<beans:bean id="dataSource"
 		class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
 		p:driverClass="com.mysql.cj.jdbc.Driver"
-
 		p:url="jdbc:mysql://localhost:3306/salpa?useUnicode=true&amp;characterEncoding=utf8&amp;verifyServerCertificate=false&amp;useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"
 		p:username="scott" p:password="tiger" />
 
