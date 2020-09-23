@@ -66,6 +66,7 @@ VIEW `salpa`.`v_study` AS
         `salpa`.`user`.`nickname` AS `nickname`,
         `salpa`.`study`.`book_bid` AS `book_bid`,
         `salpa`.`book`.`title` AS `title`,
+        `book`.`coverurl` AS `coverurl`,
         `salpa`.`study`.`id` AS `study_id`,
         `salpa`.`study`.`createtime` AS `createtime`,
         `salpa`.`study`.`updatetime` AS `updatetime`,

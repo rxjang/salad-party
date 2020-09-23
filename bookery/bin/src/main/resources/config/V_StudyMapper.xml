@@ -11,8 +11,6 @@
 		parameterType="map">
 		select * from v_study where user_id = #{user} and book_bid = #{bid}
 	</select>
-	<select id="selectAllByUserId" resultType="v_studyBean"
-		parameterType="_int">
-		select * from v_study where user_id = #{user}
-	</select>
+
+
 </mapper>
