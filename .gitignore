@@ -1,5 +1,6 @@
 /.metadata/
 
+bin/
 target/
-
+config/*.properties
 
