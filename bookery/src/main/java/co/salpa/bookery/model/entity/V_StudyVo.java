@@ -14,6 +14,7 @@ public class V_StudyVo {
 	private String nickname; // varchar(45)
 	private int book_bid;// int
 	private String title;// varchar(300)
+	private String coverurl;// varchar(300)
 	private int study_id;// int
 	private Date createtime;// datetime
 	private Date updatetime;// datetime
