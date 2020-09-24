@@ -99,7 +99,7 @@ $(function() {
 				<c:forEach items="${nogoalbooklist }" var="bean1">
 				    <div class="item">
 				    	<img class="media-object" src="${bean1.coverurl }" alt="책 이미지">
-				    </div>
+				    </div>	
 				</c:forEach>
 			</div>
 			<span class="glyphicon glyphicon-minus" style="color:#C4DEA4"></span>&nbsp;현재 공부 중인 책들이예요

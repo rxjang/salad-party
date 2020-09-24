@@ -2,4 +2,6 @@
 
 target/
 
+db.properties
+naver.properties
 

@@ -1,6 +1,8 @@
 package co.salpa.bookery.today.service;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import co.salpa.bookery.model.CheckPageDao;
 import co.salpa.bookery.model.V_StudyDao;
+import co.salpa.bookery.model.entity.CheckPageVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
 
 @Transactional
@@ -45,4 +49,19 @@ public class TodayPageServiceImpl implements TodayPageService {
 		return model;
 	}//getV_StudyService
 
-}
+	
+	/**
+	 *  checkpage 테이블에서 study_id와 date를 이용해 업데이트해야하는 레코드를 찾아
+	 *  공부한 페이지 actualpage를 입력한다.
+	 */
+	@Override
+	public void checkPageService(int actualpage, int study_id) throws SQLException {
+		CheckPageDao checkPageDao = sqlSession.getMapper(CheckPageDao.class);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		Date today = Date.valueOf(sdf.format(new java.util.Date()));
+		
+		checkPageDao.updateOne(new CheckPageVo(actualpage, study_id, today, 0));
+	}//checkPageService
+
+}//classEnd

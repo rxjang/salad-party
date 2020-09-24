@@ -22,6 +22,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/owl-carousel/owl.carousel.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/owl-carousel/owl.theme.default.min.css" />
 <script src="${pageContext.request.contextPath }/resources/node_modules/chart.js/dist/Chart.js"></script>
+<script src="${pageContext.request.contextPath }/resources/picker/jquery.ios.picker.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/picker/index.css" />
+
 
 <!-- 
 ***************
@@ -44,6 +47,7 @@
 	13.owl캐러셀 .js
 	14.차트JS  .js
 	15.태그 라이브러리 jstl/functions
+	16.jquery.ios.picker.js, index.css data picker
  
 ***************
  -->
