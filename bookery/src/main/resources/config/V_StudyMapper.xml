@@ -12,7 +12,11 @@
 		select * from v_study where user_id = #{user} and book_bid = #{bid}
 	</select>
 	<select id="selectAllByUserId" resultType="v_studyBean"
-		parameterType="_int">
+		parameterType="int">
 		select * from v_study where user_id = #{user}
+	</select>
+	<select id="selectActiveByUserId" resultType="v_studyBean"
+		parameterType="int">
+		select * from v_study where user_id = #{user} and type is not null and progress_rate &lt; 100
 	</select>
 </mapper>
