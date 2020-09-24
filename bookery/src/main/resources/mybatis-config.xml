@@ -11,6 +11,7 @@
 	<typeAlias alias="tocBean" type="co.salpa.bookery.model.entity.TocVo"/>
 	<typeAlias alias="studyBean" type="co.salpa.bookery.model.entity.StudyVo"/>
 	<typeAlias alias="v_studyBean" type="co.salpa.bookery.model.entity.V_StudyVo"/>
+	<typeAlias alias="checkPageBean" type="co.salpa.bookery.model.entity.CheckPageVo"/>
 
 </typeAliases>
 	
@@ -21,5 +22,6 @@
 		<mapper resource="config/TocMapper.xml" />
 		<mapper resource="config/MylibMapper.xml" />
 		<mapper resource="config/V_StudyMapper.xml" />
+		<mapper resource="config/CheckPageMapper.xml" />
 	</mappers>
 </configuration>
