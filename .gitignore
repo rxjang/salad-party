@@ -2,6 +2,7 @@
 
 bin/
 target/
-config/*.properties
+db.properties
+naver.properties
 
 
