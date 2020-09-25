@@ -5,7 +5,7 @@
 			<ul class="nav">
 				<li><a href="${pageContext.request.contextPath }/mylib">내서재</a></li>
 				<li><a href="${pageContext.request.contextPath }/mylib/award">어워드</a></li>
-				<li><a href="${pageContext.request.contextPath }/mylib/plan">목표 설정</a></li>
+				<li><a href="${pageContext.request.contextPath }/mylib/calendar">스터디캘린더</a></li>
 			</ul>
 		</div>
 	</div>
