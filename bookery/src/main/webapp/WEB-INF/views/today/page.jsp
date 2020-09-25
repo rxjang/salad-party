@@ -5,6 +5,27 @@
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
 <script type="text/javascript">
+	var Dday;
+	var deadLine = "${v_study.enddate}";
+	var doughnut_chart = "${v_study.progress_rate}";
+	var study_id = "${v_study.study_id}";
+	var total_pages = "${v_study.total_pages}";
+	var actual_page = "${v_study.actual_page}";
+	var plan_page = "${v_study.plan_page}";
+	var plan_page_interval = "${plan_interval}"; //오늘 날짜의 actual_page 값이 필요함.
+	var recent_actual_page="${recent_actual_page}";
+	var today_actual_page="${today_actual_page}";
+	var cnt = actual_page; //917
+	//혹시 쓸까봐 일단 전부 선언해둠. 
+	
+	
+	var page_data = new Array(); //pagePicker에 전달할 데이터목록. data를 배열로받음
+	
+	for (var i = 0; i <= total_pages-actual_page; i++){
+		page_data[i]= cnt;
+		cnt++;
+	}//for
+			
 	//오늘 날짜 yyyy-mm-dd
 	function getRecentDate(){
 	    var dt = new Date();
@@ -16,20 +37,6 @@
 	    if(recentDay < 10) recentDay = "0" + recentDay;
 	    return recentYear + "-" + recentMonth + "-" + recentDay;
 	}
-	var Dday;
-	var deadLine = "${v_study.dday}";
-	var doughnut_chart = "${v_study.progress_rate}";
-	var study_id = "${v_study.study_id}";
-	var total_pages = "${v_study.total_pages}";
-	var actual_page = "${v_study.actual_page}";
-	var plan_page = "${v_study.plan_page}";
-	var page_data = new Array(); //pagePicker에 전달할 데이터목록. data를 배열로받음
-	var cnt = actual_page; //917
-	for (var i = 0; i <= total_pages-actual_page; i++){
-		page_data[i]= cnt;
-		cnt++;
-	}//for
-			
 	function pagePicker(){
 		$("#page_picker").picker({
 				  data: page_data, //array type
@@ -40,7 +47,7 @@
 				  $("#page_picker").data("value", s);
 				})
 	}//pagePicker
-		
+	//오늘 공부한 페이지 - 어제까지 actualpage / plan페이지 구간 = 오늘 퍼센트	
 	function todayPage(page){ //페이지 입력 받아서 컨트롤러에 전달
 		location.href='${pageContext.request.contextPath}/today/page/check/${book.bid}';
 		$.ajax({
@@ -52,8 +59,9 @@
 		});//ajax
 	}//today_page
 	
+	
 	/**
-	 * document Ready
+	 * 	document Ready
 	 */
 	$(function() {
 		
@@ -91,42 +99,7 @@
 			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 			}
 		});//owl캐러셀
-		
-		
-		/* 
-		$(this).addClass("class_name");
-		$(this).removeClass("class_name");
-		
-		*/
-/* 		$('#page_form').on('submit',function(){
-			var success_icon =$('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span> ');
-			//$('#page_form input').insertAfter(success_icon);
-			success_icon.insertAfter($('#page_form input'));
-			$('#page_form div').addClass('has-success');
-			location.reload();
-			$.ajax({
-				type:'get',
-				url:'${pageContext.request.contextPath}/today/page/check/${v_study.study_id}',
-				data:'page='+$('#inputSuccess4').val()+'&date='+currentTime,
-				success:function(data){
-					
-					location.href='${pageContext.request.contextPath}/today/page/check?bid=${book.bid}';
-						console.log('${pageContext.request.contextPath}/today/page/check?bid=${book.bid}');
-				},
-				error:function(){
-					swal('error');
-				}
-				//페이지를 받아서 checkpage 테이블에 입력한다.
-				//study_id필요. update checkpage set actualpage = {입력값} where study_id =  {v_study_id.study_id} 
-				//and date = {오늘날짜} and deleted = 0
-				//success >> 결과화면 보여주기.
-			});//ajax
-			
-			
-			return false;	//submit 방지
-		});//submit */
-		
-		
+
 		/**
 		 *	페이지 입력 버튼 누르면 페이지 선택할 수 있는 alert가 나타난다.
 		 */
@@ -156,13 +129,56 @@
 			pagePicker();//total 페이지를 swal에 출력함
 	});//page btn
 	
+	
+	
+	
+	
+	/**
+	 * ---------------------------------------
+	 * This demo was created using amCharts 4.
+	 * 
+	 * For more information visit:
+	 * https://www.amcharts.com/
+	 * 
+	 * Documentation is available at:
+	 * https://www.amcharts.com/docs/v4/
+	 * ---------------------------------------
+	 */
+	$('.progress-bar').each(function() {
+		$(this).css('height','250px');
+		  var min = $(this).attr('aria-valuemin');
+		  var max = $(this).attr('aria-valuemax');
+		  var now = $(this).attr('aria-valuenow');
+		  var siz = (now-min)*100/(max-min);
+		  
+		  //93600 / 1199
+		  $(this).css('width', siz+'%');
+		});
 	});//ready
+	
 </script>
 
 <style type="text/css">
 .media,.owl-item{
 	text-align: center;
 }
+.output{
+	display: none;
+}
+.progress{
+	height: 35px;
+	background-color: #ecece9;
+}
+.progress-bar{
+	font-size:110%;
+	line-height: 35px;
+	background-color: #49654d;
+}
+.btn:hover{
+	border:1px solid #e4e4e4;
+}
+
+
 </style>
 </head>
 <body>
@@ -198,6 +214,14 @@
 								
 				</div>
 			</div>
+				
+			<div class="progress">
+				<div class="progress-bar" role="progressbar" aria-valuenow="${v_study.actual_page }"
+					aria-valuemin="1" aria-valuemax="${v_study.plan_page }" >
+					${v_study.actual_page }</div>
+			</div>
+			<button id="input_page" class="btn btn-default btn-block">페이지 입력</button>
+				<div class="output"></div>
 
 		</div>
 		<div class="col-md-3"></div>
@@ -206,119 +230,61 @@
 	
 	<div class="row">
 		<div class="col-md-3"></div>
-			<div id="book_carousel" class="col-xs-12 col-md-6">
-	
-				<div class="owl-carousel owl-theme owl-loaded">
-					<div class="owl-stage-outer">
-						<div class="owl-stage">
-							<div class="owl-item" id="owl-deadLine">
-								<p><small>목표일</small></p>	
-								<p><span class="caro-cnt" id="owl-year"></span></p>	
-								<p id="owl-monthday"></p>	
-							</div><!-- deadLine -->
-							<div class="owl-item">
-								<p><small>디데이</small></p>	
-								<p><span class="caro-cnt" id="owl-dday"></span></p>	
-								<p><small>&nbsp;</small></p>	
-							</div><!-- D day -->
-							<div class="owl-item" id="owl-pageRate">
-								<p><small>페이지</small></p>	
-								<p><span class="caro-cnt" >${v_study.actual_page}/${v_study.total_pages}</span></p>	
-								<p><small>&nbsp;</small></p>
-							</div><!--내가 공부한 페이지/총페이지 -->
-							<div class="owl-item" id="owl-pageRate">
-								<small id="chart-progress"></small>	
-		 							<canvas id="chartjs-4" style="margin:auto;height:80px;width:80px;">
-		 							</canvas> 
-							</div><!--내가 공부한 페이지/총페이지 ${v_study.progress_rate} -->
+				<div id="book_carousel" class="col-xs-12 col-md-6">
+		
+					<div class="owl-carousel owl-theme owl-loaded">
+						<div class="owl-stage-outer">
+							<div class="owl-stage">
+								<div class="owl-item" id="owl-deadLine">
+									<p><small>목표일</small></p>	
+									<p><span class="caro-cnt" id="owl-year"></span></p>	
+									<p id="owl-monthday"></p>	
+								</div><!-- deadLine -->
+								<div class="owl-item">
+									<p><small>디데이</small></p>	
+									<p><span class="caro-cnt" id="owl-dday"></span></p>	
+									<p><small>&nbsp;</small></p>	
+								</div><!-- D day -->
+								<div class="owl-item">
+									<p><small>오늘의 진도</small></p>	
+									<p><span class="caro-cnt">${v_study.plan_page }</span></p>	
+									<p><small>페이지</small></p>	
+								</div><!-- plan -->
+								<div class="owl-item" id="owl-pageRate">
+									<p><small>현황</small></p>	
+									<p><span class="caro-cnt" >${v_study.actual_page}/${v_study.total_pages}</span></p>	
+									<p><small>페이지</small></p>
+								</div><!--내가 공부한 페이지/총페이지 -->
+								<!-- <div class="owl-item" id="owl-pageRate">
+									<small id="chart-progress"></small>	
+			 							<canvas id="chartjs-4" style="margin:auto;height:80px;width:80px;">
+			 							</canvas> 
+								</div>내가 공부한 페이지/총페이지 ${v_study.progress_rate}
+								</div> -->
 							</div>
 						</div>
-					</div>
-	
+		
+				</div>
 			</div>
 			<div class="col-md-3"></div>
-			<div class="col-xs-12 col-md-12 bottom-line"></div>
-		</div>
-		
-	
-	<div class="row">
-		<div class="col-md-3"></div>
-			<div id="page_check" class="col-xs-12 col-md-6">
-		<p class="lead">${v_study.actual_page }페이지까지 읽었습니다.</p>
-		<p class="lead">${v_study.success_rate }%</p>
-		<p class="lead">오늘의 목표&nbsp;<strong>${v_study.plan_page }</strong>페이지</p>
-<%-- 
-		<form action="#" id="page_form" class="form-inline">
-			<div class="form-group has-feedback input-group">
-			<!--  <label class="control-label" for="inputSuccess4">페이지</label> -->
-			  <span class="input-group-addon">page</span>
-				<input type="text" class="form-control" id="inputSuccess4" 
-				placeholder="${v_study.actual_page } / ${v_study.plan_page }" aria-describedby="inputSuccess4Status"> 
-				<!-- 	<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"> -->
-					<span id="inputSuccess4Status" class="sr-only">(success)</span>
-				
-			
-			</div>
-		</form>
- --%>
-		</div>
-		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-12">
+			<!-- <div class="col-xs-12 col-md-12 bottom-line"></div> -->
 
-		<button id="input_page" class="btn btn-default">페이지 입력</button>
-
-
-			<div class="output"></div><!-- test -->
-		</div>
-			
 	</div>
-	
+
+
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-xs-12 col-md-6">
+				
+				<!-- test -->
+			</div>
+
+			<div class="col-md-3"></div>
+
+		</div>
+
 
 	<!--**********content end**********-->
 	<%@ include file="../template/footer.jspf"%>
-
-	<script type="text/javascript">
-					new Chart(document.getElementById("chartjs-4"), {
-						type : "doughnut",
-						data : {
-							//"labels" : [ "읽은 페이지", "남은 페이지" ],
-							datasets : [ {
-							//"label" : "My First Dataset",
-							data : [ ${v_study.actual_page }, (${v_study.total_pages }-${v_study.actual_page}) ],
-								"backgroundColor" : [ "rgb(73, 101, 77)","rgb(192, 207, 178)" ]
-							} ]//dataset
-						},//data
-					options: {
-							maintainAspectRatio: false,
-							responsive: false,
-							tooltips: {
-				                   enabled: false
-							 },
-							scales: {
-								
-								yAxes: [{
-									ticks:{
-										fontSize : 0
-									},
-									gridLines:{  display:false
-										//drawOnChartArea: false,
-										//lineWidth: 0
-									}
-								}],
-								xAxes:[{
-									ticks:{
-										fontSize : 0
-									},
-									gridLines:{  display:false
-										//drawOnChartArea: false,
-										//lineWidth: 0
-										}
-								}]
-							}
-					}//option
-					});//chart js
-				
-					
-			</script>
 </body>
 </html>

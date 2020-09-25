@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@amcharts/amcharts4": "^4.10.4",
     "aos": "^2.3.4",
     "bootstrap": "^3.4.1",
     "chart.js": "^2.9.3",

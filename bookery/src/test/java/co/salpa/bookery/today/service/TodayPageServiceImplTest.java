@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
@@ -67,6 +70,16 @@ public class TodayPageServiceImplTest {
 		
 		
 		System.out.println(today);
+		
+		Calendar cal = new GregorianCalendar(Locale.KOREA);
+		cal.setTime(today);
+		cal.add(Calendar.DATE, -1);
+		//SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		String yesterday =sdf.format(cal.getTime());
+		
+		System.out.println(yesterday);
+		
+		
 //		CheckPageVo bean = new CheckPageVo(34, 920, 909, 3, today, 0);
 //		System.out.println(bean);
 //		dao.updateOne(bean);

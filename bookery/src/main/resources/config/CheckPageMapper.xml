@@ -6,13 +6,36 @@
 <mapper namespace="co.salpa.bookery.model.CheckPageDao">
 
 	<select id="selectAll" resultType="checkPageBean">
-		select * from checkpage
+		select * from salpa.checkpage
 	</select>
 
+	<select id="selectOneByStudyId" resultType="checkPageBean"
+		parameterType="map">
+		select * from salpa.checkpage where id = #{id} and
+		study_id =
+		#{study_id}
+	</select>
+
+	<select id="selectOneByDate" resultType="checkPageBean"
+		parameterType="map">
+		select * from salpa.checkpage where study_id =
+		#{study_id} and
+		date = #{date}
+	</select>
+
+
+	<select id="selectRecentChecked" resultType="checkPageBean">
+		select * from
+		salpa.checkpage where date &gt; now() and date = (select max(date) from
+		salpa.checkpage where actualpage is not null)
+	</select>
+
+
 	<update id="updateOne" parameterType="checkPageBean">
-		update checkpage set
+		update salpa.checkpage set
 		actualpage=#{actualpage} where date = #{date} and
-		study_id=${study_id} and deleted = 0
+		study_id=#{study_id}
+		and deleted = 0
 	</update>
 
 </mapper>
