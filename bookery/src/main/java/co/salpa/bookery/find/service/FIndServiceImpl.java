@@ -104,7 +104,7 @@ public class FIndServiceImpl implements FindService {
 		requestHeaders.put("X-Naver-Client-Id", client);
 		requestHeaders.put("X-Naver-Client-Secret", secret);
 		String responseBody = get(apiURL, requestHeaders);// 네이버북 검색결과 페이지 내용을 responseBody에 담음
-
+		
 		return responseBody;
 	}// searchService
 
@@ -190,6 +190,7 @@ public class FIndServiceImpl implements FindService {
 			e.printStackTrace();
 		}
 		// System.out.println(doc);
+	//	String json = "{\"crawling\":"+doc+"}";
 		return doc;
 	}// crawlingService
 
@@ -287,11 +288,16 @@ public class FIndServiceImpl implements FindService {
 		model.addAttribute("most_list",list);
 		return model;
 	}
+	
+	/**
+	 *  DB에 저장되어 있는 책 정보 받아오기. bid 사용
+	 */
 	@Override
-	public void detailService() throws SQLException {
-		// TODO Auto-generated method stub
-
-	}//
+	public Model getBookService(int bid, Model model) throws SQLException {
+		BookDao bookDao = sqlsession.getMapper(BookDao.class);
+		model.addAttribute("book", bookDao.selectOne(bid));
+		return model;
+	}//detailService
 
 	@Override
 	public void updateService() throws SQLException {
@@ -304,6 +310,5 @@ public class FIndServiceImpl implements FindService {
 		// TODO Auto-generated method stub
 
 	}//
-
 
 }// ClassEnd

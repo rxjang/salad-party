@@ -15,10 +15,21 @@
 		select * from study where book_bid=#{book_bid}
 	</select>
 
+	<select id="selectOneByUserId" resultType="studyBean"
+		parameterType="_int">
+		select * from study where user_id=#{user_id}
+	</select>
+
 	<insert id="insertOne" parameterType="studyBean">
 		insert into study
 		(book_bid, user_id) values (#{book_bid},#{user_id})
-
 	</insert>
 
+	<update id="updateTypeChap" parameterType="_int">
+		update salpa.study set type='chap' where study.id=#{id}
+	</update>
+
+	<update id="updateTypePage" parameterType="_int">
+		update salpa.study set type='page' where study.id=#{id}
+	</update>
 </mapper>

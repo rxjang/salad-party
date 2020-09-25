@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="co.salpa.bookery.model.V_StudyDao">
+	<select id="selectAll" resultType="v_studyBean">
+		select * from v_study
+	</select>
+	<select id="selectOne" resultType="v_studyBean"
+		parameterType="map">
+		select * from v_study where user_id = #{user} and book_bid = #{bid}
+	</select>
+	<select id="selectOneByStudyId" resultType="v_studyBean"
+		parameterType="int">
+		select * from v_study where study_id = #{study_id}
+	</select>
+	<select id="selectAllByUserId" resultType="v_studyBean"
+		parameterType="int">
+		select * from v_study where user_id = #{user}
+	</select>
+	<select id="selectActiveByUserId" resultType="v_studyBean"
+		parameterType="int">
+		select * from v_study where user_id = #{user} and type is not null and progress_rate &lt; 100
+	</select>
+</mapper>
