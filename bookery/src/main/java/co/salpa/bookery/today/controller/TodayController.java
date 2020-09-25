@@ -15,14 +15,12 @@ public class TodayController {
 	@Autowired
 	TodayService todayService;
 	
-	@RequestMapping("/today") // 오늘 페이지로 이동
-	public String today(int idx,Model model) {
+	@RequestMapping("/today/{user_id}") // 오늘 페이지로 이동
+	public String today(int user_id,Model model) {
 		try {
-			todayService.listTodayStudiesService(idx, model);
-			//idx : user_id 받아야함.
+			todayService.listTodayStudiesService(user_id, model);
 			//현재 진행중인 스터디 목록 "studies" 목록 반환
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "/today/today"; // today폴더아래 today.jsp
