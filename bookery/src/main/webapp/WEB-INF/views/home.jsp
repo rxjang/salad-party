@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <html>
 <head>
 	<title>Bookery</title>
@@ -11,6 +10,10 @@
 	<!-- **********content start**********--> 
 <div class="row">
 	<div class="col-xs-12 col-md-12">
+	<c:if test="${user ne null}">
+	<h3>${user.name }님 로그인 하셨습니다.</h3>
+	</c:if>
+	<br/>
 	1<br/>
 	1<br/>
 	1<br/>

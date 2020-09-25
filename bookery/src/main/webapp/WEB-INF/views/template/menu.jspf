@@ -22,10 +22,18 @@
 	         <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
 	     </a>
 	     <ul class="dropdown-menu" role="menu">
-	       <li><a href="#">내 정보</a></li>
+	       <c:if test="${user ne null}">
+	       <li><a href="${pageContext.request.contextPath }/account/update">내 정보</a></li>
 	       <li role="separator" class="divider"></li>
-	       <li><a href="#">로그아웃</a></li>
-	       </ul>
+	       <li><a href="${pageContext.request.contextPath }/account/logout">로그아웃</a></li>
+	       </c:if>
+	       
+	       <c:if test="${user eq null}">
+	       <li><a href="${pageContext.request.contextPath }/account/login">내 정보</a></li>
+	       <li role="separator" class="divider"></li>
+	       <li><a href="${pageContext.request.contextPath }/account/login">로그인</a></li>
+	       </c:if>
+	     </ul>
 		</div>
 	</div><!-- #menu end -->
 	<div class="main">
