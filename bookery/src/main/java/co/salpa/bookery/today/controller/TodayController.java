@@ -16,11 +16,11 @@ public class TodayController {
 	TodayService todayService;
 	
 	@RequestMapping("/today") // 오늘 페이지로 이동
-	public String today(Model model) {
+	public String today(int idx,Model model) {
 		try {
-//			todayService.listTodayStudiesService(user_id, model);
-			todayService.listTodayStudiesService(2, model);//로그인 구현까지 임시로 번호 입력해
-			//user_id에 해당하는 active "studies" 목록 넘겨줌
+			todayService.listTodayStudiesService(idx, model);
+			//idx : user_id 받아야함.
+			//현재 진행중인 스터디 목록 "studies" 목록 반환
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
