@@ -12,7 +12,7 @@ import co.salpa.bookery.mylib.service.MylibCalendarService;
 import co.salpa.bookery.mylib.service.MylibPlanService;
 
 @Controller
-public class MylibCalendarConroller {
+public class MylibCalendarController {
 
 	@Autowired
 	MylibCalendarService mylibCalendarService;
@@ -20,6 +20,6 @@ public class MylibCalendarConroller {
 	@RequestMapping("/mylib/calendar/{study_id}")
 	public String calendar(@PathVariable int study_id,Model model) throws SQLException {
 		mylibCalendarService.selectStudyService(study_id,model);
-		return "/mylib/plan";
+		return "/mylib/calendar";
 	}
 }

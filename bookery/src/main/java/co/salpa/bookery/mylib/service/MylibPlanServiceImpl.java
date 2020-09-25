@@ -23,7 +23,7 @@ public class MylibPlanServiceImpl implements MylibPlanService {
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
 		V_StudyVo v_studyVo=v_studyDao.selectOneByStudyId(study_id);
 		model.addAttribute("v_study", v_studyVo);
-		return null;
+		return model;
 	}
 	
 //	@Override
