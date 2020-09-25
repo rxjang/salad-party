@@ -8,19 +8,19 @@
 </head>
 <body>
 <%@ include file="../template/menu.jspf" %>
-	<!-- **********content start**********--> 
+	<!-- **********content start**********-->
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 	<h2>오늘의 기록</h2>
 	<h3>오늘까지의 여정</h3>
 	<div>
-		${user.nickname }님은 ${fn:length(studies)}가지 스터디를 진행중입니다. 
+		${user.nickname }님은 ${fn:length(studies)}가지 스터디를 진행중입니다.
 	</div>
 		<c:forEach items="${studies }" var="study">
 			<div class="item">
 				<img class="meta-object" src="${study.coverurl }" />
 				${study.book_bid}
-			</div>		
+			</div>
 <!-- 			<div> -->
 <!-- 			오늘활동 요약 (컬러코딩된 이모티콘) 옆으로 설명 -->
 <!-- 			- 오늘 목표를 모두 달성했어요 (Green) -->
@@ -58,10 +58,10 @@
 		</c:forEach>
 	
 	<div>
-	화면 하단 고정 버튼 : 
+	화면 하단 고정 버튼 :
 	입력전이면 : 오늘의 공부 입력하러 가기
 	입력했으면 : 버튼 불활성화
-	입력할 목표가 없으면 : ??? 
+	입력할 목표가 없으면 : ???
 	</div>
 	
 	
