@@ -1,14 +1,15 @@
 package co.salpa.bookery.model;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.dao.DataAccessException;
 
 import co.salpa.bookery.model.entity.CheckPageVo;
 
 public interface CheckPageDao {
-
-	List<CheckPageDao> selectAll() throws SQLException;
+	
+	List<CheckPageDao> selectAll() throws DataAccessException;
 
 	CheckPageVo selectRecentChecked() throws SQLException;
 
@@ -16,6 +17,8 @@ public interface CheckPageDao {
 
 	CheckPageVo selectOneByDate(Map<String, String> map) throws SQLException;
 
-	int updateOne(CheckPageVo page) throws SQLException;
-
+	void insertOne(CheckPageVo bean) throws DataAccessException;
+	
+	int updateOne(CheckPageVo page) throws DataAccessException;
+	
 }

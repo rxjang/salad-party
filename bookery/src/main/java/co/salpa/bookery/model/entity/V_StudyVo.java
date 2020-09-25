@@ -16,6 +16,7 @@ public class V_StudyVo {
 	private String title;// varchar(300)
 	private String coverurl;// varchar(300)
 	private int study_id;// int
+	private int pages;
 	private Date createtime;// datetime
 	private Date updatetime;// datetime
 	private Date startdate;// date
