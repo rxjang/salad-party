@@ -72,7 +72,6 @@ VIEW `salpa`.`v_study` AS
         `salpa`.`study`.`updatetime` AS `updatetime`,
         `salpa`.`study`.`startdate` AS `startdate`,
         `salpa`.`study`.`enddate` AS `enddate`,
-        `salpa`.`study`.`dday` AS `dday`,
         `salpa`.`study`.`memo` AS `memo`,
         `salpa`.`study`.`type` AS `type`,
         `v_checkchap_plan_cnt`.`plan_cnt` AS `plan_cnt`,

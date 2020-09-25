@@ -11,7 +11,7 @@
 <body>
 <%@ include file="../template/menu.jspf" %>
 <%@ include file="../template/mylib-menu.jspf" %>
-	<!-- **********content start**********--> 
+	<!-- **********content start**********-->
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 	<h2>목표설정</h2>
@@ -54,9 +54,6 @@
 		  </div>
 		  <div class="col-md-2"></div>
 		</div>
-	
-	</div>
-	
 	</div>
 </div>
 	<!--**********content end**********-->

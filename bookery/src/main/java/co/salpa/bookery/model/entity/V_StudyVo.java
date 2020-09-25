@@ -20,7 +20,6 @@ public class V_StudyVo {
 	private Date updatetime;// datetime
 	private Date startdate;// date
 	private Date enddate;// date
-	private Date dday;// date
 	private String memo;// text
 	private String type;// varchar(4)
 	private int plan_cnt;// bigint
