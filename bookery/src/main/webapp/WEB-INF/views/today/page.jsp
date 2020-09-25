@@ -174,9 +174,6 @@
 	line-height: 35px;
 	background-color: #49654d;
 }
-.btn:hover{
-	border:1px solid #e4e4e4;
-}
 
 
 </style>
