@@ -11,6 +11,10 @@
 		parameterType="map">
 		select * from v_study where user_id = #{user} and book_bid = #{bid}
 	</select>
+	<select id="selectOneByStudyId" resultType="v_studyBean"
+		parameterType="int">
+		select * from v_study where study_id = #{study_id}
+	</select>
 	<select id="selectAllByUserId" resultType="v_studyBean"
 		parameterType="int">
 		select * from v_study where user_id = #{user}

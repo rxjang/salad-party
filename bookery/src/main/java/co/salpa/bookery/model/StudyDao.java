@@ -12,4 +12,8 @@ public interface StudyDao {
 	StudyVo selectOne(int key) throws SQLException;
 
 	void insertOne(StudyVo bean) throws SQLException;
+
+	StudyVo updateTypeChap(int study_id);
+
+	StudyVo updateTypePage(int study_id);
 }

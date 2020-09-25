@@ -25,4 +25,3 @@ public class TodayServiceImpl implements TodayService {
 		return model;
 	}
 }
-//왜 안올라가지?
