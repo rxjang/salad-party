@@ -24,7 +24,11 @@
 <script src="${pageContext.request.contextPath }/resources/node_modules/chart.js/dist/Chart.js"></script>
 <script src="${pageContext.request.contextPath }/resources/picker/jquery.ios.picker.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/picker/index.css" />
-
+<script src="${pageContext.request.contextPath }/resources/amcharts4/core.js"></script>
+<script src="${pageContext.request.contextPath }/resources/amcharts4/charts.js"></script>
+<script src="${pageContext.request.contextPath }/resources/amcharts4/plugins/timeline.js"></script>
+<script src="${pageContext.request.contextPath }/resources/amcharts4/plugins/bullets.js"></script>
+<script src="${pageContext.request.contextPath }/resources/amcharts4/themes/animated.js"></script>
 <!-- 
 ***************
 	--선언 목록--
@@ -47,6 +51,7 @@
 	14.차트JS  .js
 	15.태그 라이브러리 jstl/functions
 	16.데이터 피커 data picker js css
+	17.am chart : core chart timeline bullets animated
  
 ***************
  -->

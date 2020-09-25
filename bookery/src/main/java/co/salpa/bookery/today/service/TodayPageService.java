@@ -2,6 +2,7 @@ package co.salpa.bookery.today.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.ui.Model;
 
@@ -14,5 +15,9 @@ public interface TodayPageService {
 	Model getV_StudyService(int user_id, int bid, Model modsel) throws SQLException;
 
 	void checkPageService(int actualpage, int study_id) throws SQLException;
+	
+	Model getTodayProgress(Model model, int study_id) throws SQLException;
+	
+	
 	
 }
