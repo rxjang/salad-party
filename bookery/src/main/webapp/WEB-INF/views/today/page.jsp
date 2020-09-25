@@ -17,7 +17,7 @@
 	    return recentYear + "-" + recentMonth + "-" + recentDay;
 	}
 	var Dday;
-	var deadLine = "${v_study.dday}";
+	var deadLine = "${v_study.enddate}";
 	var doughnut_chart = "${v_study.progress_rate}";
 	var study_id = "${v_study.study_id}";
 	var total_pages = "${v_study.total_pages}";
