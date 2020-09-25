@@ -23,4 +23,22 @@
 		parameterType="int">
 		select * from v_study where user_id = #{user} and type is not null and progress_rate &lt; 100
 	</select>
+	<select id="selectNoGoalBook" resultType="v_studyBean" parameterType="_int">
+ 		select * from v_study where type is null and user_id=#{id}
+ 	</select>
+ 	<select id="countNoGoalBook" resultType="Integer" parameterType="_int">
+ 		select count(*) from (select title from v_study where type is null and user_id=#{id})c
+ 	</select>
+ 	<select id="selectStudyingBook" resultType="v_studyBean" parameterType="_int">
+ 		select * from v_study where type is not null and progress_rate &lt; 100 and user_id=#{id}
+ 	</select>
+ 	<select id="countStudyingBook" resultType="Integer" parameterType="_int">
+ 		select count(*) from (select title from v_study where progress_rate &lt; 100 and type is not null and user_id=#{id})c
+ 	</select>
+ 	<select id="selectFinishedBook" resultType="v_studyBean" parameterType="_int">
+ 		select * from v_study where progress_rate=100 and user_id=#{id}
+ 	</select>
+ 	<select id="countFinishedBook" resultType="Integer" parameterType="_int">
+ 		select count(*) from (select title from v_study where progress_rate = 100 and user_id=#{id})c
+ 	</select>
 </mapper>
