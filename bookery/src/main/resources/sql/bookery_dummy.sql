@@ -14,11 +14,7 @@ insert into salpa.award(awarddate,medal_id,user_id) values ('2020-09-20',2,1);
 insert into salpa.award(awarddate,medal_id,user_id) values ('2020-10-30',3,1);
 commit;
 insert into salpa.book(bid,title,writer,publisher,pages,category,translator,titleoriginal,revision,publicationdate,coverurl) values (11594,'인물로 본 현대물리학사','','',300,'','','','',null,'');
-<<<<<<< HEAD
-insert into salpa.book(bid,title,writer,publisher,pages,category,translator,titleoriginal,revision,publicationdate,coverurl) values (78743,'고체역학 컴퓨터원용','','',350,'','','','',null,'');
-=======
 insert into salpa.book(bid,title,writer,publisher,pages,category,translator,titleoriginal,revision,publicationdate,coverurl) values (78743,'고체역학 컴퓨터원용','','',350,'','','','',null,'');
->>>>>>> ruixian
 insert into salpa.book(bid,title,writer,publisher,pages,category,translator,titleoriginal,revision,publicationdate,coverurl) values (1579908,'스타벅스','하워드 슐츠','김영사',372,'경제/경영','홍순명','','','1999-06-04','https://bookthumb-phinf.pstatic.net/cover/015/799/01579908.jpg?type=m140&udate=20101028');
 insert into salpa.book(bid,title,writer,publisher,pages,category,translator,titleoriginal,revision,publicationdate,coverurl) values (6060216,'하모니 실크 팩토리','','작가정신',536,'소설','황보석','(The)harmony silk factory','','2009-08-30','https://bookthumb-phinf.pstatic.net/cover/060/602/06060216.jpg?type=m140&udate=20120729');
 insert into salpa.book(bid,title,writer,publisher,pages,category,translator,titleoriginal,revision,publicationdate,coverurl) values (6245407,'재료과학','WILLIAM D. CALLISTER JR','한티미디어',985,'잡지','김광수, 김영호, 김하영','FUNDAMENTALS OF MATERIALS SCIENCE AND ENGINEERING: An Integrated Appro','개정 3판','2010-03-01','https://bookthumb-phinf.pstatic.net/cover/062/454/06245407.jpg?type=m140&udate=20141122');

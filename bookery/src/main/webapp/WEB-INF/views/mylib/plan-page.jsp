@@ -46,7 +46,7 @@
 var pagechoice;
 var content;
 $(function() {
-$("#datepicker").datepicker({
+$(".datepicker").datepicker({
 	language: 'ko'
 }); 
 	$('.page-choice').each(function(){
@@ -80,11 +80,11 @@ $("#datepicker").datepicker({
 		<div class="page-main-inner">
 			<div class="book-info">
 				<div class="book-image-box">
-					<img class="book-image" src="#" alt="책 이미지">
+					<img class="book-image" src="${v_study.coverurl }" alt="책 이미지">
 				</div>
 				<div class="book-info-detail">
-					<h4>book title</h4>
-					<h5>본 책은 총 <strong>456</strong>페이지 입니다</h5>
+					<h4>${v_study.title}</h4>
+					<h5>본 책은 총 <strong>${v_study.total_pages}</strong>페이지 입니다</h5>
 				</div>
 			</div><!-- .book-info end -->
 			<div class="page-content">
@@ -94,14 +94,10 @@ $("#datepicker").datepicker({
 			 	<label for="by-date">끝나는 날 지정</label>
 			 	
 				<div class="number-of-pages">
-				<div>
-			        단일 달력<br />
-			        <input type="text" id="datepicker">
-			    </div><br /><br /><br />
+				
 				</div>
 				
 				<div class="page-enddate">
-					
 				</div>
 				
 			</div>

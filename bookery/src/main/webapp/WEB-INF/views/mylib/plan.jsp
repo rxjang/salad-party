@@ -33,8 +33,7 @@
 		      <div class="caption">
 		        <h3>챕터 중심</h3>
 		        <p>하루에 끝내길 원하는 챕터의 수를 중심으로 목표를 수립하는 방식</p>
-		        <form method="post" action="${pageContext.request.contextPath }/mylib/plan/edit/${v_study.study_id}">
-		        	<input type="hidden" name="_method" value="put" />
+		        <form action="${pageContext.request.contextPath }/mylib/plan/edit/${v_study.study_id}">
 			        <button type="submit" class="btn btn-primary btn-block">챕터 중심으로 목표설정하러가기</button>
 					<!-- 여기서 update안하기로 함. put 안해도 될 듯 -->
 		        </form>
@@ -47,8 +46,7 @@
 		      <div class="caption">
 		        <h3>페이지 중심</h3>
 		        <p>하루에 끝내길 원하는 페이지 수를 중심으로 목표를 수립하는 방식</p>
-		        <form method="post" action="${pageContext.request.contextPath }/mylib/plan/page/${v_study.study_id}">
-		        	<input type="hidden" name="_method" value="put" />
+		        <form action="${pageContext.request.contextPath }/mylib/plan/page/${v_study.study_id}">
 			        <button type="submit" class="btn btn-primary btn-block">페이지 중심으로 목표설정하러가기</button>
 		        </form>
 		      </div>
