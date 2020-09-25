@@ -19,18 +19,13 @@ public class MylibController {
 	
 	@RequestMapping
 	public String myLib(Model model) throws DataAccessException {
-		mylibService.listNoGoalBookService(model);
-		mylibService.listStudyingBookService(model);
-		mylibService.listFinishedBookService(model);
-		mylibService.countNoGoalBookService(model);
-		mylibService.countStudyingBookService(model);
-		mylibService.countFinishedBookService(model);
+		mylibService.myLibService(model);
 		return "mylib/mylib";
 	}
 	
-	@RequestMapping("/plan-page")
-	public String mylibPlanPage() {
-		
-		return "mylib/plan-page";
-	}
+//	@RequestMapping("/plan/page")
+//	public String mylibPlanPage() {
+//		
+//		return "mylib/plan-page";
+//	}
 }

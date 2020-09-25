@@ -4,6 +4,9 @@
 <head>
 	<title>Bookery</title>
 <%@ include file="../template/head.jspf" %>
+<link href="${pageContext.request.contextPath }/resources/css/datepicker.min.css" rel="stylesheet" type="text/css" media="all">
+<script src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script> <!-- Air datepicker js -->
+<script src="${pageContext.request.contextPath }/resources/js/i18n/datepicker.ko.js"></script>
 <style type="text/css">
 	.plan-page-main>h3{
 		position:relative;
@@ -37,8 +40,34 @@
     .page-content{
     	float:left;
     }
+    
 </style>
 <Script type="text/javascript">
+var pagechoice;
+var content;
+$(function() {
+$("#datepicker").datepicker({
+	language: 'ko'
+}); 
+	$('.page-choice').each(function(){
+		$(this).on('click',function(){
+			pagechoice = $(":input:radio[name=page-choice]:checked").val();
+			console.log(pagechoice);
+			if(pagechoice=='by-page'){
+				content='<label for="startdate">시작날짜</label><input type="date" name="startdate"/><br/>';
+				content +='<label for="page">공부할 양</label><input type="text" name="page"/>';
+				$('.number-of-pages').append(content);
+				$('.page-enddate').children().remove()
+			}else if(pagechoice=='by-date'){
+				content='<label for="startdate">시작날짜</label><input type="date" name="startdate"/><br/>';
+				content +='<label for="enddate">끝나는 날짜</label><input type="date" name="enddate"/><br/>';
+				$('.page-enddate').append(content);
+				$('.number-of-pages').children().remove()
+			}//if
+		});//click
+	});//each
+	
+});//ready
 </Script>
 </head>
 <body>
@@ -59,12 +88,22 @@
 				</div>
 			</div><!-- .book-info end -->
 			<div class="page-content">
+				<input type="radio" id="by-page" name="page-choice" value="by-page" class="page-choice">
+			 	<label for="by-page">공부할 양 지정</label>
+				<input type="radio" id="by-date" name="page-choice" value="by-date" class="page-choice">
+			 	<label for="by-date">끝나는 날 지정</label>
+			 	
 				<div class="number-of-pages">
-					하루에 공부 해야할 양 설정
+				<div>
+			        단일 달력<br />
+			        <input type="text" id="datepicker">
+			    </div><br /><br /><br />
 				</div>
+				
 				<div class="page-enddate">
-					끝나는 날짜로 하루에 공부해야할 양 지정
+					
 				</div>
+				
 			</div>
 		</div><!-- .page-main-inner end -->
 	</div><!-- .plan-page-main end -->
