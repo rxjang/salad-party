@@ -92,7 +92,7 @@ pubdate	datetime	출간일 정보이다.
 					*/
 					content += '<div id="scrollMove'+scrollMove_cnt+'" class="media" data-aos="fade-up"><div class="media-left media-middle">'
 					content += '<a class="bid"  href="' + result[i].link + '">'  
-					content += '<img class="media-object" src="' + result[i].image + '" alt="loading fail">'    
+					content += '<img class="media-object img-rounded" src="' + result[i].image + '" alt="loading fail">'    
 					content += '</a></div>'   
 					content += '<div class="media-body">' 
 					content += '<h4 class="media-heading">' + result[i].title + '</h4>' 
@@ -173,7 +173,7 @@ pubdate	datetime	출간일 정보이다.
 					items:5
 				},
 				1200 : {
-					items:8
+					items:7
 				}
 			}
 		});//owl캐러셀
@@ -243,6 +243,10 @@ pubdate	datetime	출간일 정보이다.
 .media-object{
 	width:120px;
 }
+.owl-item img, .bid img{
+	box-sizing:border-box;
+	box-shadow:#e4e4e4 2px 2px 5px;
+}
 
 </style>
 </head>
@@ -310,7 +314,7 @@ pubdate	datetime	출간일 정보이다.
 				<div class="owl-stage-outer" >
 					<div class="owl-stage owl-refresh" >
 					<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
-					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'><img alt="image loading fail" src="${bean.coverurl }"></a></div>
+					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'><img class="img-rounded" alt="image loading fail" src="${bean.coverurl }"></a></div>
 					</c:forEach>
 					</div>
 				</div>

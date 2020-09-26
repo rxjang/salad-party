@@ -90,7 +90,7 @@
 		
 		$('.owl-stage-outer').owlCarousel({
 			items:4,
-			loop : true,
+			loop : false,
 			autoplay : false,
 			dots:false,
 			margin : 5,
