@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import co.salpa.bookery.account.AccountService;
+import co.salpa.bookery.account.service.AccountService;
 import co.salpa.bookery.model.entity.UserVo;
 
 @Controller
@@ -34,7 +34,6 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public String login(HttpSession session, HttpServletResponse resp, @RequestParam("email") String email, @RequestParam("password") String password) throws SQLException {
 	public String login(HttpSession session, HttpServletResponse resp, @ModelAttribute UserVo bean) 
 			throws SQLException {
 
@@ -52,7 +51,6 @@ public class LoginController {
 		}
 		else {
 			try{
-//				resp.setContentType("application / json; charset = utf-8");
 				resp.getWriter().write("{\"result\":\"fail\"}");
 			} catch (IOException e) {
                 e.printStackTrace();

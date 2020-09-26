@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import co.salpa.bookery.account.AccountService;
+import co.salpa.bookery.account.service.AccountService;
 import co.salpa.bookery.model.entity.UserVo;
 
 @Controller
