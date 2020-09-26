@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+<typeAliases>
+	<typeAlias alias="bookBean" type="co.salpa.bookery.model.entity.BookVo"/>
+	<typeAlias alias="tocBean" type="co.salpa.bookery.model.entity.TocVo"/>
+	<typeAlias alias="studyBean" type="co.salpa.bookery.model.entity.StudyVo"/>
+	<typeAlias alias="v_studyBean" type="co.salpa.bookery.model.entity.V_StudyVo"/>
+
+</typeAliases>
+	
+
+	<mappers>
+		<mapper resource="config/BookMapper.xml" />
+		<mapper resource="config/StudyMapper.xml" />
+		<mapper resource="config/TocMapper.xml" />
+		<mapper resource="config/MylibMapper.xml" />
+		<mapper resource="config/V_StudyMapper.xml" />
+	</mappers>
+</configuration>

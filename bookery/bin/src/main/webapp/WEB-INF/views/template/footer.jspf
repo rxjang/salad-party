@@ -1,0 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    </div>
+	<div class="row" id="footer">
+		<div class="col-xs-12 col-md-12">
+		<div class="footer-content">
+			<div class="footer-title">Bookery</div><br/>
+			<small>Copyright &copy; 2020 Salad-party All rights reserved.</small>
+		</div>
+		</div>
+	</div>
+</div><!-- #container-fluid end -->

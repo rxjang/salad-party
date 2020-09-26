@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="co.salpa.bookery.model.UserDao">
+  	<select id="selectAll" resultType="userBean">
+		select * from user where deleted=0
+	</select>
+  	<select id="selectOne" resultType="userBean" parameterType="_int">
+  		select * from user where deleted=0 and id=#{value}
+  	</select>
+  	<insert id="insertOne" parameterType="userBean">
+  		insert into user(email, name, password, nickname, createtime, tel) values
+  		(#{email}, #{name}, #{password}, #{nickname}, now(), #{tel})
+  	</insert>
+  	<update id="updateOne" parameterType="userBean">
+  		update user set name=#{name}, password=#{password}, nickname=#{nickname}, tel=#{tel}
+  		where deleted=0 and id=#{id}
+  	</update>
+  	<delete id="deleteOne" parameterType="_int">
+  		update user set deleted=1 where id=#{value}
+  	</delete>
+  	
+  	<select id="login" resultType="userBean" parameterType="map">
+  		select * from user where deleted=0 and email=#{email} and password=#{password}
+  	</select>
+  	
+  	<select id="chkEmail" resultType="int" parameterType="String">
+  		select count(*) as cnt from user where email=#{text}
+  	</select>
+  	<select id="chkNickName" resultType="int" parameterType="String">
+  		select count(*) as cnt from user where deleted=0 and nickname=#{text}
+  	</select>
+  	<select id="chkTel" resultType="int" parameterType="String">
+  		select count(*) as cnt from user where deleted=0 and tel=#{text}
+  	</select>
+  	
+  	<select id="findEmail" resultType="String" parameterType="map">
+  		select email from user where deleted=0 and name=#{name} and tel=#{tel}
+  	</select>
+  	<select id="findPw" resultType="int" parameterType="map">
+  		select count(*) as cnt from user where deleted=0 and email=#{email} and name=#{name} and tel=#{tel}
+  	</select>
+  	<update id="newPw" parameterType="map">
+  		update user set password=#{password} where deleted=0 and email=#{email}
+  	</update>
+  </mapper>
