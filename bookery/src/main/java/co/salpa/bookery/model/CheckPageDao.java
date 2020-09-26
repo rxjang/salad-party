@@ -11,11 +11,11 @@ public interface CheckPageDao {
 	
 	List<CheckPageDao> selectAll() throws DataAccessException;
 
-	CheckPageVo selectRecentChecked() throws SQLException;
+	CheckPageVo selectRecentChecked() throws DataAccessException;
 
-	CheckPageVo selectOneByStudyId(Map<String, Integer> map) throws SQLException;
+	CheckPageVo selectOneByStudyId(Map<String, Integer> map) throws DataAccessException;
 
-	CheckPageVo selectOneByDate(Map<String, String> map) throws SQLException;
+	CheckPageVo selectOneByDate(Map<String, String> map) throws DataAccessException;
 
 	void insertOne(CheckPageVo bean) throws DataAccessException;
 	

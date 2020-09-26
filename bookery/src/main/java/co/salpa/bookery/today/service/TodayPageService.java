@@ -12,7 +12,7 @@ public interface TodayPageService {
 
 	Model listV_StudyService(Model model) throws SQLException;
 
-	Model getV_StudyService(int user_id, int bid, Model modsel) throws SQLException;
+	Model getV_StudyService(int user_id, int bid, Model model) throws SQLException;
 
 	void checkPageService(int actualpage, int study_id) throws SQLException;
 	

@@ -14,7 +14,7 @@ public interface StudyDao {
 
 	void insertOne(StudyVo bean) throws DataAccessException;
 	
-	void insertAll(StudyVo bean) throws DataAccessException;
+	void assertPlan(StudyVo bean) throws DataAccessException;
 
 	StudyVo updateTypeChap(int study_id);
 

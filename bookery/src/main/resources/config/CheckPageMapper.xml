@@ -8,10 +8,6 @@
 	<select id="selectAll" resultType="checkPageBean">
 		select * from salpa.checkpage
 	</select>
-	
-	<insert id="insertOne" parameterType="checkPageBean">
-		insert into checkPage (date, planpage, study_id) values (#{date}, #{planpage}, #{study_id})
-	</insert>
 
 	<select id="selectOneByStudyId" resultType="checkPageBean"
 		parameterType="map">
@@ -33,7 +29,10 @@
 		salpa.checkpage where date &gt; now() and date = (select max(date) from
 		salpa.checkpage where actualpage is not null)
 	</select>
-
+	
+	<insert id="insertOne" parameterType="checkPageBean">
+		insert into checkPage (date, planpage, study_id) values (#{date}, #{planpage}, #{study_id})
+	</insert>
 
 	<update id="updateOne" parameterType="checkPageBean">
 		update salpa.checkpage set
