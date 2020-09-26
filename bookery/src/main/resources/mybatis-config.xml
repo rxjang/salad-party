@@ -19,7 +19,6 @@
 		<mapper resource="config/BookMapper.xml" />
 		<mapper resource="config/StudyMapper.xml" />
 		<mapper resource="config/TocMapper.xml" />
-		<mapper resource="config/MylibMapper.xml" />
 		<mapper resource="config/UserMapper.xml" />
 
 		<mapper resource="config/V_StudyMapper.xml" />
