@@ -1,4 +1,4 @@
-package co.salpa.bookery.account;
+package co.salpa.bookery.account.service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
