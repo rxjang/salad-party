@@ -126,7 +126,7 @@ $(function() {
 			<div class="owl-carousel owl-theme">
 				<c:forEach items="${nogoalbooklist }" var="bean1">
 				    <div class="item">
-				    	<a href="${pageContext.request.contextPath }/mylib/plan?bid=${bean1.bid }"><img class="media-object" src="${bean1.coverurl }" alt="책 이미지"></a>
+				    	<a href="${pageContext.request.contextPath }/mylib/plan/${bean1.study_id }"><img class="media-object" src="${bean1.coverurl }" alt="책 이미지"></a>
 				    </div>
 				</c:forEach>
 			</div><!-- owl end -->

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="co.salpa.bookery.model.CheckPageDao">
+
+	<select id="selectAll" resultType="checkPageBean">
+		select * from salpa.checkpage
+	</select>
+	
+	<insert id="insertOne" parameterType="checkPageBean">
+		insert into checkPage (date, planpage, study_id) values (#{date}, #{planpage}, #{study_id})
+	</insert>
+
+	<select id="selectOneByStudyId" resultType="checkPageBean"
+		parameterType="map">
+		select * from salpa.checkpage where id = #{id} and
+		study_id =
+		#{study_id}
+	</select>
+
+	<select id="selectOneByDate" resultType="checkPageBean"
+		parameterType="map">
+		select * from salpa.checkpage where study_id =
+		#{study_id} and
+		date = #{date}
+	</select>
+
+
+	<select id="selectRecentChecked" resultType="checkPageBean">
+		select * from
+		salpa.checkpage where date &gt; now() and date = (select max(date) from
+		salpa.checkpage where actualpage is not null)
+	</select>
+
+
+	<update id="updateOne" parameterType="checkPageBean">
+		update salpa.checkpage set
+		actualpage=#{actualpage} where date = #{date} and
+		study_id=#{study_id}
+		and deleted = 0
+	</update>
+
+</mapper>

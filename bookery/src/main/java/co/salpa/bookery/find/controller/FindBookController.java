@@ -3,7 +3,7 @@ package co.salpa.bookery.find.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,8 +21,8 @@ public class FindBookController {
 	 * 검색목록에서 책 눌렀을 때 책 상세보기 페이지로 이동
 	 **********************************/
 
-	@RequestMapping("/book")
-	public ModelAndView findBook(int bid) {
+	@RequestMapping("/book/{bid}")
+	public ModelAndView findBook(@PathVariable int bid) {
 		return new ModelAndView("/find/findBook", "bid", bid);
 	}
 

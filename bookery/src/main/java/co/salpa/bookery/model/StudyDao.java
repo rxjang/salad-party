@@ -1,15 +1,22 @@
 package co.salpa.bookery.model;
 
-import java.sql.SQLException;
 import java.util.List;
+
+import org.springframework.dao.DataAccessException;
 
 import co.salpa.bookery.model.entity.StudyVo;
 
 public interface StudyDao {
 	
-	List<StudyVo> selectAll() throws SQLException;
+	List<StudyVo> selectAll() throws DataAccessException;
 
-	StudyVo selectOne(int key) throws SQLException;
+	StudyVo selectOne(int key) throws DataAccessException;
 
-	void insertOne(StudyVo bean) throws SQLException;
+	void insertOne(StudyVo bean) throws DataAccessException;
+	
+	void insertAll(StudyVo bean) throws DataAccessException;
+
+	StudyVo updateTypeChap(int study_id);
+
+	StudyVo updateTypePage(int study_id);
 }

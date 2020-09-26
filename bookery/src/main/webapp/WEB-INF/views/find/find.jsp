@@ -41,7 +41,7 @@ pubdate	datetime	출간일 정보이다.
 				var idxBid=$(this).prop('href').indexOf('bid');
 				//console.log('book_id = '+$(this).prop('href').substring(idxBid+4));
 				var bid = $(this).prop('href').substring(idxBid+4);
-				location.href="${pageContext.request.contextPath }/find/book?bid="+bid;
+				location.href="${pageContext.request.contextPath }/find/book/"+bid;
 				//검색된 눌렀을 때 책 상세보기 페이지로 이동
  			return false;//a tag 이동방지
 			});
@@ -109,7 +109,7 @@ pubdate	datetime	출간일 정보이다.
 				$('#moreResult').show();//더 보기 버튼 활성화
 				$('#moveTop').show();//탑 버튼 비활성화
 			},//success
-			'error':function(){
+			error:function(){
 				swal("검색 실패", "검색어를 바르게 입력해주세요.", "error");
 			}//error
 		});//ajax
@@ -310,7 +310,7 @@ pubdate	datetime	출간일 정보이다.
 				<div class="owl-stage-outer" >
 					<div class="owl-stage owl-refresh" >
 					<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
-					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book?bid=${bean.bid}'><img alt="image loading fail" src="${bean.coverurl }"></a></div>
+					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'><img alt="image loading fail" src="${bean.coverurl }"></a></div>
 					</c:forEach>
 					</div>
 				</div>
