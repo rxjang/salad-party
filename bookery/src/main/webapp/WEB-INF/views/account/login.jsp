@@ -78,6 +78,14 @@
 	<script type="text/javascript">
 	var regMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
 	
+	$(function(){
+	      $('#loginForm').on('submit',function(){
+	         frmSubmit();
+	         return false;
+	      });//submit
+	      
+	});//ready
+	
 	function frmSubmit() {
 		var email = $('#email').val();
 		var password = $('#password').val();
@@ -95,25 +103,24 @@
 		var param = "email=" + $('#email').val() + "&password=" + $('#password').val();
 	    var url = "${pageContext.request.contextPath}/account/login";
  	    console.log(param);
-    	 $.ajax({
-	           type: "POST",
-	           url: url,
-	           data: $('form').serialize();
-	           dataType:"json",
-			   success : function(data) {
-				   var fail = $(data).("result");
-					 if(fail == "fail") {
-						 swal("로그인 실패", "이메일과 비밀번호를 확인해주세요.","warning"); 
-                   }else{
-                     window.location.replace("${pageContext.request.contextPath }/"); 
-                   }
-	           },//success
-				error:function(){
-					swal('로그인 실패', '이메일과 비밀번호를 확인해주세요.','warning');
-				}//error
-		});//ajax 
-		
-		return false;
+ 	   $.ajax({
+           type: "POST",
+           url: url,
+           data: $('form').serialize(),
+           dataType:"json",
+         success : function(data) {
+            var fail = data.result;
+             if(fail == "fail") {
+                swal("로그인 실패", "이메일과 비밀번호를 확인해주세요.","warning"); 
+             }else{
+                  window.location.replace("${pageContext.request.contextPath }/"); 
+                }
+          	 },//success
+	         error:function(){
+	            swal('로그인 실패', '통신 장애','warning');
+	         }//error
+   		});//ajax 
+	
 	}
 	
 	function validateEmail(email) {
@@ -127,7 +134,7 @@
 <!-- **********content start**********--> 
 <div class="login">
 	<div class="col-xs-12 col-md-12">
-		<form method="post" name="loginForm" onsubmit="return frmSubmit()">
+		<form method="post" name="loginForm" id="loginForm">
 	 		<div class="email-login-wrap">
 				<!-- <h1><img src="" alt="Bookery" class="logo"></h1> -->
 				<h1>Bookery</h1>
