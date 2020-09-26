@@ -141,7 +141,7 @@ $(function(){
 			/**********************    캐러셀    **********************/
 			$('.owl-stage-outer').owlCarousel({
 				items:4,
-				loop : true,
+				loop : false,
 				autoplay : true,
 				margin : 10,
 				merge : false,
