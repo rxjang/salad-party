@@ -92,6 +92,13 @@
 	/* bootstrap default hover일때 border가 없어서 화면 들썩임. 임의로 border값 지정 */
 	.btn:hover{border:1px solid #e4e4e4;} 
 	
+	/* data picker css 스크롤바 감추기. 고치지말것. */
+	.clone-scroller::-webkit-scrollbar{ display:none; }
+	.clone-scroller {
+     -ms-overflow-style: none; /* IE and Edge */
+	}
+	
+	
  	#menu{
 	 	background-color:white;
 		border-bottom: 1px solid #e4e4e4;

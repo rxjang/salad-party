@@ -133,15 +133,15 @@ $(function(){
 			}//
 			console.log(owlItem);
 			owlItem+='</div>';
-			$('.owl-stage-outer').html(owlItem);
+			$('#owl_detail').html(owlItem);
 			$('.owl-item').css('text-align','center');
 			$('.owl-item small').css('color','#8f8f8f');
 			$('.caro-cnt').css({'font-size':'110%','font-weight':'500'});
 			
 			/**********************    캐러셀    **********************/
-			$('.owl-stage-outer').owlCarousel({
+			$('#owl_detail').owlCarousel({
 				items:4,
-				loop : false,
+				loop : true,
 				autoplay : true,
 				margin : 10,
 				merge : false,
@@ -192,7 +192,10 @@ $(function(){
 						}
 					}
 					list_group += '</ul>';
-					$('#chapter_list').html(list_group);
+				//	$('#chapter_list').html(list_group);
+					$('#chapter_list').append($('<div id="chap_list"/>').html(list_group));
+					$('#chap_list').hide();//책소개 내용 처음엔 숨김
+					$('.list-group-item').css('border','0px');
 				/* *********************************************** */
 				chapters = noTagText;//가공한 목차 정보
 				//이용자가 책을 선정하면 noTagText를 컨트롤러로 보내서 목차 테이블에 저장
@@ -208,7 +211,9 @@ $(function(){
 		$('#putChapters').on('click', function() {
 			
 			swal({
-				  text: "내서재에 담았습니다.",
+				  title: "내서재에 담았습니다.",
+				  text: "내서재로 이동하시겠습니까?",
+				  icon: "success",
 				  buttons: {
 					cancel: "머무르기", //취소버튼 false
 				    confirm:{
@@ -260,26 +265,56 @@ $(function(){
 	          //console.log('in!', e.detail);
 	        });
 	      }//AOS
-	      
-	      $('.panel-body').hide();//책소개 내용 처음엔 숨김
-	      $('.panel-heading').css('cursor','pointer');
+	  
+	      $('.book-info').hide();//책소개 내용 처음엔 숨김
+	      $('.panel-heading').css({'cursor':'pointer','background-color':'white'});
 	      $('.panel-heading').on('click',function(){ //책소개 클릭 시 책소개 내용 Slide down
-				if($(this).find('.triangle').text() == '▷'){
+	    	  
+//	    	  if($(this).find('.triangle').text() == '▷'){
+	    	  if($(this).find('span').attr('class').includes('down')){
 					
-					$(this).find('.triangle').text('▼');
+					//$(this).find('.triangle').text('▽');
+					$(this).find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+					
 					$(this).next().slideDown(500);
-				}else if($(this).find('.triangle').text() == '▼'){
+			//	}else if($(this).find('.triangle').text() == '▽'){
+				}else if($(this).find('span').attr('class').includes('up')){
 					
-					$(this).find('.triangle').text('▷');
+					//$(this).find('.triangle').text('▷');
+					$(this).find('span').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
 					$(this).next().slideUp(500,function(){
 					});//slideup
 				}//else
 			})//click
 			
-			$('.mylib-btn').css('text-align','center');//내서재,공부방 버튼 가운데정렬
+			$('.mylib-btn, #additional-info').css('text-align','center');//내서재,공부방 버튼 가운데정렬
+			$('.badge').css('background-color','#8ba989');
+			
+			$('.additional-info a').css({'margin':'5px 5px 5px 5px','color':'#49654d'});
+			$('.book-intro').last().css('border-bottom','1px solid #e4e4e4');
 	});//ready
 
 </script>
+<style type="text/css">
+
+.additional-info li>a:hover,.additional-info li>a:focus{
+	background-color: white;
+	color:#49654d;
+}
+.book-intro{
+	border-left:0px;
+	border-right:0px;
+	border:0px;
+	margin-bottom:0px;
+	box-shadow: white 0px 0px 0px;
+	-webkit-box-shadow:white 0px 0px 0px;
+	border-radius: 0px;
+	border-top:1px solid #e4e4e4;
+}
+.panel-heading{
+	border:0px;
+}
+</style>
 </head>
 <body>
 <%@ include file="../template/menu.jspf" %>
@@ -297,13 +332,29 @@ $(function(){
 		<div class="col-md-3"></div>
 			<div id="book_detail" class="col-xs-12 col-md-6"></div>
 		<div class="col-md-3"></div>
+		<div class="col-md-4"></div>
+		<div class="col-md-4 col-xs-12" id="additional-info">
+		
+
+			<nav aria-label="...">
+				<ul class="pager additional-info">
+					<li><a>함께 읽는 사람 <span class="badge">41명</span></a>
+					</li>
+					<li><a>평균 완독 시간 <span class="badge">4일</span></a>
+					</li>
+					<li><a>평점 <span class="badge">★3.5</span></a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="col-md-4"></div>
 		<div class="col-md-12 col-xs-12 bottom-line"></div>
 	</div>
 	<div class="row">
 		<div class="col-md-3"></div>
 		<div id="book_info_carousel" class="col-xs-12 col-md-6">
 			<div class="owl-carousel owl-themeowl-loading owl-loaded">
-				<div class="owl-stage-outer">
+				<div class="owl-stage-outer" id="owl_detail">
 				</div>
 			</div>
 
@@ -328,9 +379,19 @@ $(function(){
 	<div class="row">
 		<div class="col-md-3"></div>
 		<div class="faq-box col-xs-12 col-md-6">
-			<div class="panel panel-default">
-				<div class="panel-heading"><span class="triangle">▷</span>&nbsp;책 소개</div>
-				<div class="panel-body" id="bookIntroContent">${description }</div>
+			<div class="panel panel-default book-intro">
+				<div class="panel-heading"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>&nbsp;책 소개</div>
+				<div class="panel-body book-info" data-aos="fade-up" id="bookIntroContent">${description }</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="faq-box col-xs-12 col-md-6">
+			<div class="panel panel-default book-intro" id="chapter_list">
+				<div class="panel-heading"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>&nbsp;목차</div>
+				
 			</div>
 		</div>
 		<div class="col-md-3"></div>
@@ -338,9 +399,23 @@ $(function(){
 
 	<div class="row">
 		<div class="col-md-3"></div>
-			<div id="chapter_list" class="col-xs-12 col-md-6"></div>
+			<div id="chapterlist" class="col-xs-12 col-md-6"></div>
 		<div class="col-md-3"></div>
 	</div>
+	<br />
+
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-xs-12 col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-body">Basic panel example</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+		<div class="col-md-12 col-xs-12">&nbsp;</div>
+	</div>
+
+
 	<br />
 	<div class="row">
 		<div class="col-md-3"></div>
@@ -350,6 +425,8 @@ $(function(){
 		<div class="col-md-3"></div>
 		<div class="col-md-12 col-xs-12">&nbsp;</div>
 	</div>
+	
+	
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
 </body>
