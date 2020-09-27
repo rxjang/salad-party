@@ -172,7 +172,7 @@
 .progress-bar{
 	font-size:110%;
 	line-height: 35px;
-	background-color: #49654d;
+	background-color: #8ba989;
 }
 
 
