@@ -76,6 +76,8 @@ pubdate	datetime	출간일 정보이다.
 				if(data.total==0||data.total<=10){ 
 					$('#moreResult').hide();//더 보기 버튼 비활성화
 					$('#moveTop').hide();//탑 버튼 비활성화
+				}else{
+					$('#moreResult').show();//더 보기 버튼 활성화
 				}
 				/************	검색된 책들 화면에 불러오기	*************/
 				for (var i = 0; i < result.length; i++) {
@@ -106,7 +108,7 @@ pubdate	datetime	출간일 정보이다.
 				}
 				/***********	책 이미지 눌렀을 때 bid를 이용해 서버에서 해당 책정보 받아오기	**********/
 				 bookDetail(); //비동기 웹 크롤링
-				$('#moreResult').show();//더 보기 버튼 활성화
+				//$('#moreResult').show();//더 보기 버튼 활성화
 				$('#moveTop').show();//탑 버튼 비활성화
 			},//success
 			error:function(){
@@ -194,9 +196,19 @@ pubdate	datetime	출간일 정보이다.
 			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
 			selectOpt_val = $(this).text();
 		});		
-
+		
+		
+		
+		
+	/* 캐러셀 책제목 길이 조절 */		
+	$('.owl-title').each(function(){
+		if($(this).text().length > 20){
+			$(this).text($(this).text().substring(0,20)+' ...');			
+		}
+	});//each title
+		
 	});//ready
-
+		
 </script>
 <style type="text/css">
 
@@ -207,7 +219,7 @@ pubdate	datetime	출간일 정보이다.
  	height:30px;
  	border-radius:25px;
 	border-bottom:1px solid #e4e4e4;
-	box-shadow:#e4e4e4 0px 0px 3px;
+	box-shadow:#e4e4e4 0px 0px 5px;
 	width:100%;
 
 }
@@ -243,9 +255,25 @@ pubdate	datetime	출간일 정보이다.
 .media-object{
 	width:120px;
 }
+.owl-item{
+	text-align: center;
+}
+.owl-item a{
+	text-decoration: none;
+	color:black;
+}
+.owl-item a:hover{
+	font-weight:600;
+	color:#49654d;
+}
+.owl-stage{	/* 캐러셀 아래로 정렬 */
+	align-items: baseline;
+	display: inline-flex;
+}
 .owl-item img, .bid img{
+	margin:5px 5px 5px 5px;
 	box-sizing:border-box;
-	box-shadow:#e4e4e4 2px 2px 5px;
+	box-shadow:#e4e4e4 0px 0px 6px;
 }
 </style>
 </head>
@@ -313,7 +341,11 @@ pubdate	datetime	출간일 정보이다.
 				<div class="owl-stage-outer" >
 					<div class="owl-stage owl-refresh" >
 					<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
-					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'><img class="img-rounded" alt="image loading fail" src="${bean.coverurl }"></a></div>
+					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'>
+					<img class="img-rounded" alt="image loading fail" src="${bean.coverurl }">
+					<br/>
+					<span class="owl-title">${bean.title }</span>
+					</a></div>
 					</c:forEach>
 					</div>
 				</div>
