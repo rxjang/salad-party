@@ -204,11 +204,24 @@ $(function(){
 			
 		});//ajax
 
-		/*******  body에 있는 내서재가기 a tag : display none상태-검색된 책누르면 show()  ******/
+		/*******  body에 있는 내서재가기  ******/
 		$('#putChapters').on('click', function() {
 			
-			location.href = '${pageContext.request.contextPath }/mylib';
-			//시간이 오래걸리는 목차 입력은 비동기로 요청해두고 내서재 페이지이동을 먼저한다.
+			swal({
+				  text: "내서재에 담았습니다.",
+				  buttons: {
+					cancel: "머무르기", //취소버튼 false
+				    confirm:{
+				    	text:"내서재로 가기",
+				    	value:true
+				    }
+				  },
+			}).then((value) => {	//value가 true이면 내서재로 이동한다.
+				if(value){
+						location.href = '${pageContext.request.contextPath }/mylib';
+				}//if
+			});//swal
+			
 			$.post('${pageContext.request.contextPath }/find/put', {
 				'chapters' : chapters,
 				'bid' : bid,
