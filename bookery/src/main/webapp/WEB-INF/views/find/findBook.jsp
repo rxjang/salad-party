@@ -13,7 +13,9 @@ var bid = ${bid}; //컨트롤러에서 bid를 받아온다.
 var owlItem='';
 var bookMap ={};
 $(function(){
-//console.log(bid);
+
+	$('#crawling_div').hide();
+	//console.log(bid);
 	writer=''; publisher=''; pages=''; category=''; isbn=''; translator=''; title_original=''; publication_date=''; revision='';
 	img_link='';//혹시 남아있을지 모를 값들을 페이지 로딩할 때 초기화 해둔다.
 	
@@ -34,7 +36,7 @@ $(function(){
 			title_original = bookInfo.find('.tit_ori').text().replace('원제','').trim(); //원제
 			//console.log('original_title = '+title_original);
 			description = $(data).find('#bookIntroContent').html(); //책 소개
-			$('#bookIntroContent').html(description);
+			$('#bookIntro').html(description);
 			var translator_cnt = 1;
 			var author_cnt = 1;
 			$(data).find('.book_info_inner').children().eq(1).find('a').each(function(){
@@ -362,6 +364,9 @@ $(function(){
 <body>
 <%@ include file="../template/menu.jspf" %>
 	<!-- **********content start**********--> 
+	<div id="crawling_div">
+	${crawlingDoc}
+	</div>
 	<div class="row"><br/><br/></div>
 
 	<div class="row">
@@ -424,7 +429,7 @@ $(function(){
 		<div class="faq-box col-xs-12 col-md-6">
 			<div class="panel panel-default book-intro">
 				<div class="panel-heading"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>&nbsp;책 소개</div>
-				<div class="panel-body book-info" data-aos="fade-up" id="bookIntroContent">${description }</div>
+				<div class="panel-body book-info" data-aos="fade-up" id="bookIntro">${description }</div>
 			</div>
 		</div>
 		<div class="col-md-3"></div>
@@ -468,10 +473,6 @@ $(function(){
 		<div class="col-md-3"></div>
 		<div class="col-md-12 col-xs-12">&nbsp;</div>
 	</div>
-	<div id="crawling_div">
-	${crawlingDoc}
-	</div>
-	
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
 </body>
