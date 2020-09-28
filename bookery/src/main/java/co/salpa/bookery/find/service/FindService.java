@@ -26,4 +26,6 @@ public interface FindService {
 	public void updateService() throws SQLException;
 
 	public void deleteService() throws SQLException;
+
+	public Model getStudyOverlapChk(int id, int bid,Model model);
 }

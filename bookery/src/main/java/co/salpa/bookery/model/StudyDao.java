@@ -1,6 +1,7 @@
 package co.salpa.bookery.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
@@ -11,6 +12,8 @@ public interface StudyDao {
 	List<StudyVo> selectAll() throws DataAccessException;
 
 	StudyVo selectOne(int key) throws DataAccessException;
+	
+	List<StudyVo> selectOneByIdAndBid(Map<String, String> map) throws DataAccessException;
 
 	void insertOne(StudyVo bean) throws DataAccessException;
 	
