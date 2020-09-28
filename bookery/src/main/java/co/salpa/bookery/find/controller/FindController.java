@@ -33,7 +33,7 @@ public class FindController {
 	}
 
 	// 검색페이지에 검색결과 전달
-	@RequestMapping(value = "/find/result", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "/find/result", method = RequestMethod.GET, produces = "application/xml;charset=utf-8")
 	@ResponseBody// select = {제목,저자,출판사} 상세검색 요청변수 생성
 	public String searchBooks(int start, String search, String select) throws Exception {
 		return findService.searchService(start, search, select);// ajax통신이라 view가 없음

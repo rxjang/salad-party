@@ -21,8 +21,11 @@ import java.util.Properties;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
+import org.jsoup.Connection;
+import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,18 +96,23 @@ public class FIndServiceImpl implements FindService {
 		String param_start = "&start=" + start;// 검색결과 문서들 읽는 시작순서.
 		String findOpt = null;
 		// select = {제목,저자,출판사} 상세검색 요청변수 생성
-		findOpt = detailSearch(select, search);
 
 		System.out.println(search + start);
 		try {
 			search = URLEncoder.encode(search, "UTF-8");// 검색단어는 UTF-8 url로 전달
 			System.out.println(search);
+			findOpt = detailSearch(select, search);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("encoding error", e);
 
 		} // catch
-
-		String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + search + param_start + findOpt; // book
+		String apiURL=null;
+		if(select.equals("출판사") || select.equals("저자")) {
+			param_start = "start="+start;
+			apiURL = "https://openapi.naver.com/v1/search/book_adv.xml?"+ param_start + findOpt; // book
+		}else {
+			apiURL = "https://openapi.naver.com/v1/search/book.xml?query=" + search + param_start; // book
+		}
 																													// search
 		System.out.println(apiURL);
 
@@ -190,15 +198,40 @@ public class FIndServiceImpl implements FindService {
 		// TODO Auto-generated method stub
 		String url = "https://book.naver.com/bookdb/book_detail.nhn?bid=" + bid;
 		Document doc = null;
-		System.out.println("크롤링 url = " + url);
+//		:authority: book.naver.com
+//		:method: GET
+//		:path: /bookdb/book_detail.nhn?bid=15028705
+//		:scheme: https
+//		accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+//		accept-encoding: gzip, deflate, br
+//		accept-language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+//		cache-control: max-age=0
+//		cookie: NNB=P6QCKDPB4FOV6; NRTK=ag#all_gr#1_ma#-2_si#0_en#0_sp#0; nx_ssl=2; _ga=GA1.2.960712034.1600589774; jhj7176_word_speech_bubble_20140109=true; JSESSIONID=2AE10E57FA4264D4D691E73887B9898F
+//		sec-fetch-dest: document
+//		sec-fetch-mode: navigate
+//		sec-fetch-site: none
+//		sec-fetch-user: ?1
+//		upgrade-insecure-requests: 1
+//		user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36
 		try {
-			doc = Jsoup.connect(url).get();
-			// System.out.println(doc);
-		} catch (IOException e) {
-			e.printStackTrace();
+			doc = Jsoup.connect(url)
+					.header("path", "/bookdb/book_detail.nhn?bid="+bid)
+					.header("authority", "book.naver.com")
+					.header("scheme", "https")
+					.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+					.header("cache-control", "max-age=0")
+					.header("accept-encoding", "book.naver.com")
+					.header("accept-language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+					.header("sec-fetch-dest", "document")
+					.header("sec-fetch-mode", "navigate")
+					.header("sec-fetch-site", "none")
+					.header("sec-fetch-user", "?1")
+					.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36")
+					.timeout(3000).data("query", "Java").get();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		// System.out.println(doc);
-		// String json = "{\"crawling\":"+doc+"}";
+		System.out.println("크롤링 url = " + url);
 		return doc;
 	}// crawlingService
 

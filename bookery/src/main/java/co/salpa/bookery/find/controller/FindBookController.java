@@ -3,6 +3,9 @@ package co.salpa.bookery.find.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +34,14 @@ public class FindBookController {
 		HttpSession session = request.getSession();
 		UserVo user = (UserVo) session.getAttribute("user");
 		
-		findService.crawlingService(bid);
+		Document doc = findService.crawlingService(bid);
+		Elements e1 = doc.select("div.book_info");
+		Elements e2 = doc.select("div.book_info_inner");
+		Elements e3 = doc.select("div#bookIntroContent");
+		Elements e4 = doc.select("div#tableOfContentsContent");
+		String result = e1.toString()+e2.toString()+e3.toString()+e4.toString();
+		
+		model.addAttribute("crawlingDoc", result);
 		if(user!=null) {
 			findService.getStudyOverlapChk(user.getId(), bid, model);
 		}

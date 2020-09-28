@@ -20,10 +20,12 @@ $(function(){
 	
 	console.log("중복체크:${studyOverlap}");
 	
-	$.ajax('${pageContext.request.contextPath }/find/crawling',{
+/* 	$.ajax('${pageContext.request.contextPath }/find/crawling',{
 		method:'get',
 		data:'bid='+bid,	
-		success:function(data){
+		success:function(data){ */
+
+			data = $('#crawling_div');
 			var bookInfo = $(data).find('.book_info');
 			img_link = bookInfo.find('.thumb_type img').attr('src');
 			//console.log(img_link);
@@ -171,7 +173,7 @@ $(function(){
 			$('.media-img img').css({'box-shadow':'rgb(135, 165, 134) 5px 5px 10px','display':'block','margin':'auto'});
 			//책 썸네일 그림자색
 			
-			var list = $(data).find('#tableOfContentsContent');
+			var list =$('#crawling_div').find('#tableOfContentsContent');
 				/*************	네이버북스 책목차는 tableOfContentsContent아래에 있다	*************/
 
 				var newLineText = $(list).html().replace(/<(\/br|br)([^>]*)>/gi, "\n");
@@ -203,12 +205,12 @@ $(function(){
 				chapters = noTagText;//가공한 목차 정보
 				//이용자가 책을 선정하면 noTagText를 컨트롤러로 보내서 목차 테이블에 저장
 
-			},
+			/* },
 			'error':function(){
 				swal('error');
 				}//success
 			
-		});//ajax
+		});//ajax */
 		/* 로그인한 상태에서 스터디중인 책을 봤을 때 내서재가기 버튼을 오늘의 기록버튼으로 바꾼다. */
 		console.log('중복체크${studyOverlap}');
 		if('${studyOverlap}'=='0'){
@@ -352,6 +354,9 @@ $(function(){
 .panel-heading{
 	border:0px;
 }
+#crawling_div{
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -463,7 +468,9 @@ $(function(){
 		<div class="col-md-3"></div>
 		<div class="col-md-12 col-xs-12">&nbsp;</div>
 	</div>
-	
+	<div id="crawling_div">
+	${crawlingDoc}
+	</div>
 	
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
