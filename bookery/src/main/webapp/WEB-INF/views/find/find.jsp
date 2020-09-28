@@ -161,7 +161,7 @@ pubdate	datetime	출간일 정보이다.
 			nav : false,
 			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 				480 : {
-					items:3
+					items:4
 				},
 				800 : {
 					items:5
