@@ -6,6 +6,67 @@
 	<title>Bookery</title>
 <%@ include file="../template/head.jspf" %>
 <style type="text/css">
+	#planDiv1{
+		border-radius: 5px;
+		border: 1px solid #dddddd;
+		padding: 5px 5px 0px 5px;
+		background-color: rgb(246,246,246);
+		margin: 10px;
+	}
+	#planDiv1 img{
+		height: 50px;
+		line-height: 50px;
+	}
+	#planDiv1 h4{
+		line-height: 50px;
+		color: #888888;
+	}
+	#planDiv1 h4 a{
+		text-decoration: none;
+		line-height: 50px;
+		color: #888888;
+	}
+	#planDiv2{
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		border: 1px solid #dddddd;
+		background-color: rgb(246,246,246);
+		margin: 10px 10px 0px 10px;
+		display: block;
+	}
+	#planDiv2 h4,#planDiv3 h4{
+		margin-top: 20px;
+	}
+	#planDiv2 img{
+		border-top-left-radius: 5px;
+		height: 200px;
+		line-height: 150px;
+	}
+	@media (max-width:800px) {
+		height: 100px;
+	}
+	#planDiv3{
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		border: 1px solid #dddddd;
+		background-color: rgb(246,246,246);
+		margin: 0 10px 10px 10px;
+		display: block;
+	}
+	#planDiv3 img{
+		border-bottom-left-radius: 5px;
+		height: 200px;
+		line-height: 150px;
+	}
+	#planDiv2:hover,#planDiv3:hover{
+		background-color: #c0cfb2;
+	}
+	#link{
+		text-decoration: none;
+		color: #555555;
+		text-align: center;
+	}
+	
 </style>
 
  <script>
@@ -20,49 +81,78 @@
 	<!-- **********content start**********-->
 <div class="row">
 	<div class="col-xs-12 col-md-12">
-	<h2>목표설정</h2>
-	<div>
-		<div>
-		  <h3>${v_study.nickname }님</h3>
-			<img class="meta-object" src="${v_study.coverurl }" />
-			
-			${v_study.study_id}<br>
-			${v_study.title}의 스터디를 시작하려 하시네요.<br>
-			<h4>본격적인 목표설정에 앞서 어떤 방식으로 목표설정을원하는지 선택해 주세요.</h4>
-		</div>
-			
 		<div class="row">
-		  <div class="col-md-2"></div>
-		  <div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      <img src="${pageContext.request.contextPath }/resources/imgs/chap.jpg" alt="chapter">
-		      <div class="caption">
-		        <h3>챕터 중심</h3>
-		        <p>하루에 끝내길 원하는 챕터의 수를 중심으로 목표를 수립하는 방식</p>
-		        <form action="${pageContext.request.contextPath }/mylib/plan/edit/${v_study.study_id}">
-			        <button type="submit" class="btn btn-primary btn-block">챕터 중심으로 목표설정하러가기</button>
-					<!-- 여기서 update안하기로 함. put 안해도 될 듯 -->
-		        </form>
-		      </div>
-		    </div>
-		  </div>
-		  <div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      <img src="${pageContext.request.contextPath }/resources/imgs/page.jpg" alt="page">
-		      <div class="caption">
-		        <h3>페이지 중심</h3>
-		        <p>하루에 끝내길 원하는 페이지 수를 중심으로 목표를 수립하는 방식</p>
-		        <form action="${pageContext.request.contextPath }/mylib/plan/page/${v_study.study_id}">
-			        <button type="submit" class="btn btn-primary btn-block">페이지 중심으로 목표설정하러가기</button>
-		        </form>
-		      </div>
-		    </div>
-		  </div>
-		  <div class="col-md-2"></div>
+			<div class="col-md-8 col-md-offset-2 col-xs-12">
+				<h3>
+					<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+					목표설정 방식을 먼저 선택해 주세요
+				</h3>
+			</div>
+			<div class="col-md-8 col-md-offset-2 col-xs-12">
+				<div id="planDiv1">
+					<div class="media">
+						<div class="media-left">
+							<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid }">
+								<img class="media-object img-rounded" src="${v_study.coverurl}" alt="book cover">
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">
+								<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid }">
+									${v_study.title}
+								</a>
+							</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 col-xs-12">
+						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/chapter/${v_study.study_id }">
+							<div id="planDiv2">
+								<div class="media">
+									<div class="media-left">
+										<img class="media-object" src="${pageContext.request.contextPath }/resources/imgs/chap.jpg" alt="chapter">
+									</div>
+									<div class="media-body">
+										<h4 class="media-heading">챕터 중심으로 목표설정하기</h4>
+										<br>
+										<p>선택한 도서의 전체 챕터를 살펴보고<br>
+										필요하다면 원하는 대로 챕터를 추가하거나 삭제합니다.<br>
+										<br>
+										하루에 끝낼 챕터의 양 또는 완료하고 싶은 날짜를 정하여<br>
+										스터디 목표를 설정합니다.
+										</p>
+									</div>
+								</div>
+							</div>
+						</a>
+						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/page/${v_study.study_id }">
+							<div id="planDiv3">
+								<div class="media">
+									<div class="media-left">
+										<img class="media-object" src="${pageContext.request.contextPath }/resources/imgs/page.jpg" alt="page">
+									</div>
+									<div class="media-body">
+										<h4 class="media-heading">페이지 중심으로 목표설정하기</h4>
+										<br>
+										<p>선택한 도서의 전체 페이지를 살펴보고<br>
+										하루에 끝낼 페이지수 또는 완료하고 싶은 날짜를 정하여<br>
+										스터디 목표를 설정합니다.
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
-	<!--**********content end**********-->
+<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
 </body>
 </html>
