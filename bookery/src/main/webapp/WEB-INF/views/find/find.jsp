@@ -65,26 +65,24 @@ pubdate	datetime	출간일 정보이다.
 		$.ajax('${pageContext.request.contextPath }/find/result', {
 			method : 'GET',
 			data : 'search=' + $('#search').val()+'&start='+start+'&select='+findOpt,
-			dataType : 'json',
-			contentType:'application/json;charset=utf-8',
+			dataType : 'xml',
+			contentType:'application/xml;charset=utf-8',
 			success : function(data) {
-				result = data.items;
-				//console.log(result);
-				//console.log('total = ',data.total);
-			//	console.log('total = ',data.display);
-				$('#cntOfTotal').text(data.total+'건의 책이 검색되었습니다.');
-				if(data.total==0||data.total<=10){ 
+				result = $(data).find('item');
+				
+				$('#cntOfTotal').text($(data).find('total').text()+'건의 책이 검색되었습니다.');
+				if($(data).find('total').text()==0||$(data).find('total').text()<=10){ 
 					$('#moreResult').hide();//더 보기 버튼 비활성화
 					$('#moveTop').hide();//탑 버튼 비활성화
 				}else{
 					$('#moreResult').show();//더 보기 버튼 활성화
 				}
 				/************	검색된 책들 화면에 불러오기	*************/
-				for (var i = 0; i < result.length; i++) {
+				result.each(function(i,ele){
 					var content = '';
-					var idxBid=result[i].link.indexOf('bid');
+					var idxBid=$(ele).find('link').text().indexOf('bid');
 				//	console.log(result[i].link.substring(idxBid+4));
-					var bid = result[i].link.substring(idxBid+4);
+					var bid = $(ele).find('link').text().substring(idxBid+4);
 					scrollMove_cnt++;//div에 id를 매겨 검색결과 더보기 할때마다 스크롤 위치 정해주기 위한 변수
 					/* 
      				data-aos="fade-down"
@@ -93,19 +91,19 @@ pubdate	datetime	출간일 정보이다.
     				data-aos="flip-up"
 					*/
 					content += '<div id="scrollMove'+scrollMove_cnt+'" class="media" data-aos="fade-up"><div class="media-left media-middle">'
-					content += '<a class="bid"  href="' + result[i].link + '">'  
-					content += '<img class="media-object img-rounded" src="' + result[i].image + '" alt="loading fail">'    
+					content += '<a class="bid"  href="' + $(ele).find('link').text() + '">'  
+					content += '<img class="media-object img-rounded" src="' + $(ele).find('image').text() + '" alt="loading fail">'    
 					content += '</a></div>'   
 					content += '<div class="media-body">' 
-					content += '<h4 class="media-heading">' + result[i].title + '</h4>' 
-					content += '<p>' + result[i].author + '</p>';
-					content += '<p>' + result[i].publisher + '</p>';
-					content += '<p>' + result[i].description + '</p>';
+					content += '<h4 class="media-heading">' +$(ele).find('title').text() + '</h4>' 
+					content += '<p>' + $(ele).find('author').text()  + '</p>';
+					content += '<p>' + $(ele).find('publisher').text()  + '</p>';
+					content += '<p>' + $(ele).find('description').text()  + '</p>';
 					content += '</div>'  
 					content += '</div><br/>'
 					$('#result').append(content);
 					$('<a href="#scrollMove'+(start-1)+'"/>').wrap($('#aMove')).get(0).click();
-				}
+				});
 				/***********	책 이미지 눌렀을 때 bid를 이용해 서버에서 해당 책정보 받아오기	**********/
 				 bookDetail(); //비동기 웹 크롤링
 				//$('#moreResult').show();//더 보기 버튼 활성화
@@ -123,13 +121,8 @@ pubdate	datetime	출간일 정보이다.
 			startResult+=10;
 			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			bookSearch(startResult, selectOpt_val);
-			//var movePoint = $('#scrollMove'+startResult).scrollTop();
-			//$(document).scrollTop($(movePoint).scrollTop());
-		//$('<a href="#scrollMove'+startResult+'"/>').wrap($('#aMove')).get(0).click();
-			//console.log(startResult);
 		});//moreResult 버튼 클릭
 
-		
 	/*********************** 탑 버튼, 문서 제일 위로 이동 ***********************/
 		$('#moveTop').on('click',function(){ 
 			$(document).scrollTop(0);
@@ -138,6 +131,7 @@ pubdate	datetime	출간일 정보이다.
 			
 	/*********************** 검색 form 전송  ***********************/
 		$('.search-form').submit(function() { 
+			$('#owl_div').hide();
 			$('#result').html('');
 			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			startResult=1; //검색결과들 중 읽어올 문서의 순서. ex:start=2 라면 10개 검색됐으면 2번째부터 출력
@@ -153,8 +147,6 @@ pubdate	datetime	출간일 정보이다.
 	          mirror: true
 	        });
 	      }//if
-		
-
 
 	/*********************** 더보기, 내서재담기 버튼 숨기기 ***********************/
 		$('#moreResult,#moveTop').hide();
@@ -328,7 +320,7 @@ pubdate	datetime	출간일 정보이다.
 					<a id="inputBook" class="text-success" href="#">+직접 입력하기</a>
 				</div>
 			</div>
-	<div class="row">
+	<div class="row" id="owl_div">
 			<!-- ************** OWL carousel ************  -->
 
 		<div class="col-md-2">&nbsp;</div>
