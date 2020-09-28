@@ -77,8 +77,8 @@ $(function() {
 	.owl-theme{
 		padding-bottom:20px;
 		margin-bottom:20px;
+		border-bottom:1px solid #e4e4e4;
 	}
-	
 	@media (max-width:1000px) {
 		#mylib-account{width:100%; height:250px; padding:20px; padding-left:30px;}
 		.mylib-main{width:100%; padding:20px; padding-left:30px;}

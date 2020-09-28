@@ -16,8 +16,8 @@ import lombok.ToString;
 public class StudyVo {
 
 	private int id;
-	private Date createtime,updatetime,startdate,enddate,dday;
-	private String type;
+	private Date createtime,updatetime,startdate,enddate;
+	private String type,memo;
 	private int user_id,book_bid;
 	
 }

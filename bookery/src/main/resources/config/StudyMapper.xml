@@ -25,10 +25,9 @@
 		(book_bid, user_id) values (#{book_bid},#{user_id})
 	</insert>
 	
-	<insert id="insertAll" parameterType="studyBean">
-		insert into study (updatetime, startdate , enddate, type, memo) 
-		values (#{updatetime}, #{startdate} , #{enddate}, #{type}, #{memo})) where id=#{id}
-	</insert>
+	<update id="assertPlan" parameterType="studyBean">
+		update study set updatetime=now(), startdate=#{startdate}, enddate=#{enddate}, type=#{type}, memo=#{memo} where id=#{id}
+	</update>
 
 	<update id="updateTypeChap" parameterType="_int">
 		update salpa.study set type='chap' where study.id=#{id}

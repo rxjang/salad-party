@@ -29,5 +29,12 @@ public class CheckPageVo {
 	private Date date;
 	@NonNull
 	private int delete;
+	
+	public CheckPageVo(Date date, int planpage, int study_id) {
+		super();
+		this.planpage = planpage;
+		this.study_id = study_id;
+		this.date = date;
+	}
 
 }
