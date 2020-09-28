@@ -70,6 +70,8 @@ public class MylibServiceImpl implements MylibService {
 			dao.insertOne(bean);
 			tempDate=nextDay(tempDate);
 		}
+		
+		
 	}
 
 	//다음날짜 구하는 함수
@@ -81,6 +83,5 @@ public class MylibServiceImpl implements MylibService {
 		Date nextday=new Date(date.getTime());
 		return nextday;
 	}
-
 
 }

@@ -274,19 +274,19 @@ $(function(){
 	 
 	
 function mobile(){
-	$('.jung').text('');
-	$( ".menu-today" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-pencil\"></span><br/>" );
-	$( ".menu-mylib" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-book\"></span><br/>" );
-	$( ".menu-club" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-link\"></span><br/>" );
-	$( ".menu-find" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-search\"></span><br/>" );
-	$( ".menu-feed" ).prepend( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span><br/>" );
-	$( ".add-jung" ).css("color","#666666");
+	$(".jung").text('');
+	$(".menu-today").prepend( "<span class=\"menu-icon glyphicon glyphicon-pencil\"></span><br/>" );
+	$(".menu-mylib").prepend( "<span class=\"menu-icon glyphicon glyphicon-book\"></span><br/>" );
+	$(".menu-club").prepend( "<span class=\"menu-icon glyphicon glyphicon-link\"></span><br/>" );
+	$(".menu-find").prepend( "<span class=\"menu-icon glyphicon glyphicon-search\"></span><br/>" );
+	$(".menu-feed").prepend( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span><br/>" );
+	$(".add-jung").css("color","#666666");
 }
 function pc(){
-	$('.jung').text('#');
-	$('.menu-icon').remove();
-	$('.add-jung').children('br').remove();
-	$( ".add-jung" ).css("color","black");
+	$(".jung").text("#");
+	$(".menu-icon").remove();
+	$(".add-jung").children("br").remove();
+	$(".add-jung").css("color","black");
 }
 
 </script>
