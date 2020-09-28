@@ -17,6 +17,9 @@ $(function(){
 	writer=''; publisher=''; pages=''; category=''; isbn=''; translator=''; title_original=''; publication_date=''; revision='';
 	img_link='';//혹시 남아있을지 모를 값들을 페이지 로딩할 때 초기화 해둔다.
 	
+	
+	console.log("중복체크:${studyOverlap}");
+	
 	$.ajax('${pageContext.request.contextPath }/find/crawling',{
 		method:'get',
 		data:'bid='+bid,	
@@ -206,9 +209,63 @@ $(function(){
 				}//success
 			
 		});//ajax
-
+		/* 로그인한 상태에서 스터디중인 책을 봤을 때 내서재가기 버튼을 오늘의 기록버튼으로 바꾼다. */
+		console.log('중복체크${studyOverlap}');
+		if('${studyOverlap}'=='0'){
+			$('.mylib-btn a').eq(0).attr('id','goToday');
+			$('.mylib-btn a').eq(0).text('오늘의 기록');
+		}else{
+			$('.mylib-btn a').eq(0).attr('id','putChapters');
+			$('.mylib-btn a').eq(0).text('내서재에 담기');
+		}
+		$('#goToday').on('click',function(){
+			location.href="${pageContext.request.contextPath}/today";
+		});//오늘의 기록으로 이동
+		
 		/*******  body에 있는 내서재가기  ******/
 		$('#putChapters').on('click', function() {
+			if('${user}'==''){
+				swal({
+					  title: "로그인이 필요합니다.",
+					  text: "로그인 페이지로 이동하시겠습니까?",
+					  icon: "info",
+					  buttons: {
+						cancel: "머무르기", //취소버튼 false
+					    confirm:{
+					    	text:"로그인하러 가기",
+					    	value:true
+					    }
+					  },
+				}).then((value) => {	//value가 true이면 내서재로 이동한다.
+					if(value){
+							location.href = '${pageContext.request.contextPath }/account/login';
+					}//if
+				});//swal
+				return false;
+			}else{
+				
+				$.post('${pageContext.request.contextPath }/find/put', {
+					'chapters' : chapters,
+					'bid' : bid,
+					'title' : title,
+					'writer' : writer,
+					'publisher' : publisher,
+					'pages' : pages,
+					'category' : category,
+					'isbn' : isbn,
+					'translator' : translator,
+					'titleoriginal' : title_original,
+					'publicationdate' : publication_date,
+					'revision' : revision,
+					'coverurl': imgUrl
+				}, function() {
+					//DB에 목차정보랑 책ID를 전달함
+					$('.mylib-btn a').eq(0).attr('id','goToday');
+					$('.mylib-btn a').eq(0).text('오늘의 기록');
+				}).fail(function() {
+					swal("통신 에러");
+				});//ajax
+			}//else 로그인 검사
 			
 			swal({
 				  title: "내서재에 담았습니다.",
@@ -226,26 +283,7 @@ $(function(){
 						location.href = '${pageContext.request.contextPath }/mylib';
 				}//if
 			});//swal
-			
-			$.post('${pageContext.request.contextPath }/find/put', {
-				'chapters' : chapters,
-				'bid' : bid,
-				'title' : title,
-				'writer' : writer,
-				'publisher' : publisher,
-				'pages' : pages,
-				'category' : category,
-				'isbn' : isbn,
-				'translator' : translator,
-				'titleoriginal' : title_original,
-				'publicationdate' : publication_date,
-				'revision' : revision,
-				'coverurl': imgUrl
-			}, function() {
-				//DB에 목차정보랑 책ID를 전달함
-			}).fail(function() {
-				swal("통신 에러");
-			});//ajax
+
 			return false;//a tag 이동 방지
 		});
 

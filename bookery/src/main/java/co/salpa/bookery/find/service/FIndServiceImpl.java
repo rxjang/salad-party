@@ -11,7 +11,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,13 +47,21 @@ public class FIndServiceImpl implements FindService {
 
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	SqlSession sqlsession;
-	
+	SqlSession sqlSession;
+
 	@Value("#{naver['naver.clientid']}")
 	private String client;
 	@Value("#{naver['naver.clientsecret']}")
 	private String secret;
-	
+
+	/**
+	 * sql type 오늘 날짜 구하기 2020-09-24
+	 */
+	public Date getSqlToday() {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		Date today = Date.valueOf(sdf.format(new java.util.Date()));
+		return today;
+	}// getSqlToday
 	/*
 	 * src/main/resources/config/naverApi.properties 파일 불러오기.
 	 */
@@ -69,7 +79,7 @@ public class FIndServiceImpl implements FindService {
 //			e.printStackTrace();
 //		}
 //	}//naver api keys
-	
+
 	/****
 	 * 
 	 * 검색페이지에서 검색항목(저자, 출판사, 제목) 선택해서 검색하면 검색결과를 보여주는 순서 start와 검색어search, 검색항목
@@ -79,11 +89,11 @@ public class FIndServiceImpl implements FindService {
 	@Override
 	public String searchService(int start, String search, String select) {
 		// TODO Auto-generated method stub
-	//	System.out.println(client + secret);
+		// System.out.println(client + secret);
 		String param_start = "&start=" + start;// 검색결과 문서들 읽는 시작순서.
-		String findOpt=null;
+		String findOpt = null;
 		// select = {제목,저자,출판사} 상세검색 요청변수 생성
-			findOpt = detailSearch(select, search);
+		findOpt = detailSearch(select, search);
 
 		System.out.println(search + start);
 		try {
@@ -91,20 +101,18 @@ public class FIndServiceImpl implements FindService {
 			System.out.println(search);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("encoding error", e);
-			
-			
+
 		} // catch
 
 		String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + search + param_start + findOpt; // book
 																													// search
 		System.out.println(apiURL);
 
-		
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("X-Naver-Client-Id", client);
 		requestHeaders.put("X-Naver-Client-Secret", secret);
 		String responseBody = get(apiURL, requestHeaders);// 네이버북 검색결과 페이지 내용을 responseBody에 담음
-		
+
 		return responseBody;
 	}// searchService
 
@@ -116,7 +124,7 @@ public class FIndServiceImpl implements FindService {
 			findOpt = "&d_titl=";
 		} else if (select.equals("출판사")) {
 			findOpt = "&d_publ=";
-		} 
+		}
 		findOpt += word;
 		return findOpt;
 	}
@@ -190,7 +198,7 @@ public class FIndServiceImpl implements FindService {
 			e.printStackTrace();
 		}
 		// System.out.println(doc);
-	//	String json = "{\"crawling\":"+doc+"}";
+		// String json = "{\"crawling\":"+doc+"}";
 		return doc;
 	}// crawlingService
 
@@ -201,16 +209,18 @@ public class FIndServiceImpl implements FindService {
 	 ****/
 	@Override
 	public Model listTocService(Model model, int bid) throws SQLException {
-		// TODO Auto-generated method stub	
-		BookDao bookDao = sqlsession.getMapper(BookDao.class);
-		TocDao tocDao = sqlsession.getMapper(TocDao.class);
+		// TODO Auto-generated method stub
+		BookDao bookDao = sqlSession.getMapper(BookDao.class);
+		TocDao tocDao = sqlSession.getMapper(TocDao.class);
 		model.addAttribute("book", bookDao.selectOne(bid));
 		model.addAttribute("bookChapters", tocDao.selectOne(bid));
-		
-		//bookDao.insertOne(new BookVo(1212, null, null, null,  0, null, null, null, null, null, null));
-		/*	트랜잭션 속성에 list* 메소드 read-only속성을 지정해둬서 데이터조작 이 발생하면 예외가 발생한다.
-		 * SQL []; Connection is read-only. Queries leading to data modification are not allowed;
-		 *  nested exception is java.sql.SQLException: Connection is read-only.
+
+		// bookDao.insertOne(new BookVo(1212, null, null, null, 0, null, null, null,
+		// null, null, null));
+		/*
+		 * 트랜잭션 속성에 list* 메소드 read-only속성을 지정해둬서 데이터조작 이 발생하면 예외가 발생한다. SQL [];
+		 * Connection is read-only. Queries leading to data modification are not
+		 * allowed; nested exception is java.sql.SQLException: Connection is read-only.
 		 */
 		return model;
 	}//
@@ -223,7 +233,7 @@ public class FIndServiceImpl implements FindService {
 	@Override
 	public Model listBookService(Model model) throws SQLException {
 		// TODO Auto-generated method stub
-		BookDao bookDao = sqlsession.getMapper(BookDao.class);
+		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		return model.addAttribute("books", bookDao.selectAll());
 	}
 
@@ -244,9 +254,9 @@ public class FIndServiceImpl implements FindService {
 					continue;
 				} else {
 					tocDao.insertOne(new TocVo(book.getBid(), chapter.trim()));// 목차와 해당목차의 책번호
-					//트랜잭션
-					//throw new Exception(); 목차를 하나 입력하고 강제예외발생시키면 
-					//먼저 입력한 책 제목 또한 롤백처리됨. 
+					// 트랜잭션
+					// throw new Exception(); 목차를 하나 입력하고 강제예외발생시키면
+					// 먼저 입력한 책 제목 또한 롤백처리됨.
 				} // if
 			} // for
 		} // out if
@@ -256,48 +266,74 @@ public class FIndServiceImpl implements FindService {
 	 * 
 	 * 검색해서 선택한 책정보를 book테이블에 추가하고 그 책의 목차를 toc테이블에 추가한다.
 	 * 
-	 * 그리고 study테이블에도 책정보와함게 스터디생성
-	 * Transactional 어노테이션으로 insertStudyService 메소드가 정상종료되기전에 예외가 발생하면
-	 * 모두 롤백된다.
+	 * 그리고 study테이블에도 책정보와함게 스터디생성 Transactional 어노테이션으로 insertStudyService 메소드가
+	 * 정상종료되기전에 예외가 발생하면 모두 롤백된다.
 	 * 
 	 ****/
 	@Override
 	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException {
 		// TODO Auto-generated method stub
-		BookDao bookDao = sqlsession.getMapper(BookDao.class);
-		TocDao tocDao = sqlsession.getMapper(TocDao.class);
-		StudyDao studyDao = sqlsession.getMapper(StudyDao.class);
+		BookDao bookDao = sqlSession.getMapper(BookDao.class);
+		TocDao tocDao = sqlSession.getMapper(TocDao.class);
+		StudyDao studyDao = sqlSession.getMapper(StudyDao.class);
 
 		bookDao.insertOne(book);// 책입력
 		tocsPut(book, tocDao, chapters);// 목차들 입력
+		studyDao.insertOne(study);// 스터디생성
 	}// studyAddService
-
-	
 
 	/****
 	 * 
 	 * 가장 많이 공부중인 책 리스트
 	 * 
 	 ****/
-	
+
 	@Override
 	public Model listMostBookService(Model model) throws SQLException {
 		// TODO Auto-generated method stub
-		BookDao bookDao = sqlsession.getMapper(BookDao.class);
+		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		List<BookVo> list = bookDao.selectMostBook();
-		model.addAttribute("most_list",list);
+		model.addAttribute("most_list", list);
 		return model;
 	}
-	
+
 	/**
-	 *  DB에 저장되어 있는 책 정보 받아오기. bid 사용
+	 * DB에 저장되어 있는 책 정보 받아오기. bid 사용
 	 */
 	@Override
 	public Model getBookService(int bid, Model model) throws SQLException {
-		BookDao bookDao = sqlsession.getMapper(BookDao.class);
+		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		model.addAttribute("book", bookDao.selectOne(bid));
 		return model;
-	}//detailService
+	}// detailService
+
+	/**
+	 * user id와 bid를 이용해 study중인 공부가 있는지 검사. enddate가 오늘이전인 것중에. ****추후에 좀 더 구체적인
+	 * 검증처리할것. 화면에서 내서재담기 버튼을 보일지 말지 결정
+	 */
+
+	@Override
+	public Model getStudyOverlapChk(int id, int bid, Model model) {
+		StudyDao studyDao = sqlSession.getMapper(StudyDao.class);
+		List<StudyVo> study = null;
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("user_id", id + "");
+		map.put("book_bid", bid + "");
+		map.put("createtime", getSqlToday() + " 23:59:59");// 오늘날짜.
+		System.out.println(getSqlToday() + " 23:59:59");
+		study = studyDao.selectOneByIdAndBid(map);
+		System.out.println(study.toString());
+		
+		if (study.size() == 0) {
+			System.out.println("중복아님");
+			model.addAttribute("studyOverlap", 1); // 중복아닌경우
+		} else if (study.size() != 0) {
+			System.out.println("중복임");
+			model.addAttribute("studyOverlap", 0); // 중복인경우
+		}
+		model.addAttribute("bid", bid);
+		return model;
+	}
 
 	@Override
 	public void updateService() throws SQLException {
