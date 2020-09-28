@@ -1,6 +1,7 @@
 package co.salpa.bookery.mylib.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,10 @@ public class MylibCalendarServiceImpl implements MylibCalendarService {
 	SqlSession sqlSession;
 	
 	@Override
-	public Model selectStudyService(int study_id, Model model) throws SQLException {
+	public Model listTodayStudiesService(int id, Model model) throws SQLException {
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
-		V_StudyVo v_studyVo=v_studyDao.selectOneByStudyId(study_id);
-		return model.addAttribute("v_study", v_studyVo);
+		List<V_StudyVo> list=v_studyDao.selectActiveByUserId(id);
+		model.addAttribute("studies", list);
+		return model;
 	}
-
 }

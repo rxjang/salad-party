@@ -6,6 +6,6 @@ import org.springframework.ui.Model;
 
 public interface MylibCalendarService {
 
-	Model selectStudyService(int study_id, Model model) throws SQLException;
+	Model listTodayStudiesService(int study_id, Model model) throws SQLException;
 
 }

@@ -13,7 +13,7 @@
 			<li><a href="${pageContext.request.contextPath }/mylib" class="add-jung menu-mylib"><span class="jung"></span>내서재</a></li>
 			<li><a href="${pageContext.request.contextPath }/club" class="add-jung menu-club"><span class="jung"></span>북클럽</a></li>
 			<li><a href="${pageContext.request.contextPath }/find" class="add-jung menu-find"><span class="jung"></span>검색</a></li>
-			<li><a href="${pageContext.request.contextPath }/feed" class="add-jung menu-feed"><span class="jung"></span>책거리 뉴스</a></li>
+			<li><a href="${pageContext.request.contextPath }/news" class="add-jung menu-feed"><span class="jung"></span>책거리 뉴스</a></li>
 		</ul>
 		</div>
 	<!-- 설정 메뉴 위치 -->
