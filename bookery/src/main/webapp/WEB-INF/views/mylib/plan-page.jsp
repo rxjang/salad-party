@@ -16,6 +16,15 @@ var enddate;
 var plan_page;
 var temp;
 
+var mql = window.matchMedia("screen and (max-width: 800px)");
+	mql.addListener(function(e) {
+	    if(e.matches) {
+		    $(".btn").before("<div class=\"temp\"><br/><div/>");
+	    } else {
+			$('.temp').remove();
+	    }
+	});
+
 function get_date_str(date){
     var sYear = date.getFullYear();
     var sMonth = date.getMonth() + 1;
@@ -27,10 +36,12 @@ function get_date_str(date){
 }//날짜 형변환
 
 $(function() {
-$(".datepicker").datepicker({
-	language: 'ko'
-}); 
- 	$('.by-page').hide();
+	if (mql.matches) {
+		$(".btn").before("<div class=\"temp\"><br/><div/>");
+	} else {
+		$('.temp').remove();
+	}//최초
+  	$('.by-page').hide();
 	$('.by-date').hide();
  	$('.page-result').hide();
 	$('.date-result').hide();
@@ -80,7 +91,7 @@ $(".datepicker").datepicker({
 				});
 		}else{
 			$('.page-result').show();
-		}
+		} 
 	});//page-btn click
 	$('.enddate-btn').on('click',function(){
 		temp=$('.startdate1').val();
@@ -151,7 +162,6 @@ $(".datepicker").datepicker({
 	}
 	.page-content{
 		margin-left:3em;
-		width:700px;
 	}
 	.page-content h4{
 		margin-top:0px;
@@ -167,7 +177,7 @@ $(".datepicker").datepicker({
 	}
 	.choice:hover{
 		color:#8ba989;
-		border: 1px solid #8ba989;g
+		border: 1px solid #8ba989;
 	}
 	.gray{
 		color:#999999;
@@ -215,6 +225,20 @@ $(".datepicker").datepicker({
  		.jumbotron{width:90%; text-align:center;}
 		.book-image{margin-bottom:2em;}
 		.page-main{display:block;}
+		.page-content{
+			width:100%;
+			margin:0 auto;
+			font-size:1.3em;
+		}
+		.temp{
+			margin:0px auto;
+		}
+		.commet{
+			text-align:ceter;
+		}
+		.submenu-main{
+	    	margin-bottom:180px;
+		}
 	}
 </style>
 </head>
@@ -249,11 +273,11 @@ $(".datepicker").datepicker({
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day" readonly/><br/>
 								<label for="planpage">공부할 양</label><input type="text" name="planPage" class="plan-page" readonly/><br/>
-								<label for="memo">메모</label><input type="textarea" name="memo" class="memo"/>
+								<label for="memo">메모</label><input type="text" name="memo" class="memo"/>
 								<input type="hidden" name="id" value="${v_study.study_id}" readonly/>
 								<input type="hidden" name="type" value="page" readonly/><br/>
 								<div class="comment">
-									<button class="btn enddate-btn assert">해당 정보로 목표설정을 하시겠습니까?
+									<button class="btn assert">해당 정보로 목표설정을 하시겠습니까?
 									<span class="glyphicon glyphicon-ok"></span>
 									</button>
 								</div>
@@ -275,12 +299,12 @@ $(".datepicker").datepicker({
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date1" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date1" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day1" readonly/><br/>
-								<label for="planpage">공부할 양</label><input type="text" name="planPage" class="plan-page1" readonly/>
-								<label for="memo">메모</label><input type="textarea" name="memo" class="memo"/>
+								<label for="planpage">공부할 양</label><input type="text" name="planPage" class="plan-page1" readonly/><br/>
+								<label for="memo">메모</label><input type="text" name="memo" class="memo"/>
 								<input type="hidden" name="id" value="${v_study.study_id}" readonly/>
 								<input type="hidden" name="type" value="page" readonly/><br/>
 								<div class="comment">
-									<button class="btn enddate-btn assert">해당 정보로 목표설정을 하시겠습니까?
+									<button class="btn assert">해당 정보로 목표설정을 하시겠습니까?
 									<span class="glyphicon glyphicon-ok"></span>
 									</button>
 								</div>

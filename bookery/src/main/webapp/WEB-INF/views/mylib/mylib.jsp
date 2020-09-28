@@ -10,18 +10,7 @@ $(function() {
 	    margin:30,
 	    nav:true,
 	    autoWidth:true,
-	    responsiveClass:true,
-	    responsive:{
-	    	0:{
-	   	     items:1
-	        },
-	        600:{
-  	         items:3
-	       	},
-	       	1000:{
-	          items:5
-	        }
-	    }
+	    responsiveClass:true
 	})
 });
 </Script>
@@ -84,7 +73,8 @@ $(function() {
 	}
 	@media (max-width:1000px) {
 		#mylib-account{width:100%; height:250px; padding:20px; padding-left:30px;}
-		.mylib-main{width:100%; padding:20px; padding-left:30px;}
+		.mylib-main{width:100%; padding:20px; padding-left:20px;}
+		.mylib-main-inner{padding-left:10px;}
 		#mylib-account h3, .table, .table>tbody>tr>td{font-weight:bold}
 		.mylib-info-ment{font-weight:bold; text-shadow: 3px 3px 3px #000000; font-size:1.1em;}
 	}
@@ -139,7 +129,7 @@ $(function() {
 			<div class="owl-carousel owl-theme">
 				<c:forEach items="${studyingbooklist }" var="bean2">
 				    <div class="item">
-				    	<a href="#"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></a>
+				    	<a href="${pageContext.request.contextPath }/mylib/${bean2.study_id }"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></a>
 				    </div>
 				</c:forEach>
 			</div><!-- owl end -->
@@ -149,7 +139,7 @@ $(function() {
 			<div class="owl-carousel owl-theme">
 				<c:forEach items="${finishedbooklist }" var="bean3">
 				    <div class="item">
-				    	<a href="#"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지"></a>
+				    	<a href="${pageContext.request.contextPath }/mylib/${bean3.study_id }"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지"></a>
 				    </div>
 				</c:forEach>
 			</div><!-- owl end -->
