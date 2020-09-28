@@ -11,7 +11,7 @@
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 	<c:if test="${user ne null}">
-	<h3>${user.name }님 로그인 하셨습니다.</h3>
+	<h3>${user.nickname }님 로그인 하셨습니다.</h3>
 	</c:if>
 	<br/>
 	1<br/>

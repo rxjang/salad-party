@@ -1,5 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" 
+	import="javax.servlet.http.HttpSession" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<% 	
+	String dest = (String)session.getAttribute("dest");
+%>
 <!DOCTYPE>
 <html>
 	<head>
@@ -113,8 +117,15 @@
              if(fail == "fail") {
                 swal("로그인 실패", "이메일과 비밀번호를 확인해주세요.","warning"); 
              }else{
+            	 var dest = "<%=dest%>"; 
+            	 if(dest != null && dest != "") {
+            		 window.location.replace("http://localhost:8080" + dest); 
+            		 return false;
+            	 } else {
+            		 
+            	 }
                   window.location.replace("${pageContext.request.contextPath }/"); 
-                }
+              }
           	 },//success
 	         error:function(){
 	            swal('로그인 실패', '통신 장애','warning');

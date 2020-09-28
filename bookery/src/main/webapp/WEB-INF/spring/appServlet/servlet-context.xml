@@ -50,5 +50,25 @@
 		</tx:attributes>
 	</tx:advice>
 	
-	
+	<beans:bean id="loginInterceptor" 
+            class="co.salpa.bookery.interceptor.LoginInterceptor"/>
+	<beans:bean id="authInterceptor" 
+            class="co.salpa.bookery.interceptor.AuthInterceptor"/>
+            
+	<interceptors>
+	  <interceptor>
+	    <mapping path="/account/login"/>
+	    <beans:ref bean="loginInterceptor"/>
+	</interceptor>
+	<interceptor>
+    <!-- login 인증이 필요한 URI 들 -->
+	    <mapping path="/today"/>
+	    <mapping path="/today/**"/>
+	    <mapping path="/mylib"/>
+	    <mapping path="/mylib/**"/>
+	    <mapping path="/club"/>
+	    <mapping path="/club/**"/>
+	    <beans:ref bean="authInterceptor"/>
+  	</interceptor>
+	</interceptors>
 </beans:beans>
