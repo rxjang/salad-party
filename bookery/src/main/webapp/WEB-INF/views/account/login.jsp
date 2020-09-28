@@ -3,6 +3,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <% 	
 	String dest = (String)session.getAttribute("dest");
+
+	System.out.println(request.getServerPort());
 %>
 <!DOCTYPE>
 <html>
@@ -117,9 +119,9 @@
              if(fail == "fail") {
                 swal("로그인 실패", "이메일과 비밀번호를 확인해주세요.","warning"); 
              }else{
-            	 var dest = "<%=dest%>"; 
+            	 var dest = <%=dest%>; 
             	 if(dest != null && dest != "") {
-            		 window.location.replace("http://localhost:8080" + dest); 
+            		 window.location.replace("http://localhost:"+<%=request.getServerPort()%> +""+ dest); 
             		 return false;
             	 } else {
             		 
