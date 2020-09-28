@@ -39,7 +39,7 @@ public class LoginController {
 
 		UserVo userBean = null;
 		userBean = accountService.login(bean.getEmail(), bean.getPassword());
-		System.out.println(userBean);
+//		System.out.println(userBean);
 		
 		if(userBean != null) {
 			session.setAttribute("user", userBean);
