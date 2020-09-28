@@ -30,24 +30,23 @@ $(function() {
 $(".datepicker").datepicker({
 	language: 'ko'
 }); 
-	$('.number-of-pages').hide();
-	$('.page-enddate').hide();
-	$('.result').hide();
-	$('.page-choice').each(function(){
-		$(this).on('click',function(){
-			pagechoice = $(":input:radio[name=page-choice]:checked").val();
-			if(pagechoice=='by-page'){
-				$('.number-of-pages').show();
-				$('.page-enddate').hide();
-				$('.result').hide();
-			}else if(pagechoice=='by-date'){
-				$('.page-enddate').show();
-				$('.number-of-pages').hide();
-				$('.result').hide();
-			}//if
-		});//click
-	});//each
+ 	$('.by-page').hide();
+	$('.by-date').hide();
+ 	$('.page-result').hide();
+	$('.date-result').hide();
+	$('.page-choice').on('click',function(){
+			$('.by-page').show();
+			$('.by-date').hide();
+		 	$('.date-result').hide();
+	});//click
+	$('.page-date').on('click',function(){
+		$('.by-date').show();
+		$('.by-page').hide();
+		$('.page-result').hide();
+	});//click
+		
 	$('.page-btn').on('click',function(){
+		$('.page-btn:hover').css('border','0px solid');
 		startdate=$('.startdate').val();
 		$('.start-date').val(startdate);
 		plan_page=$('.page').val();
@@ -56,27 +55,80 @@ $(".datepicker").datepicker({
 		$('.study-day').val(temp);
 		enddate=new Date(startdate);
 		enddate=enddate.setDate(enddate.getDate()+temp-1);//끝나는 날짜 계산
-		console.log(enddate);
 		enddate=new Date(enddate);
 		$('.end-date').val(get_date_str(enddate));
-		$('.result').show();
+		if(startdate==""||plan_page==""){
+			swal({
+				  title: "값이 비었습니다",
+				  text: "시작 날짜와 공부할 양이 제대로 입력되었는지 확인해 주세요",
+				  icon: "error",
+				  button: "확인",
+			});			
+		}else if(startdate<get_date_str(new Date())){
+			swal({
+				  title: "시작 날짜 입력 오류",
+				  text: "시작 날짜는 오늘이나 오늘 이후의 날짜로 입력해 주세요",
+				  icon: "error",
+				  button: "확인",
+				});
+		}else if(plan_page>pages){
+			swal({
+				  title: "페이지 입력 오류",
+				  text: "공부할 양은 총 페이지수보다 많을 수 없습니다",
+				  icon: "error",
+				  button: "확인",
+				});
+		}else{
+			$('.page-result').show();
+		}
 	});//page-btn click
 	$('.enddate-btn').on('click',function(){
 		temp=$('.startdate1').val();
-		$('.start-date').val(temp);
+		$('.start-date1').val(temp);
 		startdate=new Date(temp);
 		temp=$('.enddate').val();
-		$('.end-date').val(temp);
+		$('.end-date1').val(temp);
 		enddate=new Date(temp);
 		temp=Math.ceil((enddate.getTime()-startdate.getTime())/(1000*3600*24))+1;
-		$('.study-day').val(temp);
+		$('.study-day1').val(temp);
 		plan_page=Math.ceil(pages/temp);
-		$('.plan-page').val(plan_page);
-	 	$('.result').show();
+		$('.plan-page1').val(plan_page);
+		if($('.startdate1').val()==""||$('.enddate').val()==""){
+			swal({
+				  title: "값이 비었습니다",
+				  text: "시작 날짜와 마칠 날짜가 제대로 입력되었는지 확인해 주세요",
+				  icon: "error",
+				  button: "확인",
+			});			
+		}else if($('.startdate1').val()<get_date_str(new Date())){
+			swal({
+				  title: "시작 날짜 입력 오류",
+				  text: "시작 날짜는 오늘이나 오늘 이후의 날짜로 입력해 주세요",
+				  icon: "error",
+				  button: "확인",
+			});
+		}else if($('.startdate1').val()>$('.enddate').val()){
+			swal({
+				  title: "날짜 입력 오류",
+				  text: "마칠 날짜는 시작 날짜 이후여야 합니다",
+				  icon: "error",
+				  button: "확인",
+			});
+		}else{
+		 	$('.date-result').show();
+		}
 	});//enddate-btn click
 });//ready
 </Script>
 <style type="text/css">
+	label{
+	 width:20%;
+	}
+	input{
+		width:150px;
+		border: 1px solid #e4e4e4;
+		margin:0.3em auto;
+	}
 	.jumbotron{
 		background-color:white;
 		width:80%;
@@ -84,16 +136,81 @@ $(".datepicker").datepicker({
 		padding:10px;
 		border:1px solid #e4e4e4;
 	}
-	.plan-page-title{text-align:center; margin-bottom:1em}
-	.page-main{display:inline-flex;}
+	.plan-page-title{
+		text-align:center;
+		margin-bottom:1em;
+	}
+	.page-main{
+		display:inline-flex;
+		width:100%;
+	}
 	.book-image{
 		width:14em;
 		box-shadow: 12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4);
 		margin-bottom:5em;
 	}
-	.page-content{margin-left:3em;}
-	.page-content h4{margin-top:0px;}
-
+	.page-content{
+		margin-left:3em;
+		width:700px;
+	}
+	.page-content h4{
+		margin-top:0px;
+	}
+	.choice{
+		cursor:pointer;
+		line-height:40px;
+		border: 1px solid #e4e4e4;
+		padding:0.5em 1.5em;
+		font-size:1.2em;
+		border-radius:10px;
+		margin:20px auto;
+	}
+	.choice:hover{
+		color:#8ba989;
+		border: 1px solid #8ba989;g
+	}
+	.gray{
+		color:#999999;
+		font-size:0.9em;
+	}
+	.by{
+		padding-left:10px;
+	}
+	.calc{
+		margin-left:30px;
+		background-color:#8ba989;
+		color:white;
+		line-height:15px;
+	}
+	.calc:hover{
+		background-color:white;
+		border:1px solid #8ba989;
+		color:#8ba989;
+	}
+	.assert{
+		background-color:white;
+		line-height:15px;
+		padding:0px 5px;
+		margin-bottom:5px;
+		font-size:1.2em;
+	}
+	.assert:hover{
+		border:1px solid white;
+		color: #49654d;
+	} 
+	.result{
+		border-top:1px solid #e4e4e4;
+		padding-top:1em;
+		margin-top:1em;
+	}
+	.comment{
+		vertical-align:middle;
+		text-align:center;
+		margin-top:10px;
+	}
+	.submenu-main{
+	    margin-bottom:120px;
+	}
  	@media (max-width:800px) {
  		.jumbotron{width:90%; text-align:center;}
 		.book-image{margin-bottom:2em;}
@@ -111,43 +228,68 @@ $(".datepicker").datepicker({
 		<div class="page-main">
 			<div class="book-image-box">
 				<img class="book-image" src="${v_study.coverurl }" alt="책 이미지">
-			</div>
+			</div><!-- book-image-box -->
 			<div class="page-content">
 				<div class="book-info-detail">
 					<h4><strong>${v_study.title}</strong></h4>
 					<h5>본 책은 총 <strong>${v_study.pages}</strong>페이지 입니다</h5>
-				</div>
-				<div>
-					<input type="radio" id="by-page" name="page-choice" value="by-page" class="page-choice">
-				 	<label for="by-page">공부할 양 지정</label>
-					<input type="radio" id="by-date" name="page-choice" value="by-date" class="page-choice">
-				 	<label for="by-date">끝나는 날 지정</label>
-				</div>
-				<div>
-					<div class="number-of-pages">
-						<label for="startdate">시작날짜</label><input type="date" name="startdate" class="startdate"/><br/>
+				</div><!-- book-info-detail -->
+				<div class="page-page">
+					<div class="choice page-choice">
+						 <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span> 하루에 공부할 양을 기준으로<br/>
+						 <span class="gray">시작 날짜와 공부할 페이지 양을 입력하시면 끝나는 날짜가 계산됩니다</span>
+					</div><!-- choice -->
+					<div class="by-page by">
+						<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="startdate"/><br/>
 						<label for="page">공부할 양</label><input type="text" name="page" class="page"/>
-						<button class="btn btn-priamary page-btn">계산</button>
-					</div>
-					<div class="page-enddate">
-						<label for="startdate">시작날짜</label><input type="date" name="startdate" class="startdate1"/><br/>
-						<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="enddate"/>
-						<button class="btn btn-priamary enddate-btn">계산</button>
-					</div>
-					<div class="result">
-						<form method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
-							<label for="startdate">시작날짜</label><input type="date" name="startdate" class="start-date" readonly/><br/>
-							<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date" readonly/>
-							<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day" readonly/>
-							<label for="planpage">공부할 양</label><input type="text" name="planPage" class="plan-page" readonly/>
-							<input type="hidden" name="id" value="${v_study.study_id}" readonly/>
-							<input type="hidden" name="type" value="page" readonly/><br/>
-							해당 데이터로 목표설정을 하시겠습니까?<button class="btn btn-priamary enddate-btn">확인</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div><!-- .page-main-inner end -->
+						<button class="btn btn-priamary page-btn calc">계산</button>
+						<div class="page-result result">
+							<form method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
+								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date" readonly/><br/>
+								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date" readonly/><br/>
+								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day" readonly/><br/>
+								<label for="planpage">공부할 양</label><input type="text" name="planPage" class="plan-page" readonly/><br/>
+								<label for="memo">메모</label><input type="textarea" name="memo" class="memo"/>
+								<input type="hidden" name="id" value="${v_study.study_id}" readonly/>
+								<input type="hidden" name="type" value="page" readonly/><br/>
+								<div class="comment">
+									<button class="btn enddate-btn assert">해당 정보로 목표설정을 하시겠습니까?
+									<span class="glyphicon glyphicon-ok"></span>
+									</button>
+								</div>
+							</form>
+						</div><!-- page-result -->
+					</div><!-- by-page -->
+				</div><!-- page-page -->
+				<div class="page-date">
+					<div class="choice page-choice">
+						 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 공부를 마칠 날짜를 기준으로<br/>
+						 <span class="gray">시작 날짜와 마칠 날짜를 입력해주시면 하루에 공부해야 할 페이지이 계산됩니다</span>
+					</div><!-- choice -->
+					<div class="by-date by">
+						<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="startdate1"/><br/>
+						<label for="enddate">마칠 날짜</label><input type="date" name="enddate" class="enddate"/>
+						<button class="btn btn-priamary enddate-btn calc">계산</button>
+						<div class="date-result result">
+							<form method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
+								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date1" readonly/><br/>
+								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date1" readonly/><br/>
+								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day1" readonly/><br/>
+								<label for="planpage">공부할 양</label><input type="text" name="planPage" class="plan-page1" readonly/>
+								<label for="memo">메모</label><input type="textarea" name="memo" class="memo"/>
+								<input type="hidden" name="id" value="${v_study.study_id}" readonly/>
+								<input type="hidden" name="type" value="page" readonly/><br/>
+								<div class="comment">
+									<button class="btn enddate-btn assert">해당 정보로 목표설정을 하시겠습니까?
+									<span class="glyphicon glyphicon-ok"></span>
+									</button>
+								</div>
+							</form>
+						</div><!-- date-result -->
+					</div><!-- by-date -->
+				</div><!-- page-date -->
+			</div><!-- page content -->
+		</div><!-- .page-main end -->
 	</div><!-- jumbotron end -->
 </div><!-- .row end -->
 <!--**********content end**********-->

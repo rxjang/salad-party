@@ -7,6 +7,12 @@
 <%@ include file="../template/head.jspf" %>
 <style type="text/css">
 </style>
+
+ <script>
+ $(function(){
+	console.log("${v_study.study_id}"); 
+ });
+ </script>
 </head>
 <body>
 <%@ include file="../template/menu.jspf" %>

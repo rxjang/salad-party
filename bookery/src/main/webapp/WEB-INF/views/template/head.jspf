@@ -163,7 +163,7 @@
     /************서브메뉴가 있는 경우의 CSS******************/
 	.submenu-main{
 	    margin-top:110px;
-	    margin-bottom:120px;
+		margin-bottom:0px;
 		position: -webkit-sticky; /* 사파리 브라우저 지원 */
 	    position: sticky;
 	}
@@ -215,7 +215,7 @@
  	   	}
  	   	.submenu-main{
  	   		margin-top:90px;
- 	   		margin-bottom:180px;
+ 	   		margin-bottom:100px;
  	   	}
  	  	 #footer{margin-bottom:80px;}
  	  	 .footer-content{

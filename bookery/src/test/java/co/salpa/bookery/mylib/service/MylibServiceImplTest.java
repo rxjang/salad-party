@@ -56,12 +56,6 @@ public class MylibServiceImplTest {
 //		CheckPageVo checkPageVo=new CheckPageVo();
 //		System.out.println(checkPageVo);
 //		assertSame(checkPageVo.getPlanpage(),100);
-		/*
-		 * 테스트 연결이왜이렇게 안되는지 모르겠는데.,,,checkPageDao MylibService등 다 autowired가 안먹더라구요
-		 * 그래서 테스트 메소드 안에서 이렇게하고 했는데 CheckPageVo를 객체로 만들면 기본값이니까 테스트가 안돼서...
-		 * 본 메소드에서 syso하니까 나오네요 테스트하고싶으면 임시로 그렇게 해보셔도 됩니다 
-		 * 나중에 수정하겠습니다
-		 */
 	}
 
 	@Test
