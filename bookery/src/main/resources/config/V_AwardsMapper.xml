@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="co.salpa.bookery.model.V_AwardsDao">
+	<select id="selectAchieveMedal" resultType="v_awardsBean" parameterType="_int">
+		select * from v_awards where user_id=#{id}
+	</select>
+	<select id="countAchieveMedal" resultType="INTEGER" parameterType="_int">
+		select count(*) from v_awards where user_id=#{id}
+	</select>
+</mapper>

@@ -51,4 +51,12 @@ public class MylibController {
 		mylibService.insertPagePlanService(study, studyDay, planPage);
 		return "redirect:../../../today";
 	}
+	
+	@RequestMapping("/award")
+	public String awards(Model model,HttpSession session) {
+		UserVo user=(UserVo) session.getAttribute("user");
+		int user_id=user.getId();
+		mylibService.awardService(model,user_id);
+		return "mylib/award";
+	}
 }

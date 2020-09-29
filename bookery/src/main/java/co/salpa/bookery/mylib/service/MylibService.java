@@ -12,4 +12,6 @@ public interface MylibService {
 	Model selectStudyService(int study_id, Model model) throws DataAccessException;
 	
 	void insertPagePlanService(StudyVo study, int studyDay, int planPage) throws DataAccessException;
+	
+	Model awardService(Model model,int user_id) throws DataAccessException;
 }

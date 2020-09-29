@@ -104,3 +104,21 @@ VIEW `salpa`.`v_study` AS
         LEFT JOIN `salpa`.`book` ON ((`salpa`.`study`.`book_bid` = `salpa`.`book`.`bid`)))
     WHERE
         (`salpa`.`study`.`deleted` = 0);
+        
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_awards` AS
+    SELECT 
+        `m`.`id` AS `id`,
+        `m`.`medal` AS `medal`,
+        `m`.`criteria` AS `criteria`,
+        `a`.`awarddate` AS `awarddate`,
+        `a`.`user_id` AS `user_id`
+    FROM
+        (`medal` `m`
+        JOIN `award` `a`)
+    WHERE
+        (`m`.`id` = `a`.`medal_id`);
