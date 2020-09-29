@@ -34,6 +34,36 @@ VIEW `v_checkchap_total_cnt` AS
     GROUP BY `checkchap`.`study_id`;
 
 CREATE 
+VIEW `v_checkchap_actual_days` AS
+    SELECT 
+        MAX(`a`.`study_id`) AS `study_id`,
+        COUNT(`a`.`actualtime`) AS `actual_days`
+    FROM
+        (SELECT DISTINCT
+            `checkchap`.`actualtime` AS `actualtime`,
+                `checkchap`.`study_id` AS `study_id`
+        FROM
+            `checkchap`
+        WHERE
+            (`checkchap`.`actualtime` <= NOW())
+        ORDER BY `checkchap`.`actualtime`) `a`
+    GROUP BY `a`.`study_id`
+
+CREATE 
+VIEW `v_checkchap_total_days` AS
+    SELECT 
+        MAX(`a`.`study_id`) AS `study_id`,
+        COUNT(`a`.`plantime`) AS `total_days`
+    FROM
+        (SELECT DISTINCT
+            `checkchap`.`plantime` AS `plantime`,
+                `checkchap`.`study_id` AS `study_id`
+        FROM
+            `checkchap`
+        ORDER BY `checkchap`.`plantime`) `a`
+    GROUP BY `a`.`study_id`
+
+CREATE 
 VIEW `v_checkpage_todate` AS
     SELECT 
         MAX(`checkpage`.`study_id`) AS `study_id`,
@@ -59,27 +89,29 @@ VIEW `v_checkpage_total` AS
         (`checkpage`.`deleted` = 0)
     GROUP BY `checkpage`.`study_id`;
 
-CREATE
-VIEW `salpa`.`v_study` AS
+CREATE 
+VIEW `v_study` AS
     SELECT 
-        `salpa`.`study`.`user_id` AS `user_id`,
-        `salpa`.`user`.`nickname` AS `nickname`,
-        `salpa`.`study`.`book_bid` AS `book_bid`,
-        `salpa`.`book`.`title` AS `title`,
-        `salpa`.`book`.`pages` AS `pages`,
+        `study`.`user_id` AS `user_id`,
+        `user`.`nickname` AS `nickname`,
+        `study`.`book_bid` AS `book_bid`,
+        `book`.`title` AS `title`,
+        `book`.`pages` AS `pages`,
         `book`.`coverurl` AS `coverurl`,
-        `salpa`.`study`.`id` AS `study_id`,
-        `salpa`.`study`.`createtime` AS `createtime`,
-        `salpa`.`study`.`updatetime` AS `updatetime`,
-        `salpa`.`study`.`startdate` AS `startdate`,
-        `salpa`.`study`.`enddate` AS `enddate`,
-        `salpa`.`study`.`memo` AS `memo`,
-        `salpa`.`study`.`type` AS `type`,
+        `study`.`id` AS `study_id`,
+        `study`.`createtime` AS `createtime`,
+        `study`.`updatetime` AS `updatetime`,
+        `study`.`startdate` AS `startdate`,
+        `study`.`enddate` AS `enddate`,
+        `study`.`memo` AS `memo`,
+        `study`.`type` AS `type`,
         `v_checkchap_plan_cnt`.`plan_cnt` AS `plan_cnt`,
         `v_checkchap_actual_cnt`.`actual_cnt` AS `actual_cnt`,
         `v_checkchap_total_cnt`.`total_cnt` AS `total_cnt`,
-        `v_checkpage_total`.`total_days` AS `total_days`,
-        `v_checkpage_todate`.`days_todate` AS `days_todate`,
+        `v_checkchap_actual_days`.`actual_days` AS `chap_actual_days`,
+        `v_checkchap_total_days`.`total_days` AS `chap_total_days`,
+        `v_checkpage_todate`.`days_todate` AS `page_actual_days`,
+        `v_checkpage_total`.`total_days` AS `page_total_days`,
         `v_checkpage_total`.`total_pages` AS `total_pages`,
         `v_checkpage_todate`.`plan_page` AS `plan_page`,
         `v_checkpage_todate`.`actual_page` AS `actual_page`,
@@ -94,17 +126,18 @@ VIEW `salpa`.`v_study` AS
                 0) + COALESCE(((`v_checkpage_todate`.`actual_page` / `v_checkpage_todate`.`plan_page`) * 100),
                 0)) AS `success_rate`
     FROM
-        (((((((`salpa`.`study`
-        LEFT JOIN `salpa`.`v_checkchap_total_cnt` ON ((`salpa`.`study`.`id` = `v_checkchap_total_cnt`.`study_id`)))
-        LEFT JOIN `salpa`.`v_checkchap_plan_cnt` ON ((`salpa`.`study`.`id` = `v_checkchap_plan_cnt`.`study_id`)))
-        LEFT JOIN `salpa`.`v_checkchap_actual_cnt` ON ((`salpa`.`study`.`id` = `v_checkchap_actual_cnt`.`study_id`)))
-        LEFT JOIN `salpa`.`v_checkpage_total` ON ((`salpa`.`study`.`id` = `v_checkpage_total`.`study_id`)))
-        LEFT JOIN `salpa`.`v_checkpage_todate` ON ((`salpa`.`study`.`id` = `v_checkpage_todate`.`study_id`)))
-        LEFT JOIN `salpa`.`user` ON ((`salpa`.`study`.`user_id` = `salpa`.`user`.`id`)))
-        LEFT JOIN `salpa`.`book` ON ((`salpa`.`study`.`book_bid` = `salpa`.`book`.`bid`)))
+        (((((((((`study`
+        LEFT JOIN `v_checkchap_total_cnt` ON ((`study`.`id` = `v_checkchap_total_cnt`.`study_id`)))
+        LEFT JOIN `v_checkchap_plan_cnt` ON ((`study`.`id` = `v_checkchap_plan_cnt`.`study_id`)))
+        LEFT JOIN `v_checkchap_actual_cnt` ON ((`study`.`id` = `v_checkchap_actual_cnt`.`study_id`)))
+        LEFT JOIN `v_checkchap_actual_days` ON ((`study`.`id` = `v_checkchap_actual_days`.`study_id`)))
+        LEFT JOIN `v_checkchap_total_days` ON ((`study`.`id` = `v_checkchap_total_days`.`study_id`)))
+        LEFT JOIN `v_checkpage_total` ON ((`study`.`id` = `v_checkpage_total`.`study_id`)))
+        LEFT JOIN `v_checkpage_todate` ON ((`study`.`id` = `v_checkpage_todate`.`study_id`)))
+        LEFT JOIN `user` ON ((`study`.`user_id` = `user`.`id`)))
+        LEFT JOIN `book` ON ((`study`.`book_bid` = `book`.`bid`)))
     WHERE
-        (`salpa`.`study`.`deleted` = 0);
-        
+        (`study`.`deleted` = 0)
         
 CREATE 
     ALGORITHM = UNDEFINED 

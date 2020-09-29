@@ -26,8 +26,10 @@ public class V_StudyVo {
 	private int plan_cnt;// bigint
 	private int actual_cnt;// bigint
 	private int total_cnt;// bigint
-	private int total_days;// bigint
-	private int days_todate;// bigint
+	private int chap_actual_days;// bigint
+	private int chap_total_days;// bigint
+	private int page_actual_days;// bigint
+	private int page_total_days;// bigint
 	private int total_pages;// int
 	private int plan_page;// int
 	private int actual_page;// int
