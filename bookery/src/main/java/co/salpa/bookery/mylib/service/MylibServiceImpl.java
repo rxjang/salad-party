@@ -101,7 +101,7 @@ public class MylibServiceImpl implements MylibService {
 	private Date lastDay(java.util.Date date,int studyDay){
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		calendar.add(Calendar.DATE,studyDay);
+		calendar.add(Calendar.DATE,studyDay-1);
 		date=calendar.getTime();
 		Date nextday=new Date(date.getTime());
 		return nextday;
