@@ -1,6 +1,5 @@
 package co.salpa.bookery.find.service;
 
-import java.sql.SQLException;
 
 import org.jsoup.nodes.Document;
 import org.springframework.dao.DataAccessException;
@@ -14,19 +13,21 @@ public interface FindService {
 
 	public Document crawlingService(int bid);
 
-	public Model listTocService(Model model, int bid) throws SQLException;
+	public Model listTocService(Model model, int bid) throws DataAccessException;
 	
-	public Model listBookService(Model model) throws SQLException;
+	public Model listBookService(Model model) throws DataAccessException;
 
-	public Model listMostBookService(Model model) throws SQLException;
+	public Model listMostBookService(Model model) throws DataAccessException;
 	
-	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException, DataAccessException;
 
-	public Model getBookService(int bid, Model model) throws SQLException;
+	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws DataAccessException;
 
-	public void updateService() throws SQLException;
 
-	public void deleteService() throws SQLException;
+	public Model getBookService(int bid, Model model) throws DataAccessException;
+
+	public void updateService() throws DataAccessException;
+
+	public void deleteService() throws DataAccessException;
 
 	public Model getStudyOverlapChk(int id, int bid,Model model);
 }

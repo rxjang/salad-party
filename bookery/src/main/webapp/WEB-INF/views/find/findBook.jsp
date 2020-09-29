@@ -15,6 +15,11 @@ var bookMap ={};
 $(function(){
 
 	$('#crawling_div').hide();
+	if('${user}'==''){
+		$('#bookclub').hide();
+	}else{
+		$('#bookclub').show();
+	}
 	//console.log(bid);
 	writer=''; publisher=''; pages=''; category=''; isbn=''; translator=''; title_original=''; publication_date=''; revision='';
 	img_link='';//혹시 남아있을지 모를 값들을 페이지 로딩할 때 초기화 해둔다.
@@ -247,7 +252,6 @@ $(function(){
 				});//swal
 				return false;
 			}else{
-				
 				$.post('${pageContext.request.contextPath }/find/put', {
 					'chapters' : chapters,
 					'bid' : bid,
@@ -418,7 +422,7 @@ $(function(){
 		<div class="col-xs-12 col-md-6 mylib-btn">
 			<a id="putChapters" class="btn btn-default" role="button" href="#">내
 				서재에 담기</a>
-			<a id="" class="btn btn-default" role="button" href="#">공부방 참여하기</a>
+			<a id="bookclub" class="btn btn-default" role="button" href="#">공부방 참여하기</a>
 		</div>
 	<div class="col-md-3"></div>
 	</div>
@@ -451,18 +455,6 @@ $(function(){
 		<div class="col-md-3"></div>
 	</div>
 	<br />
-
-	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6">
-			<div class="panel panel-default">
-				<div class="panel-body">Basic panel example</div>
-			</div>
-		</div>
-		<div class="col-md-3"></div>
-		<div class="col-md-12 col-xs-12">&nbsp;</div>
-	</div>
-
 
 	<br />
 	<div class="row">

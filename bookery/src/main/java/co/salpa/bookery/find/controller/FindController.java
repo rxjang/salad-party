@@ -1,13 +1,12 @@
 package co.salpa.bookery.find.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,7 @@ public class FindController {
 	public String find(Model model) {
 		try {
 			findService.listMostBookService(model);
-		} catch (SQLException e) {
+		} catch (DataAccessException e) {
 			return "redirect:/";
 		}
 		return "/find/find"; // find폴더아래 find.jsp

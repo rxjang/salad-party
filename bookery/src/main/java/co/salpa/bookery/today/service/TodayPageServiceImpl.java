@@ -1,7 +1,6 @@
 package co.salpa.bookery.today.service;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -12,6 +11,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -41,7 +41,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 	 *  모든 스터디객체를 담는 리스트 반환
 	 */
 	@Override
-	public Model listV_StudyService(Model model) throws SQLException {
+	public Model listV_StudyService(Model model) throws DataAccessException {
 		V_StudyDao v_studyDao = sqlSession.getMapper(V_StudyDao.class);
 		List<V_StudyVo> list = v_studyDao.selectAll();
 		model.addAttribute("list", list);
@@ -53,7 +53,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 	 * 
 	 */
 	@Override
-	public Model getV_StudyService(int user_id, int bid, Model model) throws SQLException {
+	public Model getV_StudyService(int user_id, int bid, Model model) throws DataAccessException {
 		V_StudyDao v_studyDao = sqlSession.getMapper(V_StudyDao.class);
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("user", user_id);
@@ -68,7 +68,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 	 * 
 	 */
 	@Override
-	public void checkPageService(int actualpage, int study_id) throws SQLException {
+	public void checkPageService(int actualpage, int study_id) throws DataAccessException {
 		CheckPageDao checkPageDao = sqlSession.getMapper(CheckPageDao.class);
 		checkPageDao.updateOne(new CheckPageVo(actualpage, study_id, getSqlToday(), 0));//오늘날짜에 공부한페이지 입력
 	}// checkPageService
@@ -81,7 +81,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 	 * 
 	 */
 	@Override
-	public Model getTodayProgress(Model model, int study_id) throws SQLException {
+	public Model getTodayProgress(Model model, int study_id) throws DataAccessException {
 
 		CheckPageDao checkPageDao = sqlSession.getMapper(CheckPageDao.class);
 		Map<String, Integer> map1 = new HashMap<String, Integer>();
