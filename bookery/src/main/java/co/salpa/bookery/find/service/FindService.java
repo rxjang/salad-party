@@ -19,7 +19,9 @@ public interface FindService {
 
 	public Model listMostBookService(Model model) throws DataAccessException;
 	
+
 	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws DataAccessException;
+
 
 	public Model getBookService(int bid, Model model) throws DataAccessException;
 

@@ -7,7 +7,7 @@ import co.salpa.bookery.model.entity.CheckPageVo;
 import co.salpa.bookery.model.entity.StudyVo;
 
 public interface MylibService {
-	Model myLibService(Model model) throws DataAccessException;
+	Model myLibService(Model model, int user_id) throws DataAccessException;
 	
 	Model selectStudyService(int study_id, Model model) throws DataAccessException;
 	

@@ -2,6 +2,7 @@ package co.salpa.bookery.mylib.service;
 
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -12,9 +13,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import co.salpa.bookery.model.BookDao;
 import co.salpa.bookery.model.CheckPageDao;
 import co.salpa.bookery.model.StudyDao;
 import co.salpa.bookery.model.V_StudyDao;
+import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.CheckPageVo;
 import co.salpa.bookery.model.entity.StudyVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
@@ -27,18 +30,18 @@ public class MylibServiceImpl implements MylibService {
 	
 	//mylib페이지 미독, 미완독, 완독 책 권수, 정보 출력
 	@Override
-	public Model myLibService(Model model) throws DataAccessException{
+	public Model myLibService(Model model,int user_id) throws DataAccessException{
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
-		List<V_StudyVo> noGoalBookList=v_studyDao.selectNoGoalBook(3);
-		model.addAttribute("nogoalbooklist", noGoalBookList);//임시로 회원번호 3 넣어놓음 로그인 기능 구현시 변경 예정
-		List<V_StudyVo> studyingBookList=v_studyDao.selectStudyingBook(3);
+		List<V_StudyVo> noGoalBookList=v_studyDao.selectNoGoalBook(user_id);
+		model.addAttribute("nogoalbooklist", noGoalBookList);
+		List<V_StudyVo> studyingBookList=v_studyDao.selectStudyingBook(user_id);
 		model.addAttribute("studyingbooklist", studyingBookList);
-		List<V_StudyVo> finishedBookList=v_studyDao.selectFinishedBook(3);
+		List<V_StudyVo> finishedBookList=v_studyDao.selectFinishedBook(user_id);
 		model.addAttribute("finishedbooklist",finishedBookList);
 		
-		model.addAttribute("countnogoalbook",v_studyDao.countNoGoalBook(3));
-		model.addAttribute("countstudyingbook",v_studyDao.countStudyingBook(3));
-		model.addAttribute("countfinishedbook",v_studyDao.countFinishedBook(3));
+		model.addAttribute("countnogoalbook",v_studyDao.countNoGoalBook(user_id));
+		model.addAttribute("countstudyingbook",v_studyDao.countStudyingBook(user_id));
+		model.addAttribute("countfinishedbook",v_studyDao.countFinishedBook(user_id));
 		return model;
 	}
 	
@@ -61,16 +64,27 @@ public class MylibServiceImpl implements MylibService {
 	}
 
 	//page 목표설정 데어터를 날짜별로 테이블에 삽입
-	public void insertToCheckPage(CheckPageDao dao,StudyVo study,int StudyDay,int planPage) {
+	public void insertToCheckPage(CheckPageDao dao,StudyVo study,int StudyDay,int planPage) throws DataAccessException {
+		BookDao bookDao=sqlSession.getMapper(BookDao.class);
 		//studyDay는 enddate-startdate+1한 값으로 실제 공부할 날-자바스크립트로 계산해서 받아옴
 		Date startDate=study.getStartdate();//study테이블에서 시작날짜 가져옴
 		Date tempDate=startDate;//인서트할 값
-		for(int i=0;i<StudyDay;i++) {
+		for(int i=0;i<StudyDay-1;i++) {
 			CheckPageVo bean=new CheckPageVo(tempDate,planPage,study.getId());
 			dao.insertOne(bean);
 			tempDate=nextDay(tempDate);
 		}
-		
+		//마지막 페이지 구하는 함수
+		int bid=study.getBook_bid();
+		System.out.println("bid:"+bid);
+		BookVo bean=bookDao.selectOne(bid);
+		int pages=bean.getPages();
+		System.out.println(pages);
+		int temp=StudyDay*planPage-pages;
+		int lastPage=planPage-temp; 
+		tempDate=lastDay(startDate,StudyDay);
+		CheckPageVo pageVo=new CheckPageVo(tempDate,lastPage,study.getId());
+		dao.insertOne(pageVo);
 		
 	}
 
@@ -79,6 +93,15 @@ public class MylibServiceImpl implements MylibService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.add(Calendar.DATE,1);
+		date=calendar.getTime();
+		Date nextday=new Date(date.getTime());
+		return nextday;
+	}
+	
+	private Date lastDay(java.util.Date date,int studyDay){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE,studyDay);
 		date=calendar.getTime();
 		Date nextday=new Date(date.getTime());
 		return nextday;
