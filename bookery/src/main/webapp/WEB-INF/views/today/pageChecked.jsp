@@ -1,8 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <html>
 <head>
-	<title>Bookery</title>
-<%@ include file="../template/head.jspf" %>
+<title>Bookery</title>
+<%@ include file="../template/head.jspf"%>
 
 <script type="text/javascript">
 	var success = "${v_study.success_rate}";
@@ -22,20 +23,21 @@
 			$('#result').html(image);
 		}//if
 		
-		
+		setTimeout(function() { 
+			location.href="${pageContext.request.contextPath}/today/page/${v_study.study_id}"}, 3000);
 	});//ready
 </script>
 </head>
 <body>
-<%@ include file="../template/menu.jspf" %>
-	<!-- **********content start**********--> 
-<div class="row">
-	<div class="col-xs-12 col-md-12">
-	
-	<div id="result"></div>
+	<%@ include file="../template/menu.jspf"%>
+	<!-- **********content start**********-->
+	<div class="row">
+		<div class="col-xs-12 col-md-12">
+
+			<div id="result"></div>
+		</div>
 	</div>
-</div>
 	<!--**********content end**********-->
-<%@ include file="../template/footer.jspf" %>
+	<%@ include file="../template/footer.jspf"%>
 </body>
 </html>

@@ -15,6 +15,8 @@
 	var plan_page_interval = "${plan_interval}"; //오늘 날짜의 actual_page 값이 필요함.
 	var recent_actual_page="${recent_actual_page}";
 	var today_actual_page="${today_actual_page}";
+	var coverurl = "${v_study.coverurl}"
+	var title = "${v_study.title}"
 	var cnt = actual_page; //917
 	//혹시 쓸까봐 일단 전부 선언해둠. 
 	
@@ -49,7 +51,7 @@
 	}//pagePicker
 	//오늘 공부한 페이지 - 어제까지 actualpage / plan페이지 구간 = 오늘 퍼센트	
 	function todayPage(page){ //페이지 입력 받아서 컨트롤러에 전달
-		location.href='${pageContext.request.contextPath}/today/page/check/${book.bid}';
+		location.href='${pageContext.request.contextPath}/today/page/check/${v_study.study_id}';
 		$.ajax({
 			url:'${pageContext.request.contextPath}/today/page/check/${v_study.study_id}/'+page,
 			method:'get',
@@ -74,7 +76,7 @@
 		Dday = dateDiff;
 		$('#owl-dday').text('D-'+Dday);
 		console.log(dateDiff);
-		$('#book_thumbnail img').css({'box-shadow':'rgb(135, 165, 134) 5px 5px 10px','display':'block','margin':'auto'});
+		$('.thumbnail').css({'box-shadow':'rgb(135, 165, 134) 5px 5px 10px','display':'block','margin':'auto'});
 		
 		/**********************    캐러셀    **********************/
 		var owlyear = deadLine.substring(0,4)+'년';
@@ -144,7 +146,8 @@
 	 * https://www.amcharts.com/docs/v4/
 	 * ---------------------------------------
 	 */
-	$('.progress-bar').each(function() {
+	$('.progress1').css('background-color','#ecece9');
+	$('.progress-bar1').each(function() {
 		$(this).css('height','250px');
 		  var min = $(this).attr('aria-valuemin');
 		  var max = $(this).attr('aria-valuemax');
@@ -153,6 +156,7 @@
 		  
 		  //93600 / 1199
 		  $(this).css('width', siz+'%');
+		  $(this).text(Math.floor(siz)+'%');
 		});
 	});//ready
 	
@@ -167,14 +171,18 @@
 }
 .progress{
 	height: 35px;
-	background-color: #ecece9;
+	text-align: center;
 }
 .progress-bar{
 	font-size:110%;
 	line-height: 35px;
-	background-color: #8ba989;
+	background-color: #c0cfb2;
 }
-
+.bar-text{
+	line-height: 35px;
+	font-size: 12px;
+	color:#fff;	
+}
 
 </style>
 </head>
@@ -187,7 +195,7 @@
 		<div class="col-md-3"></div>
 			<div id="book_thumbnail" class="col-xs-12 col-md-6">
 				<a href="#">
-					<img class="thumbnail" src="${book.coverurl }" alt="..."/>
+					<img class="thumbnail" src="${v_study.coverurl }" alt="..."/>
 				</a>			
 			</div>
 		<div class="col-md-3"></div>
@@ -199,24 +207,54 @@
 		<div id="book_detail" class="col-xs-12 col-md-6">
 			<div class="media">
 				<div class="media-body">
-					<h4 class="media-heading">${book.title }<br/> <small>${v_study.memo } </small></h4>
-					<c:choose>
-					<c:when test="${null ne book.writer && '' ne book.writer}">
-							<p><small>저자&nbsp;</small>${book.writer }</p>
-					</c:when>
-					<c:when test="${book.titleoriginal  ne null} && ${book.titleoriginal  ne ''}">
-							<p><small>원제&nbsp;</small>${book.titleoriginal}</p>
-					</c:when>
-					</c:choose>
-								
+					<h4 class="media-heading">${v_study.title }<br/> </h4>
+						<p><small>${v_study.memo }</small></p>
 				</div>
 			</div>
-				
+			<div><span class="label label-default">Overall</span></div>	
 			<div class="progress">
-				<div class="progress-bar" role="progressbar" aria-valuenow="${v_study.actual_page }"
-					aria-valuemin="1" aria-valuemax="${v_study.plan_page }" >
-					${v_study.actual_page }</div>
+				<div class="progress-bar progress-bar1" role="progressbar" aria-valuenow="${v_study.actual_page }"
+					aria-valuemin="1" aria-valuemax="${v_study.pages }" >
+					${v_study.actual_page }p</div>
 			</div>
+			
+			<!-- actual이랑 plan을 비교해서 큰거를 max값으로 둔다. actual이 클때는 배경색을 눈에띄게할것. -->
+	<script type="text/javascript">
+	$(function(){
+		$('.progress2').css('background-color', '#ecece9');
+		$('.progress-bar2').each(function() {
+			$(this).css('height','250px');
+			  var min = $(this).attr('aria-valuemin');
+			  var now;
+			  var max; 
+			  if(Number(actual_page)>Number(plan_page)){
+				  now = $(this).attr('aria-valuenow',plan_page);
+				  max = $(this).attr('aria-valuemax',actual_page);
+					$('.bar-text').show();				 
+			  		$('.progress2').css('background-color', '#ffabaa');
+					$(this).text('Plan:'+plan_page+'p');
+			  }else if(actual_page<plan_page){
+				  now = $(this).attr('aria-valuenow',actual_page);
+				  max = $(this).attr('aria-valuemax',plan_page);
+					$('.bar-text').hide();
+					$(this).text('Actual:'+actual_page+'p');
+			  }
+			  now = $(this).attr('aria-valuenow');
+			  max = $(this).attr('aria-valuemax');
+			  var siz = (now-min)*100/(max-min);
+			  $(this).css('width', siz+'%');
+			});
+	});
+	</script>
+	
+			<div><span class="label label-default">Today</span></div>	
+			<div class="progress progress2"><span class="bar-text">Actual ${v_study.actual_page }p</span>
+				<div class="progress-bar progress-bar2" role="progressbar" aria-valuenow=""
+					aria-valuemin="1" aria-valuemax="" >
+					</div>
+			</div>
+			
+			
 			<button id="input_page" class="btn btn-default btn-block">페이지 입력</button>
 				<div class="output"></div>
 
@@ -249,7 +287,7 @@
 								</div><!-- plan -->
 								<div class="owl-item" id="owl-pageRate">
 									<p><small>현황</small></p>	
-									<p><span class="caro-cnt" >${v_study.actual_page}/${v_study.total_pages}</span></p>	
+									<p><span class="caro-cnt" >${v_study.actual_page}/${v_study.pages}</span></p>	
 									<p><small>페이지</small></p>
 								</div><!--내가 공부한 페이지/총페이지 -->
 								<!-- <div class="owl-item" id="owl-pageRate">

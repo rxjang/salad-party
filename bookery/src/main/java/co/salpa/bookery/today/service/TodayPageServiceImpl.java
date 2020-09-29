@@ -53,12 +53,12 @@ public class TodayPageServiceImpl implements TodayPageService {
 	 * 
 	 */
 	@Override
-	public Model getV_StudyService(int user_id, int bid, Model model) throws DataAccessException {
+	public Model getV_StudyService(int study_id, Model model) throws DataAccessException {
 		V_StudyDao v_studyDao = sqlSession.getMapper(V_StudyDao.class);
 		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("user", user_id);
-		map.put("bid", bid);
-		model.addAttribute("v_study", v_studyDao.selectOne(map));
+	//	map.put("user", user_id);
+	//	map.put("bid", bid);
+		model.addAttribute("v_study", v_studyDao.selectOneByStudyId(study_id));
 		return model;
 	}// getV_StudyService
 
@@ -71,6 +71,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 	public void checkPageService(int actualpage, int study_id) throws DataAccessException {
 		CheckPageDao checkPageDao = sqlSession.getMapper(CheckPageDao.class);
 		checkPageDao.updateOne(new CheckPageVo(actualpage, study_id, getSqlToday(), 0));//오늘날짜에 공부한페이지 입력
+		checkPageDao.updateTimeStudy(study_id);
 	}// checkPageService
 
 	

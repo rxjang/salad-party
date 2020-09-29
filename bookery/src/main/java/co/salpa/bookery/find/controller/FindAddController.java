@@ -35,7 +35,7 @@ public class FindAddController {
 		StudyVo study = new StudyVo();
 		study.setUser_id(user.getId());
 		study.setBook_bid(book.getBid());
-		findService.insertStudyService(book, study, chapters);
+		findService.insertStudyService(book, study, chapters);//book테이블 toc테이블 study테이블 insert
 
 		return null;
 	}// insertChapters
