@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -241,7 +242,7 @@ public class FIndServiceImpl implements FindService {
 	 * 
 	 ****/
 	@Override
-	public Model listTocService(Model model, int bid) throws SQLException {
+	public Model listTocService(Model model, int bid) throws DataAccessException {
 		// TODO Auto-generated method stub
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		TocDao tocDao = sqlSession.getMapper(TocDao.class);
@@ -253,7 +254,7 @@ public class FIndServiceImpl implements FindService {
 		/*
 		 * 트랜잭션 속성에 list* 메소드 read-only속성을 지정해둬서 데이터조작 이 발생하면 예외가 발생한다. SQL [];
 		 * Connection is read-only. Queries leading to data modification are not
-		 * allowed; nested exception is java.sql.SQLException: Connection is read-only.
+		 * allowed; nested exception is java.sql.DataAccessException: Connection is read-only.
 		 */
 		return model;
 	}//
@@ -264,7 +265,7 @@ public class FIndServiceImpl implements FindService {
 	 * 
 	 ****/
 	@Override
-	public Model listBookService(Model model) throws SQLException {
+	public Model listBookService(Model model) throws DataAccessException {
 		// TODO Auto-generated method stub
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		return model.addAttribute("books", bookDao.selectAll());
@@ -276,7 +277,7 @@ public class FIndServiceImpl implements FindService {
 	 * 
 	 ****/
 
-	public void tocsPut(BookVo book, TocDao tocDao, String chapters) throws SQLException {
+	public void tocsPut(BookVo book, TocDao tocDao, String chapters) throws DataAccessException {
 
 		if (tocDao.selectOne(book.getBid()).size() != 0) {
 		} else {
@@ -304,7 +305,7 @@ public class FIndServiceImpl implements FindService {
 	 * 
 	 ****/
 	@Override
-	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException {
+	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws DataAccessException {
 		// TODO Auto-generated method stub
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		TocDao tocDao = sqlSession.getMapper(TocDao.class);
@@ -322,7 +323,7 @@ public class FIndServiceImpl implements FindService {
 	 ****/
 
 	@Override
-	public Model listMostBookService(Model model) throws SQLException {
+	public Model listMostBookService(Model model) throws DataAccessException {
 		// TODO Auto-generated method stub
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		List<BookVo> list = bookDao.selectMostBook();
@@ -334,7 +335,7 @@ public class FIndServiceImpl implements FindService {
 	 * DB에 저장되어 있는 책 정보 받아오기. bid 사용
 	 */
 	@Override
-	public Model getBookService(int bid, Model model) throws SQLException {
+	public Model getBookService(int bid, Model model) throws DataAccessException {
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		model.addAttribute("book", bookDao.selectOne(bid));
 		return model;
@@ -369,13 +370,13 @@ public class FIndServiceImpl implements FindService {
 	}
 
 	@Override
-	public void updateService() throws SQLException {
+	public void updateService() throws DataAccessException {
 		// TODO Auto-generated method stub
 
 	}//
 
 	@Override
-	public void deleteService() throws SQLException {
+	public void deleteService() throws DataAccessException {
 		// TODO Auto-generated method stub
 
 	}//
