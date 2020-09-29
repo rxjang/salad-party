@@ -5,16 +5,20 @@
 	<title>Bookery</title>
 <%@ include file="../template/head.jspf" %>
 <style type="text/css">
-	#todayDiv1{
+	#todayDiv1,#todayDiv2,#todayDiv3{
 		border-radius: 5px;
 		border: 1px solid #dddddd;
 		padding: 5px 5px 0px 5px;
 		background-color: rgb(246,246,246);
 		margin: 10px;
+		height: 180px;
 	}
 	#todayDiv1 img{
-		height: 50px;
-		line-height: 50px;
+ 		height: 170px;
+	}
+	#todayDiv1>span{
+		margin: 0;
+		float: left;
 	}
 	#todayDiv1 h4{
 		line-height: 50px;
@@ -25,7 +29,26 @@
 		line-height: 50px;
 		color: #888888;
 	}
+	
 	#todaybtn{
+	}
+	.green,
+	.yellow,
+	.brown{
+		font-size: 1.5em;
+		text-align: center;
+	}
+	.green{
+		background-color: #49654d;
+		color: white;
+	}
+	.yellow{
+		background-color: c0cfb2;
+		color: #49654d;
+	}
+	.brown{
+		background-color: rgb(197,174,132);
+		color: white;
 	}
 </style>
 <script type="text/javascript">
@@ -33,6 +56,16 @@
 // 		입력전이면 : 오늘의 공부 입력하러 가기
 // 		입력했으면 : 버튼 불활성화
 // 		입력할 목표가 없으면 : ???
+	$(function(){
+		$('.owl-carousel').owlCarousel({
+			items: 1,
+			loop:true,
+			margin:10,
+			nav:false,
+			responsive:{
+			}
+		})
+	});
 </script>
 </head>
 <body>
@@ -44,77 +77,134 @@
 			<div class="col-md-8 col-md-offset-2 col-xs-12">
 				<h3>
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					오늘의 기록
+					오늘의 기록 : 
+					<c:if test="${fn:length(studies) eq 0}">
+						 기록할 스터디가 없습니다.
+					</c:if>
+					<c:if test="${fn:length(studies) ne 0}">
+						${fn:length(studies)}개의 스터디
+					</c:if>
 				</h3>
-				${user.nickname }님은 ${fn:length(studies)}개의 스터디를 진행중입니다.
-			</div>
-			<div class="col-md-8 col-md-offset-2 col-xs-12">
-				<c:forEach items="${studies }" var="study">
-					<div class="item">
-						<div id="todayDiv1">
-							<div class="media">
-								<div class="media-left">
-									<a href="${pageContext.request.contextPath }/find/book/${study.book_bid }">
-										<img class="media-object img-rounded" src="${study.coverurl}" alt="book cover">
-									</a>
+				<div class="owl-carousel owl-theme">
+					<c:forEach items="${studies }" var="study">
+						<div class="item">
+							<div id="todayDiv1" class="row">
+								<div class="col-md-3 col-xs-3">
+									<img class="img-rounded" src="${study.coverurl}" alt="book cover">
 								</div>
-								<div class="media-body">
-									<h4 class="media-heading">
-										<a href="${pageContext.request.contextPath }/find/book/${study.book_bid }">
-											${study.title}
-										</a>
-									</h4>
+								<div class="col-md-3 col-xs-3">
+									${study.memo}
+								</div>
+								<div class="col-md-3 col-xs-3">
+									<c:set var="today" value="<%=new java.util.Date()%>"/>
+									<c:if test="${study.type eq 'chap'}">
+										<c:if test="${study.plan_cnt-study.actual_cnt eq 0}">
+											<c:if test="${study.updatetime lt today}">
+												<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sleepy.png">
+											</c:if>
+											<c:if test="${study.updatetime eq today}">
+												<img src="${pageContext.request.contextPath }/resources/imgs/Smile-blush.png">
+											</c:if>
+										</c:if>
+										<c:if test="${study.plan_cnt-study.actual_cnt >= 0}">
+											<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sweat.png">
+										</c:if>
+									</c:if>
+									<c:if test="${study.type eq 'page'}">
+										<c:if test="${study.plan_page-study.actual_page eq 0}">
+											<c:if test="${study.updatetime lt today}">
+												<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sleepy.png">
+											</c:if>
+											<c:if test="${study.updatetime eq today}">
+												<img src="${pageContext.request.contextPath }/resources/imgs/Smile-blush.png">
+											</c:if>
+										</c:if>
+										<c:if test="${study.plan_page-study.actual_page >= 0}">
+											<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sweat.png">
+										</c:if>
+									</c:if>
+								</div>
+								<div class="col-md-3 col-xs-3">
+									<c:if test="${study.type eq 'chap'}">
+										<c:if test="${study.plan_cnt-study.actual_cnt eq 0}">
+											<c:if test="${study.updatetime lt today}">
+												오늘엔 목표설정한 계획이 없어요 
+											</c:if>
+											<c:if test="${study.updatetime eq today}">
+												축하합니다. 오늘의 목표를 모두 달성하셨습니다.
+											</c:if>
+										</c:if>
+										<c:if test="${study.plan_cnt-study.actual_cnt >= 0}">
+											${study.plan_cnt-study.actual_cnt } 챕터를 끝낼 계획이에요.
+										</c:if>
+									</c:if>
+									<c:if test="${study.type eq 'page'}">
+										<c:if test="${study.plan_page-study.actual_page eq 0}">
+											<c:if test="${study.updatetime lt today}">
+												오늘엔 목표설정한 계획이 없어요 
+											</c:if>
+											<c:if test="${study.updatetime eq today}">
+												축하합니다. 오늘의 목표를 모두 달성하셨습니다.
+											</c:if>
+										</c:if>
+										<c:if test="${study.plan_page-study.actual_page >= 0}">
+											${study.plan_page-study.actual_page } 페이지를 끝낼 계획이에요.
+										</c:if>
+									</c:if>
+								</div>
+							</div><!-- todayDiv1 -->
+							<div id="todayDiv2" class="row">
+								<div class="col-md-3 col-xs-3">
+									<c:if test="${study.success_rate gt 100}">
+										<div class="green">목표를<br>초과달성했어요</div>
+									</c:if>
+									<c:if test="${study.success_rate eq 100}">
+										<div class="yellow">목표를<br>달성했어요</div>
+									</c:if>
+									<c:if test="${study.success_rate lt 100}">
+										<div class="brown">조금 더<br>분발하세요</div>
+									</c:if>
+								</div>
+								<div class="col-md-3 col-xs-3">
+									그래프 1 (지렁이그래프)<br>
+									시작일: ${study.startdate }<br>
+									오늘: <fmt:formatDate value="${today }" pattern="yyyy-MM-dd" /><br>
+									완료일: ${study.enddate }
+								</div>
+								<div class="col-md-3 col-xs-3">
+									그래프 2 (반달 대시보드 그래프)<br>
+									완료율: ${study.progress_rate }<br>
+									완료: ${study.actual_page + study.actual_cnt }<br>
+									전체: ${study.total_pages + study.total_cnt }
+								</div>
+								<div class="col-md-3 col-xs-3">
+									그래프 3 (오늘 기준 일일 평균진도/남은 양)
+									${study.plan_cnt}
+									${study.total_days}
+									일일 평균 목표량:${study.plan_cnt div study.total_days}<br>
+									오늘까지 평균 일일 진도:<br>
+									남은 기간동안 해야 하는 평균 일일 양:
 								</div>
 							</div>
-						</div>
-					</div>
-					
-					
-					
-					
-					
-	<!-- 			<div> -->
-	<!-- 			오늘활동 요약 (컬러코딩된 이모티콘) 옆으로 설명 -->
-	<!-- 			- 오늘 목표를 모두 달성했어요 (Green) -->
-	<!-- 			- 2챕터 (또는 30페이지)를 끝낼 계획이에요 (wine??) -->
-	<!-- 			- 계획이 없어요 (gray) -->
-	<!-- 			</div> -->
-				
-	<!-- 			<div> 이 전체를 좌우로 케러셀 할 수 있나? 아님 버튼으로라도 다른 study로 이동할 수 있게 -->
-	<!-- 				한마디 : -->
-	<!-- 					계획보다 더 열심히 하고 있어요(green) -->
-	<!-- 					목표를 달성했어요(yellow) -->
-	<!-- 					조금 더 분발해야 해요(brown) -->
-				
-	<!-- 				<div> -->
-	<!-- 				그래프 1 (지렁이그래프) -->
-	<!-- 				시작~오늘~끝~D-Day  -->
-	<!-- 				</div> -->
-	<!-- 				<div> -->
-	<!-- 				그래프 2 (반달 대시보드 그래프) -->
-	<!-- 				- 완료율%=오늘까지총페이지 or 총챕터/전체 -->
-	<!-- 				</div> -->
-	<!-- 				<div> -->
-	<!-- 				그래프 3 (오늘 기준 일일 평균진도/남은 양) -->
-	<!-- 				- 오늘까지 평균 일일 진도 | 남은 기간동안 해야 하는 평균 일일 양 -->
-	<!-- 				</div> -->
-	<!-- 				<div> -->
-	<!-- 				그래프 4 (전체 기간동안 누적 actual(green,yellow,brown)/plan(gray)) -->
-	<!-- 				</div> -->
-	<!-- 				<div> -->
-	<!-- 				그래프 4 (전체 기간동안 일일 actual(green,yellow,brown)/plan(gray)) -->
-	<!-- 				</div> -->
-	<!-- 			</div>	 -->
-					
-					
-					<div id="todaybtn" class="row">
-						<div class="col-md-8 col-md-offset-2 col-xs-12">
-							<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-							type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
-						</div>
-					</div>
-				</c:forEach>	
-			</div>
+							<div id="todayDiv3" class="row">
+								<div class="col-md-6 col-xs-6">
+									그래프 4 (전체 기간동안 누적 actual(green,yellow,brown)/plan(gray))
+								</div>
+								<div class="col-md-6 col-xs-6">
+									그래프 4 (전체 기간동안 일일 actual(green,yellow,brown)/plan(gray))
+								</div>
+							
+							</div>
+							<div id="todaybtn" class="row">
+								<div class="col-md-8 col-md-offset-2 col-xs-12">
+									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+									type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
+								</div>
+							</div>
+						</div><!-- item -->
+					</c:forEach>
+				</div>
+			</div>		
 		</div>			
 	</div>
 </div>

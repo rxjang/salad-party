@@ -21,6 +21,4 @@ public class MylibPlanConroller {
 		mylibPlanService.selectStudyService(study_id,model);
 		return "/mylib/plan";
 	}
-//	mylibPlanService.updateTypeChapService(study_id,model);
-//	mylibPlanService.updateTypePageService(study_id,model);
 }
