@@ -15,6 +15,8 @@
 	var plan_page_interval = "${plan_interval}"; //오늘 날짜의 actual_page 값이 필요함.
 	var recent_actual_page="${recent_actual_page}";
 	var today_actual_page="${today_actual_page}";
+	var coverurl = "${v_study.coverurl}"
+	var title = "${v_study.title}"
 	var cnt = actual_page; //917
 	//혹시 쓸까봐 일단 전부 선언해둠. 
 	
@@ -49,7 +51,7 @@
 	}//pagePicker
 	//오늘 공부한 페이지 - 어제까지 actualpage / plan페이지 구간 = 오늘 퍼센트	
 	function todayPage(page){ //페이지 입력 받아서 컨트롤러에 전달
-		location.href='${pageContext.request.contextPath}/today/page/check/${book.bid}';
+		location.href='${pageContext.request.contextPath}/today/page/check/${v_study.study_id}';
 		$.ajax({
 			url:'${pageContext.request.contextPath}/today/page/check/${v_study.study_id}/'+page,
 			method:'get',
@@ -187,7 +189,7 @@
 		<div class="col-md-3"></div>
 			<div id="book_thumbnail" class="col-xs-12 col-md-6">
 				<a href="#">
-					<img class="thumbnail" src="${book.coverurl }" alt="..."/>
+					<img class="thumbnail" src="${v_study.coverurl }" alt="..."/>
 				</a>			
 			</div>
 		<div class="col-md-3"></div>
@@ -199,16 +201,8 @@
 		<div id="book_detail" class="col-xs-12 col-md-6">
 			<div class="media">
 				<div class="media-body">
-					<h4 class="media-heading">${book.title }<br/> <small>${v_study.memo } </small></h4>
-					<c:choose>
-					<c:when test="${null ne book.writer && '' ne book.writer}">
-							<p><small>저자&nbsp;</small>${book.writer }</p>
-					</c:when>
-					<c:when test="${book.titleoriginal  ne null} && ${book.titleoriginal  ne ''}">
-							<p><small>원제&nbsp;</small>${book.titleoriginal}</p>
-					</c:when>
-					</c:choose>
-								
+					<h4 class="media-heading">${v_study.title }<br/> </h4>
+						<p><small>${v_study.memo }</small></p>
 				</div>
 			</div>
 				
