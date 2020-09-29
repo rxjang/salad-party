@@ -85,7 +85,7 @@
 			<div class="col-md-8 col-md-offset-2 col-xs-12">
 				<h3>
 					<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
-					목표설정 방식을 먼저 선택해 주세요
+					목표설정 방식을 선택해 주세요
 				</h3>
 			</div>
 			<div class="col-md-8 col-md-offset-2 col-xs-12">
@@ -111,7 +111,7 @@
 			<div class="col-xs-12 col-md-12">
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2 col-xs-12">
-						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/${v_study.type }/${v_study.study_id }">
+						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/chap/${v_study.study_id }">
 							<div id="planDiv2">
 								<div class="media">
 									<div class="media-left">
@@ -130,7 +130,7 @@
 								</div>
 							</div>
 						</a>
-						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/${v_study.type }/${v_study.study_id }">
+						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/page/${v_study.study_id }">
 							<div id="planDiv3">
 								<div class="media">
 									<div class="media-left">
