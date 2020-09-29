@@ -128,7 +128,7 @@
 		right:0px;
 		text-decoration: none;
     }
-    .dropdown-menu{/*드롭다운 메뉴 이동 방지*/
+    .login-menu{/*드롭다운 메뉴 이동 방지*/
     	left:auto;
     	right:90;
     }
@@ -196,7 +196,7 @@
 			font-size:1.7em;
 			padding-top:5px;
 		}
-		.dropdown-menu{/*드롭다운 메뉴 이동 방지*/
+		.login-menu{/*드롭다운 메뉴 이동 방지*/
     		left:auto;
     		right:35;
     	}

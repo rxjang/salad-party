@@ -15,10 +15,13 @@ import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.BookDao;
 import co.salpa.bookery.model.CheckPageDao;
+import co.salpa.bookery.model.MedalDao;
 import co.salpa.bookery.model.StudyDao;
+import co.salpa.bookery.model.V_AwardsDao;
 import co.salpa.bookery.model.V_StudyDao;
 import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.CheckPageVo;
+import co.salpa.bookery.model.entity.MedalVo;
 import co.salpa.bookery.model.entity.StudyVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
 
@@ -105,6 +108,16 @@ public class MylibServiceImpl implements MylibService {
 		date=calendar.getTime();
 		Date nextday=new Date(date.getTime());
 		return nextday;
+	}
+
+	@Override
+	public Model awardService(Model model,int user_id) throws DataAccessException {
+		MedalDao medalDao=sqlSession.getMapper(MedalDao.class);
+		List<MedalVo> medalList=medalDao.selectAll();
+		model.addAttribute("medalList", medalList);
+		V_AwardsDao v_AwardsDao=sqlSession.getMapper(V_AwardsDao.class);
+		model.addAttribute("countAchieveMedal", v_AwardsDao.countAchieveMedal(user_id));
+		return null;
 	}
 
 }

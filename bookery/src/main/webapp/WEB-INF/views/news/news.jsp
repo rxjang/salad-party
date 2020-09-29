@@ -10,6 +10,10 @@
 		margin-top: 20px;
 		border: 1px solid #e4e4e4;
 	}
+	.notice{
+		margin-top: 20px;
+		border: 1px solid #e4e4e4;
+	}
 </style>
 </head>
 <body>
@@ -22,7 +26,7 @@
 	<div class="col-xs-12 col-md-10 best-books">
 		<h3>회원들이 </h3>
 		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-		    오늘<span class="caret"></span>
+		    이번 주<span class="caret"></span>
 		  </button>
 		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 		    <li><a href="#">이번 주</a></li>
@@ -30,6 +34,15 @@
 		    <li><a href="#">올해</a></li>
 		  </ul>
 		  가장 많이 읽은 책
+	</div>
+	<div class="col-md-1">
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-1">
+	</div>
+	<div class="col-xs-12 col-md-10 notice">
+		<h3>책거리 알림</h3>
 	</div>
 	<div class="col-md-1">
 	</div>
