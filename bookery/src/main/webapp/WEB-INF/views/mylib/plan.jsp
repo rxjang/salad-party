@@ -111,7 +111,7 @@
 			<div class="col-xs-12 col-md-12">
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2 col-xs-12">
-						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/chapter/${v_study.study_id }">
+						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/${v_study.type }/${v_study.study_id }">
 							<div id="planDiv2">
 								<div class="media">
 									<div class="media-left">
@@ -130,7 +130,7 @@
 								</div>
 							</div>
 						</a>
-						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/page/${v_study.study_id }">
+						<a id="link" href="${pageContext.request.contextPath }/mylib/plan/${v_study.type }/${v_study.study_id }">
 							<div id="planDiv3">
 								<div class="media">
 									<div class="media-left">
