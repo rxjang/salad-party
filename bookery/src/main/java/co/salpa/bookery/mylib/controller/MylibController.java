@@ -1,5 +1,8 @@
 package co.salpa.bookery.mylib.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -8,9 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.salpa.bookery.model.entity.StudyVo;
+import co.salpa.bookery.model.entity.UserVo;
+import co.salpa.bookery.model.entity.V_StudyVo;
 import co.salpa.bookery.mylib.service.MylibService;
 
 @RequestMapping("/mylib")
@@ -20,8 +24,12 @@ public class MylibController {
 	@Autowired MylibService mylibService;
 	
 	@RequestMapping
-	public String myLib(Model model) throws DataAccessException {
-		mylibService.myLibService(model);
+	public String myLib(Model model, HttpServletRequest request) throws DataAccessException {
+		HttpSession session = request.getSession();
+		UserVo user = (UserVo) session.getAttribute("user");
+		V_StudyVo v_study = new V_StudyVo();
+		v_study.setUser_id(user.getId());
+		mylibService.myLibService(model,v_study.getUser_id());
 		return "mylib/mylib";
 	}
 	

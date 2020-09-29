@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -268,10 +269,11 @@ public class FIndServiceImpl implements FindService {
 	 * 
 	 * 그리고 study테이블에도 책정보와함게 스터디생성 Transactional 어노테이션으로 insertStudyService 메소드가
 	 * 정상종료되기전에 예외가 발생하면 모두 롤백된다.
+	 * @throws SQLException 
 	 * 
 	 ****/
 	@Override
-	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException {
+	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws DataAccessException, SQLException {
 		// TODO Auto-generated method stub
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		TocDao tocDao = sqlSession.getMapper(TocDao.class);
