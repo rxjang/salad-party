@@ -3,6 +3,7 @@ package co.salpa.bookery.find.service;
 import java.sql.SQLException;
 
 import org.jsoup.nodes.Document;
+import org.springframework.dao.DataAccessException;
 import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.entity.BookVo;
@@ -19,7 +20,7 @@ public interface FindService {
 
 	public Model listMostBookService(Model model) throws SQLException;
 	
-	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException;
+	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws SQLException, DataAccessException;
 
 	public Model getBookService(int bid, Model model) throws SQLException;
 

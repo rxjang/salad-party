@@ -58,9 +58,9 @@ $(function() {
 	    width: 2em;
 	    height: 16px;
 	    position: absolute;
-	    left: 3px;
-	    bottom: 1px;
-	    background: #ECEBC9;
+	    left: 1px;
+	    bottom: 4px;
+	    background: #C0CFB2;
     }
     .three::before{width:3em}
 	.owl-theme{
@@ -90,7 +90,7 @@ $(function() {
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 		<div class="jumbotron" id="mylib-account">
-			<h3>김셀파님의 서재</h3>
+			<h3>${user.nickname }님의 서재</h3>
 			<div id="table">
 				<table class="table">
 					<tr>
