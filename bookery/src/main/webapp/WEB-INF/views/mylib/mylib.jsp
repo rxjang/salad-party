@@ -6,12 +6,14 @@
 <%@ include file="../template/head.jspf" %>
 <Script type="text/javascript">
 $(function() {
-	$('.owl-carousel').owlCarousel({
-	    margin:30,
-	    nav:true,
-	    autoWidth:true,
-	    responsiveClass:true
-	})
+	$('.owl-carousel').each(function(){
+		$(this).owlCarousel({
+	   		margin:30,
+	    	nav:true,
+	    	autoWidth:true,
+	    	responsiveClass:true
+		});
+	});
 });
 </Script>
 <style type="text/css">

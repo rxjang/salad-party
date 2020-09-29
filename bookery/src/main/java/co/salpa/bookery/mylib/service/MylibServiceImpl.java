@@ -69,21 +69,20 @@ public class MylibServiceImpl implements MylibService {
 		//studyDay는 enddate-startdate+1한 값으로 실제 공부할 날-자바스크립트로 계산해서 받아옴
 		Date startDate=study.getStartdate();//study테이블에서 시작날짜 가져옴
 		Date tempDate=startDate;//인서트할 값
+		int tempPage=planPage;
 		for(int i=0;i<StudyDay-1;i++) {
-			CheckPageVo bean=new CheckPageVo(tempDate,planPage,study.getId());
+			CheckPageVo bean=new CheckPageVo(tempDate,tempPage,study.getId());
 			dao.insertOne(bean);
 			tempDate=nextDay(tempDate);
+			tempPage+=planPage;
 		}
-		//마지막 페이지 구하는 함수
+		//마지막 날 입력
 		int bid=study.getBook_bid();
 		System.out.println("bid:"+bid);
 		BookVo bean=bookDao.selectOne(bid);
 		int pages=bean.getPages();
-		System.out.println(pages);
-		int temp=StudyDay*planPage-pages;
-		int lastPage=planPage-temp; 
 		tempDate=lastDay(startDate,StudyDay);
-		CheckPageVo pageVo=new CheckPageVo(tempDate,lastPage,study.getId());
+		CheckPageVo pageVo=new CheckPageVo(tempDate,pages,study.getId());
 		dao.insertOne(pageVo);
 		
 	}
@@ -98,10 +97,11 @@ public class MylibServiceImpl implements MylibService {
 		return nextday;
 	}
 	
+	//마지막 날 구하는 함수
 	private Date lastDay(java.util.Date date,int studyDay){
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		calendar.add(Calendar.DATE,studyDay);
+		calendar.add(Calendar.DATE,studyDay-1);
 		date=calendar.getTime();
 		Date nextday=new Date(date.getTime());
 		return nextday;
