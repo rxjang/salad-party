@@ -159,7 +159,7 @@
 		z-index:9;
     }
     .mylib-menu{left:25%;}
-    .feed-menu{left:42%;}
+    .news-menu{left:42%;}
     /************메뉴 상단 고정을 위해 컨텐츠 위치 조절******************/
 	.main{
 	   	margin-bottom:120px;
@@ -229,7 +229,7 @@
  	   		padding-bottom:10px;
  	   		padding-left:25px;
  	   	}/*좌측 적당한 공간 띄움*/
- 	   	.mylib-menu, .feed-menu{left:auto;}/**pc버전의 left속성 없앰**/
+ 	   	.mylib-menu, .news-menu{left:auto;}/**pc버전의 left속성 없앰**/
 	}
 	
 	@media (max-width:800px) {/**모바일 위한 CSS-서브메뉴 간격 조절**/
@@ -279,7 +279,7 @@ function mobile(){
 	$(".menu-mylib").prepend( "<span class=\"menu-icon glyphicon glyphicon-book\"></span><br/>" );
 	$(".menu-club").prepend( "<span class=\"menu-icon glyphicon glyphicon-link\"></span><br/>" );
 	$(".menu-find").prepend( "<span class=\"menu-icon glyphicon glyphicon-search\"></span><br/>" );
-	$(".menu-feed").prepend( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span><br/>" );
+	$(".menu-news").prepend( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span><br/>" );
 	$(".add-jung").css("color","#666666");
 }
 function pc(){

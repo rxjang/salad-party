@@ -303,6 +303,7 @@ $(function() {
 								<label for="planpage">공부할 양</label><input type="text" name="planPage" class="plan-page1" readonly/><br/>
 								<label for="memo">메모</label><input type="text" name="memo" class="memo"/>
 								<input type="hidden" name="id" value="${v_study.study_id}" readonly/>
+								<input type="hidden" name="book_bid" value="${v_study.book_bid}" readonly/>
 								<input type="hidden" name="type" value="page" readonly/><br/>
 								<div class="comment">
 									<button class="btn assert">해당 정보로 목표설정을 하시겠습니까?
