@@ -71,6 +71,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 	public void checkPageService(int actualpage, int study_id) throws DataAccessException {
 		CheckPageDao checkPageDao = sqlSession.getMapper(CheckPageDao.class);
 		checkPageDao.updateOne(new CheckPageVo(actualpage, study_id, getSqlToday(), 0));//오늘날짜에 공부한페이지 입력
+		checkPageDao.updateTimeStudy(study_id);
 	}// checkPageService
 
 	

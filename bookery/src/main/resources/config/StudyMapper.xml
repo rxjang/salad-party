@@ -29,7 +29,7 @@
 
 	<insert id="insertOne" parameterType="studyBean">
 		insert into study
-		(book_bid, user_id) values (#{book_bid},#{user_id})
+		(book_bid, user_id,updatetime) values (#{book_bid},#{user_id},now())
 	</insert>
 	
 	<update id="assertPlan" parameterType="studyBean">

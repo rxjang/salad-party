@@ -76,7 +76,7 @@
 		Dday = dateDiff;
 		$('#owl-dday').text('D-'+Dday);
 		console.log(dateDiff);
-		$('#book_thumbnail img').css({'box-shadow':'rgb(135, 165, 134) 5px 5px 10px','display':'block','margin':'auto'});
+		$('.thumbnail').css({'box-shadow':'rgb(135, 165, 134) 5px 5px 10px','display':'block','margin':'auto'});
 		
 		/**********************    캐러셀    **********************/
 		var owlyear = deadLine.substring(0,4)+'년';
@@ -146,7 +146,8 @@
 	 * https://www.amcharts.com/docs/v4/
 	 * ---------------------------------------
 	 */
-	$('.progress-bar').each(function() {
+	$('.progress1').css('background-color','#ecece9');
+	$('.progress-bar1').each(function() {
 		$(this).css('height','250px');
 		  var min = $(this).attr('aria-valuemin');
 		  var max = $(this).attr('aria-valuemax');
@@ -155,6 +156,7 @@
 		  
 		  //93600 / 1199
 		  $(this).css('width', siz+'%');
+		  $(this).text(Math.floor(siz)+'%');
 		});
 	});//ready
 	
@@ -169,14 +171,18 @@
 }
 .progress{
 	height: 35px;
-	background-color: #ecece9;
+	text-align: center;
 }
 .progress-bar{
 	font-size:110%;
 	line-height: 35px;
-	background-color: #8ba989;
+	background-color: #c0cfb2;
 }
-
+.bar-text{
+	line-height: 35px;
+	font-size: 12px;
+	color:#fff;	
+}
 
 </style>
 </head>
@@ -205,12 +211,50 @@
 						<p><small>${v_study.memo }</small></p>
 				</div>
 			</div>
-				
+			<div><span class="label label-default">Overall</span></div>	
 			<div class="progress">
-				<div class="progress-bar" role="progressbar" aria-valuenow="${v_study.actual_page }"
-					aria-valuemin="1" aria-valuemax="${v_study.plan_page }" >
-					${v_study.actual_page }</div>
+				<div class="progress-bar progress-bar1" role="progressbar" aria-valuenow="${v_study.actual_page }"
+					aria-valuemin="1" aria-valuemax="${v_study.pages }" >
+					${v_study.actual_page }p</div>
 			</div>
+			
+			<!-- actual이랑 plan을 비교해서 큰거를 max값으로 둔다. actual이 클때는 배경색을 눈에띄게할것. -->
+	<script type="text/javascript">
+	$(function(){
+		$('.progress2').css('background-color', '#ecece9');
+		$('.progress-bar2').each(function() {
+			$(this).css('height','250px');
+			  var min = $(this).attr('aria-valuemin');
+			  var now;
+			  var max; 
+			  if(Number(actual_page)>Number(plan_page)){
+				  now = $(this).attr('aria-valuenow',plan_page);
+				  max = $(this).attr('aria-valuemax',actual_page);
+					$('.bar-text').show();				 
+			  		$('.progress2').css('background-color', '#ffabaa');
+					$(this).text('Plan:'+plan_page+'p');
+			  }else if(actual_page<plan_page){
+				  now = $(this).attr('aria-valuenow',actual_page);
+				  max = $(this).attr('aria-valuemax',plan_page);
+					$('.bar-text').hide();
+					$(this).text('Actual:'+actual_page+'p');
+			  }
+			  now = $(this).attr('aria-valuenow');
+			  max = $(this).attr('aria-valuemax');
+			  var siz = (now-min)*100/(max-min);
+			  $(this).css('width', siz+'%');
+			});
+	});
+	</script>
+	
+			<div><span class="label label-default">Today</span></div>	
+			<div class="progress progress2"><span class="bar-text">Actual ${v_study.actual_page }p</span>
+				<div class="progress-bar progress-bar2" role="progressbar" aria-valuenow=""
+					aria-valuemin="1" aria-valuemax="" >
+					</div>
+			</div>
+			
+			
 			<button id="input_page" class="btn btn-default btn-block">페이지 입력</button>
 				<div class="output"></div>
 
@@ -243,7 +287,7 @@
 								</div><!-- plan -->
 								<div class="owl-item" id="owl-pageRate">
 									<p><small>현황</small></p>	
-									<p><span class="caro-cnt" >${v_study.actual_page}/${v_study.total_pages}</span></p>	
+									<p><span class="caro-cnt" >${v_study.actual_page}/${v_study.pages}</span></p>	
 									<p><small>페이지</small></p>
 								</div><!--내가 공부한 페이지/총페이지 -->
 								<!-- <div class="owl-item" id="owl-pageRate">

@@ -20,5 +20,7 @@ public interface CheckPageDao {
 	void insertOne(CheckPageVo bean) throws DataAccessException;
 	
 	int updateOne(CheckPageVo page) throws DataAccessException;
+
+	int updateTimeStudy(int study_id) throws DataAccessException;
 	
 }
