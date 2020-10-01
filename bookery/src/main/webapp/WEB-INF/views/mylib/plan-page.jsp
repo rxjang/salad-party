@@ -57,7 +57,6 @@ $(function() {
 	});//click
 		
 	$('.page-btn').on('click',function(){
-		$('.page-btn:hover').css('border','0px solid');
 		startdate=$('.startdate').val();
 		$('.start-date').val(startdate);
 		plan_page=$('.page').val();
@@ -70,7 +69,7 @@ $(function() {
 		$('.end-date').val(get_date_str(enddate));
 		if(startdate==""||plan_page==""){
 			swal({
-				  title: "값이 비었습니다",
+				  title: "내용이 비어있습니다",
 				  text: "시작 날짜와 공부할 양이 제대로 입력되었는지 확인해 주세요",
 				  icon: "error",
 				  button: "확인",
@@ -106,7 +105,7 @@ $(function() {
 		$('.plan-page1').val(plan_page);
 		if($('.startdate1').val()==""||$('.enddate').val()==""){
 			swal({
-				  title: "값이 비었습니다",
+				  title: "내용이 비어있습니다",
 				  text: "시작 날짜와 마칠 날짜가 제대로 입력되었는지 확인해 주세요",
 				  icon: "error",
 				  button: "확인",
@@ -289,7 +288,7 @@ $(function() {
 				<div class="page-date">
 					<div class="choice page-choice">
 						 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 공부를 마칠 날짜를 기준으로<br/>
-						 <span class="gray">시작 날짜와 마칠 날짜를 입력해주시면 하루에 공부해야 할 페이지이 계산됩니다</span>
+						 <span class="gray">시작 날짜와 마칠 날짜를 입력하시면 하루에 공부해야 할 페이지이 계산됩니다</span>
 					</div><!-- choice -->
 					<div class="by-date by">
 						<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="startdate1"/><br/>
