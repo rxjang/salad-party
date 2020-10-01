@@ -6,15 +6,20 @@
 
 <mapper namespace="co.salpa.bookery.model.ClubDao">
 	<select id="selectNoticeAll" resultType="clubBean">
-		select * from club where book_bid=0
+		select * from club where book_bid=0 order by depth desc
 	</select>
-	
+
 	<select id="selectBookClubAll" resultType="clubBean">
 		select * from club where book_bid != 0;
 	</select>
 	
 	<insert id="insertBookClub" parameterType="bookBean">
 		insert into club (updatetime, title, book_bid) values (now(),#{title},#{bid})
+
+	<insert id="insertNotice" parameterType="clubBean">
+		insert into club (createtime, title, content, depth, num, user_id, book_bid) 
+			values(#{createtime},#{title},#{content},#{depth},#{num},#{user_id}, 0);
+
 	</insert>
 	
 </mapper>
