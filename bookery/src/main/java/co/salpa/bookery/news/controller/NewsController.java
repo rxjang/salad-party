@@ -23,7 +23,7 @@ public class NewsController {
 	
 	@RequestMapping("/notice")
 	public String notice(Model model) {
-		
+		newsService.noticeService(model);
 		return "news/notice";
 	}
 }
