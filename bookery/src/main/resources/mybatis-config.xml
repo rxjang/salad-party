@@ -17,6 +17,7 @@
 	<typeAlias alias="awardBean" type="co.salpa.bookery.model.entity.AwardVo"/>
 	<typeAlias alias="v_awardsBean" type="co.salpa.bookery.model.entity.V_AwardsVo"/>
 	<typeAlias alias="clubBean" type="co.salpa.bookery.model.entity.ClubVo"/>
+	<typeAlias alias="v_readers_cntBean" type="co.salpa.bookery.model.entity.V_Readers_cntVo"/>
 </typeAliases>
 	
 	<mappers>
@@ -30,5 +31,6 @@
 		<mapper resource="config/AwardMapper.xml" />
 		<mapper resource="config/V_AwardsMapper.xml" />
 		<mapper resource="config/ClubMapper.xml" />
+		<mapper resource="config/V_Readers_cntMapper.xml" />
 	</mappers>
 </configuration>

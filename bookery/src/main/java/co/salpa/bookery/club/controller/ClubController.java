@@ -19,8 +19,9 @@ public class ClubController {
 	
 	@RequestMapping("")
 	public String bookClub(Model model) {
-		clubService.listBookClub(model);
+		clubService.listBookClubService(model);
 		findService.listBookService(model);
+		clubService.listReadersService(model);
 		return "club/bookClub";
 	}//bookClub
 	

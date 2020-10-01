@@ -22,4 +22,5 @@ public interface V_StudyDao {
 	int countNoGoalBook(int id) throws DataAccessException; //미독 책 개수 반환
 	int countStudyingBook(int id) throws DataAccessException; //미완독 책 개수 반환
 	int countFinishedBook(int id) throws DataAccessException; //완독 책 개수 반환
+	int countPeopleByBook(int bid) throws DataAccessException;//같은 책 읽는 사람 수 
 }

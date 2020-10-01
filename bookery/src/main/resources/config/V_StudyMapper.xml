@@ -41,4 +41,7 @@
  	<select id="countFinishedBook" resultType="Integer" parameterType="_int">
  		select count(*) from (select title from v_study where progress_rate = 100 and user_id=#{id})c
  	</select>
+ 	<select id="countPeopleByBook" parameterType="_int">
+ 		select count(book_bid) from v_study where book_bid =#{book_bid}
+ 	</select>
 </mapper>
