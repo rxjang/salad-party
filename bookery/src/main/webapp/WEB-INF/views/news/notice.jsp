@@ -37,6 +37,10 @@
 	.content-title{
 		padding:5px 20px;
 	}
+	.glyphicon-menu-down{
+		padding-top:10px;
+		float:right;
+	}
 	.content-main{
 		padding:5px 20px;
 		padding-bottom:20px;
@@ -54,13 +58,20 @@
 		color: black;
 		margin:10px auto;
 	}
-	.onetoone{
+	.admin-btn, .ask-btn{
+		float:right;
+		margin-left:5px;
 		color:#787878;
 	}
-	.onetoone:hover{
+	.admin-btn:hover, .ask-btn:hover{
 		color:#49654d;
 		font-weight:bold;
 		text-decoration:none;
+	}
+	.write-btn{
+		float:none;
+		position:relative;
+		left:93%;
 	}
 	@media (max-width:1000px) {
 		.content-main{
@@ -69,13 +80,17 @@
 	}
 </style>
 <script>
+var id=${user.id}//admin계정일시 공지사항 수정 위해
 	$(function(){
+		//기본적으로 글 내용은 숨기고 글 제목 클릭시 내용 보이게 함
+		//1-box:공지사항 2-box:FAQ 3-box:1:1 문의
 	 	$(".content-main").hide();
 		$(".2-box").hide();
 		$(".3-box").hide();
 		$(".1-box").show();
+		admin();
 		
-		$(".off").each(function(){
+		$(".off").each(function(){//처음에 off로 서브메뉴 세팅하고 클릭시 on 클래스 생성, off클래스 remove형식으로 내용 보여줌
 			$(this).on('click',function(){
 				$(".on").addClass("off");
 				$(".on").removeClass("on");
@@ -86,10 +101,12 @@
 					$(".2-box").hide();
 					$(".3-box").hide();
 					$(".1-box").show();
+					admin();
 				}else if($(".on").text()=="FAQ"){
 					$(".1-box").hide();
 					$(".3-box").hide();
 					$(".2-box").show();
+					admin();
 				}else if($(".on").text()=="1:1 문의"){
 					$(".1-box").hide();
 					$(".2-box").hide();
@@ -98,6 +115,7 @@
 			});//click
 		});//off
 		
+		//글내용 열고 닫기는 횟수 기준으로
 		$(".content-box").each(function(){
 			var clickTimes = 0;
 			$(this).on('click',function(){
@@ -110,6 +128,18 @@
 			});//click
 		});//content-box
 	});//ready
+	
+	//관리자 계정일때 글쓰기/상세보기 버튼 보이게
+	function admin(){
+		if(id==1){
+			$(".3-box").children(".admin-btn").remove(); 
+			$(".info-ment").remove();
+			$(".admin-btn").show();
+		}else{
+			$(".admin-btn").hide();
+		}
+	}
+	
 </script>
 </head>
 <body>
@@ -126,29 +156,32 @@
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8 center-content">
+		<a class="write-btn admin-btn 1-box 2-box" href="${pageContext.request.contextPath }/news/notice/">글쓰기</a>
 		<div class="3-box info-ment">
 			<div class="content-title">
 				<h4><span class="usernmae">${user.nickname }</span>님 <br/>무엇을 도와 드릴까요?<img src="${pageContext.request.contextPath}/resources/imgs/Smile-blush.png" alt="?"></h4>
-				<a href="#" class="onetoone"> 1:1 문의 하기</a>
 			</div>
 			<div class="content-main 3-box">
 				남겨주신 문의는 담당자 확인 후 빠른 시일 내에 답변 드리겠습니다.<br/>
 				북커리를 이용해주셔서 감사합니다.
+				<a href="${pageContext.request.contextPath }/news/notice/write" class="ask-btn"> 1:1 문의 하기</a>
 			</div>
 		</div>
 		<c:forEach items="${noticeList }" var="bean">
 		<div class="content-box ${bean.num }-box">
 			<div class="content-title">
+				<span class="glyphicon glyphicon-menu-down"></span>
 				<h4 class="title">${bean.title }</h4>
 				<p class="1-box 3-box">${bean.createtime }</p>
 			</div><!-- content-title -->
 			<div class="content-main">
 				${bean.content }
+				<a class="admin-btn" href="#">상세보기</a>
 			</div><!-- content-main -->
 		</div><!-- content-box -->
 		</c:forEach>
 		<div class="ask 2-box">
-			<em>그래도 해결이 안되시나요?</em> <a href="#" class="onetoone"> 1:1 문의 하기</a>
+			<em>그래도 해결이 안되시나요?</em><a href="${pageContext.request.contextPath }/news/notice/write" class="ask-btn"> 1:1 문의 하기</a>
 		</div>
 	</div><!-- center-content -->
 	<div class="col-md-2"></div>

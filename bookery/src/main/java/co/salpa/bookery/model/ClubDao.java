@@ -13,4 +13,6 @@ public interface ClubDao {
 	List<ClubVo> selectBookClubAll() throws DataAccessException;
 	
 	void insertBookClub(BookVo book) throws DataAccessException;
+	
+	void insertNotice(ClubVo club) throws DataAccessException;
 }

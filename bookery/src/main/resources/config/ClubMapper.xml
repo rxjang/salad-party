@@ -20,8 +20,7 @@
 	
 	<insert id="insertNotice" parameterType="clubBean">
 		insert into club (createtime, title, content, depth, num, user_id, book_bid) 
-			values(#{createtime},#{title},#{content},#{depth},#{num},#{user_id}, 0);
-
+			values(now(),#{title},#{content},#{depth},#{num},#{user_id}, 0);
 	</insert>
 	
 </mapper>
