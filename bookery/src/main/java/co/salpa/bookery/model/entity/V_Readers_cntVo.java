@@ -12,6 +12,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class V_Readers_cntVo {
-	private int book_bid, study_id,readers;
+	private int book_bid,readers;
 	private String title, coverurl;
 }
