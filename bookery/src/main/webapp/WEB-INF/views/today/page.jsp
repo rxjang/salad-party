@@ -24,6 +24,7 @@
 	var page_data = new Array(); //pagePicker에 전달할 데이터목록. data를 배열로받음
 	
 	for (var i = 0; i <= total_pages-actual_page; i++){
+		if(cnt=='0'){cnt = 1;}
 		page_data[i]= cnt;
 		cnt++;
 	}//for
@@ -52,6 +53,7 @@
 	//오늘 공부한 페이지 - 어제까지 actualpage / plan페이지 구간 = 오늘 퍼센트	
 	function todayPage(page){ //페이지 입력 받아서 컨트롤러에 전달
 		location.href='${pageContext.request.contextPath}/today/page/check/${v_study.study_id}';
+		//location.reload();
 		$.ajax({
 			url:'${pageContext.request.contextPath}/today/page/check/${v_study.study_id}/'+page,
 			method:'get',
@@ -223,21 +225,25 @@
 	$(function(){
 		$('.progress2').css('background-color', '#ecece9');
 		$('.progress-bar2').each(function() {
-			$(this).css('height','250px');
 			  var min = $(this).attr('aria-valuemin');
 			  var now;
 			  var max; 
 			  if(Number(actual_page)>Number(plan_page)){
 				  now = $(this).attr('aria-valuenow',plan_page);
 				  max = $(this).attr('aria-valuemax',actual_page);
-					$('.bar-text').show();				 
+				  $('.bar-text').text('+ '+(actual_page-plan_page)+'p');				 
 			  		$('.progress2').css('background-color', '#ffabaa');
 					$(this).text('Plan:'+plan_page+'p');
-			  }else if(actual_page<plan_page){
+			  }else if(Number(actual_page)<Number(plan_page)){
 				  now = $(this).attr('aria-valuenow',actual_page);
 				  max = $(this).attr('aria-valuemax',plan_page);
-					$('.bar-text').hide();
-					$(this).text('Actual:'+actual_page+'p');
+					$('.bar-text').text('- '+(plan_page-actual_page)+'p').css('color','#ffabaa');
+					$(this).text(actual_page+'p');
+			  }else if(Number(actual_page)==Number(plan_page)){
+				  now = $(this).attr('aria-valuenow',actual_page);
+				  max = $(this).attr('aria-valuemax',plan_page);
+				  	$('.bar-text').text('');
+   				  	$(this).text(actual_page+'p');
 			  }
 			  now = $(this).attr('aria-valuenow');
 			  max = $(this).attr('aria-valuemax');
