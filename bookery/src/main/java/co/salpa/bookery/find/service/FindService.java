@@ -11,7 +11,7 @@ import co.salpa.bookery.model.entity.StudyVo;
 public interface FindService {
 	public String searchService(int start, String search, String select);
 
-	public Document crawlingService(int bid);
+	public Model crawlingService(int bid, Model model);
 
 	public Model listTocService(Model model, int bid) throws DataAccessException;
 	

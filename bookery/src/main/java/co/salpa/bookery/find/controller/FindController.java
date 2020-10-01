@@ -37,16 +37,6 @@ public class FindController {
 	public String searchBooks(int start, String search, String select) throws Exception {
 		return findService.searchService(start, search, select);// ajax통신이라 view가 없음
 	}// searchBooks
-	
-	
 
-	// 책상세보기 페이지가 로딩될 때 비동기로 책정보 크롤링해서 가져감
-	@RequestMapping("/find/crawling")
-	public String crawlingBook(int bid, HttpServletResponse response) throws IOException {
-		PrintWriter out = response.getWriter(); // bookery검색페이지에 네이버책 페이지문서를 전달함
-		out.print(findService.crawlingService(bid));
-		out.close();
-		return null;
-	}// crawlingBook
 
 }// classEnd

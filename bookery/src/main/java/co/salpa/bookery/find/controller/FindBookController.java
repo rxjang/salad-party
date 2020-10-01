@@ -34,32 +34,12 @@ public class FindBookController {
 		HttpSession session = request.getSession();
 		UserVo user = (UserVo) session.getAttribute("user");
 		
-		Document doc = findService.crawlingService(bid);
-		Elements e1 = doc.select("div.book_info");
-		Elements e2 = doc.select("div.book_info_inner");
-		Elements e3 = doc.select("div#bookIntroContent");
-		Elements e4 = doc.select("div#tableOfContentsContent");
-		String result = e1.toString()+e2.toString()+e3.toString()+e4.toString();
-		
-		model.addAttribute("crawlingDoc", result);
+		findService.crawlingService(bid, model);
+
 		if(user!=null) {
 			findService.getStudyOverlapChk(user.getId(), bid, model);
 		}
 		return "/find/findBook";
 	}
 
-	/***************************
-	
-	 **********************************/
-	@RequestMapping("/mylib")
-	public String showBooks(Model model) throws Exception {
-		findService.listBookService(model);
-		return "find/mybooks";
-	}// showBooks
-
-	@RequestMapping("/chapters")
-	public String showChapters(@RequestParam int bid, Model model) throws Exception {
-		findService.listTocService(model, bid);
-		return "find/mybookchapters";
-	}
 }// ClassEnd
