@@ -28,7 +28,7 @@ VIEW `v_checkchap_total_cnt` AS
         MAX(`checkchap`.`study_id`) AS `study_id`,
         COUNT(`checkchap`.`id`) AS `total_cnt`
     FROM
-        `checkchap`
+        `checkchap`;
     WHERE
         (`checkchap`.`deleted` = 0)
     GROUP BY `checkchap`.`study_id`;
@@ -47,7 +47,7 @@ VIEW `v_checkchap_actual_days` AS
         WHERE
             (`checkchap`.`actualtime` <= NOW())
         ORDER BY `checkchap`.`actualtime`) `a`
-    GROUP BY `a`.`study_id`
+    GROUP BY `a`.`study_id`;
 
 CREATE 
 VIEW `v_checkchap_total_days` AS
@@ -61,7 +61,7 @@ VIEW `v_checkchap_total_days` AS
         FROM
             `checkchap`
         ORDER BY `checkchap`.`plantime`) `a`
-    GROUP BY `a`.`study_id`
+    GROUP BY `a`.`study_id`;
 
 CREATE 
 VIEW `v_checkpage_todate` AS
@@ -137,7 +137,7 @@ VIEW `v_study` AS
         LEFT JOIN `user` ON ((`study`.`user_id` = `user`.`id`)))
         LEFT JOIN `book` ON ((`study`.`book_bid` = `book`.`bid`)))
     WHERE
-        (`study`.`deleted` = 0)
+        (`study`.`deleted` = 0);
         
 CREATE 
     ALGORITHM = UNDEFINED 
