@@ -26,4 +26,9 @@ public class NewsController {
 		newsService.noticeService(model);
 		return "news/notice";
 	}
+	
+	@RequestMapping()
+	public String insertNotice() {
+		return "news/noticecrud";
+	}
 }
