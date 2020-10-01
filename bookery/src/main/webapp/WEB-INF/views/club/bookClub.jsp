@@ -48,6 +48,25 @@
 #input_group_btn {
 	width: 30px;
 }
+.thumb-box{
+	width:300px;
+	height: 300px;
+	margin-bottom:40px;
+}
+.thumbnail { /*   */
+	border: 1px solid rgb(221, 221, 221);
+	border-radius: 5px;
+	transition-duration: 600ms;
+	display: block;
+	margin: auto;
+	margin-top: 3px;
+}
+.thumbnail:hover { /*  반짝 */
+	transition-duration: 600ms;
+	border: 1px solid rgb(139, 169, 137);
+	box-shadow: rgb(192, 207, 178) 0px 0px 6px;
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -95,24 +114,40 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6 side-line">
+		<div class="col-xs-12 col-md-6">
 			<!--**********post start**********-->
-			<c:forEach begin="1" end="11">
-				<div class="col-xs-12 col-md-6">
-					<div class="thumbnail">
-						<img
-							src="https://bookthumb-phinf.pstatic.net/cover/158/734/15873485.jpg?type=m140&udate=20200822"
-							alt="...">
+			<c:forEach items="${books }" var="bean">
+		
+				<div class="col-xs-12 col-md-6 thumb-box">
+					<div class="thumbnail" style="">
+						<a href="#"> 
+							<c:choose>
+								<c:when test="${'' ne bean.coverurl }">
+									<img src="${bean.coverurl }" />
+								</c:when>
+								<c:when test="${'' eq bean.coverurl }">
+									<img src="${pageContext.request.contextPath }/resources/imgs/no-image.png" />
+								</c:when>
+							</c:choose>
+						</a>
 						<div class="caption">
-							<h3>정보처리기사</h3>
-							<p>5장 신기술들 다 외워야하나요???</p>
-							<p>답변 수 : 0개</p>
+							<p>${bean.title }</p>
 						</div>
 					</div>
 				</div>
+			
 
 			</c:forEach>
+<!-- 
 
+url(https://ssl.pstatic.net/static/book/sp_thumb_all.png) no-repeat
+
+url(https://ssl.pstatic.net/static/book/sp_thumb_all2.png) no-repeat
+
+
+url(https://ssl.pstatic.net/static/book/sp_thumb_all3.png) 100% 100% no-repeat
+
+ -->
 			<!--**********post end**********-->
 		</div>
 		<div class="col-md-3"></div>

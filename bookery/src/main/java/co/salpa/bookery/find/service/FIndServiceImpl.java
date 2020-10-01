@@ -26,6 +26,7 @@ import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.BookDao;
+import co.salpa.bookery.model.ClubDao;
 import co.salpa.bookery.model.StudyDao;
 import co.salpa.bookery.model.TocDao;
 import co.salpa.bookery.model.entity.BookVo;
@@ -66,30 +68,12 @@ public class FIndServiceImpl implements FindService {
 		Date today = Date.valueOf(sdf.format(new java.util.Date()));
 		return today;
 	}// getSqlToday
-	/*
-	 * src/main/resources/config/naverApi.properties 파일 불러오기.
-	 */
-//	public void apiKeySet() {
-//		String key_path = "/config/naverApi.properties";
-//		Properties prop = new Properties();
-//        Reader reader;
-//		try {
-//			reader = Resources.getResourceAsReader(key_path);
-//			prop.load(reader);
-//			prop.getProperty("naver.clientid"));
-//			prop.getProperty("naver.clientsecret"));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}//naver api keys
 
-	/****
-	 * 
+	/*
 	 * 검색페이지에서 검색항목(저자, 출판사, 제목) 선택해서 검색하면 검색결과를 보여주는 순서 start와 검색어search, 검색항목
 	 * select를 받아 검색한 뒤 html문서 전체를 결과로 String으로 반환해준다.
 	 * 
-	 ****/
+	 */
 	@Override
 	public String searchService(int start, String search, String select) {
 		// TODO Auto-generated method stub
@@ -195,25 +179,11 @@ public class FIndServiceImpl implements FindService {
 	 ****/
 
 	@Override
-	public Document crawlingService(int bid) {
+	public Model crawlingService(int bid, Model model) {
 		// TODO Auto-generated method stub
 		String url = "https://book.naver.com/bookdb/book_detail.nhn?bid=" + bid;
 		Document doc = null;
-//		:authority: book.naver.com
-//		:method: GET
-//		:path: /bookdb/book_detail.nhn?bid=15028705
-//		:scheme: https
-//		accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
-//		accept-encoding: gzip, deflate, br
-//		accept-language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
-//		cache-control: max-age=0
-//		cookie: NNB=P6QCKDPB4FOV6; NRTK=ag#all_gr#1_ma#-2_si#0_en#0_sp#0; nx_ssl=2; _ga=GA1.2.960712034.1600589774; jhj7176_word_speech_bubble_20140109=true; JSESSIONID=2AE10E57FA4264D4D691E73887B9898F
-//		sec-fetch-dest: document
-//		sec-fetch-mode: navigate
-//		sec-fetch-site: none
-//		sec-fetch-user: ?1
-//		upgrade-insecure-requests: 1
-//		user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36
+		String result = null;
 		try {
 			doc = Jsoup.connect(url)
 					.header("path", "/bookdb/book_detail.nhn?bid="+bid)
@@ -229,11 +199,16 @@ public class FIndServiceImpl implements FindService {
 					.header("sec-fetch-user", "?1")
 					.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36")
 					.timeout(3000).data("query", "Java").get();
+			Elements e1 = doc.select("div.book_info");
+			Elements e2 = doc.select("div.book_info_inner");
+			Elements e3 = doc.select("div#bookIntroContent");
+			Elements e4 = doc.select("div#tableOfContentsContent");
+			result = e1.toString()+e2.toString()+e3.toString()+e4.toString();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		System.out.println("크롤링 url = " + url);
-		return doc;
+		
+		return model.addAttribute("crawlingDoc", result);
 	}// crawlingService
 
 	/****
@@ -302,7 +277,7 @@ public class FIndServiceImpl implements FindService {
 	 * 
 	 * 그리고 study테이블에도 책정보와함게 스터디생성 Transactional 어노테이션으로 insertStudyService 메소드가
 	 * 정상종료되기전에 예외가 발생하면 모두 롤백된다.
-	 * @throws SQLException 
+	 * throws SQLException 
 	 * 
 	 ****/
 	@Override
@@ -313,10 +288,13 @@ public class FIndServiceImpl implements FindService {
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		TocDao tocDao = sqlSession.getMapper(TocDao.class);
 		StudyDao studyDao = sqlSession.getMapper(StudyDao.class);
-
+		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
+		
 		bookDao.insertOne(book);// 책입력
 		tocsPut(book, tocDao, chapters);// 목차들 입력
 		studyDao.insertOne(study);// 스터디생성
+		clubDao.insertBookClub(book);// 북클럽에 책 생성
+		
 	}// studyAddService
 
 	/****

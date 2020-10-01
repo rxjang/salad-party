@@ -9,4 +9,12 @@
 		select * from club where book_bid=0
 	</select>
 	
+	<select id="selectBookClubAll" resultType="clubBean">
+		select * from club where book_bid != 0;
+	</select>
+	
+	<insert id="insertBookClub" parameterType="bookBean">
+		insert into club (updatetime, title, book_bid) values (now(),#{title},#{bid})
+	</insert>
+	
 </mapper>
