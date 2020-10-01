@@ -28,7 +28,7 @@ VIEW `v_checkchap_total_cnt` AS
         MAX(`checkchap`.`study_id`) AS `study_id`,
         COUNT(`checkchap`.`id`) AS `total_cnt`
     FROM
-        `checkchap`;
+        `checkchap`
     WHERE
         (`checkchap`.`deleted` = 0)
     GROUP BY `checkchap`.`study_id`;
@@ -155,3 +155,14 @@ VIEW `v_awards` AS
         JOIN `award` `a`)
     WHERE
         (`m`.`id` = `a`.`medal_id`);
+
+CREATE 
+VIEW `v_readers_cnt` AS
+    SELECT 
+		b.bid AS book_bid,
+        count(book_bid) AS readers,
+        b.title,
+        b.coverurl,
+        s.id AS study_id
+    FROM	
+        (salpa.book b left join salpa.study s on b.bid = s.book_bid) where s.deleted != 1 group by s.book_bid ;

@@ -14,9 +14,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ClubVo {
-	int id,ref,depth,num,user_id,book_bid;
-	String title,content;
-	Date createtime,updatetime;
+	private int id,ref,depth,num,user_id,book_bid;
+	private String title,content;
+	private Date createtime,updatetime;
 	
 	public ClubVo(int id, int book_bid, String title, String content, Date createtime) {
 		super();
@@ -26,6 +26,13 @@ public class ClubVo {
 		this.content = content;
 		this.createtime = createtime;
 	}
-	
+
+	public ClubVo(int book_bid, String title, String content, Date updatetime) {
+		super();
+		this.book_bid = book_bid;
+		this.title = title;
+		this.content = content;
+		this.updatetime = updatetime;
+	}
 	
 }

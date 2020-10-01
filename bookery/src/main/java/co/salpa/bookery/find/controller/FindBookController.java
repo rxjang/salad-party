@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.salpa.bookery.club.service.ClubService;
 import co.salpa.bookery.find.service.FindService;
 import co.salpa.bookery.model.entity.UserVo;
 
@@ -23,7 +24,9 @@ public class FindBookController {
 
 	@Autowired
 	FindService findService;
-
+	@Autowired
+	ClubService clubService;
+	
 	/***************************
 	 * 검색목록에서 책 눌렀을 때 책 상세보기 페이지로 이동
 	 **********************************/
@@ -34,32 +37,13 @@ public class FindBookController {
 		HttpSession session = request.getSession();
 		UserVo user = (UserVo) session.getAttribute("user");
 		
-		Document doc = findService.crawlingService(bid);
-		Elements e1 = doc.select("div.book_info");
-		Elements e2 = doc.select("div.book_info_inner");
-		Elements e3 = doc.select("div#bookIntroContent");
-		Elements e4 = doc.select("div#tableOfContentsContent");
-		String result = e1.toString()+e2.toString()+e3.toString()+e4.toString();
+		findService.crawlingService(bid, model);
+		clubService.getReaderService(bid, model);
 		
-		model.addAttribute("crawlingDoc", result);
 		if(user!=null) {
 			findService.getStudyOverlapChk(user.getId(), bid, model);
 		}
 		return "/find/findBook";
 	}
 
-	/***************************
-	
-	 **********************************/
-	@RequestMapping("/mylib")
-	public String showBooks(Model model) throws Exception {
-		findService.listBookService(model);
-		return "find/mybooks";
-	}// showBooks
-
-	@RequestMapping("/chapters")
-	public String showChapters(@RequestParam int bid, Model model) throws Exception {
-		findService.listTocService(model, bid);
-		return "find/mybookchapters";
-	}
 }// ClassEnd
