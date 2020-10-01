@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.salpa.bookery.club.service.ClubService;
 import co.salpa.bookery.find.service.FindService;
 import co.salpa.bookery.model.entity.UserVo;
 
@@ -23,7 +24,9 @@ public class FindBookController {
 
 	@Autowired
 	FindService findService;
-
+	@Autowired
+	ClubService clubService;
+	
 	/***************************
 	 * 검색목록에서 책 눌렀을 때 책 상세보기 페이지로 이동
 	 **********************************/
@@ -35,7 +38,8 @@ public class FindBookController {
 		UserVo user = (UserVo) session.getAttribute("user");
 		
 		findService.crawlingService(bid, model);
-
+		clubService.getReaderService(bid, model);
+		
 		if(user!=null) {
 			findService.getStudyOverlapChk(user.getId(), bid, model);
 		}
