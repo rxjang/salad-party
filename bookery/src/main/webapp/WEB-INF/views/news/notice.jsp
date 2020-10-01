@@ -81,7 +81,6 @@
 </style>
 <script>
 var id=${user.id}//admin계정일시 공지사항 수정 위해
-var num=0;
 	$(function(){
 		//기본적으로 글 내용은 숨기고 글 제목 클릭시 내용 보이게 함
 		//1-box:공지사항 2-box:FAQ 3-box:1:1 문의
@@ -103,18 +102,15 @@ var num=0;
 					$(".3-box").hide();
 					$(".1-box").show();
 					admin();
-					num=1;
 				}else if($(".on").text()=="FAQ"){
 					$(".1-box").hide();
 					$(".3-box").hide();
 					$(".2-box").show();
 					admin();
-					num=2;
 				}else if($(".on").text()=="1:1 문의"){
 					$(".1-box").hide();
 					$(".2-box").hide();
 					$(".3-box").show();
-					num=3;
 				}
 			});//click
 		});//off
@@ -168,7 +164,7 @@ var num=0;
 			<div class="content-main 3-box">
 				남겨주신 문의는 담당자 확인 후 빠른 시일 내에 답변 드리겠습니다.<br/>
 				북커리를 이용해주셔서 감사합니다.
-				<a href="#" class="ask-btn"> 1:1 문의 하기</a>
+				<a href="${pageContext.request.contextPath }/news/notice/write" class="ask-btn"> 1:1 문의 하기</a>
 			</div>
 		</div>
 		<c:forEach items="${noticeList }" var="bean">
@@ -185,7 +181,7 @@ var num=0;
 		</div><!-- content-box -->
 		</c:forEach>
 		<div class="ask 2-box">
-			<em>그래도 해결이 안되시나요?</em><a href="${pageContext.request.contextPath }/news/notice/3" class="ask-btn"> 1:1 문의 하기</a>
+			<em>그래도 해결이 안되시나요?</em><a href="${pageContext.request.contextPath }/news/notice/write" class="ask-btn"> 1:1 문의 하기</a>
 		</div>
 	</div><!-- center-content -->
 	<div class="col-md-2"></div>

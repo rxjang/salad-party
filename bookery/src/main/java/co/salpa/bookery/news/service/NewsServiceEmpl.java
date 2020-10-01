@@ -25,4 +25,10 @@ public class NewsServiceEmpl implements NewsService {
 		return null;
 	}
 
+	@Override
+	public void insertQuestion(ClubVo club) throws DataAccessException {
+		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
+		clubDao.insertNotice(club);
+	}
+
 }
