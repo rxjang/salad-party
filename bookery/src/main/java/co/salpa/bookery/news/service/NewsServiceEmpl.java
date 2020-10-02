@@ -31,4 +31,24 @@ public class NewsServiceEmpl implements NewsService {
 		clubDao.insertNotice(club);
 	}
 
+	@Override
+	public Model detailNoticeService(int id, Model model) throws DataAccessException {
+		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
+		ClubVo club=clubDao.selectOneNotice(id);
+		model.addAttribute("noticeOne", club);
+		return null;
+	}
+
+	@Override
+	public void updateNotice(ClubVo club) throws DataAccessException {
+		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
+		clubDao.updateNotice(club);
+	}
+
+	@Override
+	public void deleteNotice(int id) throws DataAccessException {
+		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
+		clubDao.deleteClubData(id);
+	}
+
 }

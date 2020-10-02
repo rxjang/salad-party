@@ -176,7 +176,7 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 			</div><!-- content-title -->
 			<div class="content-main">
 				${bean.content }
-				<a class="admin-btn" href="#">상세보기</a>
+				<a class="admin-btn" href="${pageContext.request.contextPath }/news/notice/detail/${bean.id}">상세보기</a>
 			</div><!-- content-main -->
 		</div><!-- content-box -->
 		</c:forEach>
