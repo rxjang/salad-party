@@ -389,8 +389,10 @@ $(function(){
 
 			<nav aria-label="...">
 				<ul class="pager additional-info">
+				<c:if test="${cntReaders.readers ne null }">
 					<li><a>함께 읽는 사람 <span class="badge">${cntReaders.readers }명</span></a>
 					</li>
+				</c:if>
 					<li><a>평균 완독 시간 <span class="badge">4일</span></a>
 					</li>
 					<li><a>평점 <span class="badge">★3.5</span></a>
