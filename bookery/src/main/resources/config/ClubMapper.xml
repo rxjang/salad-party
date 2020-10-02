@@ -14,7 +14,7 @@
 	</select>
 
 	<select id="selectBookClubAll" resultType="clubBean">
-		select * from club where book_bid != 0;
+		select * from club where book_bid != 1;
 	</select>
 	
 	<insert id="insertBookClub" parameterType="bookBean">
@@ -34,5 +34,18 @@
 	<update id="deleteClubData" parameterType="_int">
 		update club set deleted=1 where id=#{id}
 	</update>
+	
+	<select id="selectAboutBook" parameterType="_int" resultType="clubBean">
+		select * from club where book_bid=#{book_bid} and deleted != 1 order by createtime desc
+	</select>
+	
+	<select id="selectOneClub" resultType="clubBean" parameterType="_int">
+		select * from club where id = #{id} and deleted !=1
+	</select>
+	
+	<insert id="insertOneClub" parameterType="clubBean">
+		insert into club (updatetime, title, content, ref, depth, num, user_id,
+		book_bid) values (now(),#{title},#{content},0,#{depth},0,#{user_id},#{book_bid});
+	</insert>
 	
 </mapper>

@@ -62,11 +62,13 @@
 	width: 30px;
 }
 .thumb-box{
-	width:300px;
-	height: 350px;
-	margin-bottom:40px;
+/* 	width:300px;
+*/
+	height: 350px; 
+	margin-bottom:50px;
 }
 .thumbnail { /*   */
+	text-align:center;
 	border: 1px solid rgb(221, 221, 221);
 	border-radius: 5px;
 	transition-duration: 600ms;
@@ -79,6 +81,11 @@
 	border: 1px solid rgb(139, 169, 137);
 	box-shadow: rgb(192, 207, 178) 0px 0px 6px;
 	cursor: pointer;
+}
+.thumbnail a img{
+	margin-top:10px;
+	margin-bottom:10px;
+	box-shadow:rgb(37, 54, 41) 5px 5px 10px;
 }
 .badge{
 	background-color: #8ba989;
@@ -99,6 +106,7 @@
 				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 				북클럽
 			</h3>
+			<br /><small>같은 책을 읽는 사람들과 소통할 수 있어요!</small>
 		</div>
 
 		<div class="bottom-line col-xs-12 col-md-12"></div>
@@ -120,15 +128,7 @@
 			</form>
 		</div>
 		<div class="col-md-3"></div>
-		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6">
-			<button class="btn btn-default">날짜순</button>
-			<button class="btn btn-default">답글순</button>
-			<button class="btn btn-default">날짜순</button>
-			<button class="btn btn-default">날짜순</button>
-			<button class="btn btn-default">날짜순</button>
-		</div>
-		<div class="col-md-3"></div>
+
 		<div class="bottom-line col-xs-12 col-md-12"></div>
 
 	</div>
@@ -137,10 +137,9 @@
 		<div class="col-xs-12 col-md-6 bookclub-contents">
 			<!--**********post start**********-->
 			<c:forEach items="${cntReaders }" var="bean">
-		
 				<div class="col-xs-12 col-md-6 thumb-box">
 					<div class="thumbnail" style="">
-						<a href="#"> <c:choose>
+						<a href="${pageContext.request.contextPath }/club/list/${bean.book_bid}"> <c:choose>
 								<c:when test="${'' ne bean.coverurl }">
 									<img src="${bean.coverurl }" />
 								</c:when>

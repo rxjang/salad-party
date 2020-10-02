@@ -1069,3 +1069,10 @@ insert into club (createtime, title, content, depth,num,user_id,book_bid) values
 insert into club (createtime, title, content, depth,num,user_id,book_bid) values("2020-10-01","북커리 업데이트 안내","북커리 사이트가 10월 1일자로 업데이트 되었습니다",0,1,1,0);
 commit;
 insert into club (createtime, title, content, depth,num,user_id,book_bid) values("2020-09-23","아이디를 까먹었어요!","북커리의 아이디는 가입하실때 사용하신 이메일과 동일합니다",0,2,1,0);
+commit;
+insert into salpa.club (updatetime, title, content, ref, depth, num, user_id, book_bid) values (now(),'test1','test1111',0,0,0,3,16687560);
+insert into salpa.club (updatetime, title, content, ref, depth, num, user_id, book_bid) values (now(),'test2','test2222',0,0,0,3,16687560);
+insert into salpa.club (updatetime, title, content, ref, depth, num, user_id, book_bid) values (now(),'test3','test3333',0,0,0,3,16687560);
+insert into salpa.club (updatetime, title, content, ref, depth, num, user_id, book_bid) values (now(),'test4','test4444',0,0,0,3,16687560);
+insert into salpa.club (updatetime, title, content, ref, depth, num, user_id, book_bid) values (now(),'test5','test5555',0,0,0,3,16687560);
+commit;

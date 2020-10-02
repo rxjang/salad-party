@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
 	<title>Bookery</title>
@@ -177,7 +176,7 @@ $(function(){
 				book_info_html += '</div></div>';
 			$('#book_detail').html(book_info_html).css('text-align','center');
 			
-			$('.media-img img').css({'box-shadow':'rgb(135, 165, 134) 5px 5px 10px','display':'block','margin':'auto'});
+			$('.media-img img').css({'box-shadow':'rgb(37, 54, 41) 5px 5px 10px','display':'block','margin':'auto'});
 			//책 썸네일 그림자색
 			
 			var list =$('#crawling_div').find('#tableOfContentsContent');
