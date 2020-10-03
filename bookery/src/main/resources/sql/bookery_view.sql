@@ -11,7 +11,7 @@ VIEW `v_checkchap_actual` AS
     WHERE
         ((`checkchap`.`actualtime` <= NOW())
             AND (`checkchap`.`deleted` = 0))
-    GROUP BY `checkchap`.`study_id`
+    GROUP BY `checkchap`.`study_id`;
     
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -26,7 +26,7 @@ VIEW `v_checkchap_actual_chap_yesterday` AS
     WHERE
         ((`checkchap`.`actualtime` < DATE_FORMAT(NOW(), '%Y-%m-%d'))
             AND (`checkchap`.`deleted` = 0))
-    GROUP BY `checkchap`.`study_id`
+    GROUP BY `checkchap`.`study_id`;
     
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -45,7 +45,7 @@ VIEW `v_checkchap_actual_days_yesterday` AS
         WHERE
             (`checkchap`.`actualtime` < DATE_FORMAT(NOW(), '%Y-%m-%d'))
         ORDER BY `checkchap`.`actualtime`) `a`
-    GROUP BY `a`.`study_id`
+    GROUP BY `a`.`study_id`;
     
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -60,7 +60,7 @@ VIEW `v_checkchap_plan` AS
     WHERE
         ((`checkchap`.`plantime` <= NOW())
             AND (`checkchap`.`deleted` = 0))
-    GROUP BY `checkchap`.`study_id`
+    GROUP BY `checkchap`.`study_id`;
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -75,7 +75,7 @@ VIEW `v_checkchap_plan_chap_yesterday` AS
     WHERE
         ((`checkchap`.`plantime` < DATE_FORMAT(NOW(), '%Y-%m-%d'))
             AND (`checkchap`.`deleted` = 0))
-    GROUP BY `checkchap`.`study_id`
+    GROUP BY `checkchap`.`study_id`;
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -94,7 +94,7 @@ VIEW `v_checkchap_plan_days_yesterday` AS
         WHERE
             (`checkchap`.`plantime` < DATE_FORMAT(NOW(), '%Y-%m-%d'))
         ORDER BY `checkchap`.`plantime`) `a`
-    GROUP BY `a`.`study_id`
+    GROUP BY `a`.`study_id`;
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -108,7 +108,7 @@ VIEW `v_checkchap_total` AS
         `checkchap`
     WHERE
         (`checkchap`.`deleted` = 0)
-    GROUP BY `checkchap`.`study_id`
+    GROUP BY `checkchap`.`study_id`;
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -125,7 +125,7 @@ VIEW `v_checkchap_total_days` AS
         FROM
             `checkchap`
         ORDER BY `checkchap`.`plantime`) `a`
-    GROUP BY `a`.`study_id`
+    GROUP BY `a`.`study_id`;
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -143,7 +143,7 @@ VIEW `v_checkpage_actual` AS
     WHERE
         ((`checkpage`.`deleted` = 0)
             AND (`checkpage`.`date` <= NOW()))
-    GROUP BY `checkpage`.`study_id`
+    GROUP BY `checkpage`.`study_id`;
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -161,7 +161,7 @@ VIEW `v_checkpage_actual_yesterday` AS
     WHERE
         ((`checkpage`.`deleted` = 0)
             AND (`checkpage`.`date` < DATE_FORMAT(NOW(), '%Y-%m-%d')))
-    GROUP BY `checkpage`.`study_id`
+    GROUP BY `checkpage`.`study_id`;
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -176,7 +176,7 @@ VIEW `v_checkpage_total` AS
         `checkpage`
     WHERE
         (`checkpage`.`deleted` = 0)
-    GROUP BY `checkpage`.`study_id`
+    GROUP BY `checkpage`.`study_id`;
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -239,7 +239,7 @@ VIEW `v_study` AS
         LEFT JOIN `user` ON ((`study`.`user_id` = `user`.`id`)))
         LEFT JOIN `book` ON ((`study`.`book_bid` = `book`.`bid`)))
     WHERE
-        (`study`.`deleted` = 0)
+        (`study`.`deleted` = 0);
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -256,7 +256,7 @@ VIEW `v_awards` AS
         (`medal` `m`
         JOIN `award` `a`)
     WHERE
-        (`m`.`id` = `a`.`medal_id`)
+        (`m`.`id` = `a`.`medal_id`);
 
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -273,7 +273,7 @@ VIEW `v_readers_cnt` AS
         LEFT JOIN `study` `s` ON ((`b`.`bid` = `s`.`book_bid`)))
     WHERE
         (`s`.`deleted` <> 1)
-    GROUP BY `s`.`book_bid`
+    GROUP BY `s`.`book_bid`;
          
 CREATE 
     ALGORITHM = UNDEFINED 
@@ -291,4 +291,4 @@ VIEW `v_notice` AS
         `a`.`deleted` AS `deleted`
     FROM
         (`club` `a`
-        JOIN `club` `b` ON ((`a`.`id` = `b`.`ref`)))
+        JOIN `club` `b` ON ((`a`.`id` = `b`.`ref`)));

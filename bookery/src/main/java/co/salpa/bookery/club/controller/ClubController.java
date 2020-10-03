@@ -1,5 +1,10 @@
 package co.salpa.bookery.club.controller;
 
+
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.salpa.bookery.club.service.ClubService;
 import co.salpa.bookery.find.service.FindService;
@@ -35,8 +41,10 @@ public class ClubController {
 	
 	//글 리스트보기
 	@RequestMapping(value = "/list/{book_bid}",method = RequestMethod.GET)
-	public String list(Model model, @PathVariable int book_bid) {
-		clubService.listOfOneBookService(book_bid,model);
+	public String list(Model model, @PathVariable int book_bid,String search) {
+		
+		clubService.listOfOneBookService(book_bid,model,search);
+		findService.getBookService(book_bid, model);
 		return "club/list";
 	}
 	
@@ -55,12 +63,18 @@ public class ClubController {
 		return "club/add";
 	}
 	//글작성 후 리스트로 이동
-	@RequestMapping(value = "insert",method = RequestMethod.POST)
+	@RequestMapping(value = "/insert",method = RequestMethod.POST)
 	public String insert(Model model,@ModelAttribute ClubVo club,HttpSession session) {
 		clubService.addPostService(club,session ,model);
 		return "redirect:list/"+club.getBook_bid();
 	}
-	
+
+	@RequestMapping(value = "/list/more",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public String moreList(@ModelAttribute ClubVo club, HttpServletResponse resp) {
+		
+		return clubService.listMoreService(club);
+	}
 	
 	
 	

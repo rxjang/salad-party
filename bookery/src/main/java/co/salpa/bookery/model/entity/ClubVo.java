@@ -13,12 +13,12 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class ClubVo {
-	private int id,ref,depth,num,user_id,book_bid;
+	private int id,ref,depth,num,user_id,book_bid,start;
 	private String title,content;
 	private Date createtime;
 	private Timestamp updatetime;
+	private String search;
 	
 	public ClubVo(int id, int book_bid, String title, String content, Date createtime) {
 		super();
@@ -41,5 +41,12 @@ public class ClubVo {
 		this.content = content;
 		this.updatetime = updatetime;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "{\"id\":" + id + ", \"ref\":" + ref + ", \"depth\":" + depth + ", \"num\":" + num + ", \"user_id\":" + user_id
+				+ ", \"book_bid\":" + book_bid + ", \"title\":\"" + title + "\", \"content\":\"" + content + "\", \"createtime\":\"" + createtime
+				+ "\", \"updatetime\":\"" + updatetime + "\", \"start\":"+start+"}";
+	}
+// "{ \"key\"  : array [ {}  {} {} {} {} {} {} ]  }";
 }

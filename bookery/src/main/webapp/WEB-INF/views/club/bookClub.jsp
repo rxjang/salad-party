@@ -137,7 +137,7 @@
 		<div class="col-md-3"></div>
 		<div class="col-xs-12 col-md-6 bookclub-contents">
 			<!--**********post start**********-->
-			<c:forEach items="${cntReaders }" var="bean">
+			<c:forEach items="${cntReaders }" var="bean" >
 				<div class="col-xs-12 col-md-6 thumb-box">
 					<div class="thumbnail" style="">
 						<a href="${pageContext.request.contextPath }/club/list/${bean.book_bid}"> <c:choose>

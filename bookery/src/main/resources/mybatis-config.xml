@@ -12,6 +12,7 @@
 	<typeAlias alias="tocBean" type="co.salpa.bookery.model.entity.TocVo"/>
 	<typeAlias alias="userBean" type="co.salpa.bookery.model.entity.UserVo"/>
 	<typeAlias alias="v_studyBean" type="co.salpa.bookery.model.entity.V_StudyVo"/>
+	<typeAlias alias="checkChapBean" type="co.salpa.bookery.model.entity.CheckChapVo"/>
 	<typeAlias alias="checkPageBean" type="co.salpa.bookery.model.entity.CheckPageVo"/>
 	<typeAlias alias="medalBean" type="co.salpa.bookery.model.entity.MedalVo"/>
 	<typeAlias alias="awardBean" type="co.salpa.bookery.model.entity.AwardVo"/>
@@ -27,6 +28,7 @@
 		<mapper resource="config/TocMapper.xml" />
 		<mapper resource="config/UserMapper.xml" />
 		<mapper resource="config/V_StudyMapper.xml" />
+		<mapper resource="config/CheckChapMapper.xml" />
 		<mapper resource="config/CheckPageMapper.xml" />
 		<mapper resource="config/MedalMapper.xml" />
 		<mapper resource="config/AwardMapper.xml" />
