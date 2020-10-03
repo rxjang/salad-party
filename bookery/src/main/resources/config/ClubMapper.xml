@@ -35,8 +35,9 @@
 		update club set deleted=1 where id=#{id}
 	</update>
 	
-	<select id="selectAboutBook" parameterType="_int" resultType="clubBean">
-		select * from club where book_bid=#{book_bid} and deleted != 1 order by createtime desc
+	<select id="selectAboutBook" parameterType="clubBean" resultType="clubBean">
+		select * from club where book_bid=#{book_bid} and deleted != 1 and title like 
+		#{search} order by createtime desc
 	</select>
 	
 	<select id="selectOneClub" resultType="clubBean" parameterType="_int">
@@ -47,5 +48,14 @@
 		insert into club (updatetime, title, content, ref, depth, num, user_id,
 		book_bid) values (now(),#{title},#{content},0,#{depth},0,#{user_id},#{book_bid});
 	</insert>
+	
+	<select id="selectMore" parameterType="clubBean" resultType="clubBean">
+		select * from (select * from club where book_bid = #{book_bid} and depth = 0  and deleted != 1 
+		and title like #{search} order by createtime desc) s limit #{start},10
+	</select>
+	
+	<select id="countOfPosts" parameterType="_int" resultType="_int">
+		select count(*) from club  where book_bid = #{book_bid} and deleted != 1
+	</select>
 	
 </mapper>

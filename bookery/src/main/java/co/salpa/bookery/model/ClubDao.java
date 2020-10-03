@@ -1,6 +1,7 @@
 package co.salpa.bookery.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
@@ -14,7 +15,7 @@ public interface ClubDao {
 	
 	List<ClubVo> selectBookClubAll() throws DataAccessException;
 	
-	List<ClubVo> selectAboutBook(int book_bid) throws DataAccessException;
+	List<ClubVo> selectAboutBook(ClubVo club) throws DataAccessException; //북클럽 특정책 리스트불러오기
 	
 	void insertBookClub(BookVo book) throws DataAccessException;
 	
@@ -26,5 +27,10 @@ public interface ClubDao {
 
 	ClubVo selectOneClub(int id) throws DataAccessException;//북클럽 특정책 리스트에서 글 보기 
 	
+	List<ClubVo> selectMore(ClubVo club) throws DataAccessException;//북클럽 특정책 리스트 더 불러오기(더보기버튼누름)
+
 	void insertOneClub(ClubVo club) throws DataAccessException;//북클럽 특정 책에 글쓰기
+	
+	int countOfPosts(int book_bid) throws DataAccessException; //특정책의 게시글 수
+
 }

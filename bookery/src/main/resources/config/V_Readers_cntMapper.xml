@@ -6,7 +6,7 @@
 <mapper namespace="co.salpa.bookery.model.V_Readers_cntDao">
 	
  	<select id="selectAll" resultType="v_readers_cntBean">
- 		select * from v_readers_cnt
+ 		select * from v_readers_cnt order by readers desc
  	</select>
  	<select id="selectOne" resultType="v_readers_cntBean">
  		select * from v_readers_cnt where book_bid = #{book_bid}

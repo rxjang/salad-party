@@ -269,6 +269,8 @@ $(function(){
 					//DB에 목차정보랑 책ID를 전달함
 					$('.mylib-btn a').eq(0).attr('id','goToday');
 					$('.mylib-btn a').eq(0).text('오늘의 기록');
+					console.log('success');
+					
 				}).fail(function() {
 					swal("통신 에러");
 				});//ajax
@@ -288,6 +290,8 @@ $(function(){
 			}).then((value) => {	//value가 true이면 내서재로 이동한다.
 				if(value){
 						location.href = '${pageContext.request.contextPath }/mylib';
+				}else{
+					location.reload();					
 				}//if
 			});//swal
 
