@@ -126,6 +126,7 @@
 					</span>
 				</div>
 			</form>
+			<button class="btn btn-default">내책만보기</button>
 		</div>
 		<div class="col-md-3"></div>
 
