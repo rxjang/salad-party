@@ -7,91 +7,31 @@
 <script type="text/javascript">
 	var date = "${bean.updatetime }";
 	var start = 0;
-	Date.prototype.format = function(f) {
 
-		if (!this.valueOf())
-			return " ";
-
-		var weekKorName = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ];
-
-		var weekKorShortName = [ "일", "월", "화", "수", "목", "금", "토" ];
-
-		var weekEngName = [ "Sunday", "Monday", "Tuesday", "Wednesday",
-				"Thursday", "Friday", "Saturday" ];
-
-		var weekEngShortName = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri",
-				"Sat" ];
-
-		var d = this;
-
-		return f.replace(/(yyyy|yy|MM|dd|KS|KL|ES|EL|HH|hh|mm|ss|a\/p)/gi,
-				function($1) {
-
-					switch ($1) {
-
-					case "yyyy":
-						return d.getFullYear(); // 년 (4자리)
-
-					case "yy":
-						return (d.getFullYear() % 1000).zf(2); // 년 (2자리)
-
-					case "MM":
-						return (d.getMonth() + 1).zf(2); // 월 (2자리)
-
-					case "dd":
-						return d.getDate().zf(2); // 일 (2자리)
-
-					case "KS":
-						return weekKorShortName[d.getDay()]; // 요일 (짧은 한글)
-
-					case "KL":
-						return weekKorName[d.getDay()]; // 요일 (긴 한글)
-
-					case "ES":
-						return weekEngShortName[d.getDay()]; // 요일 (짧은 영어)
-
-					case "EL":
-						return weekEngName[d.getDay()]; // 요일 (긴 영어)
-
-					case "HH":
-						return d.getHours().zf(2); // 시간 (24시간 기준, 2자리)
-
-					case "hh":
-						return ((h = d.getHours() % 12) ? h : 12).zf(2); // 시간 (12시간 기준, 2자리)
-
-					case "mm":
-						return d.getMinutes().zf(2); // 분 (2자리)
-
-					case "ss":
-						return d.getSeconds().zf(2); // 초 (2자리)
-
-					case "a/p":
-						return d.getHours() < 12 ? "오전" : "오후"; // 오전/오후 구분
-
-					default:
-						return $1;
-
-					}
-
-				});
-
-	};
-	String.prototype.string = function(len) {
-		var s = '', i = 0;
-		while (i++ < len) {
-			s += this;
+	//오늘 날짜 yyyy-mm-dd
+	function getRecentDate(){
+	    var dt = new Date();
+	    var recentYear = dt.getFullYear();
+	    var recentMonth = dt.getMonth() + 1;
+	    var recentDay = dt.getDate();
+	 	
+	    if(recentMonth < 10) recentMonth = "0" + recentMonth;
+	    if(recentDay < 10) recentDay = "0" + recentDay;
+	    return recentYear + "-" + recentMonth + "-" + recentDay;
+	}
+	/* 오늘 날짜면 시간으로 변환  */
+	function todayToTime(date){
+		var today = getRecentDate();
+		var update =date.substring(0,10);
+		var updatetime;
+		if(today == update){
+			updatetime = new Date(new Date(date).toLocaleString("en-US", {timeZone: "Asia/Seoul"})).format('a/p hh:mm');
+		}else{
+			updatetime = new Date(new Date(date).toLocaleString("en-US", {timeZone: "Asia/Seoul"})).format('yyyy-MM-dd');
 		}
-		return s;
-	};
-
-	String.prototype.zf = function(len) {
-		return "0".string(len - this.length) + this;
-	};
-
-	Number.prototype.zf = function(len) {
-		return this.toString().zf(len);
-	};
-
+		return updatetime;
+	}
+	
 	$(function() {
 		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
@@ -101,6 +41,8 @@
 		var url_search;
 		if(url_here.includes('search',0)){
 			url_search = url_here.substring(url_here.indexOf('search=')+7);
+		}else{
+				url_search = '';
 		}
 		
 		/* 글쓰기 */
@@ -152,11 +94,11 @@
 					/* 더보기 누를 때 마다 검색결과를 현재결과 아래 append한다. */
 					var posts='';
 					for(var i = 0 ; i < result.length; i++){
-						console.log('result = ',result[i].id);
+						//console.log('result = ',result[i].id);
 						posts += '<div class="panel panel-default pannel-post">'
 						posts += '<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/'+result[i].id+'"><span class="lead">'+result[i].title+'</span></a></div>'
 						posts += '<div class="panel-body"><span class="user_id"> 유저번호 '+result[i].user_id+'</span>';
-						posts += '&nbsp;|&nbsp;<span class="wrote-day">'+result[i].updatetime+'</span></div>';
+						posts += '&nbsp;|&nbsp;<span class="wrote-day">'+todayToTime(result[i].updatetime)+'</span></div>';
 						posts += '</div><br/>';
 					}
 						$('.div-post').append(posts);
@@ -168,7 +110,15 @@
 			});//ajax
 		});//더보기 클릭
 		
+		/* 리스트 날짜 오늘이면 시간으로 바꾸기 */
+		$('.update-day').each(function(){
+			console.log($(this).text());
+			console.log(new Date($(this).text()).toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+			$(this).text(todayToTime($(this).text()));
+		});
+		
 	});//ready
+	
 </script>
 <style type="text/css">
 
@@ -250,8 +200,7 @@
 		<c:forEach items="${list }" var="bean" begin="0" end="9">
 				<div class="panel panel-default pannel-post">
 					<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/${bean.id}"><span class="lead">${bean.title }</span></a></div>
-					<div class="panel-body"><span class="user_id"> 유저번호 ${bean.user_id }</span> &nbsp;|&nbsp;<span class="wrote-day">${bean.updatetime } </span></div>
-					
+					<div class="panel-body"><span class="user_id"> 유저번호 ${bean.user_id }</span> &nbsp;|&nbsp;<span class="update-day">${bean.updatetime }</span></div>
 				</div>
 				<br/>
 		</c:forEach>
