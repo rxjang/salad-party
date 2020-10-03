@@ -23,16 +23,23 @@ public class V_StudyVo {
 	private Date enddate;// date
 	private String memo;// text
 	private String type;// varchar(4)
-	private int plan_cnt;// bigint
-	private int actual_cnt;// bigint
-	private int total_cnt;// bigint
-	private int chap_actual_days;// bigint
-	private int chap_total_days;// bigint
-	private int page_actual_days;// bigint
-	private int page_total_days;// bigint
+	
+	private int plan_chap;// bigint
+	private int plan_chap_yesterday;// bigint
+	private int actual_chap_yesterday;// bigint
+	private int actual_chap;// bigint
+	private int total_chap;// bigint
+	
 	private int total_pages;// int
 	private int plan_page;// int
+	private int plan_page_yesterday;// bigint
+	private int actual_page_yesterday;// bigint
 	private int actual_page;// int
+	
+	private int total_days;// bigint 목표설정한 날짜 count
+	private int plan_days_yesterday;// bigint 목표 설정한 날짜 count by 어젯밤
+	private int actual_days_yesterday;// bigint 공부입력한 날짜 count by 어젯밤
+	private int remain_days;// bigint 오늘 포함 남은 날짜 count
 	private double progress_rate;// decimal(28,4)
 	private double success_rate;// decimal(28,4)
 }
