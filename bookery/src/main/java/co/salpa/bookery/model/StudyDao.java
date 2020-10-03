@@ -13,6 +13,8 @@ public interface StudyDao {
 
 	StudyVo selectOne(int key) throws DataAccessException;
 	
+	List<Integer> selectIdByUserId(int user_id) throws DataAccessException;
+	
 	List<StudyVo> selectOneByIdAndBid(Map<String, String> map) throws DataAccessException;
 
 	void insertOne(StudyVo bean) throws DataAccessException;

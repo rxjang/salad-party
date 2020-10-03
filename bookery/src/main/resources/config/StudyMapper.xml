@@ -15,17 +15,15 @@
 		select * from study where book_bid=#{book_bid}
 	</select>
 
-	<select id="selectOneByUserId" resultType="studyBean"
+	<select id="selectIdByUserId" resultType="java.util.List"
 		parameterType="_int">
-		select * from study where user_id=#{user_id}
+		select id from study where user_id=#{user_id}
 	</select>
 
 	<select id="selectOneByIdAndBid" resultType="studyBean"
 		parameterType="map">
 		select * from study where user_id=#{user_id} and book_bid=#{book_bid} and createtime &lt;= #{createtime}
 	</select>
-
-
 
 	<insert id="insertOne" parameterType="studyBean">
 		insert into study

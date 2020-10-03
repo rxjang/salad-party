@@ -9,4 +9,6 @@ public interface TodayService {
 
 	Model listTodayStudiesService(int user_id, Model model) throws SQLException;
 
+	Model listCheckChapService(int user_id, Model model) throws SQLException;
+
 }
