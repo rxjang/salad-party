@@ -74,9 +74,19 @@ Number.prototype.zf = function (len) { return this.toString().zf(len); };
 		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
 		console.log(new Date('${club.updatetime}').format('HH:mm:ss'));
+		
+		
+		
 	});//ready
 </script>
 <style type="text/css">
+
+.jumbotron{
+	background-color: white;
+}
+.div-btn{
+	margin-bottom:20px;
+}
 </style>
 </head>
 <body>
@@ -101,28 +111,38 @@ Number.prototype.zf = function (len) { return this.toString().zf(len); };
 			<div class="jumbotron">
 
 
-				<table class="table">
+				<div class="panel panel-default pannel-post">
+					<div class="panel-body">
+						<span class="lead">${club.title }</span>
+					</div>
+					<div class="panel-body">
+						<span class="user_id">${club.user_id }</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span
+							class="updatetime">${club.updatetime }</span>
+					</div>
+					<div class="bottom-line"></div>
+					<div class="panel-body post-content">${club.content}</div>
+				</div>
+				
+				<div class="div-btn">
+				<button class="btn btn-default">댓글달기</button>
+				<button class="btn btn-default">수정</button>
+				<button class="btn btn-default">삭제</button>
+				</div>
+				
+				
+				<div class="panel panel-default pannel-reply">
+					<div class="panel-body">reply</div>
+					<div class="panel-body">contnt</div>
+				</div>
+				<div class="panel panel-default pannel-reply">
+					<div class="panel-body">reply</div>
+					<div class="panel-body">contnt</div>
+				</div>
+				<div class="panel panel-default pannel-reply">
+					<div class="panel-body">reply</div>
+					<div class="panel-body">contnt</div>
+				</div>
 
-					<tr>
-						<th>제목</th>
-						<th>${club.title }</th>
-					</tr>
-
-					<tr>
-						<td>작성자</td>
-						<td>${club.user_id }</td>
-					</tr>
-					<tr>
-						<td>작성시간</td>
-						<td>${club.updatetime }</td>
-					</tr>
-
-					<tr>
-						<td>내용</td>
-						<td>${club.content}</td>
-					</tr>
-
-				</table>
 
 
 			</div>
