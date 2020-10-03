@@ -25,9 +25,9 @@
 		var update =date.substring(0,10);
 		var updatetime;
 		if(today == update){
-			updatetime = new Date(new Date(date).toLocaleString("en-US", {timeZone: "Asia/Seoul"})).format('a/p hh:mm');
+			updatetime = new Date(date).format('a/p hh:mm');
 		}else{
-			updatetime = new Date(new Date(date).toLocaleString("en-US", {timeZone: "Asia/Seoul"})).format('yyyy-MM-dd');
+			updatetime = new Date(date).format('yyyy-MM-dd');
 		}
 		return updatetime;
 	}
@@ -103,6 +103,12 @@
 					}
 						$('.div-post').append(posts);
 					
+						$('.pannel-post').each(function(idx,ele){
+							var aHref = $(this).children().eq(0).find('a').attr('href');
+							$(this).on('click',function(){
+								location.href=aHref;
+							})//click 
+						});//each
 				},//success
 				error:function(){
 					swal('error');
@@ -112,8 +118,8 @@
 		
 		/* 리스트 날짜 오늘이면 시간으로 바꾸기 */
 		$('.update-day').each(function(){
-			console.log($(this).text());
-			console.log(new Date($(this).text()).toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+			//console.log($(this).text());
+		//	console.log(new Date($(this).text()).toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
 			$(this).text(todayToTime($(this).text()));
 		});
 		

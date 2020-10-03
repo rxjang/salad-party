@@ -5,15 +5,39 @@
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
 <script type="text/javascript">
-var date = "${club.updatetime }";
+var date = "${club.updatetime}";
 
+
+//오늘 날짜 yyyy-mm-dd
+	function getRecentDate(){
+	    var dt = new Date();
+	    var recentYear = dt.getFullYear();
+	    var recentMonth = dt.getMonth() + 1;
+	    var recentDay = dt.getDate();
+	 	
+	    if(recentMonth < 10) recentMonth = "0" + recentMonth;
+	    if(recentDay < 10) recentDay = "0" + recentDay;
+	    return recentYear + "-" + recentMonth + "-" + recentDay;
+	}
+/* 오늘 날짜면 시간으로 변환  */
+	function todayToTime(date){
+		var today = getRecentDate();
+		var update =date.substring(0,10);
+		var updatetime;
+		if(today == update){
+			updatetime = new Date(date).format('a/p hh:mm');
+		}else{
+			updatetime = new Date(date).format('yyyy-MM-dd');
+		}
+	return updatetime;
+	}
 
 
 	$(function() {
 		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
 		console.log(new Date('${club.updatetime}').format('HH:mm:ss'));
-		
+		$('.updatetime').text(todayToTime(date));
 		
 		
 	});//ready
@@ -55,8 +79,7 @@ var date = "${club.updatetime }";
 						<span class="lead">${club.title }</span>
 					</div>
 					<div class="panel-body">
-						<span class="user_id">${club.user_id }</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span
-							class="updatetime">${club.updatetime }</span>
+						<span class="user_id">${club.user_id }</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="updatetime"></span>
 					</div>
 					<div class="bottom-line"></div>
 					<div class="panel-body post-content">${club.content}</div>
