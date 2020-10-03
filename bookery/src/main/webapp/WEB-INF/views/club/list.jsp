@@ -45,6 +45,7 @@
 				url_search = '';
 		}
 		
+		
 		/* 글쓰기 */
 		$('#add').attr('href',
 				'${pageContext.request.contextPath }/club/add/${book.bid}');
@@ -69,10 +70,18 @@
 		$('.pannel-post').each(function(){
 			cnt_posts++;
 		});//each
-		if(cnt_posts<9){
+		if(cnt_posts<9 && cnt_posts>0){
 			$('.more-posts').hide();
+		}else if(cnt_posts == 0){   //게시물이 1건도 없을 때 기본으로 공지사항 1개 생성.
+			$('.more-posts').hide();
+			var post = '';
+				post += '<div class="panel panel-default pannel-post">'
+				post += '<div class="panel-body"><span class="lead">책과 관련된 주제로 자유롭게 토론하세요.</span></div>'
+				post += '<div class="panel-body"><span class="user_id"> bookery </span>';
+				post += '&nbsp;|&nbsp;<span class="wrote-day">공지사항</span></div>';
+				post += '</div><br/>';
+				$('.div-post').append(post);
 		}	
-		
 		
 		/* 더보기 */
 		$('.more-posts').click(function(){
