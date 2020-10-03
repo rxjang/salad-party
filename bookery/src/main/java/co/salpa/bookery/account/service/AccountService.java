@@ -6,9 +6,13 @@ import co.salpa.bookery.model.entity.UserVo;
 
 public interface AccountService {
 
-	public int register(String email, String password, String name, String nickname, String tel) throws SQLException;
+	public void register(UserVo bean) throws SQLException;
 
 	public int chkEmail(String email) throws SQLException;
+	
+	public int chkNickName(String nickname) throws SQLException;
+	
+	public int chkTel(String tel) throws SQLException;
 
 	public int updateInfo(UserVo bean) throws SQLException;
 

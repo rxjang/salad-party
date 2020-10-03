@@ -22,27 +22,33 @@ public class AccountServiceImpl implements AccountService{
 	SqlSession sqlSession;
 	
 	@Override
-	public int register(String email, String password, String name, String nickname, String tel) throws SQLException {
+	public void register(UserVo newUser) throws SQLException {
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		UserVo bean = new UserVo(email, password, name, nickname, tel);
+		UserVo bean = new UserVo(newUser.getEmail().trim(), newUser.getPassword().trim(), newUser.getName().trim(), newUser.getNickname().trim(), newUser.getTel());
 		userDao.insertOne(bean);
-		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("name", name);
-		
-		int cnt = userDao.findPw(map);
-		
-		return cnt;
 	}
 
 	@Override
 	public int chkEmail(String email) throws SQLException {
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		int cnt = userDao.chkEmail(email);
-		return 0;
+		int cnt = userDao.chkEmail(email.trim());
+		return cnt;
 	}
 
+	@Override
+	public int chkNickName(String nickname) throws SQLException {
+		UserDao userDao = sqlSession.getMapper(UserDao.class);
+		int cnt = userDao.chkNickName(nickname.trim());
+		return cnt;
+	}
+
+	@Override
+	public int chkTel(String tel) throws SQLException {
+		UserDao userDao = sqlSession.getMapper(UserDao.class);
+		int cnt = userDao.chkTel(tel);
+		return cnt;
+	}
+	
 	@Override
 	public int updateInfo(UserVo bean) throws SQLException {
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
@@ -53,7 +59,7 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public String findId(String name, String tel) throws SQLException {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("name", name);
+		map.put("name", name.trim());
 		map.put("tel", tel);
 		
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
@@ -64,8 +70,8 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public int findPw(String email, String name, String tel) throws SQLException {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("name", name);
+		map.put("email", email.trim());
+		map.put("name", name.trim());
 		map.put("tel", tel);
 		
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
@@ -76,12 +82,11 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public UserVo login(String email, String password) throws SQLException {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
+		map.put("email", email.trim());
 		map.put("password", password);
 		
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
 		UserVo userBean = userDao.login(map);
 		return userBean;
 	}
-
 }
