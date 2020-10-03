@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.ClubDao;
+import co.salpa.bookery.model.V_NoticeDao;
 import co.salpa.bookery.model.entity.ClubVo;
+import co.salpa.bookery.model.entity.V_NoticeVo;
 
 @Repository
 public class NewsServiceEmpl implements NewsService {
@@ -20,8 +22,13 @@ public class NewsServiceEmpl implements NewsService {
 	@Override
 	public Model noticeService(Model model) throws DataAccessException {
 		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
-		List<ClubVo> noticeList=clubDao.selectNoticeAll();
+		V_NoticeDao v_NoticeDao=sqlSession.getMapper(V_NoticeDao.class);
+		List<ClubVo> noticeList=clubDao.selectNotice();
+		List<ClubVo> noticeOneToOne=clubDao.selectOneToOne();
+		List<V_NoticeVo> noticeQnA=v_NoticeDao.selectQnA();
 		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("noticeOneToOne", noticeOneToOne);
+		model.addAttribute("noticeQnA", noticeQnA);
 		return null;
 	}
 
@@ -49,6 +56,13 @@ public class NewsServiceEmpl implements NewsService {
 	public void deleteNotice(int id) throws DataAccessException {
 		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
 		clubDao.deleteClubData(id);
+	}
+
+	@Override
+	public void writeAnswer(int id,ClubVo club) throws DataAccessException {
+		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
+		clubDao.insertNotice(club);
+		clubDao.updateRef(id);
 	}
 
 }

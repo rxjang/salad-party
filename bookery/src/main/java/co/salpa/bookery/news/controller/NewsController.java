@@ -24,8 +24,12 @@ public class NewsController {
 	@RequestMapping
 	public String news(Model model) {
 		newsService.noticeService(model);
-		
 		return "news/news";
+	}
+	
+	@RequestMapping("/rank")
+	public String rank(Model model) {
+		return "news/rank";
 	}
 	
 	@RequestMapping("/notice")
@@ -47,6 +51,22 @@ public class NewsController {
 			return "news/noticewrite";
 		}
 		return "redirect:./";
+	}
+	
+	@RequestMapping("/notice/answer/{id}")
+	public String selectQuestion(@PathVariable int id,Model model) {
+		newsService.detailNoticeService(id, model);
+		return "news/noticeanswer";
+	}
+	
+	@RequestMapping(value="/notice/answer/{id}",method=RequestMethod.POST)
+	public String insertAnswer(@PathVariable int id,@ModelAttribute ClubVo bean) {
+		try {
+			newsService.writeAnswer(id, bean);
+		} catch (DataAccessException e) {
+			return "news/noticeanswer";
+		}
+		return "redirect:../";
 	}
 	
 	@RequestMapping(value="/notice/detail/{id}")

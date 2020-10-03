@@ -165,3 +165,23 @@ VIEW `v_readers_cnt` AS
         b.coverurl
     FROM	
         (salpa.book b left join salpa.study s on b.bid = s.book_bid) where s.deleted != 1 group by s.book_bid ;
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_notice` AS
+    SELECT 
+        `a`.`id` AS `id`,
+        `a`.`createtime` AS `createtime`,
+        `b`.`createtime` AS `answertime`,
+        `a`.`title` AS `title`,
+        `a`.`content` AS `content`,
+        `b`.`content` AS `answer`,
+        `a`.`user_id` AS `user_id`,
+        `a`.`deleted` AS `deleted`
+    FROM
+        (`club` `a`
+        inner JOIN `club` `b`)
+    WHERE
+        (`a`.`id` = `b`.`ref`)
