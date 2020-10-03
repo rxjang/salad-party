@@ -40,6 +40,9 @@
 	.qna-title,.for-line{
 		border-bottom:1px solid #e4e4e4;
 	}
+	.title{
+		font-weight:bold;
+	}
 	.for-line{
 		margin:1em auto;
 	}
@@ -90,6 +93,9 @@
 	@media (max-width:1000px) {
 		.content-main{
 			font-size:1.2em;
+		}
+		.write-btn{
+			left:90%;
 		}
 	}
 </style>
@@ -195,7 +201,7 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8 center-content">
-		<a class="write-btn admin-btn 1-box 2-box" href="${pageContext.request.contextPath }/news/notice/">글쓰기</a>
+		<a class="write-btn admin-btn 1-box 2-box" href="${pageContext.request.contextPath }/news/notice/write/">글쓰기</a>
 		<div class="3-box info-ment">
 			<div class="content-title">
 				<h4><span class="usernmae">${user.nickname }</span>님 <br/>무엇을 도와 드릴까요?<img src="${pageContext.request.contextPath}/resources/imgs/Smile-blush.png" alt="?"></h4>
@@ -203,7 +209,7 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 			<div class="info-ment-main">
 				남겨주신 문의는 담당자 확인 후 빠른 시일 내에 답변 드리겠습니다.<br/>
 				북커리를 이용해주셔서 감사합니다.
-				<a href="${pageContext.request.contextPath }/news/notice/write" class="ask-btn"> 1:1 문의 하기</a>
+				<a href="${pageContext.request.contextPath }/news/notice/write/3" class="ask-btn"> 1:1 문의 하기</a>
 			</div><!-- content-main -->
 		</div><!-- info-ment -->
 		<c:forEach items="${noticeList }" var="bean">
@@ -251,7 +257,7 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 		</div><!-- n-box -->
 		</c:forEach>
 		<div class="ask 2-box">
-			<em>그래도 해결이 안되시나요?</em><a href="${pageContext.request.contextPath }/news/notice/write" class="ask-btn"> 1:1 문의 하기</a>
+			<em>그래도 해결이 안되시나요?</em><a href="${pageContext.request.contextPath }/news/notice/write/3" class="ask-btn"> 1:1 문의 하기</a>
 		</div>
 	</div><!-- center-content -->
 	<div class="col-md-2"></div>

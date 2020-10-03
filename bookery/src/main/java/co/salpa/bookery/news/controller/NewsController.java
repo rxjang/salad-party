@@ -38,8 +38,8 @@ public class NewsController {
 		return "news/notice";
 	}
 	
-	@RequestMapping("/notice/write")
-	public String insertNotice() {
+	@RequestMapping("/notice/write/{num}")
+	public String insertNotice(@PathVariable int num) {
 	return "news/noticewrite";
 	}
 	

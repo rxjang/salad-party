@@ -51,6 +51,9 @@
 		color:white;
 		border:1px solid #c0cfb2;
 	}
+	.reset{
+		background-color:#e4e4e4;
+	}
 	.reset:hover{
 		border:1px solid #e4e4e4;
 	}
@@ -63,7 +66,6 @@
 <script>
 var num=${noticeOne.num}
 var depth=${noticeOne.depth}
-var updatetime=${noticeOne.updatetime }
 
 	$(function(){
 		//글 분류 번호에 따라 제목 설정
@@ -76,14 +78,6 @@ var updatetime=${noticeOne.updatetime }
 		}else if(num==3){
 			$(".menu-title").text("1:1 문의 글 상세보기");
 			$(".depth").hide();
-		}
-		
-		if(updatetime.length!=1){
-			if(num==3){
-				$(".rewrite").text("답변일");
-			}else{
-				$(".rewrite").text("수정일");
-			}
 		}
 		
 		//상단배치 여부 확인
@@ -139,7 +133,7 @@ var updatetime=${noticeOne.updatetime }
 			<input type="text" class="content-title" name="title" value="${noticeOne.title}" readonly/>
 			<p class="content-info">
 				<strong>작성일</strong>&nbsp;${noticeOne.createtime }
-				<strong class="rewrite"></strong>&nbsp;${noticeOne.updatetime }
+				<strong class="rewrite">수정일</strong>&nbsp;${noticeOne.updatetime }
 				<label for="depth" class="depth">상단배치<input type="radio" name="depth" value=1></label>
 				<label for="depth" class="depth">일반배치<input type="radio" name="depth" value=0></label>
 			</p>

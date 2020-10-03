@@ -51,6 +51,9 @@
 		color:white;
 		border:1px solid #c0cfb2;
 	}
+	.reset{
+		background-color:#e4e4e4;
+	}
 	.reset:hover{
 		border:1px solid #e4e4e4;
 	}
