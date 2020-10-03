@@ -288,12 +288,12 @@ public class FIndServiceImpl implements FindService {
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		TocDao tocDao = sqlSession.getMapper(TocDao.class);
 		StudyDao studyDao = sqlSession.getMapper(StudyDao.class);
-		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
+		
 		
 		bookDao.insertOne(book);// 책입력
 		tocsPut(book, tocDao, chapters);// 목차들 입력
 		studyDao.insertOne(study);// 스터디생성
-		clubDao.insertBookClub(book);// 북클럽에 책 생성
+		
 		
 	}// studyAddService
 
