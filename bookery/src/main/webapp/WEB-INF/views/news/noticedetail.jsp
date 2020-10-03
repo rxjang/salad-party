@@ -67,7 +67,15 @@
 var num=${noticeOne.num}
 var depth=${noticeOne.depth}
 var updatetime="${noticeOne.updatetime}"
+var id=${user.id}
 	$(function(){
+		if(id!=1){
+			if(id>1){
+				window.location = "${pageContext.request.contextPath }/news/notice";
+			}else{
+				window.location = "${pageContext.request.contextPath }/account/login";
+			}
+		}
 		//<br>처리
 		var text = $(".content-main").val().replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
 		$(".content-main").val(text);
