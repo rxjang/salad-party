@@ -55,9 +55,6 @@ public class TodayPageServiceImpl implements TodayPageService {
 	@Override
 	public Model getV_StudyService(int study_id, Model model) throws DataAccessException {
 		V_StudyDao v_studyDao = sqlSession.getMapper(V_StudyDao.class);
-		Map<String, Integer> map = new HashMap<String, Integer>();
-	//	map.put("user", user_id);
-	//	map.put("bid", bid);
 		model.addAttribute("v_study", v_studyDao.selectOneByStudyId(study_id));
 		return model;
 	}// getV_StudyService
@@ -102,8 +99,8 @@ public class TodayPageServiceImpl implements TodayPageService {
 		Map<String, String> map3 = new HashMap<String, String>();
 			map3.put("study_id",study_id+"");
 			map3.put("date",getSqlToday()+"");
-		int today_actual_page = -1;
-		int yesterday_actual_page = -1;
+		int today_actual_page = 0;
+		int yesterday_actual_page = 0;
 		try {
 			today_actual_page = checkPageDao.selectOneByDate(map3).getActualpage();
 		} catch (Exception e) {
@@ -135,8 +132,13 @@ public class TodayPageServiceImpl implements TodayPageService {
 		 * 날짜로 checkpage조회는 이미 만들었으니까 planpage getter로 호출만 하면됨. 
 		 */
 	//	int today_plan_page = checkPageDao.selectOneByDate(map3).getPlanpage(); //오늘
-		int yesterday_plan_page = checkPageDao.selectOneByDate(map4).getPlanpage(); //어제 
-		int today_success_rate = (today_actual_page - yesterday_plan_page)/plan_interval; //오늘 공부 할당량 백분률 
+		int today_success_rate=0;
+		int yesterday_plan_page=-1;
+		try {
+			yesterday_plan_page = checkPageDao.selectOneByDate(map4).getPlanpage(); //어제 
+		} catch (DataAccessException | NullPointerException e1 ) {
+		}
+		today_success_rate = (today_actual_page - yesterday_plan_page)/plan_interval;
 		
 		//model.addAttribute("today_actual_page",today_actual_page);//오늘 공부한 마지막 페이지
 		//model.addAttribute("plan_interval", plan_interval);//구간
@@ -145,7 +147,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 		//오늘제외, 마지막으로 입력한 actual page 구하기.  
 		//select max(date) from checkpage where acutalpage is not null
 		
-		int recent_actual_page = -1;
+		int recent_actual_page = 0;
 		try {
 			recent_actual_page = checkPageDao.selectRecentChecked().getActualpage();
 		} catch (Exception e) {
