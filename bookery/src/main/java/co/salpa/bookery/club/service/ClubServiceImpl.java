@@ -100,6 +100,10 @@ public class ClubServiceImpl implements ClubService {
 		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
 		UserVo user = (UserVo) session.getAttribute("user");
 		club.setUser_id(user.getId());
+		
+		String newLine = club.getContent().replaceAll("\n", "<br/>");
+		club.setContent(newLine);
+		
 		clubDao.insertOneClub(club);
 	}
 
