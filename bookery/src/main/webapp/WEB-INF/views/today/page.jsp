@@ -52,13 +52,11 @@
 	}//pagePicker
 	//오늘 공부한 페이지 - 어제까지 actualpage / plan페이지 구간 = 오늘 퍼센트	
 	function todayPage(page){ //페이지 입력 받아서 컨트롤러에 전달
-		location.href='${pageContext.request.contextPath}/today/page/check/${v_study.study_id}';
-		//location.reload();
 		$.ajax({
 			url:'${pageContext.request.contextPath}/today/page/check/${v_study.study_id}/'+page,
 			method:'get',
-			success:function(data){
-				console.log('success');
+			success:function(){
+				location.href='${pageContext.request.contextPath}/today/page/check/${v_study.study_id}';
 			}//success
 		});//ajax
 	}//today_page
@@ -154,6 +152,8 @@
 		  var min = $(this).attr('aria-valuemin');
 		  var max = $(this).attr('aria-valuemax');
 		  var now = $(this).attr('aria-valuenow');
+		  if(now=='0') {now =1;}
+		  //console.log(now);
 		  var siz = (now-min)*100/(max-min);
 		  
 		  //93600 / 1199
