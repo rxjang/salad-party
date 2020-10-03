@@ -50,6 +50,7 @@ public class NewsServiceEmpl implements NewsService {
 	public void updateNotice(ClubVo club) throws DataAccessException {
 		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
 		clubDao.updateNotice(club);
+		System.out.println(club.getDepth());
 	}
 
 	@Override

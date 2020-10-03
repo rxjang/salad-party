@@ -40,7 +40,7 @@
 	.qna-title,.for-line{
 		border-bottom:1px solid #e4e4e4;
 	}
-	.title{
+	.title,.content-inner{
 		font-weight:bold;
 	}
 	.for-line{
@@ -58,9 +58,6 @@
 	.content-main,.info-ment-main{
 		padding:5px 20px;
 		padding-bottom:20px;
-	}
-	.content-inner{
-		font-weight:bold;
 	}
 	.info-ment{
 		background-color:#ecece9;
@@ -102,78 +99,100 @@
 <script>
 var id=${user.id}//admin계정일시 공지사항 수정 위해
 
-	$(function(){
-		//기본적으로 글 내용은 숨기고 글 제목 클릭시 내용 보이게 함
-		//1-box:공지사항 2-box:FAQ 3-box:1:1 문의
-	 	$(".content-main").hide();
-		$(".2-box").hide();
-		$(".3-box").hide();
-		$(".1-box").show();
-		admin();
+$(function(){
+	//기본적으로 글 내용은 숨기고 글 제목 클릭시 내용 보이게 함
+	//1-box:공지사항 2-box:FAQ 3-box:1:1 문의
+	$(".content-main").hide();
+	$(".2-box").hide();
+	$(".3-box").hide();
+	$(".1-box").show();
+	admin();
 		
-		//공지 안내
-		$(".title").each(function(){
-			$(this).children(".depth-1").text("[공지]");
-		});
+	//공지 안내
+	$(".title").each(function(){
+		$(this).children(".depth-1").text("[공지]");
+	});
 		
-		$(".off").each(function(){//처음에 off로 서브메뉴 세팅하고 클릭시 on 클래스 생성, off클래스 remove형식으로 내용 보여줌
-			$(this).on('click',function(){
-				$(".on").addClass("off");
-				$(".on").removeClass("on");
-				$(this).addClass("on");
-				$(this).removeClass("off");
-				
-				if($(".on").text()=="공지사항"){
-					$(".2-box").hide();
-					$(".3-box").hide();
-					$(".1-box").show();
-					admin();
-				}else if($(".on").text()=="FAQ"){
-					$(".1-box").hide();
-					$(".3-box").hide();
-					$(".2-box").show();
-					admin();
-				}else if($(".on").text()=="1:1 문의"){
-					$(".1-box").hide();
-					$(".2-box").hide();
-					$(".3-box").show();
-						/******************본인이 쓴 문의 글 만 볼 수 있게함(관리자는 모든 문의글)***********************/
-						$(".qna1").each(function(){
-							var temp=$(this).children("input").val();
-							if(temp==id||id==1){
-								$(this).show();
-							}else{
-								$(this).hide();
-							}
-						});//each
-						$(".qna2").each(function(){
-							var temp=$(this).children("input").val();
-							if(temp==id||id==1){
-								$(this).show();
-							}else{
-								$(this).hide();
-							}
-						});//each
+	$(".off").each(function(){//처음에 off로 서브메뉴 세팅하고 클릭시 on 클래스 생성, off클래스 remove형식으로 내용 보여줌
+		$(this).on('click',function(){
+			$(".on").addClass("off");
+			$(".on").removeClass("on");
+			$(this).addClass("on");
+			$(this).removeClass("off");
+			
+			if($(".on").text()=="공지사항"){
+				$(".2-box").hide();
+				$(".3-box").hide();
+				$(".1-box").show();
+				admin();
+			}else if($(".on").text()=="FAQ"){
+				$(".1-box").hide();
+				$(".3-box").hide();
+				$(".2-box").show();
+				admin();
+			}else if($(".on").text()=="1:1 문의"){
+				$(".1-box").hide();
+				$(".2-box").hide();
+				$(".3-box").show();
+				if($(".login").val()==""){
+					alert("");
 				}
-			});//click
-		});//off
+				/******************본인이 쓴 문의 글 만 볼 수 있게함(관리자는 모든 문의글)***********************/
+				$(".qna1").each(function(){
+					var temp=$(this).children("input").val();
+					if(temp==id||id==1){
+						$(this).show();
+					}else{
+						$(this).hide();
+					}
+				});//each
+				$(".qna2").each(function(){
+					var temp=$(this).children("input").val();
+					if(temp==id||id==1){
+						$(this).show();
+					}else{
+						$(this).hide();
+					}
+				});//each
+			}//if
+		});//click
+	});//off
 		
-		//글내용 열고 닫기는 횟수 기준으로
-		$(".content-box").each(function(){
-			var clickTimes = 0;
-			$(this).on('click',function(){
-				clickTimes++;
-				if((clickTimes%2)==0){
-					$(this).children('.content-main').hide();
-				}else{
-					$(this).children('.content-main').show();
-				}
-			});//click
-		});//content-box
-	});//ready
+	//글내용 열고 닫기는 횟수 기준으로
+	$(".content-box").each(function(){
+		var clickTimes = 0;
+		$(this).on('click',function(){
+			clickTimes++;
+			if((clickTimes%2)==0){
+				$(this).children('.content-main').hide();
+			}else{
+				$(this).children('.content-main').show();
+			}
+		});//click
+	});//content-box
+		
+	//time formating
+	$(".createtime").each(function(){
+		var createtime=$(this).text();
+		$(this).text(new Date(createtime).format('yyyy-MM-dd a/p hh:mm'));
+	});//createtime
+	$(".answertime").each(function(){
+		var answertime=$(this).text();
+		$(this).text(new Date(answertime).format('yyyy-MM-dd a/p hh:mm'));
+	});//answertime
+});//ready
+
+	/***********************글 번호 분류 후 작성 페이지 이동 함수**************************/
+	function moveFunction(){
+		var title=$(".on").text();
+		if(title=="공지사항"){
+			location.href="${pageContext.request.contextPath }/news/notice/write/1";
+		}else if(title=="FAQ"){
+			location.href="${pageContext.request.contextPath }/news/notice/write/2";
+		}
+	}
 	
-	
-	//관리자 계정일때 글쓰기/상세보기 버튼 보이게
+	/**************************관리자 계정일 때 글쓰기/상세보기 버튼 보이게**************************/
 	function admin(){
 		if(id==1){
 			$(".3-box").children(".admin-btn").remove(); 
@@ -201,7 +220,7 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8 center-content">
-		<a class="write-btn admin-btn 1-box 2-box" href="${pageContext.request.contextPath }/news/notice/write/">글쓰기</a>
+		<a class="write-btn admin-btn 1-box 2-box" href="javascript:moveFunction();">글쓰기</a>
 		<div class="3-box info-ment">
 			<div class="content-title">
 				<h4><span class="usernmae">${user.nickname }</span>님 <br/>무엇을 도와 드릴까요?<img src="${pageContext.request.contextPath}/resources/imgs/Smile-blush.png" alt="?"></h4>
@@ -225,6 +244,7 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 			</div><!-- content-main -->
 		</div><!-- n-box -->
 		</c:forEach>
+		
 		<c:forEach items="${noticeOneToOne }" var="bean2">
 		<div class="content-box ${bean2.num }-box qna1">
 			<input type="hidden" value="${bean2.user_id}" class="writer"/>
@@ -239,16 +259,17 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 			</div><!-- content-main -->
 		</div><!-- n-box -->
 		</c:forEach>
+		
 		<c:forEach items="${noticeQnA }" var="bean3">
 		<div class="content-box 3-box qna2">
 			<input type="hidden" class="writer" value="${bean3.user_id}">
 			<div class="qna-title">
 				<span class="glyphicon glyphicon-menu-down"></span><span class="ref">답변 완료</span>
 				<h4 class="title">${bean3.title }</h4>
-				<p class="time">답변 시각 ${bean3.answertime }&nbsp;</p>
+				<p>답변 시각 <span class="answertime">${bean3.answertime }</span>&nbsp;</p>
 			</div><!-- content-title -->
 			<div class="content-main">
-				<p class="asktime">문의 시각 ${bean3.createtime }</p>
+				<p class="asktime">문의 시각 <span class="createtime">${bean3.createtime }</span></p>
 				<h5 class="content-inner">문의 내용</h5>
 				${bean3.content }<br/>
 				<div class="for-line"></div>
@@ -258,6 +279,7 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 		</c:forEach>
 		<div class="ask 2-box">
 			<em>그래도 해결이 안되시나요?</em><a href="${pageContext.request.contextPath }/news/notice/write/3" class="ask-btn"> 1:1 문의 하기</a>
+			<input type="hidden" value="${user.id }" class="login"/>
 		</div>
 	</div><!-- center-content -->
 	<div class="col-md-2"></div>

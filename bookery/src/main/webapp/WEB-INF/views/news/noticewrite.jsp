@@ -60,9 +60,26 @@
 var id=${user.id}//admin계정일시 공지사항 수정 위해
 	$(function(){
 		var ref = location.href;
-		console.log(ref.substring(ref.lastIndexOf('/')+1));
 		var temp=ref.substring(ref.lastIndexOf('/')+1);
-		$(".num").val(temp);
+		if(temp==1){
+			$(".num").val(temp);
+			$(".form").attr("action","./1");
+			$(".menu-title").text("공지사항 작성");
+		}else if(temp==2){
+			$(".num").val(temp);
+			$(".form").attr("action","./2");
+			$(".menu-title").text("FAQ 작성");
+		}else if(temp==3){
+			$(".num").val(temp);
+			$(".form").attr("action","./3");
+			$(".menu-title").text("1:1문의 글 작성");
+		}
+		
+		$(".submit").on("click",function(){
+			var result = $(".content-main").val().replace(/(\n|\r\n)/g, '<br>');
+			$(".content-main").val(result);			
+		});
+		
 	});//ready
 	
 </script>
@@ -79,7 +96,7 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8 center-content">
-		<form method="POST" action="./">
+		<form method="POST"class="form">
 		<div class="content-box">
 			<input type="hidden" name="user_id" value="${user.id }"/>
 			<input type="hidden" name="num" class="num"/>
