@@ -12,6 +12,8 @@ public interface NewsService {
 	
 	void insertQuestion(ClubVo club) throws DataAccessException;
 	
+	void writeAnswer(int id,ClubVo club) throws DataAccessException;
+	
 	void updateNotice(ClubVo club) throws DataAccessException;
 	
 	void deleteNotice(int id) throws DataAccessException;

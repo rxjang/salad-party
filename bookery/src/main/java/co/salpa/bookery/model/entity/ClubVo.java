@@ -28,6 +28,11 @@ public class ClubVo {
 		this.content = content;
 		this.createtime = createtime;
 	}
+	
+	public ClubVo(int id,int ref) {
+		this.id = id;
+		this.ref = ref;
+	}
 
 	public ClubVo(int book_bid, String title, String content, Timestamp updatetime) {
 		super();

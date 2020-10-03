@@ -4,7 +4,7 @@
 		<div class="col-xs-12 col-md-12 news-menu">
 			<ul class="nav">
 				<li><a href="${pageContext.request.contextPath }/news/best">베스트 서적</a></li>
-				<li><a href="${pageContext.request.contextPath }/news/lank">랭킹</a></li>
+				<li><a href="${pageContext.request.contextPath }/news/rank">랭킹</a></li>
 				<li><a href="${pageContext.request.contextPath }/news/notice">책거리 알림</a></li>
 			</ul>
 		</div>

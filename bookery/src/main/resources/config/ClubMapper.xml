@@ -5,8 +5,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="co.salpa.bookery.model.ClubDao">
-	<select id="selectNoticeAll" resultType="clubBean">
-		select * from club where book_bid=0 and deleted!=1 order by depth desc
+	<select id="selectNotice" resultType="clubBean">
+		select * from club where book_bid=0 and deleted!=1 and num!=3 order by depth desc,createtime desc
+	</select>
+	
+	<select id="selectOneToOne" resultType="clubBean">
+		select * from club where book_bid=0 and deleted!=1 and num=3 and depth!=1 order by createtime desc
 	</select>
 	
 	<select id="selectOneNotice" resultType="clubBean" parameterType="_int">
@@ -23,12 +27,16 @@
 	</insert>
 	
 	<insert id="insertNotice" parameterType="clubBean">
-		insert into club (createtime, title, content, depth, num, user_id, book_bid) 
-			values(now(),#{title},#{content},#{depth},#{num},#{user_id}, 0);
+		insert into club (createtime, title, content, depth, num, ref, user_id, book_bid) 
+			values(now(),#{title},#{content},#{depth},#{num}, #{ref}, #{user_id}, 0);
 	</insert>
 	
 	<update id="updateNotice" parameterType="clubBean">
 		update club set updatetime=now(), title=#{title}, content=#{content}, depth=#{depth} where id=#{id}
+	</update>
+	
+	<update id="updateRef" parameterType="_int">
+		update club set depth=1 where id=#{id}
 	</update>
 	
 	<update id="deleteClubData" parameterType="_int">

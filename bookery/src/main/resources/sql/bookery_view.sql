@@ -274,7 +274,7 @@ VIEW `v_readers_cnt` AS
     WHERE
         (`s`.`deleted` <> 1)
     GROUP BY `s`.`book_bid`
-    
+         
 CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `scott`@`localhost` 

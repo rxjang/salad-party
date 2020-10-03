@@ -26,6 +26,13 @@
 		margin-top:10px;
 		border-bottom: 1px solid #e4e4e4;
 	}
+	.content-info{
+		line-height:3em;
+		border-bottom: 1px solid #e4e4e4;
+	}
+	.content-info strong,label{
+		padding-left:10px;
+	}
 	.content-main{
 		width:100%;
 		resize: none;
@@ -55,15 +62,35 @@
 </style>
 <script>
 var num=${noticeOne.num}
-	
+var depth=${noticeOne.depth}
+var updatetime=${noticeOne.updatetime }
+
 	$(function(){
 		//글 분류 번호에 따라 제목 설정
 		if(num==1){
 			$(".menu-title").text("공지사항 상세보기");
+			$(".depth").show();
 		}else if(num==2){
 			$(".menu-title").text("FAQ 상세보기");
+			$(".depth").hide();
 		}else if(num==3){
 			$(".menu-title").text("1:1 문의 글 상세보기");
+			$(".depth").hide();
+		}
+		
+		if(updatetime.length!=1){
+			if(num==3){
+				$(".rewrite").text("답변일");
+			}else{
+				$(".rewrite").text("수정일");
+			}
+		}
+		
+		//상단배치 여부 확인
+		if(depth==1){
+			$("input:radio[name='depth']:radio[value=1]").prop('checked', true); 
+		}else if(depth==0){
+			$("input:radio[name='depth']:radio[value=0]").prop('checked', true); 
 		}
 		
 		//수정버튼 활성화
@@ -73,6 +100,7 @@ var num=${noticeOne.num}
 				$(".reset").val("취소");
 				$(".content-title").prop("readonly",false);
 				$(".content-main").prop("readonly",false);
+				$(".content-title").focus();
 			}else if($(".submit").val()=="입력"){
 				var form=$(".form");
 				form.submit();
@@ -84,8 +112,8 @@ var num=${noticeOne.num}
 				var form=$(".form");
 				$(".restful").val("delete");
 				form.submit();
-				
 			}else if($(".reset").val()=="취소"){
+				location.reload();
 			}
 		});
 	});//ready
@@ -109,6 +137,12 @@ var num=${noticeOne.num}
 			<input type="hidden" name="num" value="${noticeOne.num}"/>
 			<input type="hidden" name="depth" value="${noticeOne.depth}"/>
 			<input type="text" class="content-title" name="title" value="${noticeOne.title}" readonly/>
+			<p class="content-info">
+				<strong>작성일</strong>&nbsp;${noticeOne.createtime }
+				<strong class="rewrite"></strong>&nbsp;${noticeOne.updatetime }
+				<label for="depth" class="depth">상단배치<input type="radio" name="depth" value=1></label>
+				<label for="depth" class="depth">일반배치<input type="radio" name="depth" value=0></label>
+			</p>
 			<textarea class="content-main" name="content" rows="15" readonly>${noticeOne.content}</textarea>
 		</div><!-- content-box -->
 		<div class="btns">
