@@ -44,6 +44,9 @@
 		color:white;
 		border:1px solid #c0cfb2;
 	}
+	.reset{
+		background-color:#e4e4e4;
+	}
 	.reset:hover{
 		border:1px solid #e4e4e4;
 	}
@@ -56,6 +59,26 @@
 <script>
 var id=${user.id}//admin계정일시 공지사항 수정 위해
 	$(function(){
+		var ref = location.href;
+		var temp=ref.substring(ref.lastIndexOf('/')+1);
+		if(temp==1){
+			$(".num").val(temp);
+			$(".form").attr("action","./1");
+			$(".menu-title").text("공지사항 작성");
+		}else if(temp==2){
+			$(".num").val(temp);
+			$(".form").attr("action","./2");
+			$(".menu-title").text("FAQ 작성");
+		}else if(temp==3){
+			$(".num").val(temp);
+			$(".form").attr("action","./3");
+			$(".menu-title").text("1:1문의 글 작성");
+		}
+		
+		$(".submit").on("click",function(){
+			var result = $(".content-main").val().replace(/(\n|\r\n)/g, '<br>');
+			$(".content-main").val(result);			
+		});
 		
 	});//ready
 	
@@ -67,16 +90,16 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 <!-- **********content start**********-->
 <div class="row">
 	<div class="col-md-2"></div>
-	<div class="col-xs-12 col-md-8 notice-submenu"><span class="menu-title">1:1 문의 글 작성</span></div>
+	<div class="col-xs-12 col-md-8 notice-submenu"><span class="menu-title"></span></div>
 	<div class="col-md-2"></div>
 </div><!-- row -->
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8 center-content">
-		<form method="POST" action="./">
+		<form method="POST"class="form">
 		<div class="content-box">
 			<input type="hidden" name="user_id" value="${user.id }"/>
-			<input type="hidden" name="num" value="3"/>
+			<input type="hidden" name="num" class="num"/>
 			<input type="hidden" name="depth" value="0"/>
 			<input type="text" class="content-title" name="title" placeholder="제목을 입력하세요"/>
 			<textarea class="content-main" name="content" placeholder="문의할 내용을 작성하세요" rows="15"></textarea>

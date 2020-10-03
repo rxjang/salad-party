@@ -38,19 +38,19 @@ public class NewsController {
 		return "news/notice";
 	}
 	
-	@RequestMapping("/notice/write")
-	public String insertNotice() {
+	@RequestMapping("/notice/write/{num}")
+	public String insertNotice(@PathVariable int num) {
 	return "news/noticewrite";
 	}
 	
-	@RequestMapping(value="/notice",method=RequestMethod.POST)
-	public String insert(@ModelAttribute ClubVo bean) {
+	@RequestMapping(value="/notice/write/{num}",method=RequestMethod.POST)
+	public String insert(@PathVariable int num, @ModelAttribute ClubVo bean) {
 		try {
 			newsService.insertQuestion(bean);
 		} catch (DataAccessException e) {
 			return "news/noticewrite";
 		}
-		return "redirect:./";
+		return "redirect:../";
 	}
 	
 	@RequestMapping("/notice/answer/{id}")

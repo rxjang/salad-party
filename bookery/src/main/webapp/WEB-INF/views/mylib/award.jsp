@@ -93,7 +93,8 @@
 			</div><!-- .award-info-ment end -->
 		</div><!-- award-account -->	
 		<div class="jumbotron">
-			<img src="${pageContext.request.contextPath}/resources/imgs/book_achiv_1st.png"/>
+			<img src="${pageContext.request.contextPath}/resources/imgs/award/achieve-1st.png"/>
+			<img src="${pageContext.request.contextPath}/resources/imgs/award/achieve-3rd.png"/>
 		</div>
 	</div>
 </div><!-- .row end -->

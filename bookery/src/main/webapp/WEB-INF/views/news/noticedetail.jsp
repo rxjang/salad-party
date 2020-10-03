@@ -51,6 +51,9 @@
 		color:white;
 		border:1px solid #c0cfb2;
 	}
+	.reset{
+		background-color:#e4e4e4;
+	}
 	.reset:hover{
 		border:1px solid #e4e4e4;
 	}
@@ -63,9 +66,11 @@
 <script>
 var num=${noticeOne.num}
 var depth=${noticeOne.depth}
-var updatetime=${noticeOne.updatetime }
-
+var updatetime="${noticeOne.updatetime}"
 	$(function(){
+		//<br>처리
+		var text = $(".content-main").val().replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+		$(".content-main").val(text);
 		//글 분류 번호에 따라 제목 설정
 		if(num==1){
 			$(".menu-title").text("공지사항 상세보기");
@@ -78,20 +83,11 @@ var updatetime=${noticeOne.updatetime }
 			$(".depth").hide();
 		}
 		
-		if(updatetime.length!=1){
-			if(num==3){
-				$(".rewrite").text("답변일");
-			}else{
-				$(".rewrite").text("수정일");
-			}
-		}
-		
 		//상단배치 여부 확인
-		if(depth==1){
-			$("input:radio[name='depth']:radio[value=1]").prop('checked', true); 
-		}else if(depth==0){
-			$("input:radio[name='depth']:radio[value=0]").prop('checked', true); 
-		}
+		$("input[name=depth]").filter("input[value='"+depth+"']").attr("checked",true);
+		$("input[type=radio]").click(function(){
+		    $(this).prop("checked", true);
+		})
 		
 		//수정버튼 활성화
 		$(".submit").on("click",function(){
@@ -103,6 +99,10 @@ var updatetime=${noticeOne.updatetime }
 				$(".content-title").focus();
 			}else if($(".submit").val()=="입력"){
 				var form=$(".form");
+				var temp=$(':radio[name="depth"]:checked').val();
+				$("input[name=depth]").filter("input[value='"+temp+"']").attr("checked",true);
+				var result = $(".content-main").val().replace(/(\n|\r\n)/g, '<br>');
+				$(".content-main").val(result);	
 				form.submit();
 			}
 		});//submit
@@ -116,6 +116,11 @@ var updatetime=${noticeOne.updatetime }
 				location.reload();
 			}
 		});
+		
+		//수정일 계산
+		var date=new Date(updatetime).format('yyyy-MM-dd a/p hh:mm');
+		$(".updatetime").text(date);
+		
 	});//ready
 </script>
 </head>
@@ -139,7 +144,7 @@ var updatetime=${noticeOne.updatetime }
 			<input type="text" class="content-title" name="title" value="${noticeOne.title}" readonly/>
 			<p class="content-info">
 				<strong>작성일</strong>&nbsp;${noticeOne.createtime }
-				<strong class="rewrite"></strong>&nbsp;${noticeOne.updatetime }
+				<strong class="rewrite">수정일</strong>&nbsp;<span class="updatetime"></span>
 				<label for="depth" class="depth">상단배치<input type="radio" name="depth" value=1></label>
 				<label for="depth" class="depth">일반배치<input type="radio" name="depth" value=0></label>
 			</p>
