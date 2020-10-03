@@ -14,7 +14,7 @@
 		height: 180px;
 	}
 	#todayDiv1 img{
- 		height: 170px;
+		height: 170px;
 	}
 	#todayDiv1>span{
 		margin: 0;
@@ -98,7 +98,7 @@
 								<div class="col-md-3 col-xs-3">
 									<c:set var="today" value="<%=new java.util.Date()%>"/>
 									<c:if test="${study.type eq 'chap'}">
-										<c:if test="${study.plan_cnt-study.actual_cnt eq 0}">
+										<c:if test="${study.plan_chap-study.actual_chap eq 0}">
 											<c:if test="${study.updatetime lt today}">
 												<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sleepy.png">
 											</c:if>
@@ -106,7 +106,7 @@
 												<img src="${pageContext.request.contextPath }/resources/imgs/Smile-blush.png">
 											</c:if>
 										</c:if>
-										<c:if test="${study.plan_cnt-study.actual_cnt >= 0}">
+										<c:if test="${study.plan_chap-study.actual_chap >= 0}">
 											<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sweat.png">
 										</c:if>
 									</c:if>
@@ -126,7 +126,7 @@
 								</div>
 								<div class="col-md-3 col-xs-3">
 									<c:if test="${study.type eq 'chap'}">
-										<c:if test="${study.plan_cnt-study.actual_cnt eq 0}">
+										<c:if test="${study.plan_chap-study.actual_chap eq 0}">
 											<c:if test="${study.updatetime lt today}">
 												오늘엔 목표설정한 계획이 없어요 
 											</c:if>
@@ -134,8 +134,8 @@
 												축하합니다. 오늘의 목표를 모두 달성하셨습니다.
 											</c:if>
 										</c:if>
-										<c:if test="${study.plan_cnt-study.actual_cnt >= 0}">
-											${study.plan_cnt-study.actual_cnt } 챕터를 끝낼 계획이에요.
+										<c:if test="${study.plan_chap-study.actual_chap >= 0}">
+											${study.plan_chap-study.actual_chap } 챕터를 끝낼 계획이에요.
 										</c:if>
 									</c:if>
 									<c:if test="${study.type eq 'page'}">
@@ -174,34 +174,40 @@
 								<div class="col-md-3 col-xs-3">
 									그래프 2 (반달 대시보드 그래프)<br>
 									완료율: ${study.progress_rate }<br>
-									완료: ${study.actual_page + study.actual_cnt }<br>
-									전체: ${study.total_pages + study.total_cnt }
+									완료: ${study.actual_page + study.actual_chap }<br>
+									전체: ${study.total_pages + study.total_chap }<br>
 								</div>
 								<div class="col-md-3 col-xs-3">
-									그래프 3 (오늘 기준 일일 평균진도/남은 양)<br>
+									그래프 3 (어제밤 기준 일일 평균진도/남은 양)<br>
+									총 날짜수: 	${study.total_days}<br>
+									공부한날: ${study.actual_days_yesterday }일<br>
+									계획했던 날 수: ${study.plan_days_yesterday }일<br>
+									남은 날 수: ${study.remain_days }<br>
 									<c:if test="${study.type eq 'chap'}">
-										챕터-총챕터수: 		${study.plan_cnt}<br>
-										챕터-총 날짜수: 	${study.chap_total_days}<br>
-										챕터-실제 챕터수: 	${study.actual_cnt}<br>
-										챕터-실제 날짜수: 	${study.chap_actual_days}<br>
-										일일 평균 목표량:	${study.plan_cnt div study.chap_total_days}<br>
-										오늘까지 평균일일진도:${study.actual_cnt div study.chap_actual_days}<br>
-										남은 기간동안 해야 하는 평균 일일 양:${((study.plan_cnt div study.chap_total_days)
-										 - (study.actual_cnt div study.chap_actual_days))
-										 div (study.chap_total_days - study.chap_actual_days)}
-										 계산식 재검토 필요
+										챕터-총 챕터수: 	${study.total_chap}<br>
+										챕터-목표 챕터수: 	${study.plan_chap_yesterday}<br>
+										챕터-실제 챕터수: 	${study.actual_chap_yesterday}<br>
+										일일 평균 목표량:	${study.plan_chap div study.total_days}<br>
+										어제까지 평균일일진도:${study.actual_chap_yesterday div study.plan_days_yesterday}<br>
+										<c:if test="${study.remain_days > 0}">
+											남은 기간동안 해야 하는 평균 일일 양:${(study.total_chap - study.actual_chap_yesterday) div (study.remain_days)}
+										</c:if>
+										<c:if test="${study.remain_days eq 0}">
+											남은 기간동안 해야 하는 평균 일일 양:${(study.total_chap-study.actual_chap_yesterday)}
+										</c:if>
 									</c:if>
 									<c:if test="${study.type eq 'page'}">
 										페이지-총페이지수: 	${study.total_pages}<br>
-										페이지-총 날짜수: 	${study.page_total_days}<br>
-										페이지-실제 페이지수:	${study.actual_page}<br>
-										페이지-실 날짜수: 	${study.page_actual_days}<br>
-										일일 평균 목표량:	${study.total_pages div study.page_total_days}<br>
-										오늘까지 평균 일일 진도:${study.actual_page div study.page_actual_days}<br>
-										남은 기간동안 해야 하는 평균 일일 양:${((study.pages div study.page_total_days)
-										 - (study.actual_page div study.page_actual_days))
-										 div (study.page_total_days - study.page_actual_days)}
-										 계산식 재검토 필요
+										페이지-목표 페이지수:	${study.plan_page_yesterday}<br>
+										페이지-실제 페이지수:	${study.actual_page_yesterday}<br>
+										일일 평균 목표량:	${study.total_pages div study.total_days}<br>
+										어제까지 평균 일일 진도:${study.actual_page_yesterday div study.plan_days_yesterday}<br>
+										<c:if test="${study.remain_days > 0}">
+											남은 기간동안 해야 하는 평균 일일 양:${(study.total_pages - study.actual_page_yesterday) div (study.remain_days)}
+										</c:if>
+										<c:if test="${study.remain_days eq 0}">
+											남은 기간동안 해야 하는 평균 일일 양:${(study.total_pages-study.actual_page_yesterday)}
+										</c:if>
 									</c:if>
 								</div>
 							</div>
