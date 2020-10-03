@@ -28,7 +28,7 @@ public class CheckPageVo {
 	@NonNull
 	private Date date;
 	@NonNull
-	private int delete;
+	private int deleted;
 	
 	public CheckPageVo(Date date, int planpage, int study_id) {
 		super();
