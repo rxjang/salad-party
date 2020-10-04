@@ -4,6 +4,7 @@ package co.salpa.bookery.club.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -43,7 +44,7 @@ public class ClubController {
 	@RequestMapping(value = "/list/{book_bid}",method = RequestMethod.GET)
 	public String list(Model model, @PathVariable int book_bid,String search) {
 		
-		clubService.listOfOneBookService(book_bid,model,search);
+		clubService.OneBooListService(book_bid,model,search);
 		findService.getBookService(book_bid, model);
 		return "club/list";
 	}
@@ -52,6 +53,8 @@ public class ClubController {
 	@RequestMapping(value = "/detail/{id}",method = RequestMethod.GET)
 	public String detail(Model model, @PathVariable int id) {
 		clubService.getOneService(id,model);
+		clubService.listReplyService(id,model);
+		//ref = id이고 depth가 1인 row들을 조회. 
 		return "club/detail";
 	}
 	
@@ -69,13 +72,20 @@ public class ClubController {
 		return "redirect:list/"+club.getBook_bid();
 	}
 
+	//리스트 더보기 버튼
 	@RequestMapping(value = "/list/more",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
 	@ResponseBody
-	public String moreList(@ModelAttribute ClubVo club, HttpServletResponse resp) {
+	public String moreList(@ModelAttribute ClubVo club) {
 		
 		return clubService.listMoreService(club);
 	}
 	
+	//게시글 댓글달기
+	@RequestMapping(value = "/reply",method = RequestMethod.POST)
+	@ResponseBody
+	public String reply(@ModelAttribute ClubVo club,HttpSession session) {
+		return 	clubService.addReplyService(club,session);
+	}
 	
 	
 	

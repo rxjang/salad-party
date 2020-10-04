@@ -36,5 +36,9 @@ public interface ClubDao {
 	void insertOneClub(ClubVo club) throws DataAccessException;//북클럽 특정 책에 글쓰기
 	
 	int countOfPosts(int book_bid) throws DataAccessException; //특정책의 게시글 수
+	
+	void insertReplyClub(ClubVo club) throws DataAccessException; //게시글 댓글 작성
+
+	List<ClubVo> selectReplyById(int id) throws DataAccessException; //게시글 댓글 목록
 
 }
