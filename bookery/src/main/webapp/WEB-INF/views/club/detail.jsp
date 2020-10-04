@@ -40,9 +40,15 @@ var date = "${club.updatetime}";
 		$('.updatetime').text(todayToTime(date));
 		
 		
-		$('#form-reply').hide();
+		$('.input-reply').hide();
+		var btn_reply_cnt = 0;
 		$('.btn-reply').click(function(){
-			$('#form-reply').show();
+			btn_reply_cnt++;
+			if(btn_reply_cnt%2 != 0){
+				$('.input-reply').show();
+			}else{
+				$('.input-reply').hide();
+			}
 		});//댓글달기
 		$('#form-reply').on('submit',function(){
 			var param = $(this).serialize();
@@ -98,7 +104,7 @@ textarea{
 
 			<div class="jumbotron">
 
-
+				<!-- 글 내용  -->
 				<div class="panel panel-default pannel-post">
 					<div class="panel-body">
 						<span class="lead">${club.title }</span>
@@ -115,33 +121,44 @@ textarea{
 				<button class="btn btn-default">수정</button>
 				<button class="btn btn-default">삭제</button>
 				</div>
-				<div class="panel panel-default input-reply">
-			<form id="form-reply" class="form-horizontal" action="${pageContext.request.contextPath }/club/reply" method="post">
-	
-				<div class="form-group">
-					<label for="content" class="col-sm-2 control-label" id="session_user_id">${user.nickname }</label>
-					<div class="col-sm-10">
-						<textarea class="form-control" rows="2" name="content" id="content"></textarea>
-					</div>
-				</div>
-				
-				<input type="hidden" name="book_bid" value="${club.book_bid }" />
-				<input type="hidden" name="depth" value="1" />
-				<input type="hidden" name="ref" value="${club.id }" />
 
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-default">등록</button>
-					</div>
+				<!-- 댓글입력 -->
+				<div class="input-reply">
+				<div class="bottom-line"></div>
+				<div class="">
+					<form id="form-reply" class="form-horizontal"
+						action="${pageContext.request.contextPath }/club/reply"
+						method="post">
+
+						<div class="form-group">
+							<label for="content" class="col-sm-2 control-label"
+								id="session_user_id">${user.nickname }</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="2" name="content"
+									id="content"></textarea>
+							</div>
+						</div>
+
+						<input type="hidden" name="book_bid" value="${club.book_bid }" />
+						<input type="hidden" name="depth" value="1" /> <input
+							type="hidden" name="ref" value="${club.id }" />
+
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default">등록</button>
+							</div>
+						</div>
+					</form>
 				</div>
-			</form>
-				</div>
-								
-				
+				<div class="bottom-line"></div></div>
+
+
 				<!-- <div class="panel panel-default pannel-reply">
 					<div class="panel-body">reply</div>
 					<div class="panel-body">book_bid, club-id, depth=1인 row select // orderby createtime desc</div>
 				</div> -->
+				
+				<!-- 댓글 목록 -->
 				<c:forEach items="${replylist }" var="bean" begin="0" end="9">
 				
 				<div class="panel panel-default pannel-reply">
