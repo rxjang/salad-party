@@ -128,6 +128,23 @@ $(function() {
 		 	$('.date-result').show();
 		}
 	});//enddate-btn click
+	
+	$(".assert").each(function(){
+		$(this).on("click",function(){
+			$(this).parent("form").submit();
+			swal({
+				  title: "목표설정이 완료되었습니다",
+				  text: "확인 버튼을 누르시면 내서재로 이동합니다",
+				  icon: "success",
+				  button: "확인",
+			}).then(function(value) {
+		        if (value) {
+		        	location.href ="${pageContext.request.contextPath }/mylib"
+		        }
+		    });
+	    });//click
+	});//each
+	
 });//ready
 </Script>
 <style type="text/css">
@@ -197,6 +214,7 @@ $(function() {
 		color:#8ba989;
 	}
 	.assert{
+		color:black;
 		background-color:white;
 		line-height:15px;
 		padding:0px 5px;
@@ -277,9 +295,9 @@ $(function() {
 								<input type="hidden" name="book_bid" value="${v_study.book_bid}" readonly/>
 								<input type="hidden" name="type" value="page" readonly/><br/>
 								<div class="comment">
-									<button class="btn assert">해당 정보로 목표설정을 하시겠습니까?
+									<a class="btn assert">해당 정보로 목표설정을 하시겠습니까?
 									<span class="glyphicon glyphicon-ok"></span>
-									</button>
+									</a>
 								</div>
 							</form>
 						</div><!-- page-result -->

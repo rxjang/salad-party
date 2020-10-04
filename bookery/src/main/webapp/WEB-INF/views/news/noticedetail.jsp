@@ -92,10 +92,8 @@ var id=${user.id}
 		}
 		
 		//상단배치 여부 확인
-		$("input[name=depth]").filter("input[value='"+depth+"']").attr("checked",true);
-		$("input[type=radio]").click(function(){
-		    $(this).prop("checked", true);
-		})
+		$("input[name=depth-temp]").filter("input[value='"+depth+"']").attr("checked",true);
+		$("input[name=depth-temp]").attr('disabled',true);
 		
 		//수정버튼 활성화
 		$(".submit").on("click",function(){
@@ -105,21 +103,31 @@ var id=${user.id}
 				$(".content-title").prop("readonly",false);
 				$(".content-main").prop("readonly",false);
 				$(".content-title").focus();
+				$("input[name=depth-temp]").attr('disabled',false);
 			}else if($(".submit").val()=="입력"){
 				var form=$(".form");
-				var temp=$(':radio[name="depth"]:checked').val();
-				$("input[name=depth]").filter("input[value='"+temp+"']").attr("checked",true);
+				var temp=$(':radio[name="depth-temp"]:checked').val();
+				$(".depth").val(temp);
 				var result = $(".content-main").val().replace(/(\n|\r\n)/g, '<br>');
 				$(".content-main").val(result);	
 				form.submit();
 			}
 		});//submit
+		
 		//삭제버튼 활성화
 		$(".reset").on("click",function(){
 			if($(".reset").val()=="삭제"){
 				var form=$(".form");
 				$(".restful").val("delete");
-				form.submit();
+				 swal({
+				        title: '정말 삭제하시겠습니까?',
+				        icon: 'warning',
+				        buttons: ["취소", "삭제"],
+				    }).then(function(value) {
+				        if (value) {
+					    	form.submit();
+				        }
+				    });
 			}else if($(".reset").val()=="취소"){
 				location.reload();
 			}
@@ -153,8 +161,9 @@ var id=${user.id}
 			<p class="content-info">
 				<strong>작성일</strong>&nbsp;${noticeOne.createtime }
 				<strong class="rewrite">수정일</strong>&nbsp;<span class="updatetime"></span>
-				<label for="depth" class="depth">상단배치<input type="radio" name="depth" value=1></label>
-				<label for="depth" class="depth">일반배치<input type="radio" name="depth" value=0></label>
+				<label for="depth-temp" class="depth-temp">상단배치<input type="radio" name="depth-temp" value=1></label>
+				<label for="depth-temp" class="depth-temp">일반배치<input type="radio" name="depth-temp" value=0></label>
+				<input type="hidden" name="depth" class="depth"/>
 			</p>
 			<textarea class="content-main" name="content" rows="15" readonly>${noticeOne.content}</textarea>
 		</div><!-- content-box -->

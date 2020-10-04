@@ -77,6 +77,8 @@ public class NewsController {
 	
 	@RequestMapping(value="/notice/detail/{id}",method=RequestMethod.PUT)
 	public ModelAndView updateNotice(@PathVariable int id,ClubVo bean) {
+		System.out.println("newsController depth:"+bean.getDepth());
+		System.out.println("newsController content:"+bean.getContent());
 		newsService.updateNotice(bean);
 		return new ModelAndView("redirect:./"+id);
 	}
