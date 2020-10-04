@@ -106,7 +106,7 @@
 						//console.log('result = ',result[i].id);
 						posts += '<div class="panel panel-default pannel-post">'
 						posts += '<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/'+result[i].id+'"><span class="lead">'+result[i].title+'</span></a></div>'
-						posts += '<div class="panel-body"><span class="user_id"> 유저번호 '+result[i].user_id+'</span>';
+						posts += '<div class="panel-body"><span class="user_id">'+result[i].nickname+'</span>';
 						posts += '&nbsp;|&nbsp;<span class="wrote-day">'+todayToTime(result[i].updatetime)+'</span></div>';
 						posts += '</div><br/>';
 					}
@@ -215,7 +215,7 @@
 		<c:forEach items="${list }" var="bean" begin="0" end="9">
 				<div class="panel panel-default pannel-post">
 					<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/${bean.id}"><span class="lead">${bean.title }</span></a></div>
-					<div class="panel-body"><span class="user_id"> 유저번호 ${bean.user_id }</span> &nbsp;|&nbsp;<span class="update-day">${bean.updatetime }</span></div>
+					<div class="panel-body"><span class="user_id">${bean.nickname }</span> &nbsp;|&nbsp;<span class="update-day">${bean.updatetime }</span></div>
 				</div>
 				<br/>
 		</c:forEach>

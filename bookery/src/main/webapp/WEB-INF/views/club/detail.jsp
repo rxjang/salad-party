@@ -40,6 +40,28 @@ var date = "${club.updatetime}";
 		$('.updatetime').text(todayToTime(date));
 		
 		
+		$('#form-reply').hide();
+		$('.btn-reply').click(function(){
+			$('#form-reply').show();
+		});//댓글달기
+		$('#form-reply').on('submit',function(){
+			var param = $(this).serialize();
+			console.log(param);
+			$.ajax({
+				url:'${pageContext.request.contextPath }/club/reply',
+				method:'post',
+				data:param,
+				success:function(data){
+					$('#content').val('');//이전내용지움
+					location.reload();//페이지새로고침					
+				},//success
+				error:function(){
+					swal('error');
+				}//error
+			});//ajax
+			return false;
+		});//submit
+		
 	});//ready
 </script>
 <style type="text/css">
@@ -49,6 +71,9 @@ var date = "${club.updatetime}";
 }
 .div-btn{
 	margin-bottom:20px;
+}
+textarea{
+	resize: none;
 }
 </style>
 </head>
@@ -79,31 +104,52 @@ var date = "${club.updatetime}";
 						<span class="lead">${club.title }</span>
 					</div>
 					<div class="panel-body">
-						<span class="user_id">${club.user_id }</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="updatetime"></span>
+						<span class="user_id">${club.nickname}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="updatetime"></span>
 					</div>
 					<div class="bottom-line"></div>
 					<div class="panel-body post-content">${club.content}</div>
 				</div>
 				
 				<div class="div-btn">
-				<button class="btn btn-default">댓글달기</button>
+				<button class="btn btn-default btn-reply">댓글달기</button>
 				<button class="btn btn-default">수정</button>
 				<button class="btn btn-default">삭제</button>
 				</div>
+				<div class="panel panel-default input-reply">
+			<form id="form-reply" class="form-horizontal" action="${pageContext.request.contextPath }/club/reply" method="post">
+	
+				<div class="form-group">
+					<label for="content" class="col-sm-2 control-label" id="session_user_id">${user.nickname }</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" rows="2" name="content" id="content"></textarea>
+					</div>
+				</div>
 				
+				<input type="hidden" name="book_bid" value="${club.book_bid }" />
+				<input type="hidden" name="depth" value="1" />
+				<input type="hidden" name="ref" value="${club.id }" />
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">등록</button>
+					</div>
+				</div>
+			</form>
+				</div>
+								
+				
+				<!-- <div class="panel panel-default pannel-reply">
+					<div class="panel-body">reply</div>
+					<div class="panel-body">book_bid, club-id, depth=1인 row select // orderby createtime desc</div>
+				</div> -->
+				<c:forEach items="${replylist }" var="bean" begin="0" end="9">
 				
 				<div class="panel panel-default pannel-reply">
-					<div class="panel-body">reply</div>
-					<div class="panel-body">contnt</div>
+					<div class="panel-body">${bean.nickname}&nbsp;|&nbsp;${bean.updatetime }</div>
+					<div class="panel-body">${bean.content}</div>
 				</div>
-				<div class="panel panel-default pannel-reply">
-					<div class="panel-body">reply</div>
-					<div class="panel-body">contnt</div>
-				</div>
-				<div class="panel panel-default pannel-reply">
-					<div class="panel-body">reply</div>
-					<div class="panel-body">contnt</div>
-				</div>
+				
+				</c:forEach>
 
 
 

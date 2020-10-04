@@ -61,7 +61,7 @@ public class ClubServiceImpl implements ClubService {
 	 * 하나의 책과 관련된 게시글들을 불러온다. 리스트
 	 */
 	@Override
-	public Model listOfOneBookService(int book_bid,Model model,String search) throws DataAccessException {
+	public Model OneBooListService(int book_bid,Model model,String search) throws DataAccessException {
 		// TODO Auto-generated method stub
 		if(search == null) {
 			search = "%%";
@@ -137,6 +137,36 @@ public class ClubServiceImpl implements ClubService {
 			}//for
 		json+="]}";
 		return json;
+	}
+
+	/*
+	 * 게시글 댓글달기
+	 */
+	@Override
+	public String addReplyService(ClubVo club, HttpSession session) throws DataAccessException {
+		// TODO Auto-generated method stub
+		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
+		UserVo user = (UserVo) session.getAttribute("user");
+		club.setUser_id(user.getId());
+		
+		String newLine = club.getContent().replaceAll("\n", "<br/>");
+		club.setContent(newLine);
+		
+		clubDao.insertReplyClub(club);
+		
+		return null;
+	}
+
+	/*
+	 * 댓글 목록 보기
+	 */
+	@Override
+	public Model listReplyService(int id, Model model) throws DataAccessException {
+
+		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
+		
+		
+		return model.addAttribute("replylist", clubDao.selectReplyById(id));
 	}
 	
 
