@@ -26,6 +26,7 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpSession session) {
+		// 페이지 매핑
 		if(session.getAttribute("user") == null)
 			return "account/login";
 		
@@ -39,7 +40,6 @@ public class LoginController {
 
 		UserVo userBean = null;
 		userBean = accountService.login(bean.getEmail(), bean.getPassword());
-//		System.out.println(userBean);
 		
 		if(userBean != null) {
 			session.setAttribute("user", userBean);
@@ -59,11 +59,16 @@ public class LoginController {
 		return null;
 	}
 	
-	@RequestMapping("/navercallback")
-	public String naverCallBack() {
+	@RequestMapping(value = "/navercallback", method = RequestMethod.GET)
+	public String naverCallBackGet() {
 		return "account/navercallback";
 	}
 	
+	@RequestMapping(value = "/navercallback", method = RequestMethod.POST)
+	public String naverCallBackPost() {
+		// 비동기 
+		return null;
+	}
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
