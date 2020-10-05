@@ -5,7 +5,22 @@
 	<title>Bookery</title>
 <%@ include file="../template/head.jspf" %>
 <Script type="text/javascript">
+var nogoal=${countnogoalbook}
+var studying=${countstudyingbook}
+var finished=${countfinishedbook}
+
 $(function() {
+	if(nogoal==0){
+		$(".nogoal").append("<img class=\"media-object\" src=\"${pageContext.request.contextPath}/resources/imgs/empty_book.jpg\" alt=\"책 이미지\">");
+	}
+	if(studying==0){
+		$(".studying").append("<img class=\"media-object\" src=\"${pageContext.request.contextPath}/resources/imgs/empty_book.jpg\" alt=\"책 이미지\">");
+	}
+	if(nogoal==0){
+		$(".finished").append("<img class=\"media-object\" src=\"${pageContext.request.contextPath}/resources/imgs/empty_book.jpg\" alt=\"책 이미지\">");
+	}
+	
+	
 	$('.owl-carousel').each(function(){
 		$(this).owlCarousel({
 	   		margin:20,
@@ -107,7 +122,9 @@ $(function() {
 	    margin-bottom:120px;
 	}
 	.wood{
-		width:100%;
+		width: 105%;
+		position: relative;
+		right:3%;
 		height:5em;
 	}
 	@media (max-width:1000px) {
@@ -168,7 +185,7 @@ $(function() {
 			<h3 class="sub-title">미독 <span class="counting">${countnogoalbook }권</span></h3>
 			<span class="glyphicon glyphicon-remove" style="color:#CAAD7E"></span>&nbsp;아직 목표 설정을 하지 않았어요
 			<h6>책을 클릭하여 공부를 시작해 보세요</h6>	
-			<div class="owl-carousel owl-theme">
+			<div class="owl-carousel owl-theme nogoal">
 				<c:forEach items="${nogoalbooklist }" var="bean1">
 				    <div class="item">
 				    	<a href="${pageContext.request.contextPath }/mylib/plan/${bean1.study_id }"><img class="media-object" src="${bean1.coverurl }" alt="책 이미지"></a>
@@ -178,7 +195,7 @@ $(function() {
 			<h3 class="sub-title three">미완독 <span class="counting">${countstudyingbook }권</span></h3>
 			<span class="glyphicon glyphicon-minus" style="color:#C4DEA4"></span>&nbsp;현재 공부 중인 책들이예요
 			<h6>책을 클릭하여 오늘의 진도를 입력해 보아요</h6>	
-			<div class="owl-carousel owl-theme">
+			<div class="owl-carousel owl-theme studying">
 				<c:forEach items="${studyingbooklist }" var="bean2">
 				    <div class="item">
 				    	<a href="${pageContext.request.contextPath }/mylib/${bean2.study_id }"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></a>
@@ -188,7 +205,7 @@ $(function() {
 			<h3 class="sub-title">완독 <span class="counting">${countfinishedbook }권</span></h3>
 			<span class="glyphicon glyphicon-ok" style="color:#A7D489"></span>&nbsp;완료한 책
 			<h6>책을 클릭하면 과거의 기록을 볼 수 있어요</h6>	
-			<div class="owl-carousel owl-theme">
+			<div class="owl-carousel owl-theme finished">
 				<c:forEach items="${finishedbooklist }" var="bean3">
 				    <div class="item">
 				    	<a href="${pageContext.request.contextPath }/mylib/${bean3.study_id }"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지">

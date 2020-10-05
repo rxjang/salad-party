@@ -55,6 +55,7 @@ public class MylibController {
 		return "redirect:../../../today";
 	}
 	
+	/************************************ award ***********************************************/
 	@RequestMapping("/award")
 	public String awards(Model model,HttpSession session) {
 		UserVo user=(UserVo) session.getAttribute("user");

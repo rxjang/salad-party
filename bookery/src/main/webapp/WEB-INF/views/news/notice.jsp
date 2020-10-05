@@ -215,7 +215,6 @@ $(function(){
 </head>
 <body>
 <%@ include file="../template/menu.jspf"%>
-<%@ include file="../template/news-menu.jspf" %>
 <!-- **********content start**********-->
 <div class="row">
 	<div class="col-md-2"></div>

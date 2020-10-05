@@ -57,6 +57,7 @@ public class MylibServiceImpl implements MylibService {
 		return null;
 	}
 
+	/************************************ plan-page ***********************************************/
 	//page 목표설정 값을 study테이블과 checkPage테이블에 입력
 	@Override
 	public void insertPagePlanService(StudyVo study, int StudyDay,int planPage) throws DataAccessException{
@@ -110,10 +111,11 @@ public class MylibServiceImpl implements MylibService {
 		return nextday;
 	}
 
+	/************************************ award ***********************************************/
 	@Override
 	public Model awardService(Model model,int user_id) throws DataAccessException {
 		MedalDao medalDao=sqlSession.getMapper(MedalDao.class);
-		List<MedalVo> medalList=medalDao.selectAll();
+		List<MedalVo> medalList=medalDao.selectAllMedal();
 		model.addAttribute("medalList", medalList);
 		V_AwardsDao v_AwardsDao=sqlSession.getMapper(V_AwardsDao.class);
 		model.addAttribute("countAchieveMedal", v_AwardsDao.countAchieveMedal(user_id));

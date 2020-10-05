@@ -10,15 +10,9 @@
 	img{
 		width:200px;
 	}
-	#award-account{
-		width:90%;
-		height:280px;
-		background:url('${pageContext.request.contextPath}/resources/imgs/award.jpg')center/cover;
-		margin:0 auto;
-		color:white;
-		padding:30px 60px;
-	}
 	.jumbotron{
+		width:90%;
+		margin:0 auto;
 		width:90%;
 		background-color:white;	
 	}
@@ -27,6 +21,12 @@
 	}
 	.jumbotron a:hover{
 		text-decoration:none; color:#ECEBC9
+	}
+	#award-account{
+		height:280px;
+		background:url('${pageContext.request.contextPath}/resources/imgs/award.jpg')center/cover;
+		color:white;
+		padding:30px 60px;
 	}
 	#number-of-awards{
 		margin-top:30px;
@@ -51,11 +51,24 @@
 	.award-info-ment span{
 		opacity: 0.8;
 	}
-	
+	.all-medal{
+		width:100%;
+		border: 1px solid #e4e4e4;
+	}
+	.all-medal li{
+		width:20%;
+		float:left;
+		list-style:none;
+		margin-bottom:10px;
+	}
+	.temp{
+	}
 	
 	@media (max-width:1000px) {
-		#award-account{
+		.jumbtron{
 			width:100%;
+		}
+		#award-account{
 			height:250px;
 			padding:20px;
 			padding-left:30px;
@@ -93,6 +106,14 @@
 			</div><!-- .award-info-ment end -->
 		</div><!-- award-account -->	
 		<div class="jumbotron">
+			메달 목록
+			<ul class="all-medal">
+			<c:forEach items="${medalList }" var="medal">
+					<li>${medal.criteria }</li>
+			</c:forEach>			
+			</ul>
+		</div>
+		<div class="jumbotron temp">
 			<img src="${pageContext.request.contextPath}/resources/imgs/award/achieve-1st.png"/>
 			<img src="${pageContext.request.contextPath}/resources/imgs/award/achieve-3rd.png"/>
 		</div>

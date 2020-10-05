@@ -241,10 +241,10 @@ $(function() {
 		text-align:center;
 		margin-top:10px;
 	}
-	.submenu-main{
-	    margin-bottom:120px;
-	}
  	@media (max-width:800px) {
+	 	label{
+			width:30%;
+		}
  		.jumbotron{width:90%; text-align:center;}
 		.book-image{margin-bottom:2em;}
 		.page-main{display:block;}
@@ -255,12 +255,6 @@ $(function() {
 		}
 		.temp{
 			margin:0px auto;
-		}
-		.commet{
-			text-align:ceter;
-		}
-		.submenu-main{
-	    	margin-bottom:180px;
 		}
 	}
 </style>

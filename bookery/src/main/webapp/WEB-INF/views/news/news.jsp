@@ -22,6 +22,12 @@
 		margin-top: 20px;
 		border: 1px solid #e4e4e4;
 	}
+	
+	@media (max-width:1000px) {
+		.best-books li{
+			width:30%;
+		}
+	}
 </style>
 <script>
 $(function(){
@@ -35,10 +41,16 @@ $(function(){
 </head>
 <body>
 <%@ include file="../template/menu.jspf"%>
-<%@ include file="../template/news-menu.jspf" %>
 <!-- **********content start**********-->
 <div class="row">
 	<p>케러셀자리</p>
+</div><!-- row -->
+<div class="row">
+	<div class="col-md-1"></div>
+	<div class="col-xs-12 col-md-10 notice">
+		<a href="${pageContext.request.contextPath }/news/notice">책거리 알림</a>
+	</div>
+	<div class="col-md-1"></div>
 </div><!-- row -->
 <div class="row">
 	<div class="col-md-1"></div>
@@ -56,15 +68,6 @@ $(function(){
 		</ul>
 	</div>
 	<div class="col-md-1"></div>
-</div><!-- row -->
-<div class="row">
-	<div class="col-md-1">
-	</div>
-	<div class="col-xs-12 col-md-10 notice">
-		<h3>책거리 알림</h3>
-	</div>
-	<div class="col-md-1">
-	</div>
 </div><!-- row -->
 <!--**********content end**********-->
 <%@ include file="../template/footer.jspf"%>
