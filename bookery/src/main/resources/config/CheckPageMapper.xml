@@ -5,7 +5,7 @@
 
 <mapper namespace="co.salpa.bookery.model.CheckPageDao">
 
-	<select id="selectAll" resultType="checkPageBean">
+	<select id="selectAll" resultType="checkPageBean" parameterType="_int">
 		select * from salpa.checkpage
 	</select>
 

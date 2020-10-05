@@ -16,6 +16,12 @@
 				$('.thumb-box:contains("'+keyword+'")').show();
 		});//input change
 		
+		$('.thumbnail').each(function(){
+			var aHref = $(this).find('a').attr('href');
+			$(this).click(function(){
+				location.href=aHref;
+			});//thumbnail div click
+		});// each
 		
 		
 		
@@ -139,8 +145,9 @@
 			<!--**********post start**********-->
 			<c:forEach items="${cntReaders }" var="bean" >
 				<div class="col-xs-12 col-md-6 thumb-box">
-					<div class="thumbnail" style="">
-						<a href="${pageContext.request.contextPath }/club/list/${bean.book_bid}"> <c:choose>
+					<div class="thumbnail">
+						<a href="${pageContext.request.contextPath }/club/list/${bean.book_bid}"> 
+							<c:choose>
 								<c:when test="${'' ne bean.coverurl }">
 									<img src="${bean.coverurl }" />
 								</c:when>
