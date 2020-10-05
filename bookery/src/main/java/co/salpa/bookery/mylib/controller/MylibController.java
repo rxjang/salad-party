@@ -39,6 +39,9 @@ public class MylibController {
 		return "mylib/detail";
 	}
 	
+	
+	/************************************ plan-page ***********************************************/
+	
 	@RequestMapping(value="/plan/page/{study_id}")
 	public String mylibPlanPage(@PathVariable int study_id,Model model) {
 		mylibService.selectStudyService(study_id, model);
@@ -52,6 +55,7 @@ public class MylibController {
 		return "redirect:../../../today";
 	}
 	
+	/************************************ award ***********************************************/
 	@RequestMapping("/award")
 	public String awards(Model model,HttpSession session) {
 		UserVo user=(UserVo) session.getAttribute("user");

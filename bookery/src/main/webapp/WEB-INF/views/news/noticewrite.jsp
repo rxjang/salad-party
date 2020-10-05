@@ -86,7 +86,6 @@ var id=${user.id}//admin계정일시 공지사항 수정 위해
 </head>
 <body>
 <%@ include file="../template/menu.jspf"%>
-<%@ include file="../template/news-menu.jspf" %>
 <!-- **********content start**********-->
 <div class="row">
 	<div class="col-md-2"></div>

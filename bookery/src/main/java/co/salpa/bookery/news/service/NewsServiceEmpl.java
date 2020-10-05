@@ -8,8 +8,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 
+import co.salpa.bookery.model.BookDao;
 import co.salpa.bookery.model.ClubDao;
 import co.salpa.bookery.model.V_NoticeDao;
+import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.ClubVo;
 import co.salpa.bookery.model.entity.V_NoticeVo;
 
@@ -19,6 +21,16 @@ public class NewsServiceEmpl implements NewsService {
 	@Autowired
 	SqlSession sqlSession;
 
+	@Override
+	public Model listMostBookService(Model model) throws DataAccessException {
+		BookDao bookDao = sqlSession.getMapper(BookDao.class);
+		List<BookVo> list = bookDao.selectMostBook();
+		model.addAttribute("bestBooks", list);
+		return model;
+	}
+	
+	
+	/***************************** notice **************************************/
 	@Override
 	public Model noticeService(Model model) throws DataAccessException {
 		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
@@ -50,7 +62,7 @@ public class NewsServiceEmpl implements NewsService {
 	public void updateNotice(ClubVo club) throws DataAccessException {
 		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
 		clubDao.updateNotice(club);
-		System.out.println(club.getDepth());
+		System.out.println("newsServiceImpl"+club.getDepth());
 	}
 
 	@Override
@@ -65,5 +77,6 @@ public class NewsServiceEmpl implements NewsService {
 		clubDao.insertNotice(club);
 		clubDao.updateRef(id);
 	}
+
 
 }
