@@ -11,22 +11,22 @@
 		padding: 5px 5px 0px 5px;
 		background-color: rgb(246,246,246);
 		margin: 10px;
-		height: 180px;
+/* 		height: 180px; */
 	}
 	#todayDiv1 img{
-		height: 170px;
+/* 		height: 170px; */
 	}
 	#todayDiv1>span{
 		margin: 0;
 		float: left;
 	}
 	#todayDiv1 h4{
-		line-height: 50px;
+/* 		line-height: 50px; */
 		color: #888888;
 	}
 	#todayDiv1 h4 a{
 		text-decoration: none;
-		line-height: 50px;
+/* 		line-height: 50px; */
 		color: #888888;
 	}
 	
@@ -78,16 +78,26 @@
 				<h3>
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					오늘의 기록 : 
-					<c:if test="${fn:length(studies) eq 0}">
+					<c:if test="${fn:length(studymap) eq 0}">
 						 기록할 스터디가 없습니다.
 					</c:if>
-					<c:if test="${fn:length(studies) ne 0}">
-						${fn:length(studies)}개의 스터디
+					<c:if test="${fn:length(studymap) ne 0}">
+						${fn:length(studymap)}개의 스터디
 					</c:if>
 				</h3>
 				<div class="owl-carousel owl-theme">
-					<c:forEach items="${studies }" var="study">
+					<c:forEach items="${studymap }" var="map">
+						<c:set value="${map.key }" var="study_id"/>
+						<c:set value="${map.value.v_study }" var="study"/>
+						<c:set value="${map.value.checkchap }" var="checkchap"/>
+						<c:set value="${map.value.checkpage }" var="checkpage"/>
 						<div class="item">
+							<!-- 
+							study_id: ${study_id }<br>
+							제목: ${study.title }<br>
+							시작일: ${study.startdate }<br>
+							끝일: ${study.enddate }<br>
+							-->
 							<div id="todayDiv1" class="row">
 								<div class="col-md-3 col-xs-3">
 									<img class="img-rounded" src="${study.coverurl}" alt="book cover">
@@ -213,10 +223,48 @@
 							</div>
 							<div id="todayDiv3" class="row">
 								<div class="col-md-6 col-xs-6">
-									그래프 4 (전체 기간동안 누적 actual(green,yellow,brown)/plan(gray))
+									그래프 4 (전체 기간동안 누적 actual(green,yellow,brown)/plan(gray))<br>
+									<c:if test="${study.type eq 'chap'}">
+										목록길이: ${fn:length(checkchap) }<br>
+										<c:forEach items="${checkchap}" var="chapVo" varStatus="status">
+												${chapVo.id}
+												${chapVo.toc }
+												${chapVo.plantime }
+												${chapVo.actualtime }<br>
+										</c:forEach>
+									</c:if>
+									<c:if test="${study.type eq 'page'}">
+										목록길이: ${fn:length(checkpage) }<br>
+										<c:forEach items="${checkpage}" var="pageVo" varStatus="status">
+												${pageVo.id}
+												${pageVo.date }
+												${pageVo.planpage }
+												${pageVo.actualpage }<br>
+										</c:forEach>
+									
+									</c:if>
 								</div>
 								<div class="col-md-6 col-xs-6">
-									그래프 4 (전체 기간동안 일일 actual(green,yellow,brown)/plan(gray))
+									그래프 5 (전체 기간동안 일일 actual(green,yellow,brown)/plan(gray))<br>
+									<c:if test="${study.type eq 'chap'}">
+										목록길이: ${fn:length(checkchap) }<br>
+										<c:forEach items="${checkchap}" var="chapVo" varStatus="status">
+												${chapVo.id}
+												${chapVo.toc }
+												${chapVo.plantime }
+												${chapVo.actualtime }<br>
+										</c:forEach>
+									</c:if>
+									<c:if test="${study.type eq 'page'}">
+										목록길이: ${fn:length(checkpage) }<br>
+										<c:forEach items="${checkpage}" var="pageVo" varStatus="status">
+												${pageVo.id}
+												${pageVo.date }
+												${pageVo.planpage }
+												${pageVo.actualpage }<br>
+										</c:forEach>
+									
+									</c:if>
 								</div>
 							
 							</div>
@@ -228,7 +276,7 @@
 							</div>
 						</div><!-- item -->
 					</c:forEach>
-				</div>
+ 				</div><!-- owl-carousel -->
 			</div>		
 		</div>			
 	</div>
