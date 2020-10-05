@@ -13,7 +13,7 @@ public interface StudyDao {
 
 	StudyVo selectOne(int key) throws DataAccessException;
 	
-	List<Integer> selectIdByUserId(int user_id) throws DataAccessException;
+	List<Integer> selectIdByUserId(int user_id) throws DataAccessException;//사용안함
 	
 	List<StudyVo> selectOneByIdAndBid(Map<String, String> map) throws DataAccessException;
 
@@ -24,4 +24,5 @@ public interface StudyDao {
 	StudyVo updateTypeChap(int study_id);
 
 	StudyVo updateTypePage(int study_id);
+
 }
