@@ -15,7 +15,7 @@
 		select * from study where book_bid=#{book_bid}
 	</select>
 
-	<select id="selectIdByUserId" resultType="java.util.List"
+	<select id="selectIdByUserId" resultType="java.lang.Integer"
 		parameterType="_int">
 		select id from study where user_id=#{user_id}
 	</select>
