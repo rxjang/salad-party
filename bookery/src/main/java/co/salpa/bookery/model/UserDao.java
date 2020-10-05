@@ -11,7 +11,10 @@ public interface UserDao {
 	List<UserVo> selectAll() throws SQLException;
 
 	UserVo selectOne(int id) throws SQLException;
-
+	
+	// 네이버 계정 등록 여부 확인
+	int chkNaver(String password) throws SQLException;
+	
 	// 회원가입
 	void insertOne(UserVo bean) throws SQLException;
 
@@ -32,6 +35,12 @@ public interface UserDao {
 	
 	// 연락처 중복확인
 	int chkTel(String tel) throws SQLException;
+	
+	// 정보 수정 닉네임 중복확인
+	int chkUpdateNickName(Map<String, String> map) throws SQLException;
+	
+	// 정보 수정 연락처 중복확인
+	int chkUpdateTel(Map<String, String> map) throws SQLException;
 	
 	// 아이디(이메일) 찾기
 	String findEmail(Map<String, String> map) throws SQLException;

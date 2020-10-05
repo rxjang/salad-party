@@ -16,7 +16,7 @@
   	</insert>
   	<update id="updateOne" parameterType="userBean">
   		update user set name=#{name}, password=#{password}, nickname=#{nickname}, tel=#{tel}
-  		where deleted=0 and id=#{id}
+  		where deleted=0 and email=#{email}
   	</update>
   	<delete id="deleteOne" parameterType="_int">
   		update user set deleted=1 where id=#{value}
@@ -34,6 +34,17 @@
   	</select>
   	<select id="chkTel" resultType="int" parameterType="String">
   		select count(*) as cnt from user where deleted=0 and tel=#{text}
+  	</select>
+  	
+  	<select id="chkUpdateNickName" resultType="int" parameterType="map">
+  		select count(*) as cnt from user where deleted=0 and email != #{email} and nickname=#{nickname}
+  	</select>
+  	<select id="chkUpdateTel" resultType="int" parameterType="map">
+  		select count(*) as cnt from user where deleted=0 and email != #{email} and tel=#{tel}
+  	</select>
+  	
+  	<select id="chkNaver" resultType="int" parameterType="String">
+  		select count(*) as cnt from user where deleted=0 and password=#{text}
   	</select>
   	
   	<select id="findEmail" resultType="String" parameterType="map">
