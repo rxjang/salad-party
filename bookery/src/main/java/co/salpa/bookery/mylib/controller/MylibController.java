@@ -39,6 +39,9 @@ public class MylibController {
 		return "mylib/detail";
 	}
 	
+	
+	/************************************ plan-page ***********************************************/
+	
 	@RequestMapping(value="/plan/page/{study_id}")
 	public String mylibPlanPage(@PathVariable int study_id,Model model) {
 		mylibService.selectStudyService(study_id, model);

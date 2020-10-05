@@ -23,14 +23,18 @@ public class NewsController {
 
 	@RequestMapping
 	public String news(Model model) {
-		newsService.noticeService(model);
+		newsService.listMostBookService(model);
 		return "news/news";
 	}
+	
+	/*********************************** rank **************************************/
 	
 	@RequestMapping("/rank")
 	public String rank(Model model) {
 		return "news/rank";
 	}
+	
+	/********************************** notice **************************************/
 	
 	@RequestMapping("/notice")
 	public String notice(Model model) {

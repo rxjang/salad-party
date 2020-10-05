@@ -192,7 +192,6 @@ $(function() {
 				<c:forEach items="${finishedbooklist }" var="bean3">
 				    <div class="item">
 				    	<a href="${pageContext.request.contextPath }/mylib/${bean3.study_id }"><img class="media-object" src="${bean3.coverurl }" alt="책 이미지">
-				    		<strong class="book-title">${bean3.title }</strong>
 				    	</a>
 				    </div>
 				</c:forEach>
