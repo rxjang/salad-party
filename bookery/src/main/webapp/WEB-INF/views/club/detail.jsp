@@ -5,77 +5,68 @@
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
 <script type="text/javascript">
-var date = "${club.updatetime }";
+var date = "${club.updatetime}";
 
 
+//오늘 날짜 yyyy-mm-dd
+	function getRecentDate(){
+	    var dt = new Date();
+	    var recentYear = dt.getFullYear();
+	    var recentMonth = dt.getMonth() + 1;
+	    var recentDay = dt.getDate();
+	 	
+	    if(recentMonth < 10) recentMonth = "0" + recentMonth;
+	    if(recentDay < 10) recentDay = "0" + recentDay;
+	    return recentYear + "-" + recentMonth + "-" + recentDay;
+	}
+/* 오늘 날짜면 시간으로 변환  */
+	function todayToTime(date){
+		var today = getRecentDate();
+		var update =date.substring(0,10);
+		var updatetime;
+		if(today == update){
+			updatetime = new Date(date).format('a/p hh:mm');
+		}else{
+			updatetime = new Date(date).format('yyyy-MM-dd');
+		}
+	return updatetime;
+	}
 
-
-Date.prototype.format = function (f) {
-
-    if (!this.valueOf()) return " ";
-
-
-
-    var weekKorName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
-
-    var weekKorShortName = ["일", "월", "화", "수", "목", "금", "토"];
-
-    var weekEngName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-    var weekEngShortName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    var d = this;
-
-
-
-    return f.replace(/(yyyy|yy|MM|dd|KS|KL|ES|EL|HH|hh|mm|ss|a\/p)/gi, function ($1) {
-
-        switch ($1) {
-
-            case "yyyy": return d.getFullYear(); // 년 (4자리)
-
-            case "yy": return (d.getFullYear() % 1000).zf(2); // 년 (2자리)
-
-            case "MM": return (d.getMonth() + 1).zf(2); // 월 (2자리)
-
-            case "dd": return d.getDate().zf(2); // 일 (2자리)
-
-            case "KS": return weekKorShortName[d.getDay()]; // 요일 (짧은 한글)
-
-            case "KL": return weekKorName[d.getDay()]; // 요일 (긴 한글)
-
-            case "ES": return weekEngShortName[d.getDay()]; // 요일 (짧은 영어)
-
-            case "EL": return weekEngName[d.getDay()]; // 요일 (긴 영어)
-
-            case "HH": return d.getHours().zf(2); // 시간 (24시간 기준, 2자리)
-
-            case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2); // 시간 (12시간 기준, 2자리)
-
-            case "mm": return d.getMinutes().zf(2); // 분 (2자리)
-
-            case "ss": return d.getSeconds().zf(2); // 초 (2자리)
-
-            case "a/p": return d.getHours() < 12 ? "오전" : "오후"; // 오전/오후 구분
-
-            default: return $1;
-
-        }
-    });
-};
-
-String.prototype.string = function (len) { var s = '', i = 0; while (i++ < len) { s += this; } return s; };
-
-String.prototype.zf = function (len) { return "0".string(len - this.length) + this; };
-
-Number.prototype.zf = function (len) { return this.toString().zf(len); };
 
 	$(function() {
 		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
 		console.log(new Date('${club.updatetime}').format('HH:mm:ss'));
+		$('.updatetime').text(todayToTime(date));
 		
 		
+		$('.input-reply').hide();
+		var btn_reply_cnt = 0;
+		$('.btn-reply').click(function(){
+			btn_reply_cnt++;
+			if(btn_reply_cnt%2 != 0){
+				$('.input-reply').show();
+			}else{
+				$('.input-reply').hide();
+			}
+		});//댓글달기
+		$('#form-reply').on('submit',function(){
+			var param = $(this).serialize();
+			console.log(param);
+			$.ajax({
+				url:'${pageContext.request.contextPath }/club/reply',
+				method:'post',
+				data:param,
+				success:function(data){
+					$('#content').val('');//이전내용지움
+					location.reload();//페이지새로고침					
+				},//success
+				error:function(){
+					swal('error');
+				}//error
+			});//ajax
+			return false;
+		});//submit
 		
 	});//ready
 </script>
@@ -86,6 +77,9 @@ Number.prototype.zf = function (len) { return this.toString().zf(len); };
 }
 .div-btn{
 	margin-bottom:20px;
+}
+textarea{
+	resize: none;
 }
 </style>
 </head>
@@ -110,38 +104,69 @@ Number.prototype.zf = function (len) { return this.toString().zf(len); };
 
 			<div class="jumbotron">
 
-
+				<!-- 글 내용  -->
 				<div class="panel panel-default pannel-post">
 					<div class="panel-body">
 						<span class="lead">${club.title }</span>
 					</div>
 					<div class="panel-body">
-						<span class="user_id">${club.user_id }</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span
-							class="updatetime">${club.updatetime }</span>
+						<span class="user_id">${club.nickname}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="updatetime"></span>
 					</div>
 					<div class="bottom-line"></div>
 					<div class="panel-body post-content">${club.content}</div>
 				</div>
 				
 				<div class="div-btn">
-				<button class="btn btn-default">댓글달기</button>
+				<button class="btn btn-default btn-reply">댓글달기</button>
 				<button class="btn btn-default">수정</button>
 				<button class="btn btn-default">삭제</button>
 				</div>
+
+				<!-- 댓글입력 -->
+				<div class="input-reply">
+				<div class="bottom-line"></div>
+				<div class="">
+					<form id="form-reply" class="form-horizontal"
+						action="${pageContext.request.contextPath }/club/reply"
+						method="post">
+
+						<div class="form-group">
+							<label for="content" class="col-sm-2 control-label"
+								id="session_user_id">${user.nickname }</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="2" name="content"
+									id="content"></textarea>
+							</div>
+						</div>
+
+						<input type="hidden" name="book_bid" value="${club.book_bid }" />
+						<input type="hidden" name="depth" value="1" /> <input
+							type="hidden" name="ref" value="${club.id }" />
+
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default">등록</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="bottom-line"></div></div>
+
+
+				<!-- <div class="panel panel-default pannel-reply">
+					<div class="panel-body">reply</div>
+					<div class="panel-body">book_bid, club-id, depth=1인 row select // orderby createtime desc</div>
+				</div> -->
 				
+				<!-- 댓글 목록 -->
+				<c:forEach items="${replylist }" var="bean" begin="0" end="9">
 				
 				<div class="panel panel-default pannel-reply">
-					<div class="panel-body">reply</div>
-					<div class="panel-body">contnt</div>
+					<div class="panel-body">${bean.nickname}&nbsp;|&nbsp;${bean.updatetime }</div>
+					<div class="panel-body">${bean.content}</div>
 				</div>
-				<div class="panel panel-default pannel-reply">
-					<div class="panel-body">reply</div>
-					<div class="panel-body">contnt</div>
-				</div>
-				<div class="panel panel-default pannel-reply">
-					<div class="panel-body">reply</div>
-					<div class="panel-body">contnt</div>
-				</div>
+				
+				</c:forEach>
 
 
 

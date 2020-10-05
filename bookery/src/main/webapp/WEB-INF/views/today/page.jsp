@@ -76,8 +76,8 @@
 		Dday = dateDiff;
 		$('#owl-dday').text('D-'+Dday);
 		console.log(dateDiff);
-		$('.thumbnail').css({'box-shadow':'rgb(135, 165, 134) 5px 5px 10px','display':'block','margin':'auto'});
-		
+		$('.thumbnail').css({'box-shadow':'rgb(37, 54, 41) 5px 5px 10px','display':'block','margin':'auto'});
+		//box-shadow:rgb(37, 54, 41) 5px 5px 10px;
 		/**********************    캐러셀    **********************/
 		var owlyear = deadLine.substring(0,4)+'년';
 		var owlmonth = deadLine.substring(5,7)+'월';

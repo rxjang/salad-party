@@ -44,26 +44,42 @@
 	</update>
 	
 	<select id="selectAboutBook" parameterType="clubBean" resultType="clubBean">
-		select * from club where book_bid=#{book_bid} and deleted != 1 and title like 
+		select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname from club c 
+		inner join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
 		#{search} order by createtime desc
 	</select>
 	
 	<select id="selectOneClub" resultType="clubBean" parameterType="_int">
-		select * from club where id = #{id} and deleted !=1
+		select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname from club c 
+		inner join user u on c.user_id = u.id where c.id = #{id} and c.deleted !=1;
 	</select>
 	
 	<insert id="insertOneClub" parameterType="clubBean">
 		insert into club (updatetime, title, content, ref, depth, num, user_id,
 		book_bid) values (now(),#{title},#{content},0,#{depth},0,#{user_id},#{book_bid});
 	</insert>
+
+
+	<insert id="insertReplyClub" parameterType="clubBean">
+		insert into club (updatetime, content, ref, depth, num, user_id,
+		book_bid) values (now(),#{content},#{ref},#{depth},0,#{user_id},#{book_bid});
+	</insert>
 	
 	<select id="selectMore" parameterType="clubBean" resultType="clubBean">
-		select * from (select * from club where book_bid = #{book_bid} and depth = 0  and deleted != 1 
-		and title like #{search} order by createtime desc) s limit #{start},10
+		select * from (select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname 
+		from club c inner join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
+		#{search} order by createtime desc) s limit #{start},10
+	</select>
+	
+	<select id="selectReplyById" resultType="clubBean" parameterType="_int">
+		select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname from club c inner join user u 
+		on c.user_id = u.id where ref = #{id} and depth = 1 and c.deleted != 1  order by createtime asc
 	</select>
 	
 	<select id="countOfPosts" parameterType="_int" resultType="_int">
 		select count(*) from club  where book_bid = #{book_bid} and deleted != 1
 	</select>
+	
+	
 	
 </mapper>

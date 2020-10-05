@@ -29,8 +29,6 @@
 	       </c:if>
 	       
 	       <c:if test="${user eq null}">
-	       <li><a href="${pageContext.request.contextPath }/account/login">내 정보</a></li>
-	       <li role="separator" class="divider"></li>
 	       <li><a href="${pageContext.request.contextPath }/account/login">로그인</a></li>
 	       </c:if>
 	     </ul>

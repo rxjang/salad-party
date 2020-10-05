@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="co.salpa.bookery.model.entity.UserVo" %>
 <!DOCTYPE>
 <html>
 	<head>
@@ -6,7 +6,7 @@
 		<title>Bookery</title>
 	<%@ include file="../template/head.jspf" %>
 	<style type="text/css">
-	.join{
+	.update{
 		display: flex;
 		margin: 0px auto;
 		width: 300px;
@@ -14,7 +14,7 @@
 		overflow: hidden;
 		margin-top: 100px;
 	}
-	.join input {
+	.update input {
 		margin-bottom:12px;
 		border:none;
 		border-bottom:1px solid #ccc;
@@ -26,11 +26,11 @@
 		color:black;
 		font-size:16px;
 	}
-	.join input::-webkit-input-placeholder{
+	.update input::-webkit-input-placeholder{
 		color:#999;
 		font-size:16px
 	}
-	.join input::placeholder{
+	.update input::placeholder{
 		color:#999;
 		font-size:16px
 	}
@@ -40,31 +40,17 @@
 		margin-right:10px;
 		text-align: center;
 	}
-	#emailChkBtn{
-		text-align:center;
-		margin: 0px auto;
-		width: 150px;
-		height: 25px;
-		border: none;
-		background:linear-gradient(to right, rgb(19, 78, 94), rgb(113, 178, 128));
-		color: rgb(193, 207, 178);
-		font-size: 12px;
-		border-radius: 50px;
-	}
-	#signupBtn {
+	#updateBtn {
 		width: 240px;
 		height: 50px;
 		border: none;
 		background: linear-gradient(to right, rgb(19, 78, 94), rgb(113, 178, 128));
 		color: rgb(193, 207, 178);
 		font-size: 16px;
+		margin-top: 5px;
 		border-radius: 50px;
 	}
-	#signupBtn:hover{
-		border: solid 1px #e4e4e4;
-		color: white;
-	}
-	#emailChkBtn:hover{
+	#updateBtn:hover{
 		border: solid 1px #e4e4e4;
 		color: white;
 	}
@@ -75,36 +61,15 @@
 	#passwordChkMessage{
 		font-size:12px;
 	}
-	#cover{
-		position: absolute;
-		left: 0;
-		top: 0;
+	.update-sub-menu{
 		width: 100%;
-		height: 100%;
-		z-index: 100;
-		opacity: 0.7;
-		text-align: center;
-		display: none;
+		display: block;
+		text-align: right;
 	}
-	iframe{
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		left: 0;
-		top: 0;
-	}
-	#cover_contents{
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		left: 0px;
-		top: 0px;
-		background-color: #999;
-		text-align: center;
-	}
-	h2{
-		margin-top: 150px;
-		color: black;
+	.update-sub-menu>a{
+		color: #999;
+		margin-right: 15px;
+		font-size: 12px;
 	}
 	</style>
 	<script type="text/javascript">
@@ -119,15 +84,12 @@
 			return false;
 		}	
 	}
-	
 	$(function(){
-	$('#joinForm').on('submit',function(){ //등록버튼 눌렀을 때 이벤트.
+	$('#updateForm').on('submit',function(){ //등록버튼 눌렀을 때 이벤트.
 		/* console.log('서브밋'); */
-		var emailVal = $("#email").val().trim(); // 입력된 e-mail 
-		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-		var contact = $('#tel1').val().trim() + $('#tel2').val().trim() + $('#tel3').val().trim();
-		var param = 'email=' + $('#email').val().trim()+'&password='+$('#password').val().trim()+'&name='+$('#name').val().trim()+'&nickname='+$('#nickname').val().trim()+'&tel='+contact;
-		/* console.log(param); */
+		var contact = $('#tel1').val() + $('#tel2').val() + $('#tel3').val();
+		var param = 'email=' + $('#email').val()+'&password='+$('#password').val()+'&name='+$('#name').val()+'&nickname='+$('#nickname').val()+'&tel='+contact;
+		console.log(param);
 		/* 
 			비밀번호는 영문 + 숫자 조합, 8~12자리 
 		*/
@@ -135,44 +97,32 @@
 		var signuppw2 = $('#passwordChk').val(); //비밀번호2
 		var chk = $('#emailChk');
 		
-		$('#emailMessage').text('');
 		$('#passwordMessage').text('');
 		$('#passwordChkMessage').text('');
 		$('#nameMessage').text('');
 		$('#nicknameMessage').text('');
 		$('#telMessage').text('');
 		
-		if($('#email').val() == ""){
-			$('#emailMessage').text('이메일을 입력해주세요.');
-		}else if($('#password').val() == ""){
+		if($('#password').val() == ""){
 			$('#passwordMessage').text('비밀번호를 입력해주세요.');
 		}else if($('#name').val() == ""){
 			$('#nameMessage').text('이름을 입력해주세요.');
 		}else if($('#nickname').val() == "") {
 			$('#nicknameMessage').text('닉네임을 입력해주세요.');
-		}else if($('#nickname').val().trim().length < 3) {
+		}else if($('#nickname').val().length < 3) {
 			$('#nicknameMessage').text('닉네임은 3자 이상 입력해주세요.');
 		}else if($('#tel1').val() == "" || $('#tel2').val() == "" || $('#tel3').val() == ""){
-			$('#telMessage').text('연락처를 입력해주세요.');
-		}else if(contact.length < 10 || contact.length > 12){
-			$('#telMessage').text('연락처의 길이는 10자 또는 11자 입니다.');
-		}else if(emailVal.match(regExp) == null){
-			('#emailMessage').text('이메일을 입력해주세요.');
-		}else if($('#emailChk').val() != 'true'){
-			$('#emailMessage').text('이메일 중복확인을 해주세요.');
+			$('#telMessage').text('전화번호를 입력해주세요.');
 		}else if(pwCheck(passwordVal)){
 			//비밀번호 검증 하기.	영문이나 숫자가 포함되어야함., 포함되어있으면 false 영어나숫자만 true
 			$('#passwordMessage').text('비밀번호는 영문 + 숫자 조합이어야 합니다.');
 		}else if(passwordVal.length < 8 || passwordVal.length > 12){
 			//비밀번호 길이는 8자~12자까지. 
 			$('#passwordMessage').text('비밀번호는 8 ~ 12자리 입니다.');	
-		}else if($('#emailChk').val() == 'false'){
-			$('#emailMessage').text('이메일 중복확인을 해주세요.');
-		}else if(passwordVal != signuppw2){
+		}else if(passwordVal!=signuppw2){
 			$('#emailChkMessage').text('비밀번호가 일치하지 않습니다.');	
 		}else{
-			$('#cover').css('display', 'block');
-			$.ajax('${pageContext.request.contextPath}/account/join',{
+			$.ajax('${pageContext.request.contextPath}/account/update',{
 				'method':'post',
 				'data':param,
 				'dataType': 'json',
@@ -181,25 +131,23 @@
 					if(result == 'ok') {
 						$('#cover').css('display', 'none');
 						swal({
-							  title: "가입이 완료되었습니다.",
-							  text: "북커리 회원이 되신 것을 축하합니다.",
+							  title: "정보 수정 완료",
+							  text: "회원 정보 수정이 완료 되었습니다.",
 							  icon: "success",
 							  buttons: {
 							  confirm:{
-							    	text:"로그인 페이지로 이동",
+							    	text:"확인",
 							    	value:true
 							    }
 							  },
 						}).then((value) => {	//value가 true이면 로그인 페이지로 이동한다.
 							if(value){
-									location.href = '${pageContext.request.contextPath }/account/login';
+									location.reload();
 							}//if
 						});//swal						
 					} else if(result == 'nickname') {
-						$('#cover').css('display', 'none');
 						$('#nicknameMessage').text('이미 사용중인 닉네임 입니다. 다른 닉네임을 사용해주세요.');
 					} else if(result == 'tel') {
-						$('#cover').css('display', 'none');
 						$('#telMessage').text('이미 등록된 연락처 입니다. 다른 연락처를 사용해주세요.');
 					}
 				}//success
@@ -209,23 +157,6 @@
 		}//else			
 		return false;
 	});//submit
-	
-	$('#email').on('keyup', function(){
-		$('#emailChk').val('false');
-		var chk_id = $('#email').val();
-		$('#emailChkBtn').css('display', 'none');
-		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-		if(chk_id == ''){
-			$('#emailMessage').text('이메일을 입력해주세요.');
-		}else if(chk_id.match(regExp) == null){
-			$('#emailMessage').text('이메일을 입력해주세요.');
-		}else if(!regExp.test(chk_id)){
-			$('#emailMessage').text('이메일을 입력해주세요.');
-		}else{
-			$('#emailMessage').text('');
-			$('#emailChkBtn').css('display', 'block');
-		}
-	});
 		
 	$('#password').on('keyup',function() {
 		signuppw1 = $('#password').val();		//비밀번호1
@@ -287,41 +218,7 @@
        		$("#tel2").focus();
        	 }
    	});
-   	
-	$('#emailChkBtn').on('click',function(){ // 아이디 중복검사 버튼
-		var chk_id=$('#email').val();
-		$('#emailChk').val('false');
-		$('#emailMessage').css('color', '#FC5B57');
-		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-		if(chk_id == ''){
-			$('#emailMessage').text('이메일을 입력해주세요.');
-			return;
-		}else if(chk_id.match(regExp) == null){
-			$('#emailMessage').text('아이디는 이메일 형식 입니다.');
-		}else{
-			 $.ajax('${pageContext.request.contextPath}/account/chkEmail',{ //idoverlapcheck.java
-				'method':'post',
-				'data':'email='+chk_id,
-				'dataType': 'json',
-				'success':function(data){
-				 var result = data.result;
-					if(result == 'ok'){
-						$('#emailChk').val('true');
-					 	/* console.log('성공', $(data).find('overlap').text()); */
-					 	$('#emailChkBtn').css('display', 'none');
-					 	$('#emailMessage').text('중복 확인 완료').css('color', 'blue');
-					} else if(result == 'fail'){
-						$('#emailMessage').css('white-space', 'pre-line');
-						$('#emailMessage').text('이미 등록된 이메일 입니다.         다른 이메일을 사용해주세요.');
-					}
-				},
-				'error':function(){
-					console.log('error');
-				}
-			})//ajax
-		}
-	});//click
-}	);//ready
+});//ready
 function onlyNumber(e){
     if((event.keyCode<48)||(event.keyCode>57)) {
        event.returnValue = false;    	
@@ -332,37 +229,66 @@ function numberMaxLength(e){
         e.value = e.value.slice(0, e.maxLength);
     }
 }
+function delchk() {
+	swal({
+		  title: "탈퇴 전 확인",
+		  text: "정말로 탈퇴 하시겠습니까?",
+		  icon: "info",
+		  buttons: {
+			cancel: "아니오", //취소버튼 false
+		    confirm:{
+		    	text:"네",
+		    	value:true
+		    }
+		  },
+	}).then((value) => {	//value가 true이면 내서재로 이동한다.
+		if(value){
+				location.href = '${pageContext.request.contextPath }/account/delete/${user.id}';
+		}//if
+	});//swal
+	return false;
+}
 	</script>
 </head>
 <body>
 <%@ include file="../template/menu.jspf" %>
+<% 
+	UserVo userBean = (UserVo)request.getAttribute("userBean");
+	String mobile = userBean.getTel();
+	String tel1 = "", tel2 = "", tel3 = "";
+	if(mobile.length() == 10) {
+		tel1 = mobile.substring(0,3);
+		tel2 = mobile.substring(3,6);
+		tel3 = mobile.substring(6,mobile.length());
+	} else if(mobile.length() == 11) {
+		tel1 = mobile.substring(0,3);
+		tel2 = mobile.substring(3,7);
+		tel3 = mobile.substring(7,mobile.length());
+	}
+%>
 <!-- **********content start********** --> 
-<div class="join">
+<div class="update">
 	<div class="col-xs-12 col-md-12">
-		<form method="post" id="joinForm">
+		<form method="post" id="updateForm">
 				<!-- <h1><img src="" alt="Bookery" class="logo"></h1> -->
-				<h1>회원가입</h1>
-			 	<input type="text" placeholder="이메일" name="email" id="email" /><span id="emailMessage" class="message"></span>
+				<h1>정보수정</h1>
+			 	<input type="text" placeholder="이메일" name="email" id="email" value="${userBean.email }" readonly/><span id="emailMessage" class="message"></span>
 			 	<input type="hidden" id="emailChk" value="false" />
-			 	<button type="button" id="emailChkBtn" style="display: none;">중복확인</button>
 			 	<input type="password" placeholder="비밀번호" name="password" id="password" /><span id="passwordMessage" class="message"></span>
 			 	<input type="password" placeholder="비밀번호 확인" name="passwordChk" id="passwordChk" /><span id="passwordChkMessage" class="message"></span>
-			 	<input type="text" placeholder="이름" name="name" id="name" /><span id="nameMessage" class="message"></span>
-			 	<input type="text" placeholder="닉네임" name="nickname" id="nickname" /><span id="nicknameMessage" class="message"></span>
-			 	<input type="text" placeholder="010" name="tel1" id="tel1" class="tel" style="width: 80px;" onkeypress="onlyNumber();" maxlength="3" oninput="numberMaxLength(this);"/>
-			 	<input type="text" placeholder="1234"name="tel2" id="tel2" class="tel" style="width: 80px;" onkeypress="onlyNumber();" maxlength="4" oninput="numberMaxLength(this);"/>
-			 	<input type="text" placeholder="5678"name="tel3" id="tel3" class="tel" style="width: 80px;" onkeypress="onlyNumber();" maxlength="4" oninput="numberMaxLength(this);" />
+			 	<input type="text" placeholder="이름" name="name" id="name" value="${userBean.name }"/><span id="nameMessage" class="message"></span>
+			 	<input type="text" placeholder="닉네임" name="nickname" id="nickname" value="${userBean.nickname }"/><span id="nicknameMessage" class="message"></span>
+			 	<input type="text" placeholder="010" name="tel1" id="tel1" class="tel" value="<%=tel1 %>" style="width: 80px;" onkeypress="onlyNumber();" maxlength="3" oninput="numberMaxLength(this);"/>
+			 	<input type="text" placeholder="1234"name="tel2" id="tel2" class="tel" value="<%=tel2 %>" style="width: 80px;" onkeypress="onlyNumber();" maxlength="4" oninput="numberMaxLength(this);"/>
+			 	<input type="text" placeholder="5678"name="tel3" id="tel3" class="tel" value="<%=tel3 %>" style="width: 80px;" onkeypress="onlyNumber();" maxlength="4" oninput="numberMaxLength(this);" />
 			 	<span id="telMessage" class="message"></span>
-				<button type="submit" class="btn btn-default signupBtn" id="signupBtn">회원가입</button>
+				<button type="submit" class="btn btn-default updateBtn" id="updateBtn">정보수정</button>
 		</form>
+		<div class="update-sub-menu">
+			<a href="#" onclick="delchk();">탈퇴하기</a>
+		</div>
 	</div>
-</div>
-<div id="cover">
-	<iframe>
-	</iframe>
-	<div id="cover_contents">
-	<h2>처리중입니다...</h2>
-	</div>
+	
 </div>
 <!-- **********content end********** --> 
 <%@ include file="../template/footer.jspf" %>

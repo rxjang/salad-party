@@ -5,6 +5,7 @@
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
 <script type="text/javascript">
+
 	$(function() {
 	});//ready
 </script>

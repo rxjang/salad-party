@@ -54,7 +54,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public int deleteOne(int id) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
-		int result = session.delete("deleteOne", id);
+		int result = session.update("deleteOne", id);
 		
 		return result;
 	}
@@ -83,6 +83,22 @@ public class UserDaoImpl implements UserDao {
 		return cnt;
 	}
 
+	@Override
+	public int chkUpdateNickName(Map<String, String> map) throws SQLException {
+		SqlSession session = sqlSessionFactory.openSession();
+		int cnt = session.selectOne("chkUpdateNickName", map);
+		
+		return cnt;
+	}
+
+	@Override
+	public int chkUpdateTel(Map<String, String> map) throws SQLException {
+		SqlSession session = sqlSessionFactory.openSession();
+		int cnt = session.selectOne("chkUpdateTel", map);
+		
+		return cnt;
+	}
+	
 	@Override
 	public UserVo login(Map<String, String> map) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
@@ -113,6 +129,14 @@ public class UserDaoImpl implements UserDao {
 		int result = session.update("newPw", map);
 		
 		return result;
+	}
+
+	@Override
+	public int chkNaver(String password) throws SQLException {
+		SqlSession session = sqlSessionFactory.openSession();
+		int cnt = session.selectOne("chkNaver", password);
+	
+		return cnt;
 	}
 
 }

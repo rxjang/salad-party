@@ -9,7 +9,7 @@ import co.salpa.bookery.model.entity.CheckPageVo;
 
 public interface CheckPageDao {
 	
-	List<CheckPageDao> selectAll() throws DataAccessException;
+	List<CheckPageVo> selectAll(int study_id) throws DataAccessException;
 
 	CheckPageVo selectRecentChecked() throws DataAccessException;
 

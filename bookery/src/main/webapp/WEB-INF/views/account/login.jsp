@@ -4,7 +4,10 @@
 <% 	
 	String dest = (String)session.getAttribute("dest");
 
-	System.out.println(request.getServerPort());
+	
+	String ip = request.getHeader("X-Forwarded-For");
+	   if (ip == null) ip = request.getRemoteAddr();
+	   else if (ip == "127.0.0.1") ip = "localhost";
 %>
 <!DOCTYPE>
 <html>
@@ -19,6 +22,7 @@
 		height:100%;
 		text-align: center;
 		overflow: hidden;
+		margin-top: 100px;
 	}
 	.email-login-wrap{
 		margin: 0px auto;
@@ -46,9 +50,6 @@
 		color:#999;
 		font-size:16px
 	}
-	#defaultLogin{
-		margin-top: 5px;
-	}
 	#loginOption{
 		margin-bottom: 10px;
 	}
@@ -57,9 +58,14 @@
 		height: 50px;
 		border: none;
 		background: linear-gradient(to right, rgb(19, 78, 94), rgb(113, 178, 128));
-		color: white;
+		color: rgb(193, 207, 178);
 		font-size: 16px;
 		border-radius: 50px;
+		margin-top: 5px;
+	}
+	.defaultLogin:hover{
+		border: solid 1px #e4e4e4;
+		color: white;
 	}
 	.btn-area{
 		height: 70px;
@@ -121,7 +127,7 @@
              }else{
             	 var dest = "<%=dest%>"; 
             	 if(dest != "null" && dest != "") {
-            		 window.location.replace("http://localhost:"+<%=request.getServerPort()%> +""+ dest); 
+            		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> +""+ dest); 
             		 return false;
             	 } else {
                   	window.location.replace("${pageContext.request.contextPath }/"); 
@@ -179,9 +185,9 @@
 			<img onclick="document.getElementById('naver_id_login_anchor').click();" src="${pageContext.request.contextPath}/resources/imgs/naverLogin.png" alt="네이버로 로그인" class="img-circle" id="naverLogin" />
 		</div>
 		<div class="login-sub-menu">
-			<a href="/account/join">회원가입</a>
+			<a href="${pageContext.request.contextPath}/account/join">회원가입</a>
 			<span class="separate">|</span>
-			<a href="/account/find">비밀번호 재설정</a>
+			<a href="${pageContext.request.contextPath}/account/find">아이디∙패스워드 찾기</a>
 		</div>
 	</div>
 </div>
