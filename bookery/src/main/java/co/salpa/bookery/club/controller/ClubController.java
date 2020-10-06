@@ -80,16 +80,27 @@ public class ClubController {
 		return clubService.listMoreService(club);
 	}
 	
-	//게시글 댓글달기
-	@RequestMapping(value = "/reply",method = RequestMethod.POST)
-	@ResponseBody
-	public String reply(@ModelAttribute ClubVo club,HttpSession session) {
-		return 	clubService.addReplyService(club,session);
+	//게시글 수정페이지로 club id를 가지고 넘거간다. 
+	@RequestMapping(value="/edit/{id}/{book_bid}",method = RequestMethod.GET)
+	public String edit(@PathVariable int id,@PathVariable int book_bid, Model model) {
+		clubService.getOneService(id,model);
+		findService.getBookService(book_bid, model);
+		return "club/edit";
 	}
 	
+	//게시글 수정하고 디테일페이지로 이동
+	@RequestMapping(value = "/update",method = RequestMethod.PUT)
+	public String updatePost(@ModelAttribute ClubVo club) {
+		
+		clubService.updatePostSerivce(club);
+		return "redirect:detail/"+club.getId();
+	}
 	
-	
-	
+	@RequestMapping(value = "/delete",method = { RequestMethod.DELETE, RequestMethod.GET })
+	public String deletePost(@ModelAttribute ClubVo club) {
+		System.out.println("delete");
+		return "redirect:list/"+club.getBook_bid();
+	}
 	
 	
 	

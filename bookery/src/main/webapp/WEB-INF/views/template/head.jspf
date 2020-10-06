@@ -97,6 +97,10 @@
 	.clone-scroller {
      -ms-overflow-style: none; /* IE and Edge */
 	}
+
+	
+	a{decoration:none; color:black;}
+
 	.anchor{
 		color:black;
 	}
@@ -104,6 +108,7 @@
 		color:black;
 		text-decoration:none;
 	}
+
  	#menu{
 	 	background-color:white;
 		border-bottom: 1px solid #e4e4e4;

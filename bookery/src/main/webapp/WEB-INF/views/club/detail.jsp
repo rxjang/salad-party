@@ -68,6 +68,70 @@ var date = "${club.updatetime}";
 			return false;
 		});//submit
 		
+	/* 	
+		$('.panel-post .panel-body').eq(0).css({'background-image':'url("${pageContext.request.contextPath}/resources/imgs/old-unfolded-book-lying-on-the-table-yellow-paper-pages-plenty-of-space-for-text-or-photo.jpg")',
+			'background-repeat':'no-repeat',
+			'background-size':'100%'
+			}); */
+			
+			
+			/* 수정 삭제 버튼 글쓴이만 볼 수 있게. */
+			var session_user_id = '${user.id}';
+			var writer_id = '${club.user_id}';
+			if(session_user_id == writer_id){
+				$('.btn-edit,.btn-delete').show();				
+			}else{
+				$('.btn-edit,.btn-delete').hide();				
+			}
+			/* 댓글 수정삭제버튼 댓글작성자만 볼 수 있게 */
+			$('.panel-reply').each(function(){
+				var reply_writer = $(this).find('input').val()
+				if(reply_writer==session_user_id){
+					$(this).find('.reply-edit,.reply-delete').show();
+				}else{
+					$(this).find('.reply-edit,.reply-delete').hide();
+				}//if
+				
+			});//reply each
+			
+			/* 모든 댓글 날짜 substring으로 다듬기 */
+			$('.reply-updatetime').each(function(){
+				$(this).text($(this).text().substring(0,19));
+			});//reply each
+	
+			/* 게시글 수정버튼 수정 후 디테일로 이동*/
+			$('.btn-edit').on('click',function(){
+				location.href="${pageContext.request.contextPath}/club/edit/${club.id}/${club.book_bid}";
+			});//click
+			
+			/* 게시글 삭제버튼. 삭제후 리스트로 이동 */
+			$('.btn-delete').on('click',function(){
+				
+				swal({
+					  title:'삭제',
+					  text: "정말 삭제하시겠습니까?",
+					  buttons: {
+						cancel: "취소", //취소버튼 false
+					    confirm:{
+					    	text:"삭제",
+					    	value:true
+					    }
+					  },
+					  icon:'warning'
+				}).then((value) => {	//swal 버튼을 누른 다음 수행된다.
+					if(value){
+						$.ajax({
+							url:'${pageContext.request.contextPath}/club/delete',
+							type:'DELETE',
+							data:'id=${club.id}&book_bid=${club.book_bid}',
+							success:function(data){},
+							error:function(){}
+						});				
+					}//if
+				});//swal
+			});
+			
+	
 	});//ready
 </script>
 <style type="text/css">
@@ -80,6 +144,16 @@ var date = "${club.updatetime}";
 }
 textarea{
 	resize: none;
+}
+.reply-btn{
+	text-align: right;
+}
+.reply-updatetime{
+	color:#747474;
+}
+.recomend{
+	text-align: right;
+	
 }
 </style>
 </head>
@@ -105,21 +179,21 @@ textarea{
 			<div class="jumbotron">
 
 				<!-- 글 내용  -->
-				<div class="panel panel-default pannel-post">
-					<div class="panel-body">
-						<span class="lead">${club.title }</span>
+				<div class="panel panel-default panel-post">
+					<div class="panel-body panel-title">
+						<span class="lead">${club.title }</span><br/>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body panel-nickname">
 						<span class="user_id">${club.nickname}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="updatetime"></span>
 					</div>
-					<div class="bottom-line"></div>
+				<!-- 	<div class="bottom-line"></div> -->
 					<div class="panel-body post-content">${club.content}</div>
 				</div>
 				
 				<div class="div-btn">
 				<button class="btn btn-default btn-reply">댓글달기</button>
-				<button class="btn btn-default">수정</button>
-				<button class="btn btn-default">삭제</button>
+				<button class="btn btn-default btn-edit">수정</button>
+				<button class="btn btn-default btn-delete">삭제</button>
 				</div>
 
 				<!-- 댓글입력 -->
@@ -153,7 +227,7 @@ textarea{
 				<div class="bottom-line"></div></div>
 
 
-				<!-- <div class="panel panel-default pannel-reply">
+				<!-- <div class="panel panel-default panel-reply">
 					<div class="panel-body">reply</div>
 					<div class="panel-body">book_bid, club-id, depth=1인 row select // orderby createtime desc</div>
 				</div> -->
@@ -161,9 +235,18 @@ textarea{
 				<!-- 댓글 목록 -->
 				<c:forEach items="${replylist }" var="bean" begin="0" end="9">
 				
-				<div class="panel panel-default pannel-reply">
-					<div class="panel-body">${bean.nickname}&nbsp;|&nbsp;${bean.updatetime }</div>
+				<div class="panel panel-default panel-reply">
+					<input type="hidden" id="user_id" name ="user_id" value="${bean.user_id}"/>
+					<div class="panel-body">${bean.nickname}&nbsp;&nbsp;<small><span class="reply-updatetime">${bean.updatetime }</span></small>
+						<!-- <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;4</button> -->
+					</div>
 					<div class="panel-body">${bean.content}</div>
+					<div class="panel-body reply-btn">
+					<button class="btn btn-default reply-edit btn-sm">수정</button>
+					<button class="btn btn-default reply-delete btn-sm">삭제</button>
+					<button class="btn btn-default reply-recommend btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;44</button>
+					<!-- <button class="btn btn-default reply-recommend"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></button> -->
+					</div>
 				</div>
 				
 				</c:forEach>
