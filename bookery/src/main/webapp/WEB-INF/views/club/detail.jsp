@@ -288,7 +288,7 @@ var session_user_id = '${user.id}';
 							best_reply.find('.reply-updatetime').after($('<span class="label label-danger">BEST</span>'));
 							best_reply.css('background-color','#ecece9');
 							var move_reply = $('<a href="#'+$(ele).parent().parent().parent().attr('id')+'">&nbsp;[이동]&nbsp;</a>')
-							best_reply.find('.reply-recommend').before(move_reply);
+							best_reply.find('.reply-btn').prepend(move_reply);
 							
 							$('.div-bestreply').append(best_reply);		
 					}
