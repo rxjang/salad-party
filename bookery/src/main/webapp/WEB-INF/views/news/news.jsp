@@ -10,11 +10,11 @@
 		color:#787878;
 	}
 	em:hover{
-		color:#49654d;
+		color:#c0cfb2;
 		font-weight:bold;
 		text-decoration:none;
 	}
-	.row{
+	.news-row{
 		padding:10px 0px 20px 0px; 
 	}
 	.best-books{
@@ -72,10 +72,84 @@
 		height:20%;
 		background-color:white;
 	}
+	/********************************rank-css*******************************/
+	.rank-inner{
+		text-align:center;
+	}
+	.rank1,.rank2{
+		width:45%;
+		display:inline-block;
+		text-align:left;
+		margin:0 2em;
+	}
+	.rank-image{
+		width:1.5em;
+	}
+	.rank-content{
+		line-height:4em;
+		border-top:1px solid #e4e4e4;	
+	}
+	.rank-num{
+		padding: 0 1.5em;
+		color:#828282;
+		font-size:1.3em;
+	}
+	.rank-who{
+		padding: 0 3em;
+	}
+	.rank-what{
+		float:right;
+		padding-right:4em;
+	}
 	/********************************ad-css*******************************/
-	.ad{
-		height:200px;
+	.ad-book{
+		text-align:center;
+		height:280px;
+	}
+	.ad-complicated-image{
+		position:relative;
+		height:55%;
+		z-index:3;
+	}
+	.bg{
 		background-color:#e4e6da;
+		position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 220px;
+	}
+	.box{
+		width: 0;
+	    height: 0;
+	    border-top: 60px solid #fff;
+	    border-right: 100vw solid transparent;
+	}
+	.box2{
+		width: 0;
+	    height: 0;
+	    border-bottom: 60px solid #fff;
+	    border-left: 100vw solid transparent;
+	    margin-top: 100px;
+	}
+	.comment-title{
+		position:relative;
+		z-index:3;
+		font-size:1.4em;
+		margin-bottom:0px;
+	}
+	.comment{
+		position:relative;
+		z-index:3;
+	}
+	.ad{
+		text-align:center;
+		height:150px;
+		background-color:#e4e6da;
+	}
+	.ad-image{
+		margin-top:20px;
+		height:70%;
 	}
 	/********************************notice-css*******************************/
 	.notice{
@@ -109,6 +183,19 @@
 		.best-books li{
 			width:45%;
 		}
+		.item-content{
+			height:45%;
+			font-size:1.2em;
+		}
+		.realtime-book-info{
+			font-size:1.2em;
+			height:35%;
+			padding-top:0px;
+			padding-bottom:20px;
+		}
+		.rank1,.rank2{
+			width:90%;
+		}	
 	}
 </style>
 <script>
@@ -116,12 +203,12 @@ var i=0;
 $(function(){
 	$(".content-main").hide();
 	
-	$('.book-title').each(function(){
+	$('.cut-12').each(function(){
 		if($(this).text().length > 12){
 			$(this).text($(this).text().substring(0,12)+' ...');			
 		}
 	});//book-title each
-	$('.writer').each(function(){
+	$('.cut-15').each(function(){
 		if($(this).text().length > 15){
 			$(this).text($(this).text().substring(0,15)+' ...');			
 		}
@@ -152,6 +239,19 @@ $(function(){
 	$(".item").each(function(){
 		i++;
 		$(this).css("background","url(\"${pageContext.request.contextPath}/resources/imgs/news/real-time"+i+".JPG\")center/cover");
+		if(i>10){
+			i=1;
+		}
+	});
+	i=0;
+	$(".rank-num").each(function(){
+		i++;
+		$(this).text(i);
+	});
+	i=0;
+	$(".rank-num2").each(function(){
+		i++;
+		$(this).text(i);
 	});
 	
 	$('.owl-carousel').owlCarousel({
@@ -163,6 +263,9 @@ $(function(){
 	    dots:false,
 	    responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 			300 : {
+				items:1
+			},
+			600 : {
 				items:2
 			},
 			1200 : {
@@ -176,19 +279,19 @@ $(function(){
 <body>
 <%@ include file="../template/menu.jspf"%>
 <!-- **********content start**********-->
-<div class="row">
+<div class="row news-row">
 	<p>케러셀자리</p>
 </div><!-- row -->
-<div class="row">
+<div class="row news-row">
 	<div class="col-md-1"></div>
 	<div class="col-xs-12 col-md-10">
 		<h4 class="title">책거리 회원들이 많이 공부하는 책</h4>
 		<ul class="best-books">
 		<c:forEach items="${bestBooks }" var="best"><!-- 많이 공부 중인 책 리스트 -->
 		<li>
-			<a href='${pageContext.request.contextPath }/find/book/${best.bid}'>
+			<a href="${pageContext.request.contextPath }/find/book/${best.bid}">
 				<img class="book-image" alt="image loading fail" src="${best.coverurl }"><br/>
-				<span class="book-title">${best.title }</span>
+				<span class="book-title cut-12">${best.title }</span>
 			</a>
 		</li>
 		</c:forEach>
@@ -196,7 +299,20 @@ $(function(){
 	</div>
 	<div class="col-md-1"></div>
 </div><!-- row -->
-<div class="row">
+<div class="row news-row">
+	<div class="col-xs-12 col-md-12 ad-book">
+		<a href="${pageContext.request.contextPath }/find/book/16415934">
+			<img class="ad-complicated-image" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/complicated.png"><br/>
+			<p class="comment-title"><strong>IT시대! 얼마나 준비되셨나요?</strong></p>
+			<p class="comment">꼭 필요한 IT지식을 비전공자도<br/> 이해할 수 있도록 쉽게 알려드립니다</p>
+			<div class="bg">
+				<div class="box"></div>
+				<div class="box2"></div>
+			</div>
+		</a>
+	</div>
+</div><!-- row -->
+<div class="row news-row">
 	<div class="col-md-1"></div>
 	<div class="col-xs-12 col-md-10">
 		<h4 class="title">실시간 게시글</h4>
@@ -211,8 +327,8 @@ $(function(){
 						<div class="realtime-book-info">
 							<img class="book-image-content" src="${contents.coverurl }" alt="책 이미지"/>
 							<a href="${pageContext.request.contextPath }/find/book/${contents.book_bid }" class="realtime-book-title">
-								<b class="book-title">&nbsp;${contents.book_title }</b><br/>
-								<small class="writer">&nbsp;${contents.writer }</small>
+								<b class="book-title cut-15">&nbsp;${contents.book_title }</b><br/>
+								<small class="writer cut-15">&nbsp;${contents.writer }</small>
 							</a>
 						</div><!-- realtime-book-info -->
 						<div class="user-info">
@@ -227,18 +343,56 @@ $(function(){
 	</div>
 	<div class="col-md-1"></div>
 </div><!-- row -->
-<div class="row">
+
+
+
+
+
+
+<div class="row news-row">
 	<div class="col-md-1"></div>
-	<div class="col-xs-12 col-md-10">
+	<div class="col-xs-12 col-md-10 rank">
 		<h4 class="title">북커리 랭킹</h4>
-	</div>
+		<div class="rank-inner">
+			<div class="rank1">
+				<h4><img class="rank-image" src="${pageContext.request.contextPath}/resources/imgs/news/open-book.png"/>&nbsp;북커리 완독왕</h4>
+				<c:forEach items="${bestUserList }" var="bestUser">
+				<div class="rank-content">
+					<span class="rank-num"></span>
+					<span class="rank-who"><b>${bestUser.nickname }</b></span>
+					<span class="rank-what"><img class="rank-image" src="${pageContext.request.contextPath}/resources/imgs/news/book.png"/>
+					&nbsp;${bestUser.pages }</span>
+				</div>
+				</c:forEach>
+			</div><!-- rank1 -->
+			<div class="rank2">
+				<h4><img class="rank-image" src="${pageContext.request.contextPath}/resources/imgs/news/content.png"/>&nbsp;북커리 인기글</h4>
+				<c:forEach items="${bestUserList }" var="bestUser">
+				<div class="rank-content">
+					<span class="rank-num2"></span>
+					<span class="rank-who"><b>${bestUser.nickname }</b></span>
+					<span class="rank-what"><img class="rank-image" src="${pageContext.request.contextPath}/resources/imgs/news/thumb-up.png"/>
+					&nbsp;${bestUser.pages }</span>
+				</div>
+				</c:forEach>
+			</div><!-- rank2 -->
+		</div>
+	</div><!-- rank -->
 	<div class="col-md-1"></div>
 </div><!-- row -->
-<div class="row">
+<div class="row news-row">
 	<div class="col-xs-12 col-md-12 ad">
+		<a href="${pageContext.request.contextPath }/today">
+			<img class="ad-image" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/ad-record.png"><br/>
+		</a>
 	</div>
 </div><!-- row -->
-<div class="row">
+
+
+
+
+
+<div class="row news-row">
 	<div class="col-md-1"></div>
 	<div class="col-xs-12 col-md-10 notice">
 	<h4 class="title">

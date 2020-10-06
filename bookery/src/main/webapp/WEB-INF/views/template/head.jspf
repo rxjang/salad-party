@@ -241,7 +241,7 @@
  	   		padding-bottom:10px;
  	   		padding-left:25px;
  	   	}/*좌측 적당한 공간 띄움*/
- 	   	.mylib-menu, .news-menu{left:auto;}/**pc버전의 left속성 없앰**/
+ 	   	.mylib-menu{left:auto;}/**pc버전의 left속성 없앰**/
 	}
 	
 	@media (max-width:800px) {/**모바일 위한 CSS-서브메뉴 간격 조절**/
