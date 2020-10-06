@@ -37,14 +37,24 @@ var session_user_id = '${user.id}';
 	$(function() {
 			
 		//내가 추천한 글번호목록.
+		//댓글의 추천버튼 체크
 		recommendChkList = JSON.parse(recommendChkList);
 		recommendChkList.forEach(function(ele){
 			$('.panel-reply').each(function(idx,reply){
 				if($(reply).find('#reply_id').val() == ele){
-					$(reply).find('.reply-recommend').css({'color':'#8ba989','border':'1px solid #8ba989'})//해당 댓글의 추천버튼 비활성화
+					$(reply).find('.reply-recommend').css({'color':'#8ba989','border':'1px solid #8ba989'})//해당 댓글의 추천버튼 녹색
 													 .addClass('recommend-down').removeClass('recommend-up');
 				}
 			});//each
+		});//foreach
+		
+		//본문글 추천 버튼 체크
+		var club_id = '${club.id}';
+		recommendChkList.forEach(function(ele){
+			if( Number(club_id) == ele){
+					$('.post-recommend').css({'color':'#8ba989','border':'1px solid #8ba989'})//해당 댓글의 추천버튼 녹색
+													 .addClass('recommend-down').removeClass('recommend-up');
+				}
 		});//foreach
 		
 		
@@ -110,7 +120,7 @@ var session_user_id = '${user.id}';
 			
 			/* 모든 댓글 날짜 substring으로 다듬기 */
 			$('.reply-updatetime').each(function(){
-				$(this).text($(this).text().substring(0,19));
+				$(this).html($(this).text().substring(0,19)+'&nbsp;');
 			});//reply each
 	
 			/* 게시글 수정버튼 수정 후 디테일로 이동*/
@@ -178,7 +188,7 @@ var session_user_id = '${user.id}';
 				});//click
 			});//each
 			
-			
+			/* 댓글별 추천 버튼 이벤트. 추천&추천취소 */
 			$('.panel-reply').each(function(idx,ele){
 				
 				$(ele).find('.reply-recommend').on('click',function(){
@@ -212,9 +222,78 @@ var session_user_id = '${user.id}';
 							},//success
 							error:function(){}//error
 						});//ajax
-					}
+					}//if
 				});//click
 			});//each
+			
+			
+			/* 본문 글 추천버튼 */
+			$('.post-recommend').click(function(){
+				
+				if($(this).attr('class').includes('recommend-up',0)){
+					$.ajax({
+						url:'${pageContext.request.contextPath}/club/recommend',
+						method:'get',
+						data:'id=${club.id}',
+						dataType:'json',
+						success:function(data){
+							console.log(data.success);
+							console.log(data.num);
+							$('.post-recommend').find('.cnt-recommend').text(data.num);
+							$('.post-recommend').css({'color':'#8ba989','border':'1px solid #8ba989'})
+														   .addClass('recommend-down').removeClass('recommend-up');
+						},//success
+						error:function(){
+							swal('error');
+						}//error
+					});//ajax
+				}else if($(this).attr('class').includes('recommend-down',0)){
+					$.ajax({
+						url:'${pageContext.request.contextPath}/club/recommenddown',
+						method:'get',
+						data:'id=${club.id}',
+						dataType:'json',
+						success:function(data){
+							console.log(data.success);
+							console.log(data.num);
+							$('.post-recommend').find('.cnt-recommend').text(data.num);
+							$('.post-recommend').css({'color':'black','border':'1px solid #ccc'})
+														   .removeClass('recommend_down').addClass('recommend-up');
+						},//success
+						error:function(){
+							swal('error');
+						}//error
+					});//ajax
+				}//if
+				
+			});//click
+			
+			
+			
+			/* 베스트 댓글 */
+				var items = $('.panel-reply .cnt-recommend').get(); 
+				items.sort(function(a,b){ 
+					  var keyA = $(a).text();
+					  var keyB = $(b).text();
+					  if (keyB > keyA) return -1;
+					  if (keyA > keyB) return 1;
+					  return 0;
+				});	
+				$.each(items, function(idx, ele){
+					console.log($(ele).text().trim());
+				
+					var best_reply = $(ele).parent().parent().parent().clone();
+					best_reply.removeAttr('id');
+					if($(ele).text().trim()>=10){
+							best_reply.find('.reply-updatetime').after($('<span class="label label-danger">BEST</span>'));
+							best_reply.css('background-color','#ecece9');
+							var move_reply = $('<a href="#'+$(ele).parent().parent().parent().attr('id')+'">&nbsp;[이동]&nbsp;</a>')
+							best_reply.find('.reply-recommend').before(move_reply);
+							
+							$('.div-bestreply').append(best_reply);		
+					}
+				});//each
+
 	});//ready
 	
 </script>
@@ -222,6 +301,8 @@ var session_user_id = '${user.id}';
 
 .jumbotron{
 	background-color: white;
+	padding-top: 0px;
+	padding-bottom: 0px;
 }
 .div-btn{
 	margin-bottom:20px;
@@ -242,11 +323,22 @@ textarea{
 .delete-form,.panel-reply-edit{
 	display:none;
 }
-.post-recommend{
+.post-recommend-div{
 	text-align: center;
 }
 small span{
 	color:#747474;
+}
+.panel-reply{
+	border-left:0px;
+	border-right:0px;
+	border-radius: 0px;
+	-webkit-box-shadow: 0 0px 0px rgba(0,0,0,.05);
+	box-shadow: 0 0px 0px rgba(0,0,0,.05);
+}
+.badge{
+	color:white;
+	background-color: #8ba989;
 }
 </style>
 </head>
@@ -266,8 +358,8 @@ small span{
 		<div class="bottom-line col-xs-12 col-md-12"></div>
 	</div>
 	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6 side-line">
+		<div class="col-md-2"></div>
+		<div class="col-xs-12 col-md-8 side-line">
 
 			<div class="jumbotron">
 
@@ -280,11 +372,11 @@ small span{
 					<div class="bottom-line"></div>
 					<div class="panel-body post-content">${club.content}</div>
 
-
-					<div class="panel-body post-recommend">
-					<button class="btn btn-default post-recommend btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-					<span class="cnt-recommend">&nbsp;<c:if test="${not empty bean.num}">${bean.num}</c:if>
-					<c:if test="${empty bean.num}">0</c:if></span></button>
+					<!-- 추천버튼 -->
+					<div class="panel-body post-recommend-div">
+					<button class="btn btn-default post-recommend recommend-up btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					<span class="cnt-recommend">&nbsp;<c:if test="${not empty club.num}">${club.num}</c:if>
+					<c:if test="${empty club.num}">0</c:if></span></button>
 					</div>
 					
 				</div>
@@ -336,11 +428,31 @@ small span{
 					<div class="panel-body">reply</div>
 					<div class="panel-body">book_bid, club-id, depth=1인 row select // orderby createtime desc</div>
 				</div> -->
-				
-				<!-- 댓글 목록 -->
+			</div>
+		</div>
+	</div>
+	<div class="row">
+	<div class="col-md-2"></div>
+		<div class="col-xs-12 col-md-8">
+			<div class="jumbotron">
+				<a href="#">Comment <span class="badge">${fn:length(replylist)}</span></a>
+			</div>
+			<div class="jumbotron div-bestreply">
+			
+			</div>
+			<br/>
+			<br/>
+			<br/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-xs-12 col-md-8 div-reply">
+			<div class="jumbotron div-reply">
+			<!-- 댓글 목록 -->
 				<c:forEach items="${replylist }" var="bean">
 				
-				<div class="panel panel-default panel-reply">
+				<div id="reply_${bean.id }" class="panel panel-default panel-reply">
 					<input type="hidden" id="user_id" name ="user_id" value="${bean.user_id}"/>
 					<div class="panel-body">${bean.nickname}&nbsp;&nbsp;<small><span class="reply-updatetime">${bean.updatetime }</span></small>
 						<!-- <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;4</button> -->
@@ -388,12 +500,9 @@ small span{
 				</div>
 				
 				</c:forEach>
-
-
-
+		
 			</div>
 		</div>
-		<div class="col-md-3"></div>
 	</div>
 	<!--**********content end**********-->
 	<%@ include file="../template/footer.jspf"%>

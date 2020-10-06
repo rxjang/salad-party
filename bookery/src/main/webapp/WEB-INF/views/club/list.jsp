@@ -5,7 +5,6 @@
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
 <script type="text/javascript">
-	var date = "${bean.updatetime }";
 	var start = 0;
 
 	//오늘 날짜 yyyy-mm-dd
@@ -33,7 +32,6 @@
 	}
 	
 	$(function() {
-		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
 		var url_here = window.location.href;
 		//	http://localhost:8085/bookery/club/list/16687560
@@ -94,8 +92,8 @@
 				data:param,
 				dataType:'json',
 				success:function(data){
-					var result = data.key;
-				
+					var result =data.key;
+					console.log(data);
 					console.log(result.length);
 					if(result.length<10){
 						$('.more-posts').hide();
@@ -107,8 +105,9 @@
 						posts += '<div class="panel panel-default pannel-post">'
 						posts += '<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/'+result[i].id+'"><span class="lead">'+result[i].title+'</span></a></div>'
 						posts += '<div class="panel-body"><span class="user_id">'+result[i].nickname+'</span>';
-						posts += '&nbsp;|&nbsp;<span class="wrote-day">'+todayToTime(result[i].updatetime)+'</span></div>';
-						posts += '</div><br/>';
+						posts += '&nbsp;|&nbsp;<span class="wrote-day">'+todayToTime(result[i].updatetime)+'</span>';
+						posts += '&nbsp;|&nbsp;<span class="cnt-reply"> 댓글&nbsp;'+result[i].reply+'개</span>&nbsp;|&nbsp;<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;<span class="cnt-recommend">'+result[i].num+'</span>';                                                     
+						posts += '</div></div>';
 					}
 						$('.div-post').append(posts);
 					
@@ -132,6 +131,63 @@
 			$(this).text(todayToTime($(this).text()));
 		});
 		
+		
+		/* 추천순 정렬 */
+		$('#orderByRecommend').click(function(){
+			
+			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+			
+			if($(this).attr('class').includes('not-ok',0)){
+				console.log('추천순정렬');
+				$(this).append(okIcon);
+				$(this).addClass('ok').removeClass('not-ok');
+
+				var items = $('.pannel-post .cnt-recommend').get(); 
+				items.sort(function(a,b){ 
+					  var keyA = $(a).text();
+					  var keyB = $(b).text();
+					  if (keyB > keyA) return -1;
+					  if (keyA > keyB) return 1;
+					  return 0;
+				});	
+				$.each(items, function(idx, ele){
+					$('.div-post').prepend($(ele).parent().parent());
+				});
+			}else if($(this).attr('class').includes('ok',0)){
+				$(this).addClass('not-ok').removeClass('ok');
+				$(this).find('glyphicon-ok').remove();
+				location.reload();
+			}
+		});//click
+		
+		/* 댓글순 정렬 */
+		$('#orderByReply').click(function(){
+			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+			
+			if($(this).attr('class').includes('not-ok',0)){
+				console.log('댓글순정렬');
+				$(this).append(okIcon);
+				$(this).addClass('ok').removeClass('not-ok');
+
+				var items = $('.pannel-post .cnt-reply').get(); 
+				items.sort(function(a,b){ 
+					  var keyA = $(a).text();
+					  var keyB = $(b).text();
+					  if (keyB > keyA) return -1;
+					  if (keyA > keyB) return 1;
+					  return 0;
+				});	
+				$.each(items, function(idx, ele){
+					$('.div-post').prepend($(ele).parent().parent());
+				});
+			}else if($(this).attr('class').includes('ok',0)){
+				$(this).addClass('not-ok').removeClass('ok');
+				$(this).find('glyphicon-ok').remove();
+				location.reload();
+			}
+		});//click
+		
+		
 	});//ready
 	
 </script>
@@ -148,6 +204,7 @@
 	display: block;
 	margin: auto;
 	margin-top: 3px;
+	margin-bottom:30px;
 }
 .pannel-post:hover { /*  반짝 */
 	transition-duration: 600ms;
@@ -165,8 +222,11 @@
 .form-group input,.form-group button{
 	float:left;
 }
-.div-search{
-	margin-bottom: 10px;
+.pager{
+	text-align: left;
+}
+.glyphicon-ok{
+	color:#8ba989;
 }
 </style>
 </head>
@@ -197,8 +257,8 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6 div-search">
+		<div class="col-md-2"></div>
+		<div class="col-xs-12 col-md-8 div-search">
 			<form class="form-inline" action="${pageContext.request.contextPath }/club/list/${book.bid }" method="get">
 				<div class="form-group">
 					<input type="text" class="form-control" id="search"	name="search" placeholder="제목을 입력하세요."/>
@@ -206,36 +266,47 @@
 				</div>
 			</form>
 		</div>
-		<div class="col-md-3"></div>
 	</div>
+	
 	<div class="row">
-	<div class="col-md-3"></div>
-	<div class="col-xs-12 col-md-6  div-post">
+		<div class="col-md-2"></div>
+		<div class="col-xs-12 col-md-8">
+		
+				<ul class="pager order-btn">
+					<li><a id="orderByRecommend" class="not-ok" href="#">추천순</a></li>
+					<li><a id="orderByReply" class="not-ok" href="#">댓글순</a></li>
+				</ul>
+		
+		</div>
+	</div>
+	
+	<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-xs-12 col-md-8  div-post">
 	
 		<c:forEach items="${list }" var="bean" begin="0" end="9">
 				<div class="panel panel-default pannel-post">
 					<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/${bean.id}"><span class="lead">${bean.title }</span></a></div>
-					<div class="panel-body"><span class="user_id">${bean.nickname }</span> &nbsp;|&nbsp;<span class="update-day">${bean.updatetime }</span>&nbsp;|&nbsp;<span> 댓글&nbsp;${bean.reply }개</span></div>
+					<div class="panel-body"><span class="user_id">${bean.nickname }</span> &nbsp;|&nbsp;<span class="update-day">${bean.updatetime }</span>
+					&nbsp;|&nbsp;<span class="cnt-reply"> 댓글&nbsp;${bean.reply }개</span>&nbsp;|&nbsp;
+					<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;<span class="cnt-recommend">${bean.num }</span></div>
 				</div>
-				<br/>
 		</c:forEach>
 	
 	</div>
-	<div class="col-md-3"></div>
 	</div>
 
 
 
 	<div class="row">
-	<div class="col-md-3"></div>
-	<div class="col-xs-12 col-md-6">
+	<div class="col-md-2"></div>
+	<div class="col-xs-12 col-md-8">
 				<br/>
 				<br/>
 				<button class="btn btn-default more-posts">더보기</button>
 				<button class="btn btn-default btn-top">Top</button>
 					<a href="#" id="add" class="btn btn-default" role="button">글쓰기</a>
 	</div>
-	<div class="col-md-3"></div>
 	</div>
 	<!--**********content end**********-->
 	<%@ include file="../template/footer.jspf"%>
