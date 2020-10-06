@@ -21,6 +21,10 @@
 		select * from club where book_bid=0 and num=1 order by depth desc, updatetime asc limit 3
 	</select>
 	
+	<select id="popularContents" resultType="clubBean">
+		select title, num,id from club where book_bid!=0 and title is not null group by title order by num desc limit 5
+	</select>
+	
 	<select id="selectContentForNews" resultType="clubBean">
 		select a.id,a.createtime, a.title, a.content, a.nickname, b.title as book_title, b.coverurl,b.writer,b.bid as book_bid from 
 		(select c.id, c.createtime, title, content, nickname,book_bid from club c join user u where c.user_id=u.id and title is not null and book_bid!=0) a

@@ -15,22 +15,36 @@
 		text-decoration:none;
 	}
 	.news-row{
-		padding:10px 0px 20px 0px; 
-	}
-	.best-books{
-		width:100%;
+		padding:10px 0px 30px 0px; 
 	}
 	.title{
 		font-weight:bold;
 	}
-	.best-books li{
-		width:20%;
+	.best-books{
+		width:100%;
+		text-align:center;
+	}
+	.book-list{
+		width:18%;
 		float:left;
 		list-style:none;
-		margin-bottom:10px;
+		margin:10px;
+		height:230px;
+	}
+	.list-image{
+		padding:10px;
+		line-height:220px;
+		width:100%;
+		background-color:#ecece9;
+	    border-radius: 10px;
+	    margin-bottom:5px;
 	}
 	.book-image{
 		box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
+	}
+	.glyphicon-info-sign{
+		float:right;
+		color:#b4b4b4;
 	}
 	/********************************realtime-content-css*******************************/
 	.item{
@@ -89,7 +103,7 @@
 		line-height:4em;
 		border-top:1px solid #e4e4e4;	
 	}
-	.rank-num{
+	.rank-num,.rank-num2{
 		padding: 0 1.5em;
 		color:#828282;
 		font-size:1.3em;
@@ -195,6 +209,7 @@
 		}
 		.rank1,.rank2{
 			width:90%;
+			margin-bottom:1.5em;
 		}	
 	}
 </style>
@@ -288,10 +303,12 @@ $(function(){
 		<h4 class="title">책거리 회원들이 많이 공부하는 책</h4>
 		<ul class="best-books">
 		<c:forEach items="${bestBooks }" var="best"><!-- 많이 공부 중인 책 리스트 -->
-		<li>
+		<li class="book-list">
 			<a href="${pageContext.request.contextPath }/find/book/${best.bid}">
-				<img class="book-image" alt="image loading fail" src="${best.coverurl }"><br/>
-				<span class="book-title cut-12">${best.title }</span>
+				<div class="list-image">
+					<img class="book-image" alt="image loading fail" src="${best.coverurl }"><br/>
+				</div>
+				<span class="book-title title cut-12">${best.title }</span><span class="glyphicon glyphicon-info-sign"></span>
 			</a>
 		</li>
 		</c:forEach>
@@ -343,12 +360,6 @@ $(function(){
 	</div>
 	<div class="col-md-1"></div>
 </div><!-- row -->
-
-
-
-
-
-
 <div class="row news-row">
 	<div class="col-md-1"></div>
 	<div class="col-xs-12 col-md-10 rank">
@@ -367,12 +378,12 @@ $(function(){
 			</div><!-- rank1 -->
 			<div class="rank2">
 				<h4><img class="rank-image" src="${pageContext.request.contextPath}/resources/imgs/news/content.png"/>&nbsp;북커리 인기글</h4>
-				<c:forEach items="${bestUserList }" var="bestUser">
+				<c:forEach items="${popularContents }" var="popular">
 				<div class="rank-content">
 					<span class="rank-num2"></span>
-					<span class="rank-who"><b>${bestUser.nickname }</b></span>
+					<a href="${pageContext.request.contextPath}/club/detail/${popular.id}"><span class="rank-who"><b>${popular.title }</b></span></a>
 					<span class="rank-what"><img class="rank-image" src="${pageContext.request.contextPath}/resources/imgs/news/thumb-up.png"/>
-					&nbsp;${bestUser.pages }</span>
+					&nbsp;${popular.num }</span>
 				</div>
 				</c:forEach>
 			</div><!-- rank2 -->
@@ -387,11 +398,6 @@ $(function(){
 		</a>
 	</div>
 </div><!-- row -->
-
-
-
-
-
 <div class="row news-row">
 	<div class="col-md-1"></div>
 	<div class="col-xs-12 col-md-10 notice">

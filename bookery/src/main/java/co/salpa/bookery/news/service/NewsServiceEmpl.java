@@ -31,11 +31,13 @@ public class NewsServiceEmpl implements NewsService {
 		List<BookVo> list = bookDao.selectMostBook();
 		List<ClubVo> noticeList=clubDao.selectNewsNotice();
 		List<ClubVo> contentList=clubDao.selectContentForNews();
+		List<ClubVo> popularContents=clubDao.popularContents();
 		List<V_StudyVo> bestUserList=v_StudyDao.bestAchieveUser();
 		model.addAttribute("bestBooks", list);
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("contentList", contentList);
 		model.addAttribute("bestUserList", bestUserList);//꺼낼때 nickname,pages(완독한 책 수)
+		model.addAttribute("popularContents", popularContents);//꺼낼때 title,id,num(추천수)
 		return model;
 	}
 	
