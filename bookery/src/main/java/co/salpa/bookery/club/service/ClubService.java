@@ -21,14 +21,18 @@ public interface ClubService {
 
 	Model getOneService(int id, Model model) throws DataAccessException;
 
-	void addPostService(ClubVo club,HttpSession session, Model model) throws DataAccessException;
+	void addPostService(ClubVo club, HttpSession session, Model model) throws DataAccessException;
 
 	String listMoreService(ClubVo club) throws DataAccessException;
 
-	String addReplyService(ClubVo club,HttpSession session) throws DataAccessException;
+	String addReplyService(ClubVo club, HttpSession session) throws DataAccessException;
 
 	Model listReplyService(int id, Model model) throws DataAccessException;
 
 	void updatePostSerivce(ClubVo club) throws DataAccessException;
+
+	void deletePostService(int id) throws DataAccessException;
+
+	void updateReplyService(ClubVo club) throws DataAccessException;
 
 }

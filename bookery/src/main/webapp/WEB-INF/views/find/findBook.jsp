@@ -157,6 +157,7 @@ $(function(){
 				autoplay : true,
 				margin : 10,
 				merge : false,
+				autoWidh:true,
 				nav : false,
 				responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 				}
@@ -189,7 +190,7 @@ $(function(){
 					noTagText = newLineText.replace(/(<([^>]+)>)/ig, "");
 				}
 				//br태그를 \n으로 변경
-			//	console.log(newLineText);
+			//	console.log(newLineText);	
 				//var noTagText = newLineText.replace(/(<([^>]+)>)/ig, "");
 				//모든 태그요소를 제거
 

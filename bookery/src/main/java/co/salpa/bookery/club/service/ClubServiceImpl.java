@@ -189,6 +189,27 @@ public class ClubServiceImpl implements ClubService {
 		clubDao.updateClubPost(club);
 		
 	}
+
+	/*
+	 * 게시글 or 댓글 삭제
+	 */
+	@Override
+	public void deletePostService(int id) throws DataAccessException {
+		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
+		clubDao.deleteClubData(id);
+	}
+
+	/*
+	 * 댓글 수정
+	 */
+	@Override
+	public void updateReplyService(ClubVo club) throws DataAccessException {
+		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
+		
+		String newLine = club.getContent().replaceAll("\n", "<br/>");
+		club.setContent(newLine);
+		clubDao.updateReply(club);
+	}
 	
 
 
