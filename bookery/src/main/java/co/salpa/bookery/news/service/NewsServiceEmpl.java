@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import co.salpa.bookery.model.BookDao;
 import co.salpa.bookery.model.ClubDao;
 import co.salpa.bookery.model.V_NoticeDao;
+import co.salpa.bookery.model.V_StudyDao;
 import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.ClubVo;
 import co.salpa.bookery.model.entity.V_NoticeVo;
+import co.salpa.bookery.model.entity.V_StudyVo;
 
 @Repository
 public class NewsServiceEmpl implements NewsService {
@@ -25,12 +27,15 @@ public class NewsServiceEmpl implements NewsService {
 	public Model newsMainService(Model model) throws DataAccessException {
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
+		V_StudyDao v_StudyDao=sqlSession.getMapper(V_StudyDao.class);
 		List<BookVo> list = bookDao.selectMostBook();
 		List<ClubVo> noticeList=clubDao.selectNewsNotice();
 		List<ClubVo> contentList=clubDao.selectContentForNews();
+		List<V_StudyVo> bestUserList=v_StudyDao.bestAchieveUser();
 		model.addAttribute("bestBooks", list);
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("contentList", contentList);
+		model.addAttribute("bestUserList", bestUserList);//꺼낼때 nickname,pages(완독한 책 수)
 		return model;
 	}
 	

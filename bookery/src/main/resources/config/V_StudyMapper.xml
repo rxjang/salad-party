@@ -48,4 +48,8 @@
  	<select id="countPeopleByBook" parameterType="_int">
  		select count(book_bid) from v_study where book_bid =#{book_bid}
  	</select>
+ 	
+ 	<select id="bestAchieveUser" resultType="v_studyBean">
+ 		select nickname,count(nickname) as pages from v_study where progress_rate=100 group by nickname order by pages desc limit 5
+ 	</select>
 </mapper>

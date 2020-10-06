@@ -20,6 +20,7 @@ public interface V_StudyDao {
 	List<V_StudyVo> selectNoGoalBook(int id) throws DataAccessException; //미독 책 리스트 반환
 	List<V_StudyVo> selectStudyingBook(int id) throws DataAccessException; //미완독 책 리스트 반환
 	List<V_StudyVo> selectFinishedBook(int id) throws DataAccessException; //완독 책 리스트 반환
+	List<V_StudyVo> bestAchieveUser() throws DataAccessException; //책 완독 횟수 많은 유저
 	int countNoGoalBook(int id) throws DataAccessException; //미독 책 개수 반환
 	int countStudyingBook(int id) throws DataAccessException; //미완독 책 개수 반환
 	int countFinishedBook(int id) throws DataAccessException; //완독 책 개수 반환
