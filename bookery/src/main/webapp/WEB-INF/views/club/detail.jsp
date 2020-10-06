@@ -304,6 +304,10 @@ var session_user_id = '${user.id}';
 	padding-top: 0px;
 	padding-bottom: 0px;
 }
+.panel-post{
+	box-shadow: 0 2px 8px rgba(0,0,0,.1), 0 8px 10px rgba(0,0,0,.1);
+	border-radius: 16px;
+}
 .div-btn{
 	margin-bottom:20px;
 }
@@ -332,13 +336,25 @@ small span{
 .panel-reply{
 	border-left:0px;
 	border-right:0px;
-	border-radius: 0px;
+	border-radius: 16px;
 	-webkit-box-shadow: 0 0px 0px rgba(0,0,0,.05);
-	box-shadow: 0 0px 0px rgba(0,0,0,.05);
+		box-shadow: 0 2px 8px rgba(0,0,0,.1), 0 8px 20px rgba(0,0,0,.1);
 }
 .badge{
 	color:white;
 	background-color: #8ba989;
+}
+.btn-reply,.submit-reply{
+	color:white;
+	background-color: #8ba989;
+}
+.media-body{
+	vertical-align: middle;
+}
+.media-object{
+	margin:5px 5px 5px 5px;
+	width:4em;
+	box-shadow: 0 1px 5px rgba(0,0,0,.1), 0 2px 5px rgba(0,0,0,.1);
 }
 </style>
 </head>
@@ -352,7 +368,18 @@ small span{
 				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 				북클럽
 			</h3>
-			<br /><small>같은 책을 읽는 사람들과 소통할 수 있어요!</small>
+			<br />
+				<div class="media">
+				<div class="media-left media-middle">
+					<a href="${pageContext.request.contextPath }/find/book/${book.bid}"> <img class="media-object" src="${book.coverurl }" alt="...">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">${book.title }</h4>
+					<small>${book.writer }</small><br/>
+					<small>${book.publisher }</small>
+				</div>
+			</div>
 		</div>
 
 		<div class="bottom-line col-xs-12 col-md-12"></div>
@@ -383,6 +410,7 @@ small span{
 				
 				<div class="div-btn">
 				<button class="btn btn-default btn-reply">댓글달기</button>
+				<button class="btn btn-default" onclick="history.back();">뒤로가기</button>
 				<button class="btn btn-default btn-edit">수정</button>
 				<button class="btn btn-default btn-delete">삭제</button>
 				<form class="delete-form delete-post" action="${pageContext.request.contextPath}/club/delete" method="post">
@@ -416,7 +444,7 @@ small span{
 
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-default">등록</button>
+								<button type="submit" class="btn btn-default submit-reply">등록</button>
 							</div>
 						</div>
 					</form>

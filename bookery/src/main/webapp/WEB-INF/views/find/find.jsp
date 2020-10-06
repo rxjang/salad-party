@@ -211,7 +211,7 @@ pubdate	datetime	출간일 정보이다.
  	height:30px;
  	border-radius:25px;
 	border-bottom:1px solid #e4e4e4;
-	box-shadow:#e4e4e4 0px 0px 5px;
+	box-shadow: rgb(192, 207, 178) 0px 0px 3px;
 	width:100%;
 
 }

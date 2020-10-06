@@ -330,4 +330,21 @@ Date.prototype.format = function (f) {
 String.prototype.string = function (len) { var s = '', i = 0; while (i++ < len) { s += this; } return s; };
 String.prototype.zf = function (len) { return "0".string(len - this.length) + this; };
 Number.prototype.zf = function (len) { return this.toString().zf(len); };
+
+
+function aos(){
+	if (!window.Cypress) {//aos 적용.
+        const scrollCounter = document.querySelector('.js-scroll-counter');
+
+        AOS.init({
+          mirror: true
+        });
+
+        document.addEventListener('aos:in', function(e) {
+          //console.log('in!', e.detail);
+        });
+      }//AOS	
+}
+
+
 </script>
