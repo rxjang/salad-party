@@ -62,6 +62,7 @@
 	.info-ment{
 		background-color:#ecece9;
 		margin-bottom:10px;
+		padding:15px 10px;
 	}
 	.usernmae{
 		font-weight:bold;

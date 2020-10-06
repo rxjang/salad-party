@@ -23,7 +23,7 @@ public class NewsController {
 
 	@RequestMapping
 	public String news(Model model) {
-		newsService.listMostBookService(model);
+		newsService.newsMainService(model);
 		return "news/news";
 	}
 	
