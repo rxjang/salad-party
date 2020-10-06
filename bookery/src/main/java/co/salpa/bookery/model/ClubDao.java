@@ -40,5 +40,7 @@ public interface ClubDao {
 	void insertReplyClub(ClubVo club) throws DataAccessException; //게시글 댓글 작성
 
 	List<ClubVo> selectReplyById(int id) throws DataAccessException; //게시글 댓글 목록
+	
+	void updateClubPost(ClubVo club) throws DataAccessException; //게시글 수정하기
 
 }

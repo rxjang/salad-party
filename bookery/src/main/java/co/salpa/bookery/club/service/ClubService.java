@@ -29,4 +29,6 @@ public interface ClubService {
 
 	Model listReplyService(int id, Model model) throws DataAccessException;
 
+	void updatePostSerivce(ClubVo club) throws DataAccessException;
+
 }

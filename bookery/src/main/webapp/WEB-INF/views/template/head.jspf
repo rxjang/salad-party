@@ -98,7 +98,8 @@
      -ms-overflow-style: none; /* IE and Edge */
 	}
 	
-	
+	a{decoration:none; color:black;}
+ 	
  	#menu{
 	 	background-color:white;
 		border-bottom: 1px solid #e4e4e4;

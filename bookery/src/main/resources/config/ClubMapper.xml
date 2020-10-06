@@ -80,6 +80,9 @@
 		select count(*) from club  where book_bid = #{book_bid} and deleted != 1
 	</select>
 	
+	<update id="updateClubPost" parameterType="clubBean">
+	  	update club set title=#{title},content=#{content},updatetime = now() where id = #{id}
+	</update>
 	
 	
 </mapper>

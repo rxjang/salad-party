@@ -92,7 +92,7 @@ pubdate	datetime	출간일 정보이다.
 					*/
 					content += '<div id="scrollMove'+scrollMove_cnt+'" class="media" data-aos="fade-up"><div class="media-left media-middle">'
 					content += '<a class="bid"  href="' + $(ele).find('link').text() + '">'  
-					content += '<img class="media-object img-rounded" src="' + $(ele).find('image').text() + '" alt="loading fail">'    
+					content += '<img class="media-object" src="' + $(ele).find('image').text() + '" alt="loading fail">'    
 					content += '</a></div>'   
 					content += '<div class="media-body">' 
 					content += '<h4 class="media-heading">' +$(ele).find('title').text() + '</h4>' 
@@ -171,7 +171,7 @@ pubdate	datetime	출간일 정보이다.
 				}
 			}
 		});//owl캐러셀
-		
+		$('.owl-stage-outer').after('<img class=\"wood\" src=\"${pageContext.request.contextPath}/resources/imgs/shelf.png\">');
 		/* 검색 옵션 제목,저자,출판사 */
 		$('#opt-tit').click(function(){
 			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
@@ -265,8 +265,16 @@ pubdate	datetime	출간일 정보이다.
 .owl-item img, .bid img{
 	margin:5px 5px 5px 5px;
 	box-sizing:border-box;
-	box-shadow:#e4e4e4 0px 0px 6px;
+	box-shadow:rgb(37, 54, 41) 1px 1px 3px;
 }
+.wood{
+		width:107%;
+		height:5em;
+		position:relative;
+		right:3.5%;
+		bottom:6px;
+		
+	}
 </style>
 </head>
 <body>
@@ -334,9 +342,7 @@ pubdate	datetime	출간일 정보이다.
 					<div class="owl-stage owl-refresh" >
 					<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
 					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'>
-					<img class="img-rounded" alt="image loading fail" src="${bean.coverurl }">
-					<br/>
-					<span class="owl-title">${bean.title }</span>
+					<img alt="image loading fail" src="${bean.coverurl }">
 					</a></div>
 					</c:forEach>
 					</div>
