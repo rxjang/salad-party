@@ -35,4 +35,16 @@ public interface ClubService {
 
 	void updateReplyService(ClubVo club) throws DataAccessException;
 
+	void recommendUpService(int id) throws DataAccessException;
+
+	ClubVo getOneService(int id) throws DataAccessException;
+
+	void recommendUpChkService(HttpSession session, int id) throws DataAccessException;
+
+	void listRecommendByUserService(Model model, HttpSession session) throws DataAccessException;
+
+	void recommendDownService(int id)throws DataAccessException;
+
+	void recommendDownChkService(HttpSession session, int id)throws DataAccessException;
+
 }

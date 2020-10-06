@@ -20,6 +20,7 @@
 	<typeAlias alias="clubBean" type="co.salpa.bookery.model.entity.ClubVo"/>
 	<typeAlias alias="v_readers_cntBean" type="co.salpa.bookery.model.entity.V_Readers_cntVo"/>
 	<typeAlias alias="v_noticeBean" type="co.salpa.bookery.model.entity.V_NoticeVo"/>
+	<typeAlias alias="recommendBean" type="co.salpa.bookery.model.entity.RecommendVo"/>
 </typeAliases>
 	
 	<mappers>

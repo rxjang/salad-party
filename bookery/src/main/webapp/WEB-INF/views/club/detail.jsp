@@ -6,7 +6,8 @@
 <%@ include file="../template/head.jspf"%>
 <script type="text/javascript">
 var date = "${club.updatetime}";
-
+var recommendChkList = "${recommendChk}";
+var session_user_id = '${user.id}';
 
 //오늘 날짜 yyyy-mm-dd
 	function getRecentDate(){
@@ -32,8 +33,21 @@ var date = "${club.updatetime}";
 	return updatetime;
 	}
 
-
+	/* document ready */
 	$(function() {
+			
+		//내가 추천한 글번호목록.
+		recommendChkList = JSON.parse(recommendChkList);
+		recommendChkList.forEach(function(ele){
+			$('.panel-reply').each(function(idx,reply){
+				if($(reply).find('#reply_id').val() == ele){
+					$(reply).find('.reply-recommend').css({'color':'#8ba989','border':'1px solid #8ba989'})//해당 댓글의 추천버튼 비활성화
+													 .addClass('recommend-down').removeClass('recommend-up');
+				}
+			});//each
+		});//foreach
+		
+		
 		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
 		console.log(new Date('${club.updatetime}').format('HH:mm:ss'));
@@ -76,7 +90,7 @@ var date = "${club.updatetime}";
 			
 			
 			/* 수정 삭제 버튼 글쓴이만 볼 수 있게. */
-			var session_user_id = '${user.id}';
+		//	var session_user_id = '${user.id}';
 			var writer_id = '${club.user_id}';
 			if(session_user_id == writer_id){
 				$('.btn-edit,.btn-delete').show();				
@@ -165,6 +179,42 @@ var date = "${club.updatetime}";
 			});//each
 			
 			
+			$('.panel-reply').each(function(idx,ele){
+				
+				$(ele).find('.reply-recommend').on('click',function(){
+					if($(this).attr('class').includes('recommend-up',0)){
+						$.ajax({
+							url:'${pageContext.request.contextPath}/club/reply/recommend',
+							method:'get',
+							data:'id='+$(ele).find('#reply_id').val(),
+							dataType:'json',
+							success:function(data){
+								console.log(data.success);
+								console.log(data.num);
+								$(ele).find('.cnt-recommend').text(data.num);
+								$(ele).find('.reply-recommend').css({'color':'#8ba989','border':'1px solid #8ba989'})
+															   .addClass('recommend-down').removeClass('recommend-up');
+							},//success
+							error:function(){}//error
+						});//ajax
+					}else if($(this).attr('class').includes('recommend-down',0)){
+						$.ajax({
+							url:'${pageContext.request.contextPath}/club/reply/recommenddown',
+							method:'get',
+							data:'id='+$(ele).find('#reply_id').val(),
+							dataType:'json',
+							success:function(data){
+								console.log(data.success);
+								console.log(data.num);
+								$(ele).find('.cnt-recommend').text(data.num);
+								$(ele).find('.reply-recommend').css({'color':'black','border':'1px solid #ccc'})
+															   .removeClass('recommend_down').addClass('recommend-up');
+							},//success
+							error:function(){}//error
+						});//ajax
+					}
+				});//click
+			});//each
 	});//ready
 	
 </script>
@@ -192,8 +242,12 @@ textarea{
 .delete-form,.panel-reply-edit{
 	display:none;
 }
-
-
+.post-recommend{
+	text-align: center;
+}
+small span{
+	color:#747474;
+}
 </style>
 </head>
 <body>
@@ -221,12 +275,18 @@ textarea{
 				<div class="panel panel-default panel-post">
 					<div class="panel-body panel-title">
 						<span class="lead">${club.title }</span><br/>
+						<small><span class="user_id">${club.nickname}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="updatetime"></span></small>
 					</div>
-					<div class="panel-body panel-nickname">
-						<span class="user_id">${club.nickname}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="updatetime"></span>
-					</div>
-				<!-- 	<div class="bottom-line"></div> -->
+					<div class="bottom-line"></div>
 					<div class="panel-body post-content">${club.content}</div>
+
+
+					<div class="panel-body post-recommend">
+					<button class="btn btn-default post-recommend btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					<span class="cnt-recommend">&nbsp;<c:if test="${not empty bean.num}">${bean.num}</c:if>
+					<c:if test="${empty bean.num}">0</c:if></span></button>
+					</div>
+					
 				</div>
 				
 				<div class="div-btn">
@@ -316,13 +376,14 @@ textarea{
 					<form action="${pageContext.request.contextPath }/club/reply/delete" method="post" class="delete-form delete-reply">
 						<input type="hidden" name="_method" value="DELETE"/>
 						<input type="hidden" name="book_bid" value="${bean.book_bid }" />
-						<input type="hidden" name="id" value="${bean.id }"/>
+						<input type="hidden" name="id" id="reply_id" value="${bean.id }"/>
 						<input type="hidden" name="post_id" value="${club.id }"/>
 		 				<button type="submit" class="btn btn-default">삭제</button>
 					</form>
 					
-					<button class="btn btn-default reply-recommend btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;44</button>
-					<!-- <button class="btn btn-default reply-recommend"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></button> -->
+					<button class="btn btn-default reply-recommend recommend-up btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					<span class="cnt-recommend">&nbsp;<c:if test="${not empty bean.num}">${bean.num}</c:if>
+					<c:if test="${empty bean.num}">0</c:if></span></button>
 					</div>
 				</div>
 				

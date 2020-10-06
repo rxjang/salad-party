@@ -18,6 +18,7 @@ public class ClubVo {
 	private Date createtime;
 	private Timestamp updatetime;
 	private String search,nickname;
+	private int reply;
 	
 	public ClubVo(int id, int book_bid, String title, String content, Date createtime) {
 		super();
@@ -47,7 +48,7 @@ public class ClubVo {
 	public String toString() {
 		return "{\"id\":" + id + ", \"ref\":" + ref + ", \"depth\":" + depth + ", \"num\":" + num + ", \"user_id\":" + user_id
 				+ ", \"book_bid\":" + book_bid + ", \"title\":\"" + title + "\", \"content\":\"" + content + "\", \"createtime\":\"" + createtime
-				+ "\", \"updatetime\":\"" + updatetime + "\", \"start\":"+start+",\"nickname\":\""+nickname+"\"}";
+				+ "\", \"updatetime\":\"" + updatetime + "\", \"start\":"+start+",\"nickname\":\""+nickname+"\",\"reply\":\""+reply+"\"}";
 	}
 
 	public ClubVo(int id, int ref, int depth, int num, int user_id, int book_bid, int start, String title,
