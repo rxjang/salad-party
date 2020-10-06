@@ -215,7 +215,7 @@
 		<c:forEach items="${list }" var="bean" begin="0" end="9">
 				<div class="panel panel-default pannel-post">
 					<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/${bean.id}"><span class="lead">${bean.title }</span></a></div>
-					<div class="panel-body"><span class="user_id">${bean.nickname }</span> &nbsp;|&nbsp;<span class="update-day">${bean.updatetime }</span></div>
+					<div class="panel-body"><span class="user_id">${bean.nickname }</span> &nbsp;|&nbsp;<span class="update-day">${bean.updatetime }</span>&nbsp;|&nbsp;<span> 댓글&nbsp;${bean.reply }개</span></div>
 				</div>
 				<br/>
 		</c:forEach>

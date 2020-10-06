@@ -43,14 +43,16 @@ public class ClubController {
 
 		clubService.OneBooListService(book_bid, model, search);
 		findService.getBookService(book_bid, model);
+		
 		return "club/list";
 	}
 
 	// 글 상세보기
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public String detail(Model model, @PathVariable int id) {
+	public String detail(Model model, @PathVariable int id, HttpSession session) {
 		clubService.getOneService(id, model);
 		clubService.listReplyService(id, model);
+		clubService.listRecommendByUserService(model,session);
 		// ref = id이고 depth가 1인 row들을 조회.
 		return "club/detail";
 	}

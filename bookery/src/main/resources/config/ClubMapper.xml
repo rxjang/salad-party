@@ -44,8 +44,13 @@
 	</update>
 	
 	<select id="selectAboutBook" parameterType="clubBean" resultType="clubBean">
-		select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname from club c 
+	<!-- 	select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname from club c 
 		inner join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
+		#{search} order by createtime desc -->
+		
+		select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname,
+		(select count(*) from club where depth = 1 and deleted != 1 and ref = c.id) AS reply
+ 		from club c left join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
 		#{search} order by createtime desc
 	</select>
 	
@@ -67,7 +72,8 @@
 	
 	<select id="selectMore" parameterType="clubBean" resultType="clubBean">
 		select * from (select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname 
-		from club c inner join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
+		,(select count(*) from club where depth = 1 and deleted != 1 and ref = c.id) AS reply 
+		from club c left join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
 		#{search} order by createtime desc) s limit #{start},10
 	</select>
 	
@@ -83,8 +89,28 @@
 	<update id="updateClubPost" parameterType="clubBean">
 	  	update club set title=#{title},content=#{content},updatetime = now() where id = #{id}
 	</update>
+	
 	<update id="updateReply" parameterType="clubBean">
 	  	update club set content=#{content},updatetime = now() where id = #{id}
 	</update>
+	
+	<update id="updateRecommendUp" parameterType="_int">
+	  	update club set num = (num+1) where id = #{id}
+	</update>
+	<update id="updateRecommendDown" parameterType="_int">
+	  	update club set num = (num-1) where id = #{id}
+	</update>
+	
+	<insert id="insertRecommendChk" parameterType="recommendBean">
+		insert into recommend (user_id, club_id) values (#{user_id},#{club_id})
+	</insert>
+	
+	<delete id="deleteRecommendChk" parameterType="recommendBean">
+		delete from recommend where user_id = #{user_id} and club_id = #{club_id}
+	</delete>
+	
+	<select id="selectAllRecommend" resultType="_int" parameterType="_int">
+		select club_id from recommend where user_id = #{user_id}
+	</select>
 	
 </mapper>
