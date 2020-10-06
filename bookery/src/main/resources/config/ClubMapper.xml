@@ -83,6 +83,8 @@
 	<update id="updateClubPost" parameterType="clubBean">
 	  	update club set title=#{title},content=#{content},updatetime = now() where id = #{id}
 	</update>
-	
+	<update id="updateReply" parameterType="clubBean">
+	  	update club set content=#{content},updatetime = now() where id = #{id}
+	</update>
 	
 </mapper>

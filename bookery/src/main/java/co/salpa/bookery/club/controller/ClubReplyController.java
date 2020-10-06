@@ -30,6 +30,18 @@ public class ClubReplyController {
 	public String reply(@ModelAttribute ClubVo club,HttpSession session) {
 		return 	clubService.addReplyService(club,session);
 	}
+	//게시글 댓글 수정
+	@RequestMapping(value = "/reply/update",method = RequestMethod.PUT)
+	public String replyUpdate(@ModelAttribute ClubVo club, int post_id) {
+		clubService.updateReplyService(club);
+		return "redirect:../detail/"+post_id;
+	}
 	
+	//게시글 댓글 삭제
+	@RequestMapping(value = "/reply/delete",method = RequestMethod.DELETE)
+	public String replyDelete(@ModelAttribute ClubVo club, int post_id) {
+			clubService.deletePostService(club.getId());
+		return "redirect:../detail/"+post_id;
+	}
 	
 }

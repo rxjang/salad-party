@@ -105,8 +105,7 @@ var date = "${club.updatetime}";
 			});//click
 			
 			/* 게시글 삭제버튼. 삭제후 리스트로 이동 */
-			$('.btn-delete').on('click',function(){
-				
+			$('.btn-delete').click(function(){
 				swal({
 					  title:'삭제',
 					  text: "정말 삭제하시겠습니까?",
@@ -120,19 +119,54 @@ var date = "${club.updatetime}";
 					  icon:'warning'
 				}).then((value) => {	//swal 버튼을 누른 다음 수행된다.
 					if(value){
-						$.ajax({
-							url:'${pageContext.request.contextPath}/club/delete',
-							type:'DELETE',
-							data:'id=${club.id}&book_bid=${club.book_bid}',
-							success:function(data){},
-							error:function(){}
-						});				
+						$('.delete-post').submit();
 					}//if
 				});//swal
+				
+				return false;
 			});
 			
-	
+			$('.panel-reply').each(function(idx,ele){
+				$(ele).find('.reply-delete').click(function(){
+					swal({
+						  title:'삭제',
+						  text: "정말 삭제하시겠습니까?",
+						  buttons: {
+							cancel: "취소", //취소버튼 false
+						    confirm:{
+						    	text:"삭제",
+						    	value:true
+						    }
+						  },
+						  icon:'warning'
+					}).then((value) => {	//swal 버튼을 누른 다음 수행된다.
+						if(value){
+							$(ele).find('.delete-reply').submit();
+						}//if
+					});//swal
+					return false;
+				});//swal
+			});//each
+			
+			/* 수정폼에 이전 내용표시 */
+			$('.panel-reply-edit').each(function(idx,ele){
+				var reply_content = $(ele).find('textarea').val().replace(/(<br\/>)/g, '');
+				$(ele).find('textarea').val(reply_content);
+			});//each
+			
+			/* 댓글 수정버튼  */
+			
+			$('.panel-reply').each(function(idx,ele){
+				$(ele).find('.reply-edit').click(function(){
+					$(ele).find('.panel-reply-edit').show();
+					$(ele).find('.reply-content').hide();
+					$(ele).find('.reply-btn').hide();
+				});//click
+			});//each
+			
+			
 	});//ready
+	
 </script>
 <style type="text/css">
 
@@ -155,6 +189,11 @@ textarea{
 	text-align: right;
 	
 }
+.delete-form,.panel-reply-edit{
+	display:none;
+}
+
+
 </style>
 </head>
 <body>
@@ -194,6 +233,12 @@ textarea{
 				<button class="btn btn-default btn-reply">댓글달기</button>
 				<button class="btn btn-default btn-edit">수정</button>
 				<button class="btn btn-default btn-delete">삭제</button>
+				<form class="delete-form delete-post" action="${pageContext.request.contextPath}/club/delete" method="post">
+					<input type="hidden" name="_method" value="DELETE"/>
+					<input type="hidden" name="book_bid" value="${club.book_bid }" />
+					<input type="hidden" name="id" value="${club.id }"/>
+		 			<button type="submit" class="btn btn-default">삭제</button>
+				</form>
 				</div>
 
 				<!-- 댓글입력 -->
@@ -233,17 +278,49 @@ textarea{
 				</div> -->
 				
 				<!-- 댓글 목록 -->
-				<c:forEach items="${replylist }" var="bean" begin="0" end="9">
+				<c:forEach items="${replylist }" var="bean">
 				
 				<div class="panel panel-default panel-reply">
 					<input type="hidden" id="user_id" name ="user_id" value="${bean.user_id}"/>
 					<div class="panel-body">${bean.nickname}&nbsp;&nbsp;<small><span class="reply-updatetime">${bean.updatetime }</span></small>
 						<!-- <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;4</button> -->
 					</div>
-					<div class="panel-body">${bean.content}</div>
+					<div class="panel-body reply-content">${bean.content}</div>
+					<!-- 댓글 수정 폼 -->
+					<div class="panel-body panel-reply-edit">
+						<form id="form-reply" class="form-horizontal"
+						action="${pageContext.request.contextPath }/club/reply/update"
+						method="post">
+						<input type="hidden" name="_method" value="PUT" />
+
+						<div class="form-group">
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="2" name="content"
+									class="reply-edit-content">${bean.content}</textarea>
+							</div>
+						</div>
+							<input type="hidden" name="id" value="${bean.id }"/>
+							<input type="hidden" name="post_id" value="${club.id }"/>
+						<div class="form-group">
+							<div class="col-sm-10">
+								<button type="submit" class="btn btn-default">수정</button>
+							</div>
+						</div>
+					</form>					
+					</div>
+					
 					<div class="panel-body reply-btn">
 					<button class="btn btn-default reply-edit btn-sm">수정</button>
 					<button class="btn btn-default reply-delete btn-sm">삭제</button>
+					<!-- 댓글 삭제폼 -->
+					<form action="${pageContext.request.contextPath }/club/reply/delete" method="post" class="delete-form delete-reply">
+						<input type="hidden" name="_method" value="DELETE"/>
+						<input type="hidden" name="book_bid" value="${bean.book_bid }" />
+						<input type="hidden" name="id" value="${bean.id }"/>
+						<input type="hidden" name="post_id" value="${club.id }"/>
+		 				<button type="submit" class="btn btn-default">삭제</button>
+					</form>
+					
 					<button class="btn btn-default reply-recommend btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;44</button>
 					<!-- <button class="btn btn-default reply-recommend"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></button> -->
 					</div>
