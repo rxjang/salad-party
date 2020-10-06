@@ -128,6 +128,29 @@ $(function() {
 		 	$('.date-result').show();
 		}
 	});//enddate-btn click
+	
+	$(".assert1").on("click",function(){
+		swal({
+			title: "목표설정이 완료되었습니다",
+			text: "확인 버튼을 누르시면 오늘의 기록으로 이동합니다",
+			icon: "success",
+			button: "확인",
+		}).then(function(value) {
+			$(".assert1").closest("form").submit();
+		});
+	});//click
+	
+	$(".assert2").on("click",function(){
+		swal({
+			title: "목표설정이 완료되었습니다",
+			text: "확인 버튼을 누르시면 오늘의 기록으로 이동합니다",
+			icon: "success",
+			button: "확인",
+		}).then(function(value) {
+			$(".assert2").closest("form").submit();
+		});
+	});//click
+	
 });//ready
 </Script>
 <style type="text/css">
@@ -196,14 +219,15 @@ $(function() {
 		border:1px solid #8ba989;
 		color:#8ba989;
 	}
-	.assert{
+	.assert1,.assert2{
+		color:black;
 		background-color:white;
 		line-height:15px;
 		padding:0px 5px;
 		margin-bottom:5px;
 		font-size:1.2em;
 	}
-	.assert:hover{
+	.assert:hover,.assert2:hover{
 		border:1px solid white;
 		color: #49654d;
 	} 
@@ -217,10 +241,10 @@ $(function() {
 		text-align:center;
 		margin-top:10px;
 	}
-	.submenu-main{
-	    margin-bottom:120px;
-	}
  	@media (max-width:800px) {
+	 	label{
+			width:30%;
+		}
  		.jumbotron{width:90%; text-align:center;}
 		.book-image{margin-bottom:2em;}
 		.page-main{display:block;}
@@ -231,12 +255,6 @@ $(function() {
 		}
 		.temp{
 			margin:0px auto;
-		}
-		.commet{
-			text-align:ceter;
-		}
-		.submenu-main{
-	    	margin-bottom:180px;
 		}
 	}
 </style>
@@ -267,7 +285,7 @@ $(function() {
 						<label for="page">공부할 양</label><input type="text" name="page" class="page"/>
 						<button class="btn btn-priamary page-btn calc">계산</button>
 						<div class="page-result result">
-							<form method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
+							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day" readonly/><br/>
@@ -277,9 +295,9 @@ $(function() {
 								<input type="hidden" name="book_bid" value="${v_study.book_bid}" readonly/>
 								<input type="hidden" name="type" value="page" readonly/><br/>
 								<div class="comment">
-									<button class="btn assert">해당 정보로 목표설정을 하시겠습니까?
-									<span class="glyphicon glyphicon-ok"></span>
-									</button>
+									<a class="btn assert1">해당 정보로 목표설정을 하시겠습니까?
+										<span class="glyphicon glyphicon-ok"></span>
+									</a>
 								</div>
 							</form>
 						</div><!-- page-result -->
@@ -295,7 +313,7 @@ $(function() {
 						<label for="enddate">마칠 날짜</label><input type="date" name="enddate" class="enddate"/>
 						<button class="btn btn-priamary enddate-btn calc">계산</button>
 						<div class="date-result result">
-							<form method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
+							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date1" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date1" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day1" readonly/><br/>
@@ -305,9 +323,9 @@ $(function() {
 								<input type="hidden" name="book_bid" value="${v_study.book_bid}" readonly/>
 								<input type="hidden" name="type" value="page" readonly/><br/>
 								<div class="comment">
-									<button class="btn assert">해당 정보로 목표설정을 하시겠습니까?
-									<span class="glyphicon glyphicon-ok"></span>
-									</button>
+									<a class="btn assert2">해당 정보로 목표설정을 하시겠습니까?
+										<span class="glyphicon glyphicon-ok"></span>
+									</a>
 								</div>
 							</form>
 						</div><!-- date-result -->

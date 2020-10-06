@@ -11,6 +11,8 @@ public interface CheckPageDao {
 	
 	List<CheckPageVo> selectAll(int study_id) throws DataAccessException;
 
+	List<CheckPageVo> selectAllByStudyId(Integer sid) throws DataAccessException;
+
 	CheckPageVo selectRecentChecked() throws DataAccessException;
 
 	CheckPageVo selectOneByStudyId(Map<String, Integer> map) throws DataAccessException;
@@ -22,5 +24,5 @@ public interface CheckPageDao {
 	int updateOne(CheckPageVo page) throws DataAccessException;
 
 	int updateTimeStudy(int study_id) throws DataAccessException;
-	
+
 }

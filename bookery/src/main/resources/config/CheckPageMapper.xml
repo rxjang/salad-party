@@ -9,6 +9,10 @@
 		select * from salpa.checkpage
 	</select>
 
+	<select id="selectAllByStudyId" resultType="checkPageBean" parameterType="_int">
+		select * from salpa.checkpage where study_id=#{study_id}
+	</select>
+
 	<select id="selectOneByStudyId" resultType="checkPageBean"
 		parameterType="map">
 		select * from salpa.checkpage where id = #{id} and

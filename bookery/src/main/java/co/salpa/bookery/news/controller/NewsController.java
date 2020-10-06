@@ -23,14 +23,18 @@ public class NewsController {
 
 	@RequestMapping
 	public String news(Model model) {
-		newsService.noticeService(model);
+		newsService.listMostBookService(model);
 		return "news/news";
 	}
+	
+	/*********************************** rank **************************************/
 	
 	@RequestMapping("/rank")
 	public String rank(Model model) {
 		return "news/rank";
 	}
+	
+	/********************************** notice **************************************/
 	
 	@RequestMapping("/notice")
 	public String notice(Model model) {
@@ -77,6 +81,8 @@ public class NewsController {
 	
 	@RequestMapping(value="/notice/detail/{id}",method=RequestMethod.PUT)
 	public ModelAndView updateNotice(@PathVariable int id,ClubVo bean) {
+		System.out.println("newsController depth:"+bean.getDepth());
+		System.out.println("newsController content:"+bean.getContent());
 		newsService.updateNotice(bean);
 		return new ModelAndView("redirect:./"+id);
 	}

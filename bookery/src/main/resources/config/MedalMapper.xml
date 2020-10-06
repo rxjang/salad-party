@@ -5,7 +5,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="co.salpa.bookery.model.MedalDao">
-	<select id="selectAll" resultType="medalBean">
+	<select id="selectAllMedal" resultType="medalBean">
 		select * from medal
 	</select>
 	

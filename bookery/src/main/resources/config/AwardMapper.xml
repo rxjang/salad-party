@@ -6,7 +6,7 @@
 
 <mapper namespace="co.salpa.bookery.model.AwardDao">
 	<select id="selectAll" resultType="awardBean">
-		select * from award
+		select * from award where user_id=#{user_id}
 	</select>
 	
 </mapper>

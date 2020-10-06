@@ -14,12 +14,13 @@
 		parameterType="_int">
 		select * from study where book_bid=#{book_bid}
 	</select>
-												<!-- java.util.List -->
+
+	<!-- 사용안함. 사용하는 사람 있으면 사용중으로 수정해주세요 -->
 	<select id="selectIdByUserId" resultType="java.lang.Integer"
 		parameterType="_int">
 		select id from study where user_id=#{user_id}
 	</select>
-
+	
 	<select id="selectOneByIdAndBid" resultType="studyBean"
 		parameterType="map">
 		select * from study where user_id=#{user_id} and book_bid=#{book_bid} and createtime &lt;= #{createtime}
