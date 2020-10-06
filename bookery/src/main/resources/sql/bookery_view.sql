@@ -294,3 +294,131 @@ VIEW `v_notice` AS
         JOIN `club` `b` ON ((`a`.`id` = `b`.`ref`)))
     WHERE
         (`a`.`book_bid` = 0);
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_page` AS
+    SELECT 
+        CONCAT(`checkpage`.`study_id`,
+                ':',
+                DATE_FORMAT(`checkpage`.`date`, '%Y-%m-%d')) AS `sid_date`,
+        'page' AS `type`,
+        `checkpage`.`study_id` AS `study_id`,
+        DATE_FORMAT(`checkpage`.`date`, '%Y-%m-%d') AS `date`,
+        `checkpage`.`planpage` AS `plan`,
+        `checkpage`.`actualpage` AS `actual`,
+        (COALESCE(`checkpage`.`actualpage`, 0) - COALESCE(`checkpage`.`planpage`, 0)) AS `status`
+    FROM
+        `checkpage`;
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_chap_base` AS
+    SELECT 
+        `checkchap`.`id` AS `id`,
+        `checkchap`.`toc` AS `toc`,
+        `checkchap`.`plantime` AS `plantime`,
+        `checkchap`.`actualtime` AS `actualtime`,
+        `checkchap`.`deleted` AS `deleted`,
+        `checkchap`.`study_id` AS `study_id`,
+        CONCAT(`checkchap`.`study_id`,
+                ':',
+                DATE_FORMAT(`checkchap`.`plantime`, '%Y-%m-%d')) AS `sid_plandate`,
+        CONCAT(`checkchap`.`study_id`,
+                ':',
+                DATE_FORMAT(`checkchap`.`actualtime`, '%Y-%m-%d')) AS `sid_actualdate`
+    FROM
+        `checkchap`;
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_chap_sid_date` AS
+    SELECT 
+        `v_cal_chap_base`.`sid_plandate` AS `sid_date`,
+        `v_cal_chap_base`.`study_id` AS `study_id`,
+        DATE_FORMAT(`v_cal_chap_base`.`plantime`, '%Y-%m-%d') AS `date`
+    FROM
+        `v_cal_chap_base` 
+    UNION SELECT 
+        `v_cal_chap_base`.`sid_actualdate` AS `sid_date`,
+        `v_cal_chap_base`.`study_id` AS `study_id`,
+        DATE_FORMAT(`v_cal_chap_base`.`actualtime`,
+                '%Y-%m-%d') AS `date`
+    FROM
+        `v_cal_chap_base`;
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_chap_plan` AS
+    SELECT 
+        COUNT(`v_cal_chap_base`.`plantime`) AS `plan`,
+        MAX(`v_cal_chap_base`.`sid_plandate`) AS `sid_plandate`
+    FROM
+        `v_cal_chap_base`
+    GROUP BY `v_cal_chap_base`.`sid_plandate`;
+    
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_chap_actual` AS
+    SELECT 
+        COUNT(`v_cal_chap_base`.`actualtime`) AS `actual`,
+        MAX(`v_cal_chap_base`.`sid_actualdate`) AS `sid_actualdate`
+    FROM
+        `v_cal_chap_base`
+    GROUP BY `v_cal_chap_base`.`sid_actualdate`;
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_chap` AS
+    SELECT 
+        `v_cal_chap_sid_date`.`sid_date` AS `sid_date`,
+        'chap' AS `type`,
+        `v_cal_chap_sid_date`.`study_id` AS `study_id`,
+        `v_cal_chap_sid_date`.`date` AS `date`,
+        `v_cal_chap_plan`.`plan` AS `plan`,
+        `v_cal_chap_actual`.`actual` AS `actual`,
+        (COALESCE(`v_cal_chap_actual`.`actual`, 0) - COALESCE(`v_cal_chap_plan`.`plan`, 0)) AS `status`
+    FROM
+        ((`v_cal_chap_sid_date`
+        LEFT JOIN `v_cal_chap_plan` ON ((`v_cal_chap_sid_date`.`sid_date` = `v_cal_chap_plan`.`sid_plandate`)))
+        LEFT JOIN `v_cal_chap_actual` ON ((`v_cal_chap_sid_date`.`sid_date` = `v_cal_chap_actual`.`sid_actualdate`)))
+    WHERE
+        (`v_cal_chap_sid_date`.`sid_date` IS NOT NULL);
+        
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_calendar` AS
+    SELECT 
+        `v_cal_chap`.`sid_date` AS `sid_date`,
+        `v_cal_chap`.`type` AS `type`,
+        `v_cal_chap`.`study_id` AS `study_id`,
+        `v_cal_chap`.`date` AS `date`,
+        `v_cal_chap`.`plan` AS `plan`,
+        `v_cal_chap`.`actual` AS `actual`,
+        `v_cal_chap`.`status` AS `status`
+    FROM
+        `v_cal_chap` 
+    UNION SELECT 
+        `v_cal_page`.`sid_date` AS `sid_date`,
+        `v_cal_page`.`type` AS `type`,
+        `v_cal_page`.`study_id` AS `study_id`,
+        `v_cal_page`.`date` AS `date`,
+        `v_cal_page`.`plan` AS `plan`,
+        `v_cal_page`.`actual` AS `actual`,
+        `v_cal_page`.`status` AS `status`
+    FROM
+        `v_cal_page`;
