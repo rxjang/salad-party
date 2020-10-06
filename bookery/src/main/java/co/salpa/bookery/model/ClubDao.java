@@ -43,4 +43,6 @@ public interface ClubDao {
 	
 	void updateClubPost(ClubVo club) throws DataAccessException; //게시글 수정하기
 
+	void updateReply(ClubVo club) throws DataAccessException; //댓글 수정
+
 }

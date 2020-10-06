@@ -98,13 +98,10 @@
      -ms-overflow-style: none; /* IE and Edge */
 	}
 
-	
-	a{decoration:none; color:black;}
-
-	.anchor{
+	a,.anchor{
 		color:black;
 	}
-	.anchor:hover{
+	a:hover,.anchor:hover{
 		color:black;
 		text-decoration:none;
 	}
