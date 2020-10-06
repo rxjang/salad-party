@@ -66,10 +66,11 @@ var studyingbooklist = '${studyingbooklist}';
 					if(arr.includes(Number($(ele).attr('id')))){
 							console.log('same');
 							$(ele).show();
-					}else{
+					}else if(!arr.includes(Number($(ele).attr('id')))){
 							$(ele).hide();
 					}
 				});
+				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
 				$(this).find('glyphicon-ok').remove();
@@ -244,10 +245,10 @@ var studyingbooklist = '${studyingbooklist}';
 	<div class="row">
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-8 col-xs-12">
-			<h3>
+		<!-- 	<h3>
 				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 				북클럽
-			</h3>
+			</h3> -->
 			<br /><small>같은 책을 읽는 사람들과 소통할 수 있어요!</small>
 		</div>
 
@@ -285,7 +286,7 @@ var studyingbooklist = '${studyingbooklist}';
 		<div class="col-xs-12 col-md-6 bookclub-contents">
 			<!--**********post start**********-->
 			<c:forEach items="${cntReaders }" var="bean" >
-				<div id="${bean.book_bid}" class="col-xs-12 col-md-6 thumb-box" data-aos="fade-up">
+				<div id="${bean.book_bid}" class="col-xs-12 col-md-6 thumb-box" data-aos="fade-down">
 					<div class="thumbnail">
 						<a href="${pageContext.request.contextPath }/club/list/${bean.book_bid}"> 
 							<c:choose>
