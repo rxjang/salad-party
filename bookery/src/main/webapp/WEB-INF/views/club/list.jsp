@@ -137,6 +137,11 @@
 			
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 			
+			if($('#orderByReply').attr('class').includes('ok',0)){
+				$('#orderByReply').addClass('not-ok').removeClass('ok');
+				$('#orderByReply .glyphicon-ok').remove();
+			}
+			
 			if($(this).attr('class').includes('not-ok',0)){
 				console.log('추천순정렬');
 				$(this).append(okIcon);
@@ -163,6 +168,11 @@
 		/* 댓글순 정렬 */
 		$('#orderByReply').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+			
+			if($('#orderByRecommend').attr('class').includes('ok',0)){
+				$('#orderByRecommend').addClass('not-ok').removeClass('ok');
+				$('#orderByRecommend .glyphicon-ok').remove();
+			}
 			
 			if($(this).attr('class').includes('not-ok',0)){
 				console.log('댓글순정렬');
