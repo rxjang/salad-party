@@ -291,4 +291,6 @@ VIEW `v_notice` AS
         `a`.`deleted` AS `deleted`
     FROM
         (`club` `a`
-        JOIN `club` `b` ON ((`a`.`id` = `b`.`ref`)));
+        JOIN `club` `b` ON ((`a`.`id` = `b`.`ref`)))
+    WHERE
+        (`a`.`book_bid` = 0);

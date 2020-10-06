@@ -119,6 +119,7 @@
 	#menu a:hover, .sub-menu a:hover{
 		background-color: rgba(255, 0, 0, 0.0) !important;/*기존 부트스트랩 색깔 투명하게 설정*/
 		text-decoration:none;
+		cursor:pointer;
 	}
 	#menu ul{padding:4px 0px;}
 	.nav li{float:left;}
@@ -227,7 +228,7 @@
  	   	}
  	   	.submenu-main{
  	   		margin-top:90px;
- 	   		margin-bottom:100px;
+ 	   		margin-bottom:180px;
  	   	}
  	  	 #footer{margin-bottom:80px;}
  	  	 .footer-content{
