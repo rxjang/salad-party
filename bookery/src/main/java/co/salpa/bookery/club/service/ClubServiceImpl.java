@@ -1,5 +1,7 @@
 package co.salpa.bookery.club.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,20 +131,35 @@ public class ClubServiceImpl implements ClubService {
 //		map.put("start", start+"");
 //		map.put("search", search);
 		List<ClubVo> list = clubDao.selectMore(club);
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		objectMapper.setDateFormat(dateFormat);
+		Map<String, List<ClubVo>> dist = new HashMap<String, List<ClubVo>>();
+		dist.put("key", list);
+		String jsonStr=null;
+		try {
+			jsonStr=objectMapper.writeValueAsString(dist);
+			System.out.println(jsonStr);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		String json = "{\"key\":[";
-
-		int cnt = 0;
-		for (ClubVo vo : list) {
-			if (cnt == 0) {
-				json += vo.toString();
-			} else {
-				json += ", " + vo.toString();
-			} // if
-			cnt++;
-		} // for
-		json += "]}";
-		return json;
+		
+		
+//		String json = "{\"key\":[";
+//
+//		int cnt = 0;
+//		for (ClubVo vo : list) {
+//			if (cnt == 0) {
+//				json += vo.toString();
+//			} else {
+//				json += ", " + vo.toString();
+//			} // if
+//			cnt++;
+//		} // for
+//		json += "]}";
+		return jsonStr;
 	}
 
 	/*

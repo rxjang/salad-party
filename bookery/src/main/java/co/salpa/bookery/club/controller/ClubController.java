@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,4 +104,23 @@ public class ClubController {
 		return "redirect:list/" + club.getBook_bid();
 	}
 
+	@RequestMapping(value = "/recommend",method = RequestMethod.GET)
+	@ResponseBody
+	public String recommendUp(int id, HttpSession session) {
+		
+		clubService.recommendUpService(id);
+		clubService.recommendUpChkService(session, id);
+		String responseData = "{\"success\":\"success\",\"num\":\"" + clubService.getOneService(id).getNum() + "\"}";
+		return responseData;
+	}
+	@RequestMapping(value = "/recommenddown",method = RequestMethod.GET)
+	@ResponseBody
+	public String recommendDown(int id, HttpSession session) {
+		clubService.recommendDownService(id);
+		clubService.recommendDownChkService(session, id);
+		String responseData = "{\"success\":\"success\",\"num\":\"" + clubService.getOneService(id).getNum() + "\"}";
+		return responseData;
+	}
+	
+	
 }// classEnd
