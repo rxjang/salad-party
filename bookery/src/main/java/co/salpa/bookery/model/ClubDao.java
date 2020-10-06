@@ -10,11 +10,17 @@ import co.salpa.bookery.model.entity.ClubVo;
 import co.salpa.bookery.model.entity.RecommendVo;
 
 public interface ClubDao {
-	List<ClubVo> selectNotice() throws DataAccessException;
 
-	List<ClubVo> selectOneToOne() throws DataAccessException;
+	List<ClubVo> selectNotice() throws DataAccessException;	//모든 공지사항 불러오기
+	
+	List<ClubVo> selectOneToOne() throws DataAccessException;	//1:1문 글 불러오기
 
-	ClubVo selectOneNotice(int id) throws DataAccessException;
+	ClubVo selectOneNotice(int id) throws DataAccessException;	//특정 공지사항 불러오기
+	
+	List<ClubVo> selectNewsNotice() throws DataAccessException;	//책거리 뉴스 메인 게시판에서 공지 3개만 불러오기
+
+	List<ClubVo> selectContentForNews() throws DataAccessException;	//책거리 뉴스 메인 실시간 게시글
+	
 
 	List<ClubVo> selectBookClubAll() throws DataAccessException;
 
@@ -22,11 +28,12 @@ public interface ClubDao {
 
 	void insertBookClub(BookVo book) throws DataAccessException;
 
-	void insertNotice(ClubVo club) throws DataAccessException;
+	void insertNotice(ClubVo club) throws DataAccessException;	//공지사항 글 작성
+	
+	void updateNotice(ClubVo club) throws DataAccessException; // 공지사항 수정
 
-	void updateNotice(ClubVo club) throws DataAccessException;
-
-	void updateRef(int id) throws DataAccessException;
+	void updateRef(int id) throws DataAccessException;	//1:1문의글에 답글달렸을시 해당 문의글의 ref 업데이트
+	
 
 	void deleteClubData(int id) throws DataAccessException;
 

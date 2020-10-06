@@ -66,8 +66,8 @@
 					<h5>본 책은 총 <strong>${v_study.pages}</strong>페이지 입니다</h5>
 					메모:${v_study.memo}<br/>
 					서재에 책을 담은 날짜:${v_study.createtime}<br/>
-					공부 시작일: ${v_study.startdate}<br/>
-					완료 예정일: ${v_study.enddate}<br/>
+					시작일: ${v_study.startdate}<br/>
+					완료일: ${v_study.enddate}<br/>
 					
 				</div><!-- book-info-detail -->
 			</div><!-- page content -->

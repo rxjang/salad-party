@@ -144,9 +144,12 @@ $(function() {
 			padding:20px;
 			padding-left:20px;
 		}
-		.mylib-main-inner{padding-left:10px;}
+		.mylib-main-inner{padding-left:10px; padding-top:0px;}
 		#mylib-account h3, .table, .table>tbody>tr>td{font-weight:bold}
 		.mylib-info-ment{font-weight:bold; text-shadow: 3px 3px 3px #000000; font-size:1.1em;}
+		.owl-theme {
+			padding-bottom:0px;
+		}
 	}
 </style>
 </head>
@@ -198,7 +201,7 @@ $(function() {
 			<div class="owl-carousel owl-theme studying">
 				<c:forEach items="${studyingbooklist }" var="bean2">
 				    <div class="item">
-				    	<a href="${pageContext.request.contextPath }/mylib/${bean2.study_id }"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></a>
+				    	<a href="${pageContext.request.contextPath }/today/${bean2.type }/${bean2.study_id }"><img class="media-object" src="${bean2.coverurl }" alt="책 이미지"></a>
 				    </div>
 				</c:forEach>
 			</div><!-- owl end -->

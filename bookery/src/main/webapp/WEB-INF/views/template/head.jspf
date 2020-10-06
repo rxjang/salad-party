@@ -79,6 +79,11 @@
 	  }
 	/******************************		크롬	****************************/
 
+	.top-line{
+		margin-top:20px;
+		margin-bottom:20px;
+		border-top:1px solid #e4e4e4;
+	}
 	.bottom-line{
 		/**** 페이지 밑 줄
 			div class = col-md-12 col-xs-12 bottom-line 으로 사용하면
@@ -97,11 +102,10 @@
 	.clone-scroller {
      -ms-overflow-style: none; /* IE and Edge */
 	}
+	
+	a{decoration:none; color:black;}
 
-	a,.anchor{
-		color:black;
-	}
-	a:hover,.anchor:hover{
+	a:hover{
 		color:black;
 		text-decoration:none;
 	}
@@ -121,6 +125,7 @@
 	#menu a:hover, .sub-menu a:hover{
 		background-color: rgba(255, 0, 0, 0.0) !important;/*기존 부트스트랩 색깔 투명하게 설정*/
 		text-decoration:none;
+		cursor:pointer;
 	}
 	#menu ul{padding:4px 0px;}
 	.nav li{float:left;}
@@ -229,7 +234,7 @@
  	   	}
  	   	.submenu-main{
  	   		margin-top:90px;
- 	   		margin-bottom:100px;
+ 	   		margin-bottom:180px;
  	   	}
  	  	 #footer{margin-bottom:80px;}
  	  	 .footer-content{

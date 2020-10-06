@@ -18,5 +18,5 @@ public interface NewsService {
 	
 	void deleteNotice(int id) throws DataAccessException;
 	
-	Model listMostBookService(Model model) throws DataAccessException; 
+	Model newsMainService(Model model) throws DataAccessException; 
 }

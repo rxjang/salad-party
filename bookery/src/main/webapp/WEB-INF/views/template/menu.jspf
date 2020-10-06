@@ -24,12 +24,15 @@
 	     <ul class="dropdown-menu login-menu" role="menu">
 	       <c:if test="${user ne null}">
 	       <li><a href="${pageContext.request.contextPath }/account/update">내 정보</a></li>
+	       <li><a href="${pageContext.request.contextPath }/news/notice">공지사항</a></li>
 	       <li role="separator" class="divider"></li>
 	       <li><a href="${pageContext.request.contextPath }/account/logout">로그아웃</a></li>
 	       </c:if>
 	       
 	       <c:if test="${user eq null}">
 	       <li><a href="${pageContext.request.contextPath }/account/login">로그인</a></li>
+	       <li role="separator" class="divider"></li>
+	       <li><a href="${pageContext.request.contextPath }/news/notice">공지사항</a></li>
 	       </c:if>
 	     </ul>
 		</div>

@@ -22,10 +22,15 @@ public class NewsServiceEmpl implements NewsService {
 	SqlSession sqlSession;
 
 	@Override
-	public Model listMostBookService(Model model) throws DataAccessException {
+	public Model newsMainService(Model model) throws DataAccessException {
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
+		ClubDao clubDao=sqlSession.getMapper(ClubDao.class);
 		List<BookVo> list = bookDao.selectMostBook();
+		List<ClubVo> noticeList=clubDao.selectNewsNotice();
+		List<ClubVo> contentList=clubDao.selectContentForNews();
 		model.addAttribute("bestBooks", list);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("contentList", contentList);
 		return model;
 	}
 	
