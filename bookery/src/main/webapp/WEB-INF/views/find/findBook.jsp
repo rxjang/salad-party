@@ -186,7 +186,7 @@ $(function(){
 				/*************	네이버북스 책목차는 tableOfContentsContent아래에 있다	*************/
 				var newLineText='';
 				var noTagText='';
-				if(typeof list != 'undefined'){
+				if(list.length != 0){
 					newLineText = $(list).html().replace(/<(\/br|br)([^>]*)>/gi, "\n");
 					noTagText = newLineText.replace(/(<([^>]+)>)/ig, "");
 				}

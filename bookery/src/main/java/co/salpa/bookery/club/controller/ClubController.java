@@ -30,7 +30,7 @@ public class ClubController {
 	
 	
 	// 북클럽 메인 화면
-	@RequestMapping("")
+	@RequestMapping
 	public String bookClub(Model model,HttpSession session) {
 		clubService.listStudyingBookService(session, model);
 		clubService.listBookClubService(model);

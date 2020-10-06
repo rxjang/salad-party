@@ -156,7 +156,7 @@ pubdate	datetime	출간일 정보이다.
 		$('.owl-stage-outer').owlCarousel({
 			loop : true,
 			autoplay : true,
-			margin : 10,
+			margin : 30,
 			merge : false,
 			nav : false,
 			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
@@ -198,6 +198,10 @@ pubdate	datetime	출간일 정보이다.
 			$(this).text($(this).text().substring(0,20)+' ...');			
 		}
 	});//each title
+	
+	$('.top10').click(function(){
+		location.href='${pageContext.request.contextPath}/news';
+	});//click
 		
 	});//ready
 		
@@ -265,7 +269,7 @@ pubdate	datetime	출간일 정보이다.
 .owl-item img, .bid img{
 	margin:5px 5px 5px 5px;
 	box-sizing:border-box;
-	box-shadow:rgb(37, 54, 41) 1px 1px 3px;
+	box-shadow:rgb(37, 54, 41) 5px 5px 10px;
 }
 .wood{
 		width:107%;
@@ -275,6 +279,28 @@ pubdate	datetime	출간일 정보이다.
 		bottom:6px;
 		
 	}
+.top10{
+	cursor:pointer;
+	font-size:120%;
+	font-weight:600;
+	color:rgb(37, 54, 41);
+	border:1px solid  #ecece9;
+	background-color: #ecece9;
+	height:100px;
+}
+.top10 small{
+	font-size:90%;
+	font-weight: normal;
+	color: #445243;
+}
+.top10 .panel-body{
+	padding:30px;
+}
+.medal{
+	float: right;
+	position: relative;
+	bottom: 45px;
+}
 </style>
 </head>
 <body>
@@ -285,8 +311,9 @@ pubdate	datetime	출간일 정보이다.
 			<div class="row">
 				<div class="col-md-2">&nbsp;</div>
 				<div class="col-md-8 col-xs-12">
-						<h3>
-							<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 책 찾기
+				<br/>
+					<!-- 	<h3> -->
+						<!-- 	<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 책 찾기 -->
 						<!-- search option select -->
 							  <div class="btn-group" role="group">
 							    <button type="button" id="selectOpt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -299,10 +326,11 @@ pubdate	datetime	출간일 정보이다.
 							      <li><a id="opt-pub" href="#">출판사 </a></li>
 							    </ul>
 							  </div>
-						</h3><h4><small id="cntOfTotal"></small></h4>
+						<!-- </h3> -->
+						<h4><small id="cntOfTotal"></small></h4>
 				</div>
 				
-				<div class="bottom-line col-xs-12 col-md-12"></div>
+			<!-- 	<div class="bottom-line col-xs-12 col-md-12"></div> -->
 			</div>
 
 			<div class="row">	<!--************ search **********-->
@@ -323,18 +351,29 @@ pubdate	datetime	출간일 정보이다.
 			</div>
 				
 			<div class="row">			
-				<div class="col-md-2">&nbsp;</div>
+				<div class="col-md-1">&nbsp;</div>
 				<div class="col-xs-12 col-md-10">
 					<a id="inputBook" class="text-success" href="#">+직접 입력하기</a>
 				</div>
 			</div>
-	<div class="row" id="owl_div">
-			<!-- ************** OWL carousel ************  -->
 
-		<div class="col-md-2">&nbsp;</div>
+	<div class="row">
+		<div class="col-md-1"></div>
 		<div class="col-xs-12 col-md-10">
-			<h5 class="text-success">최근 많이 공부하는 책</h5>
+		<div class="panel panel-default top10">
+			<div class="panel-body">
+				지금 많이 공부하는 책 TOP10<br/><small>북커리회원들이 많이 공부하는 책을 살펴보세요</small>
+			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/bronze_madal.png">
+			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/silver_madal.png">
+			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/gold_madal.png">
+			</div>
 		</div>
+		
+		</div>
+	</div>
+
+	<!-- ************** OWL carousel ************  -->
+	<div class="row" id="owl_div">
 		<div class="col-md-1">&nbsp;</div>
 		<div class="col-xs-12 col-md-10"   id="owl">
 			<div class="owl-carousel owl-themeowl-loading owl-loaded">
