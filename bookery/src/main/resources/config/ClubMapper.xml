@@ -16,6 +16,16 @@
 	<select id="selectOneNotice" resultType="clubBean" parameterType="_int">
 		select * from club where book_bid=0 and deleted!=1 and id=${id}
 	</select>
+	
+	<select id="selectNewsNotice" resultType="clubBean">
+		select * from club where book_bid=0 and num=1 order by depth desc, updatetime asc limit 3
+	</select>
+	
+	<select id="selectContentForNews" resultType="clubBean">
+		select a.id,a.createtime, a.title, a.content, a.nickname, b.title as book_title, b.coverurl,b.writer,b.bid as book_bid from 
+		(select c.id, c.createtime, title, content, nickname,book_bid from club c join user u where c.user_id=u.id and title is not null and book_bid!=0) a
+		join book b where a.book_bid=b.bid order by a.createtime desc limit 10;
+	</select>
 
 	<select id="selectBookClubAll" resultType="clubBean">
 		select * from club where book_bid != 1;
@@ -80,6 +90,9 @@
 		select count(*) from club  where book_bid = #{book_bid} and deleted != 1
 	</select>
 	
+	<update id="updateClubPost" parameterType="clubBean">
+	  	update club set title=#{title},content=#{content},updatetime = now() where id = #{id}
+	</update>
 	
 	
 </mapper>

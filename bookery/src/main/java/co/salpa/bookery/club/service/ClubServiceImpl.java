@@ -164,9 +164,30 @@ public class ClubServiceImpl implements ClubService {
 	public Model listReplyService(int id, Model model) throws DataAccessException {
 
 		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
-		
-		
 		return model.addAttribute("replylist", clubDao.selectReplyById(id));
+	}
+
+	/*
+	 * 게시글 수정하기
+	 */
+	@Override
+	public void updatePostSerivce(ClubVo club) throws DataAccessException {
+		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
+		/*
+		 * "id":0, "ref":0, "depth":0, "num":0, "user_id":0, "book_bid":16687560, "title":"수정테스트", "content":"수정수정	
+수정
+
+완
+료", "createtime":"null", "updatetime":"null", "start":0,"nickname":"null"
+		 * 
+		 * 
+		 * 
+		  update salpa.club set title=수정테스트, content=수정수정	,updatetime = now()  where id = #{id}
+		 */
+		String newLine = club.getContent().replaceAll("\n", "<br/>");
+		club.setContent(newLine);
+		clubDao.updateClubPost(club);
+		
 	}
 	
 
