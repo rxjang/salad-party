@@ -20,7 +20,8 @@ public interface ClubDao {
 	List<ClubVo> selectNewsNotice() throws DataAccessException;	//책거리 뉴스 메인 게시판에서 공지 3개만 불러오기
 
 	List<ClubVo> selectContentForNews() throws DataAccessException;	//책거리 뉴스 메인 실시간 게시글
-	
+
+	List<ClubVo> popularContents() throws DataAccessException;	//북클럽 인기글
 
 	List<ClubVo> selectBookClubAll() throws DataAccessException;
 
