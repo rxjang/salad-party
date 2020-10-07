@@ -9,5 +9,7 @@
 		parameterType="int">
 		select * from salpa.checkchap where study_id = #{study_id}
 	</select>
-
+	<insert id="insertOne" parameterType="checkChapBean">
+		insert into checkchap(toc, plantime, study_id) values(#{toc}, #{plantime}, #{study_id})
+	</insert>
 </mapper>

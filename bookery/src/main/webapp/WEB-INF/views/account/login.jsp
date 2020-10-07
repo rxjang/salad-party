@@ -125,7 +125,7 @@
              if(fail == "fail") {
                 swal("로그인 실패", "이메일과 비밀번호를 확인해주세요.","warning"); 
              }else{
-            	 var dest = "<%=dest%>"; 
+            	 var dest = "<%=dest%>";
             	 if(dest != "null" && dest != "") {
             		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> +""+ dest); 
             		 return false;
