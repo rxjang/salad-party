@@ -40,7 +40,7 @@
 
 	<update id="updateOne" parameterType="checkPageBean">
 		update salpa.checkpage set
-		actualpage=#{actualpage} where date = #{date} and
+		actualpage=#{actualpage}, updatetime = now() where date = #{date} and
 		study_id=#{study_id}
 		and deleted = 0
 	</update>

@@ -56,7 +56,7 @@ var session_user_id = '${user.id}';
 													 .addClass('recommend-down').removeClass('recommend-up');
 				}
 		});//foreach
-		
+		// {   'key'  :  [{} {} {} {} {}]     } 
 		
 		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
