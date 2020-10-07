@@ -71,7 +71,8 @@ var id=${user.id}
 	$(function(){
 		if(id!=1){
 			if(id>1){
-				window.location = "${pageContext.request.contextPath }/news/notice";
+				$(".btns").hide();
+				$(".depth-temp").hide();
 			}else{
 				window.location = "${pageContext.request.contextPath }/account/login";
 			}

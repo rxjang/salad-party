@@ -52,6 +52,16 @@ $(function() {
 		$('.page-result').hide();
 	});//click
 		
+	$(".startdate").prop("min",  get_date_str(new Date()));
+	$(".startdate1").prop("min",  get_date_str(new Date()));
+	$(".startdate1").on("change", function() {
+		$(".enddate").prop("min", $(".startdate1").val());
+		var pos_enddate = new Date($(".startdate1").val());
+		pos_enddate = pos_enddate.setDate(pos_enddate.getDate()+cntToc-1);
+		pos_enddate = new Date(pos_enddate); // 선택할 수 있는 마칠 날짜
+	     $(".enddate").prop("max", get_date_str(pos_enddate));
+	});
+	
 	$('.page-btn').on('click',function(){
 		startdate=$('.startdate').val();
 		$('.start-date').val(startdate);
@@ -176,9 +186,6 @@ $(function() {
 		display:inline-flex;
 		width:100%;
 	}
-	.page-color{
-		color:#8ba989;
-	}
 	.book-image{
 		width:14em;
 		box-shadow: 12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4);
@@ -246,7 +253,7 @@ $(function() {
 	.go-to-chap{
 		width:100%;
 		text-align:right;
-		padding-bottom:2em;
+		padding-bottom:1em;
 	}
  	@media (max-width:800px) {
 	 	label{
@@ -280,7 +287,7 @@ $(function() {
 			<div class="page-content">
 				<div class="book-info-detail">
 					<h4><strong>${v_study.title}</strong></h4>
-					<h5>본 책은 총 <strong class="page-color">${v_study.pages}</strong>페이지 입니다</h5>
+					<h5>본 책은 총 <strong class="color-green">${v_study.pages}</strong>페이지 입니다</h5>
 				</div><!-- book-info-detail -->
 				<div class="page-page">
 					<div class="choice page-choice">
@@ -289,7 +296,7 @@ $(function() {
 					</div><!-- choice -->
 					<div class="by-page by">
 						<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="startdate"/><br/>
-						<label for="page">공부할 양</label><input type="text" name="page" class="page"/>
+						<label for="page">공부할 양</label><input type="number" name="page" class="page"/>
 						<button class="btn btn-priamary page-btn calc">계산</button>
 						<div class="page-result result">
 							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page">

@@ -8,11 +8,63 @@
 <style type="text/css">
 	
 	.news-row{
-		padding:10px 0px 30px 0px; 
+		padding-bottom:35px;
 	}
 	.title{
 		font-weight:bold;
 	}
+	/********************************carousel-css*******************************/
+	.news-carousel .item{
+		width:100%;
+		margin:0px;
+		height:300px;
+		overflow: hidden;
+	}
+	.item1{
+		background: rgb(228,230,218);
+		background: linear-gradient(90deg, rgba(228,230,218,1) 0%, rgba(199,255,255,1) 100%);
+	}
+	.item2{
+		background: rgb(199,255,255);
+		background: linear-gradient(90deg, rgba(199,255,255,1) 0%, rgba(227,255,219,1) 100%);
+	}
+	.item3{
+		background: rgb(227,255,219);
+		background: linear-gradient(90deg, rgba(227,255,219,1) 0%, rgba(254,255,191,1) 100%);
+	}
+	.item4{
+		background: rgb(254,255,191);
+		background: linear-gradient(90deg, rgba(254,255,191,1) 0%, rgba(173,211,255,1) 100%);
+	}
+	.item5{
+		background: rgb(173,211,255);
+		background: linear-gradient(90deg, rgba(173,211,255,1) 0%, rgba(228,230,218,1) 100%);
+	}
+	.news-main{
+		height:100%;
+	}
+	.car-ment{
+		position:relative;
+		margin-top:8%;
+	}
+	.main-ment{
+		font-weight:900;
+	}
+	.owl-carousel .owl-item .item-image{
+		width:28%;
+		display:inline;
+		position:absolute;
+		top:20%;
+		left:60%;
+	}
+	.owl-carousel .owl-item .phone{
+		width:25%;
+		top:10%;
+	}
+	.owl-carousel .owl-item .group{
+		width:40%;
+	}
+	/********************************bestbooks-css*******************************/
 	.best-books{
 		width:100%;
 		text-align:center;
@@ -40,7 +92,7 @@
 		color:#b4b4b4;
 	}
 	/********************************realtime-content-css*******************************/
-	.item{
+	.real-time-item{
 	    box-shadow: 0 2px 8px rgba(0,0,0,.1), 0 8px 20px rgba(0,0,0,.1);
 	    border-radius: 16px;
 	    overflow: hidden;
@@ -205,6 +257,7 @@
 			margin-bottom:1.5em;
 		}	
 	}
+	
 	@media (max-width:450px) {
 		.book-list{
 			width:40%;
@@ -242,7 +295,7 @@ $(function(){
 		$(this).children(".depth-1").text("[공지]");
 	});
 	
-	$(".item").each(function(){
+	$(".real-time-item").each(function(){
 		i++;
 		$(this).css("background","url(\"${pageContext.request.contextPath}/resources/imgs/news/real-time"+i+".JPG\")center/cover");
 		if(i>10){
@@ -259,8 +312,20 @@ $(function(){
 		i++;
 		$(this).text(i);
 	});
-	
-	$('.owl-carousel').owlCarousel({
+	$('.news-carousel').owlCarousel({
+	    loop:true,
+	    autoplay : true,
+	    autoplayTimeout:7000,
+	    smartSpeed:700,
+	    dots:false,
+	    nav:true,
+	    responsive:{
+	        0:{
+	            items:1
+	        }
+	    }
+	})
+	$('.real-time-carousel').owlCarousel({
 	    loop:true,
 	    autoplay : true,
 		center: true,
@@ -278,7 +343,7 @@ $(function(){
 				items:4
 			}
 		}
-	});//owl-carousel
+	});//real-time-carousel
 });//ready
 </script>
 </head>
@@ -286,7 +351,73 @@ $(function(){
 <%@ include file="../template/menu.jspf"%>
 <!-- **********content start**********-->
 <div class="row news-row">
-	<p>케러셀자리</p>
+	<div class="owl-carousel owl-theme news-carousel">
+		<div class="item item1">
+			<div class="col-md-2"></div>
+			<a href="${pageContext.request.contextPath }/today">
+			<div class="col-xs-12 col-md-8 news-main">
+				<div class="car-ment">
+					<h2 class="main-ment">오늘의 기록, 잘하고 계신가요?</h2>
+					<h4 class="sub-ment">그래프로 한눈에 보는 목표치,<br/>오늘의 기록에서 확인 할 수 있습니다</h4>
+				</div>
+				<img class="item-image" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/record.png"><br/>
+			</div>
+			</a>
+			<div class="col-md-2"></div>
+		</div><!-- item -->
+		<div class="item item2">
+			<div class="col-md-2"></div>
+			<a href="${pageContext.request.contextPath }/club">
+			<div class="col-xs-12 col-md-8 news-main">
+				<div class="car-ment">
+					<h2 class="main-ment">스터디는 북커리 회원들과 함께!</h2>
+					<h4 class="sub-ment">책에 관한 이야기를 나누어 보아요</h4>
+				</div>
+				<img class="item-image group" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/group.png"><br/>
+			</div>
+			</a>
+			<div class="col-md-2"></div>
+		</div><!-- item -->
+		<div class="item item3">
+			<div class="col-md-2"></div>
+			<a href="${pageContext.request.contextPath }/find">
+			<div class="col-xs-12 col-md-8 news-main">
+				<div class="car-ment">
+					<h2 class="main-ment">막막하던 수험서 공부,</h2>
+					<h4 class="sub-ment">북커리가 도와드리겠습니다<br/>내서재에 책을 추가하러 가요!</h4>
+				</div>
+				<img class="item-image" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/toby.png"><br/>
+			</div>
+			</a>
+			<div class="col-md-2"></div>
+		</div><!-- item -->
+		<div class="item item4">
+			<div class="col-md-2"></div>
+			<a href="${pageContext.request.contextPath }/news/notice/detail/2">
+			<div class="col-xs-12 col-md-8 news-main">
+				<div class="car-ment">
+					<h2 class="main-ment">북커리 오픈 이벤트</h2>
+					<h4 class="sub-ment">북커리 오픈 기념 푸짐한 선물을<br/>회원분들께 제공합니다</h4>
+				</div>
+				<img class="item-image" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/present.png"><br/>
+			</div>
+			</a>
+			<div class="col-md-2"></div>
+		</div><!-- item -->
+		<div class="item item5">
+		<div class="col-md-2"></div>
+			<a href="${pageContext.request.contextPath }">
+			<div class="col-xs-12 col-md-8 news-main">
+				<div class="car-ment">
+					<h2 class="main-ment">북커리 사용법이 궁금하다면,</h2>
+					<h4 class="sub-ment">어렵지 않아요!<br/>남녀노소 사용하기 쉽게 알려드립니다</h4>
+				</div>
+				<img class="item-image phone" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/phone.png"><br/>
+			</div>
+			</a>
+			<div class="col-md-2"></div>
+		</div><!-- item -->
+	</div>
 </div><!-- row -->
 <div class="row news-row">
 	<div class="col-md-1"></div>
@@ -324,9 +455,9 @@ $(function(){
 	<div class="col-md-1"></div>
 	<div class="col-xs-12 col-md-10">
 		<h4 class="title">실시간 게시글</h4>
-		<div class="owl-carousel owl-theme">
+		<div class="owl-carousel owl-theme real-time-carousel">
 			<c:forEach items="${contentList }" var="contents">
-				<div class="item">
+				<div class="item real-time-item">
 					<div class="item-inner">
 						<div class="item-content">
 							<h4 class="title">${contents.title}</h4>
