@@ -12,6 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class V_CalendarVo {
+	private int user_id;
 	private String sid_date;//"study_id:yyyy-mm-dd"
 	private String type;//"chap","page"
 	private int study_id;

@@ -89,8 +89,7 @@
 					<c:forEach items="${studymap }" var="map">
 						<c:set value="${map.key }" var="study_id"/>
 						<c:set value="${map.value.v_study }" var="study"/>
-						<c:set value="${map.value.checkchap }" var="checkchap"/>
-						<c:set value="${map.value.checkpage }" var="checkpage"/>
+						<c:set value="${map.value.v_calendar }" var="cals"/>
 						<div class="item">
 							<!-- 
 							study_id: ${study_id }<br>
@@ -224,49 +223,32 @@
 							<div id="todayDiv3" class="row">
 								<div class="col-md-6 col-xs-6">
 									그래프 4 (전체 기간동안 누적 actual(green,yellow,brown)/plan(gray))<br>
-									<c:if test="${study.type eq 'chap'}">
-										목록길이: ${fn:length(checkchap) }<br>
-										<c:forEach items="${checkchap}" var="chapVo" varStatus="status">
-												${chapVo.id}
-												${chapVo.toc }
-												${chapVo.plantime }
-												${chapVo.actualtime }<br>
-										</c:forEach>
-									</c:if>
-									<c:if test="${study.type eq 'page'}">
-										목록길이: ${fn:length(checkpage) }<br>
-										<c:forEach items="${checkpage}" var="pageVo" varStatus="status">
-												${pageVo.id}
-												${pageVo.date }
-												${pageVo.planpage }
-												${pageVo.actualpage }<br>
-										</c:forEach>
-									
-									</c:if>
+									목록길이: ${fn:length(cals) }<br>
+									<c:forEach items="${cals}" var="cal" varStatus="status">
+										${cal.user_id} 
+										${cal.sid_date} 
+										${cal.type} 
+										${cal.study_id} 
+										${cal.date} 
+										${cal.plan} 
+										${cal.actual} 
+										${cal.status}<br>
+									</c:forEach>
 								</div>
 								<div class="col-md-6 col-xs-6">
 									그래프 5 (전체 기간동안 일일 actual(green,yellow,brown)/plan(gray))<br>
-									<c:if test="${study.type eq 'chap'}">
-										목록길이: ${fn:length(checkchap) }<br>
-										<c:forEach items="${checkchap}" var="chapVo" varStatus="status">
-												${chapVo.id}
-												${chapVo.toc }
-												${chapVo.plantime }
-												${chapVo.actualtime }<br>
-										</c:forEach>
-									</c:if>
-									<c:if test="${study.type eq 'page'}">
-										목록길이: ${fn:length(checkpage) }<br>
-										<c:forEach items="${checkpage}" var="pageVo" varStatus="status">
-												${pageVo.id}
-												${pageVo.date }
-												${pageVo.planpage }
-												${pageVo.actualpage }<br>
-										</c:forEach>
-									
-									</c:if>
+									목록길이: ${fn:length(cals) }<br>
+									<c:forEach items="${cals}" var="cal" varStatus="status">
+										${cal.user_id} 
+										${cal.sid_date} 
+										${cal.type} 
+										${cal.study_id} 
+										${cal.date} 
+										${cal.plan} 
+										${cal.actual} 
+										${cal.status}<br>
+									</c:forEach>
 								</div>
-							
 							</div>
 							<div id="todaybtn" class="row">
 								<div class="col-md-8 col-md-offset-2 col-xs-12">

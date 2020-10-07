@@ -14,8 +14,8 @@
 		margin: 10px;
 	}
 	#planDiv1 img{
-		height: 50px;
-		line-height: 50px;
+/* 		height: 50px; */
+/* 		line-height: 50px; */
 	}
 	#planDiv1 h4{
 		line-height: 50px;
@@ -23,10 +23,11 @@
 	}
 	#planDiv1 h4 a{
 		text-decoration: none;
-		line-height: 50px;
+/* 		line-height: 50px; */
 		color: #888888;
 	}
 	#planDiv2{
+		width:100%;
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
 		border: 1px solid #dddddd;
@@ -39,13 +40,17 @@
 	}
 	#planDiv2 img{
 		border-top-left-radius: 5px;
-		height: 200px;
+		width: 40%;
+		overflow:hidden;
+		display: block;
+/* 		height: 200px; */
 		line-height: 150px;
 	}
 	@media (max-width:800px) {
 		height: 100px;
 	}
 	#planDiv3{
+		width:100%;
 		border-bottom-left-radius: 5px;
 		border-bottom-right-radius: 5px;
 		border: 1px solid #dddddd;
@@ -55,7 +60,8 @@
 	}
 	#planDiv3 img{
 		border-bottom-left-radius: 5px;
-		height: 200px;
+		width: 40%;
+/* 		height: 200px; */
 		line-height: 150px;
 	}
 	#planDiv2:hover,#planDiv3:hover{
@@ -89,22 +95,33 @@
 				</h3>
 			</div>
 			<div class="col-md-8 col-md-offset-2 col-xs-12">
-				<div id="planDiv1">
-					<div class="media">
-						<div class="media-left">
-							<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid }">
-								<img class="media-object img-rounded" src="${v_study.coverurl}" alt="book cover">
-							</a>
-						</div>
-						<div class="media-body">
-							<h4 class="media-heading">
-								<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid }">
-									${v_study.title}
-								</a>
-							</h4>
-						</div>
+				<div id="planDiv1" class="row">
+					<div class="col-md-2 col-xs-5">
+						<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid }">
+							<img class="media-object img-rounded" src="${v_study.coverurl}" alt="book cover">
+						</a>
 					</div>
-				</div>
+					<div class="col-md-3 col-xs-8">
+						<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid }">
+							${v_study.title}
+						</a>
+					</div>
+<!-- 				<div id="planDiv1"> -->
+<!-- 					<div class="media"> -->
+<!-- 						<div class="media-left"> -->
+<%-- 							<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid }"> --%>
+<%-- 								<img class="media-object img-rounded" src="${v_study.coverurl}" alt="book cover"> --%>
+<!-- 							</a> -->
+<!-- 						</div> -->
+<!-- 						<div class="media-body"> -->
+<!-- 							<h4 class="media-heading"> -->
+<%-- 								<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid }"> --%>
+<%-- 									${v_study.title} --%>
+<!-- 								</a> -->
+<!-- 							</h4> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 			</div>
 		</div>
 		<div class="row">
@@ -118,7 +135,7 @@
 										<img class="media-object" src="${pageContext.request.contextPath }/resources/imgs/chap.jpg" alt="chapter">
 									</div>
 									<div class="media-body">
-										<h4 class="media-heading">챕터 중심으로 목표설정하기</h4>
+										<h4 class="media-heading">하루에 한 챕터 이상을 완료할 수 있다면?<br><br>챕터 중심으로 목표설정하기</h4>
 										<br>
 										<p>선택한 도서의 전체 챕터를 살펴보고<br>
 										필요하다면 원하는 대로 챕터를 추가하거나 삭제합니다.<br>
@@ -137,7 +154,7 @@
 										<img class="media-object" src="${pageContext.request.contextPath }/resources/imgs/page.jpg" alt="page">
 									</div>
 									<div class="media-body">
-										<h4 class="media-heading">페이지 중심으로 목표설정하기</h4>
+										<h4 class="media-heading">한 챕터를 끝내는데 여러날이 걸린다면?<br><br>페이지 중심으로 목표설정하기</h4>
 										<br>
 										<p>선택한 도서의 전체 페이지를 살펴보고<br>
 										하루에 끝낼 페이지수 또는 완료하고 싶은 날짜를 정하여<br>
