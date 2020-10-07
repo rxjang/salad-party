@@ -11,9 +11,11 @@ var img_link;
 var bid = ${bid}; //컨트롤러에서 bid를 받아온다.
 var owlItem='';
 var bookMap ={};
+
 $(function(){
 
 	$('#crawling_div').hide();
+
 	if('${user}'==''){
 		$('#bookclub').hide();
 	}else{
@@ -150,12 +152,14 @@ $(function(){
 			$('.caro-cnt').css({'font-size':'110%','font-weight':'500'});
 			
 			/**********************    캐러셀    **********************/
+			var cnt_item = $('.owl-item').length;
 			$('#owl_detail').owlCarousel({
-				items:4,
-				loop : true,
-				autoplay : true,
+				items:cnt_item,
+				loop : false,
+				autoplay : false,
 				margin : 10,
 				merge : false,
+				autoWidh:false,
 				nav : false,
 				responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 				}
@@ -181,11 +185,15 @@ $(function(){
 			
 			var list =$('#crawling_div').find('#tableOfContentsContent');
 				/*************	네이버북스 책목차는 tableOfContentsContent아래에 있다	*************/
-
-				var newLineText = $(list).html().replace(/<(\/br|br)([^>]*)>/gi, "\n");
+				var newLineText='';
+				var noTagText='';
+				if(list.length != 0){
+					newLineText = $(list).html().replace(/<(\/br|br)([^>]*)>/gi, "\n");
+					noTagText = newLineText.replace(/(<([^>]+)>)/ig, "");
+				}
 				//br태그를 \n으로 변경
-			//	console.log(newLineText);
-				var noTagText = newLineText.replace(/(<([^>]+)>)/ig, "");
+			//	console.log(newLineText);	
+				//var noTagText = newLineText.replace(/(<([^>]+)>)/ig, "");
 				//모든 태그요소를 제거
 
 				var list_group = '<ul class="list-group">';
@@ -230,6 +238,16 @@ $(function(){
 			location.href="${pageContext.request.contextPath}/today";
 		});//오늘의 기록으로 이동
 		
+		
+		
+		$('#bookclub').on('click',function(){
+			location.href='${pageContext.request.contextPath}/club/list/${bid}';			
+		});//공부방 참여하기 버튼
+		
+		
+		
+		
+		console.log(chapters.trim());
 		/*******  body에 있는 내서재가기  ******/
 		$('#putChapters').on('click', function() {
 			if('${user}'==''){
@@ -251,30 +269,68 @@ $(function(){
 				});//swal
 				return false;
 			}else{
-				$.post('${pageContext.request.contextPath }/find/put', {
-					'chapters' : chapters,
-					'bid' : bid,
-					'title' : title,
-					'writer' : writer,
-					'publisher' : publisher,
-					'pages' : pages,
-					'category' : category,
-					'isbn' : isbn,
-					'translator' : translator,
-					'titleoriginal' : title_original,
-					'publicationdate' : publication_date,
-					'revision' : revision,
-					'coverurl': imgUrl
-				}, function() {
-					//DB에 목차정보랑 책ID를 전달함
-					$('.mylib-btn a').eq(0).attr('id','goToday');
-					$('.mylib-btn a').eq(0).text('오늘의 기록');
-					console.log('success');
+				var parameter = 'chapters='+chapters.trim()+'&bid='+ bid+'&title='+ title+'&writer='+ writer+'&publisher='+ publisher+'&pages='+ pages+
+					'&category='+ category+'&translator='+ translator+'&titleoriginal='+ title_original+'&publicationdate='+ publication_date+
+					'&revision='+ revision+'&coverurl='+ imgUrl;
+				//$.post('${pageContext.request.contextPath }/find/put', {
+				var jparam ={
+					"chapters" : chapters,
+					"book":
+					{
+					"bid" : bid,
+					"title" : title,
+					"writer" : writer,
+					"publisher" : publisher,
+					"pages" : pages,
+					"category" : category,
+					"translator" : translator,
+					"titleoriginal" : title_original,
+					"publicationdate" : publication_date,
+					"revision" : revision,
+					"coverurl": imgUrl }}
 					
-				}).fail(function() {
-					swal("통신 에러");
+				$.ajax({
+					url:'${pageContext.request.contextPath }/find/put',
+					type:'post',
+					data:JSON.stringify(jparam),
+					dataType:'json',
+					contentType:'application/json;charset=utf-8',
+					success:function(data){
+						//DB에 목차정보랑 책ID를 전달함
+						$('.mylib-btn a').eq(0).attr('id','goToday');
+						$('.mylib-btn a').eq(0).text('오늘의 기록');
+					},//success
+					error:function(jqXHR, textStatus, errorThrown){
+						console.log(jqXHR);
+						swal("통신 에러");
+					}//errro	
 				});//ajax
 			}//else 로그인 검사
+/* 		
+			XHRPOSThttp://localhost:8085/bookery/find/put
+				[HTTP/1.1 400  36ms]
+
+				    	
+				    chapters	""
+				    bid	"12247527"
+				    title	"감자가 만났어"
+				    writer	"수초이"
+				    publisher	"후즈갓마이테일"
+				    pages	"48"
+				    category	""
+				    translator	""
+				    titleoriginal	""
+				    publicationdate	""
+				    revision	""
+				    coverurl	"https://bookthumb-phinf.pstatic.net/cover/122/475/12247527.jpg?type"
+				    udate	"20191011"
+ */
+//chapters=&bid=12247527&title=감자가 만났어&writer=수초이&publisher=후즈갓마이테일
+//&pages=48&category=&translator=&titleoriginal=&publicationdate=&revision=
+//&coverurl=https://bookthumb-phinf.pstatic.net/cover/122/475/12247527.jpg?type=m140&udate=20191011
+
+
+
 			
 			swal({
 				  title: "내서재에 담았습니다.",
@@ -303,17 +359,7 @@ $(function(){
 			$(document).scrollTop(0);
 		});//탑 버튼 클릭
 		
-		if (!window.Cypress) {//aos 적용.
-	        const scrollCounter = document.querySelector('.js-scroll-counter');
 
-	        AOS.init({
-	          mirror: true
-	        });
-
-	        document.addEventListener('aos:in', function(e) {
-	          //console.log('in!', e.detail);
-	        });
-	      }//AOS
 	  
 	      $('.book-info').hide();//책소개 내용 처음엔 숨김
 	      $('.panel-heading').css({'cursor':'pointer','background-color':'white'});
@@ -326,6 +372,7 @@ $(function(){
 					$(this).find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 					
 					$(this).next().slideDown(500);
+					aos();
 			//	}else if($(this).find('.triangle').text() == '▽'){
 				}else if($(this).find('span').attr('class').includes('up')){
 					
@@ -341,6 +388,9 @@ $(function(){
 			
 			$('.additional-info a').css({'margin':'5px 5px 5px 5px','color':'#49654d'});
 			$('.book-intro').last().css('border-bottom','1px solid #e4e4e4');
+			
+			
+			$('#crawling_div').remove();
 	});//ready
 
 </script>
@@ -427,7 +477,7 @@ $(function(){
 		<div class="col-xs-12 col-md-6 mylib-btn">
 			<a id="putChapters" class="btn btn-default" role="button" href="#">내
 				서재에 담기</a>
-			<a id="bookclub" class="btn btn-default" role="button" href="#">공부방 참여하기</a>
+			<a id="bookclub" class="btn btn-default" role="button" href="#">북클럽 바로가기</a>
 		</div>
 	<div class="col-md-3"></div>
 	</div>

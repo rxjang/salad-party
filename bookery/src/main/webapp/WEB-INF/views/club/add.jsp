@@ -14,6 +14,20 @@
 #content{
 	resize: none;
 }
+.btn-write{
+	color:white;
+	background-color:#8ba989; 
+}
+.form-btns{
+	text-align: center;
+}
+.form-btns button{
+	display: inline-block;
+	margin: auto;
+}
+.jumbotron{
+	background-color: white;
+}
 </style>
 </head>
 <body>
@@ -32,44 +46,36 @@
 		<div class="bottom-line col-xs-12 col-md-12"></div>
 	</div>
 	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6 side-line">
+		<div class="col-md-2"></div>
+		<div class="col-xs-12 col-md-8">
+		<div class="jumbotron">
+	
 			<form class="form-horizontal" action="${pageContext.request.contextPath }/club/insert" method="post">
 				<div class="form-group">
-					<label for="inputPassword3" class="col-sm-2 control-label">책</label>
-					<div class="col-sm-10">
 						<input type="text" class="form-control" id="inputPassword3" readonly="readonly"
 							value="${book.title }">
-					</div>
 				</div>
 
 				<div class="form-group">
-					<label for="title" class="col-sm-2 control-label">제목</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" name="title" id="title"
-							placeholder="title">
+						<input type="text" class="form-control content-title" name="title" id="title"
+							placeholder="제목을 입력하세요.">
 					</div>
-				</div>
 				
 				<div class="form-group">
-					<label for="content" class="col-sm-2 control-label">내용</label>
-					<div class="col-sm-10">
-						<textarea class="form-control" rows="6" name="content" id="content"></textarea>
-					</div>
+						<textarea class="form-control content-main" rows="15" name="content" id="content" placeholder="내용을 입력하세요."></textarea>
 				</div>
 				
 				<input type="hidden" name="book_bid" value="${book.bid }" />
 				<input type="hidden" name="depth" value="0" />
 
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-default">글쓰기</button>
-					</div>
+				<div class="form-group form-btns">
+						<button type="submit" class="btn btn-default btn-write">글쓰기</button>
+						<button type="button" class="btn btn-default" onclick="history.back();">취소</button>
 				</div>
 			</form>
 
 		</div>
-		<div class="col-md-3"></div>
+			</div>
 	</div>
 	<!--**********content end**********-->
 	<%@ include file="../template/footer.jspf"%>

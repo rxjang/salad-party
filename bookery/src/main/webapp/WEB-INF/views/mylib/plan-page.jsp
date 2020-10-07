@@ -160,7 +160,7 @@ $(function() {
 	}
 	.jumbotron{
 		background-color:white;
-		width:80%;
+		width:70%;
 		margin:0 auto;
 		padding:10px;
 		border:1px solid #e4e4e4;
@@ -169,9 +169,15 @@ $(function() {
 		text-align:center;
 		margin-bottom:1em;
 	}
+	.title-image{
+		width:1.5em;
+	}
 	.page-main{
 		display:inline-flex;
 		width:100%;
+	}
+	.page-color{
+		color:#8ba989;
 	}
 	.book-image{
 		width:14em;
@@ -237,6 +243,11 @@ $(function() {
 		text-align:center;
 		margin-top:10px;
 	}
+	.go-to-chap{
+		width:100%;
+		text-align:right;
+		padding-bottom:2em;
+	}
  	@media (max-width:800px) {
 	 	label{
 			width:30%;
@@ -269,7 +280,7 @@ $(function() {
 			<div class="page-content">
 				<div class="book-info-detail">
 					<h4><strong>${v_study.title}</strong></h4>
-					<h5>본 책은 총 <strong>${v_study.pages}</strong>페이지 입니다</h5>
+					<h5>본 책은 총 <strong class="page-color">${v_study.pages}</strong>페이지 입니다</h5>
 				</div><!-- book-info-detail -->
 				<div class="page-page">
 					<div class="choice page-choice">
@@ -281,7 +292,7 @@ $(function() {
 						<label for="page">공부할 양</label><input type="text" name="page" class="page"/>
 						<button class="btn btn-priamary page-btn calc">계산</button>
 						<div class="page-result result">
-							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
+							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page">
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day" readonly/><br/>
@@ -309,7 +320,7 @@ $(function() {
 						<label for="enddate">마칠 날짜</label><input type="date" name="enddate" class="enddate"/>
 						<button class="btn btn-priamary enddate-btn calc">계산</button>
 						<div class="date-result result">
-							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
+							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page">
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date1" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date1" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day1" readonly/><br/>
@@ -329,6 +340,9 @@ $(function() {
 				</div><!-- page-date -->
 			</div><!-- page content -->
 		</div><!-- .page-main end -->
+		<div class="go-to-chap">
+			<a href="${pageContext.request.contextPath }/mylib/plan/chap/${v_study.study_id}"><em>챕터 목표설정 페이지로 이동</em></a>
+		</div>
 	</div><!-- jumbotron end -->
 </div><!-- .row end -->
 <!--**********content end**********-->

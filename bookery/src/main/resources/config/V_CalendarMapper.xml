@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="co.salpa.bookery.model.V_CalendarDao">
+	<select id="selectAllByUserId" resultType="v_calendarBean"
+		parameterType="_int">
+		select * from v_calendar where user_id=#{user_id}
+	</select>
+	<select id="selectAllByStudyId" resultType="v_calendarBean"
+		parameterType="_int">
+		select * from v_calendar where study_id=#{study_id}
+	</select>
+	
+	<select id="selectFinData" resultType="v_calendarBean" parameterType="_int">
+		select * from v_calendar where study_id=#{study_id} and actual is not null
+	</select>
+
+</mapper>

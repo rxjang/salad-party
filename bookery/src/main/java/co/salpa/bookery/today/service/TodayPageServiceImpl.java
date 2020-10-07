@@ -28,12 +28,15 @@ public class TodayPageServiceImpl implements TodayPageService {
 	@Autowired
 	SqlSession sqlSession;
 
+
+
 	/**
 	 *  sql type 오늘 날짜 구하기 2020-09-24
 	 */
 	public Date getSqlToday() {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		Date today = Date.valueOf(sdf.format(new java.util.Date()));
+		
 		return today;
 	}//getSqlToday
 	

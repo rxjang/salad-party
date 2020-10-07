@@ -42,17 +42,21 @@ public class MylibController {
 		return "mylib/detail";
 	}
 	
+	
+	/************************************ plan-page ***********************************************/
+	
 	@RequestMapping(value="/plan/page/{study_id}")
 	public String mylibPlanPage(@PathVariable int study_id,Model model) {
 		mylibService.selectStudyService(study_id, model);
 		return "mylib/plan-page";
 	}
 	
-	@RequestMapping(value = "/plan/page/fin",method = RequestMethod.POST)
-	public String insertPagePlan(@ModelAttribute StudyVo study, int studyDay, int planPage) {
+	@RequestMapping(value = "/plan/page",method = RequestMethod.POST)
+	public String insertPagePlan(@ModelAttribute StudyVo study,int studyDay, int planPage) {
 		System.out.println(study.getEnddate());
+		int study_id=study.getId();
 		mylibService.insertPagePlanService(study, studyDay, planPage);
-		return "redirect:../../../today";
+		return "redirect:../../today/page/"+study_id;
 	}
 	
 	@RequestMapping(value="/plan/chap/{study_id}")
@@ -76,6 +80,9 @@ public class MylibController {
 		return "redirect:../../../today";
 	}
 	
+
+	/************************************ award ***********************************************/
+
 	@RequestMapping("/award")
 	public String awards(Model model,HttpSession session) {
 		UserVo user=(UserVo) session.getAttribute("user");

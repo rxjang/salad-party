@@ -23,6 +23,10 @@
 		parameterType="int">
 		select * from v_study where user_id = #{user} and type is not null and progress_rate &lt; 100
 	</select>
+	<select id="selectActiveStudyIDByUserId" resultType="java.lang.Integer"
+		parameterType="int">
+		select study_id from v_study where user_id = #{user} and type is not null and progress_rate &lt; 100
+	</select>
 	<select id="selectNoGoalBook" resultType="v_studyBean" parameterType="_int">
  		select * from v_study where type is null and user_id=#{id}
  	</select>
@@ -43,5 +47,9 @@
  	</select>
  	<select id="countPeopleByBook" parameterType="_int">
  		select count(book_bid) from v_study where book_bid =#{book_bid}
+ 	</select>
+ 	
+ 	<select id="bestAchieveUser" resultType="v_studyBean">
+ 		select nickname,count(nickname) as pages from v_study where progress_rate=100 group by nickname order by pages desc limit 5
  	</select>
 </mapper>

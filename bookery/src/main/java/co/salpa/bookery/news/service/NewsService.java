@@ -17,4 +17,6 @@ public interface NewsService {
 	void updateNotice(ClubVo club) throws DataAccessException;
 	
 	void deleteNotice(int id) throws DataAccessException;
+	
+	Model newsMainService(Model model) throws DataAccessException; 
 }

@@ -92,7 +92,7 @@ pubdate	datetime	출간일 정보이다.
 					*/
 					content += '<div id="scrollMove'+scrollMove_cnt+'" class="media" data-aos="fade-up"><div class="media-left media-middle">'
 					content += '<a class="bid"  href="' + $(ele).find('link').text() + '">'  
-					content += '<img class="media-object img-rounded" src="' + $(ele).find('image').text() + '" alt="loading fail">'    
+					content += '<img class="media-object" src="' + $(ele).find('image').text() + '" alt="loading fail">'    
 					content += '</a></div>'   
 					content += '<div class="media-body">' 
 					content += '<h4 class="media-heading">' +$(ele).find('title').text() + '</h4>' 
@@ -131,7 +131,7 @@ pubdate	datetime	출간일 정보이다.
 			
 	/*********************** 검색 form 전송  ***********************/
 		$('.search-form').submit(function() { 
-			$('#owl_div').hide();
+			$('#owl_div,.top10').hide();
 			$('#result').html('');
 			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			startResult=1; //검색결과들 중 읽어올 문서의 순서. ex:start=2 라면 10개 검색됐으면 2번째부터 출력
@@ -156,7 +156,7 @@ pubdate	datetime	출간일 정보이다.
 		$('.owl-stage-outer').owlCarousel({
 			loop : true,
 			autoplay : true,
-			margin : 10,
+			margin : 30,
 			merge : false,
 			nav : false,
 			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
@@ -171,7 +171,7 @@ pubdate	datetime	출간일 정보이다.
 				}
 			}
 		});//owl캐러셀
-		
+		$('.owl-stage-outer').after('<img class=\"wood\" src=\"${pageContext.request.contextPath}/resources/imgs/shelf.png\">');
 		/* 검색 옵션 제목,저자,출판사 */
 		$('#opt-tit').click(function(){
 			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
@@ -188,6 +188,11 @@ pubdate	datetime	출간일 정보이다.
 			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
 			selectOpt_val = $(this).text();
 		});		
+		$('#opt-all').click(function(){
+			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
+			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
+			selectOpt_val = $(this).text();
+		});		
 		
 		
 		
@@ -198,9 +203,25 @@ pubdate	datetime	출간일 정보이다.
 			$(this).text($(this).text().substring(0,20)+' ...');			
 		}
 	});//each title
-		
+	
+	$('.top10').click(function(){
+		location.href='${pageContext.request.contextPath}/news';
+	});//click
+
+	/* 메달 반응형 */
+	setInterval(function() {
+		var window_x = $(window).width();
+		console.log(window_x);
+		if(window_x < 666){
+			$('.medal').hide();
+		}else{
+			$('.medal').show();
+		}
+	}, 500); 
+	
+	
 	});//ready
-		
+	
 </script>
 <style type="text/css">
 
@@ -211,7 +232,7 @@ pubdate	datetime	출간일 정보이다.
  	height:30px;
  	border-radius:25px;
 	border-bottom:1px solid #e4e4e4;
-	box-shadow:#e4e4e4 0px 0px 5px;
+	box-shadow: rgb(192, 207, 178) 0px 0px 3px;
 	width:100%;
 
 }
@@ -239,10 +260,12 @@ pubdate	datetime	출간일 정보이다.
 .dropdown-menu{
 	left: 0px;
 }
+
 #selectOpt{
 	border-radius:25px;
 	border:0px;
-	box-shadow: #e4e4e4 0px 0px 3px;
+	box-shadow: rgb(192, 207, 178) 0px 0px 3px;
+	float: right;
 }
 .media-object{
 	width:120px;
@@ -265,7 +288,42 @@ pubdate	datetime	출간일 정보이다.
 .owl-item img, .bid img{
 	margin:5px 5px 5px 5px;
 	box-sizing:border-box;
-	box-shadow:#e4e4e4 0px 0px 6px;
+	box-shadow:rgb(37, 54, 41) 5px 5px 10px;
+}
+.wood{
+		width:107%;
+		height:5em;
+		position:relative;
+		right:3.5%;
+		bottom:6px;
+		
+	}
+.top10{
+	cursor:pointer;
+	font-size:120%;
+	font-weight:600;
+	color:rgb(37, 54, 41);
+	border:1px solid  #ecece9;
+	background-color: #ecece9;
+	height:100px;
+}
+.top10 small{
+	font-size:90%;
+	font-weight: normal;
+	color: #445243;
+}
+.top10 .panel-body{
+	padding:30px;
+}
+.medal{
+	float: right;
+	position: relative;
+	bottom: 45px;
+}
+ @media (min-width:900px) {
+	.btn-group{
+		width:100px;
+	}
 }
 </style>
 </head>
@@ -277,10 +335,10 @@ pubdate	datetime	출간일 정보이다.
 			<div class="row">
 				<div class="col-md-2">&nbsp;</div>
 				<div class="col-md-8 col-xs-12">
-						<h3>
-							<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 책 찾기
+				<br/>
+						<!-- 	<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 책 찾기 -->
 						<!-- search option select -->
-							  <div class="btn-group" role="group">
+						<!-- 	  <div class="btn-group" role="group">
 							    <button type="button" id="selectOpt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							      제목
 							      <span class="caret"></span>
@@ -291,15 +349,30 @@ pubdate	datetime	출간일 정보이다.
 							      <li><a id="opt-pub" href="#">출판사 </a></li>
 							    </ul>
 							  </div>
-						</h3><h4><small id="cntOfTotal"></small></h4>
+						<h4><small id="cntOfTotal"></small></h4> -->
 				</div>
 				
-				<div class="bottom-line col-xs-12 col-md-12"></div>
+			<!-- 	<div class="bottom-line col-xs-12 col-md-12"></div> -->
 			</div>
 
 			<div class="row">	<!--************ search **********-->
-			<div class="col-md-3">&nbsp;</div>
-			<div class="col-xs-12 col-md-6">
+			
+			<div class="col-md-2">&nbsp;</div>
+			<div class="col-xs-2 col-md-1">
+			 <div class="btn-group" role="group">
+				 <button type="button" id="selectOpt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				      전체
+				      <span class="caret"></span>
+				    </button>
+				    <ul class="dropdown-menu">
+				      <li><a id="opt-all" href="#">전체</a></li>
+				      <li><a id="opt-tit" href="#">제목</a></li>
+				      <li><a id="opt-auth" href="#">저자</a></li>
+				      <li><a id="opt-pub" href="#">출판사</a></li>
+				    </ul>
+			</div>
+			</div>
+			<div class="col-xs-10 col-md-6">
 					<form action="#" class="search-form form-inline">
 						<div class="input-search input-group">
 							<input type="text" class="" placeholder="제목을 입력하세요." name="search" id="search"/>
@@ -310,23 +383,36 @@ pubdate	datetime	출간일 정보이다.
 							</span>
 						</div>
 					</form>
+					<h4><small id="cntOfTotal"></small></h4>
 			</div>
 			<div class="col-md-3"></div>
 			</div>
 				
 			<div class="row">			
-				<div class="col-md-2">&nbsp;</div>
+				<div class="col-md-1">&nbsp;</div>
 				<div class="col-xs-12 col-md-10">
 					<a id="inputBook" class="text-success" href="#">+직접 입력하기</a>
 				</div>
 			</div>
-	<div class="row" id="owl_div">
-			<!-- ************** OWL carousel ************  -->
 
-		<div class="col-md-2">&nbsp;</div>
+	<div class="row">
+		<div class="col-md-1"></div>
 		<div class="col-xs-12 col-md-10">
-			<h5 class="text-success">최근 많이 공부하는 책</h5>
+		<div class="panel panel-default top10">
+			<div class="panel-body">
+				지금 많이 공부하는 책 TOP10<br/><small>북커리회원들이 많이 공부하는 책을 살펴보세요</small>
+			<%-- <img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/bronze_madal.png">
+			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/silver_madal.png">
+			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/gold_madal.png"> --%>
+			<img class="medal" style="height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/medals.png">
+			</div>
 		</div>
+		
+		</div>
+	</div>
+
+	<!-- ************** OWL carousel ************  -->
+	<div class="row" id="owl_div">
 		<div class="col-md-1">&nbsp;</div>
 		<div class="col-xs-12 col-md-10"   id="owl">
 			<div class="owl-carousel owl-themeowl-loading owl-loaded">
@@ -334,9 +420,7 @@ pubdate	datetime	출간일 정보이다.
 					<div class="owl-stage owl-refresh" >
 					<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
 					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'>
-					<img class="img-rounded" alt="image loading fail" src="${bean.coverurl }">
-					<br/>
-					<span class="owl-title">${bean.title }</span>
+					<img alt="image loading fail" src="${bean.coverurl }">
 					</a></div>
 					</c:forEach>
 					</div>

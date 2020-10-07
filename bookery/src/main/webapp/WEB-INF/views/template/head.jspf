@@ -57,6 +57,14 @@
  -->
 <style>
 	/**** 크롬 자동포커스 아웃라인, 자동 배경색 채우기 해제 ****/
+	em{
+		color:#787878;
+	}
+	em:hover{
+		color:#c0cfb2;
+		font-weight:bold;
+		text-decoration:none;
+	}
 	textarea:focus { outline: none; } 
 	.btn-default:focus,
 	.btn-default.focus,
@@ -79,6 +87,11 @@
 	  }
 	/******************************		크롬	****************************/
 
+	.top-line{
+		margin-top:20px;
+		margin-bottom:20px;
+		border-top:1px solid #e4e4e4;
+	}
 	.bottom-line{
 		/**** 페이지 밑 줄
 			div class = col-md-12 col-xs-12 bottom-line 으로 사용하면
@@ -98,7 +111,13 @@
      -ms-overflow-style: none; /* IE and Edge */
 	}
 	
-	
+	a{decoration:none; color:black;}
+
+	a:hover{
+		color:black;
+		text-decoration:none;
+	}
+
  	#menu{
 	 	background-color:white;
 		border-bottom: 1px solid #e4e4e4;
@@ -114,6 +133,7 @@
 	#menu a:hover, .sub-menu a:hover{
 		background-color: rgba(255, 0, 0, 0.0) !important;/*기존 부트스트랩 색깔 투명하게 설정*/
 		text-decoration:none;
+		cursor:pointer;
 	}
 	#menu ul{padding:4px 0px;}
 	.nav li{float:left;}
@@ -222,14 +242,14 @@
  	   	}
  	   	.submenu-main{
  	   		margin-top:90px;
- 	   		margin-bottom:100px;
+ 	   		margin-bottom:180px;
  	   	}
  	  	 #footer{margin-bottom:80px;}
  	  	 .footer-content{
  	   		padding-bottom:10px;
  	   		padding-left:25px;
  	   	}/*좌측 적당한 공간 띄움*/
- 	   	.mylib-menu, .news-menu{left:auto;}/**pc버전의 left속성 없앰**/
+ 	   	.mylib-menu{left:auto;}/**pc버전의 left속성 없앰**/
 	}
 	
 	@media (max-width:800px) {/**모바일 위한 CSS-서브메뉴 간격 조절**/
@@ -249,26 +269,82 @@ mql.addListener(function(e) {
 });//넓이 변경시 이벤트 발생
 
 $(function(){
-	  $('.add-jung').mouseenter(function(){
-	    $(this).children(".jung").css('color','black');
-		$(this).css('font-weight','bold');
-		$(this).prev().css('font-weight','bold');
-	  });
-	  $('.add-jung').mouseleave(function(){
-	    $(this).children(".jung").css('color','white');
-	    $(this).css('font-weight','normal').css('background-color','none');
-		$(this).prev().css('font-weight','normal');
-	  });
-	  
-	  $(".nav li").click( function() { 
-          $(this).css("background-color", "rgba(255, 0, 0, 0.0)");
-       });
+		var str = location.href;
+		var temp1=str.indexOf("bookery/");
+		var temp2=str.substring(temp1,temp1+9);
+		var temp=temp2.substring(temp2.lastIndexOf('/')+1);
 		
 		if (mql.matches) {
 		    mobile();
 		} else {
 			pc()
 		}//최초 접속 상태로 판단
+		
+		if(temp=="t"){
+			$(".menu-today").css("font-weight","bold")
+			temp="오늘의 기록";
+			temp2="#오늘의 기록";
+		}else if(temp=="m"){
+			temp="내서재";
+			temp2="#내서재";
+		}else if(temp=="c"){
+			temp="북클럽";
+			temp2="#북클럽";
+		}else if(temp=="f"){
+			temp="검색";
+			temp2="#검색";
+		}else if(temp=="n"){
+			temp="책거리 뉴스";
+			temp2="#책거리 뉴스";
+		}
+		
+
+		$('.cut-10').each(function(){
+			if($(this).text().length > 10){
+				$(this).text($(this).text().substring(0,10)+' ...');			
+			}
+		});//12개 까지 끊기
+		$('.cut-12').each(function(){
+			if($(this).text().length > 12){
+				$(this).text($(this).text().substring(0,12)+' ...');			
+			}
+		});//12개 까지 끊기
+		$('.cut-15').each(function(){
+			if($(this).text().length > 15){
+				$(this).text($(this).text().substring(0,15)+' ...');			
+			}
+		});//15개까지 끊기
+		$('.cut-20').each(function(){
+			if($(this).text().length > 20){
+				$(this).text($(this).text().substring(0,20)+' ...');			
+			}
+		});//15개까지 끊기
+		$('.cut-100').each(function(){
+			if($(this).text().length > 100){
+				$(this).text($(this).text().substring(0,100)+' ...');			
+			}
+		});//100개까지 끊기
+		
+		
+	  $('.add-jung').mouseenter(function(){
+		$(this).children(".jung").css('color','black');
+		$(this).css('font-weight','bold');
+		$(this).prev().css('font-weight','bold');
+	  });
+	  $('.add-jung').mouseleave(function(){
+	    $(this).children(".jung").css('color','white');
+		if($(this).text()==temp||$(this).text()==temp2){
+		}else{
+		    $(this).css('font-weight','normal').css('background-color','none');
+			$(this).prev().css('font-weight','normal');
+		}
+	  });
+	  
+	  $(".nav li").click( function() { 
+          $(this).css("background-color", "rgba(255, 0, 0, 0.0)");
+       });
+		
+		
 
 });//function
 	 
@@ -281,12 +357,14 @@ function mobile(){
 	$(".menu-find").prepend( "<span class=\"menu-icon glyphicon glyphicon-search\"></span><br/>" );
 	$(".menu-news").prepend( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span><br/>" );
 	$(".add-jung").css("color","#666666");
+	$(".rank-who b").addClass("cut-10");
 }
 function pc(){
 	$(".jung").text("#");
 	$(".menu-icon").remove();
 	$(".add-jung").children("br").remove();
 	$(".add-jung").css("color","black");
+	$(".rank-who b").removeClass("cut-10");
 }
 
 Date.prototype.format = function (f) {
@@ -318,4 +396,21 @@ Date.prototype.format = function (f) {
 String.prototype.string = function (len) { var s = '', i = 0; while (i++ < len) { s += this; } return s; };
 String.prototype.zf = function (len) { return "0".string(len - this.length) + this; };
 Number.prototype.zf = function (len) { return this.toString().zf(len); };
+
+
+function aos(){
+	if (!window.Cypress) {//aos 적용.
+        const scrollCounter = document.querySelector('.js-scroll-counter');
+
+        AOS.init({
+          mirror: true
+        });
+
+        document.addEventListener('aos:in', function(e) {
+          //console.log('in!', e.detail);
+        });
+      }//AOS	
+}
+
+
 </script>

@@ -23,7 +23,10 @@
 	
 	var page_data = new Array(); //pagePicker에 전달할 데이터목록. data를 배열로받음
 	
-	for (var i = 0; i <= total_pages-actual_page; i++){
+	if(cnt != '0'){
+		total_pages++;
+	}
+	for (var i = 0; i < total_pages-actual_page; i++){
 		if(cnt=='0'){cnt = 1;}
 		page_data[i]= cnt;
 		cnt++;
@@ -92,7 +95,7 @@
 		
 		$('.owl-stage-outer').owlCarousel({
 			items:4,
-			loop : true,
+			loop : false,
 			autoplay : false,
 			dots:false,
 			margin : 5,
@@ -176,14 +179,17 @@
 	text-align: center;
 }
 .progress-bar{
-	font-size:110%;
+	font-size:1.1em;
 	line-height: 35px;
 	background-color: #c0cfb2;
+	color:#555;
+	font-weight:bold;
 }
 .bar-text{
 	line-height: 35px;
-	font-size: 12px;
-	color:#fff;	
+	font-size: 1.1em;
+	font-weight:bold;
+	color:#555;	
 }
 
 </style>
@@ -232,12 +238,12 @@
 				  now = $(this).attr('aria-valuenow',plan_page);
 				  max = $(this).attr('aria-valuemax',actual_page);
 				  $('.bar-text').text('+ '+(actual_page-plan_page)+'p');				 
-			  		$('.progress2').css('background-color', '#ffabaa');
+			  		$('.progress2').css('background-color', '#ffc979');
 					$(this).text('Plan:'+plan_page+'p');
 			  }else if(Number(actual_page)<Number(plan_page)){
 				  now = $(this).attr('aria-valuenow',actual_page);
 				  max = $(this).attr('aria-valuemax',plan_page);
-					$('.bar-text').text('- '+(plan_page-actual_page)+'p').css('color','#ffabaa');
+					$('.bar-text').text('- '+(plan_page-actual_page)+'p').css({'color':'#555','font-weight':'bold','font-size':'1.1em'});
 					$(this).text(actual_page+'p');
 			  }else if(Number(actual_page)==Number(plan_page)){
 				  now = $(this).attr('aria-valuenow',actual_page);
@@ -295,13 +301,7 @@
 									<p><small>현황</small></p>	
 									<p><span class="caro-cnt" >${v_study.actual_page}/${v_study.pages}</span></p>	
 									<p><small>페이지</small></p>
-								</div><!--내가 공부한 페이지/총페이지 -->
-								<!-- <div class="owl-item" id="owl-pageRate">
-									<small id="chart-progress"></small>	
-			 							<canvas id="chartjs-4" style="margin:auto;height:80px;width:80px;">
-			 							</canvas> 
-								</div>내가 공부한 페이지/총페이지 ${v_study.progress_rate}
-								</div> -->
+								</div>
 							</div>
 						</div>
 		

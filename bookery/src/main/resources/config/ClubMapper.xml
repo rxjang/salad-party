@@ -16,6 +16,20 @@
 	<select id="selectOneNotice" resultType="clubBean" parameterType="_int">
 		select * from club where book_bid=0 and deleted!=1 and id=${id}
 	</select>
+	
+	<select id="selectNewsNotice" resultType="clubBean">
+		select * from club where book_bid=0 and num=1 order by depth desc, updatetime asc limit 3
+	</select>
+	
+	<select id="popularContents" resultType="clubBean">
+		select title, num,id from club where book_bid!=0 and title is not null group by title order by num desc limit 5
+	</select>
+	
+	<select id="selectContentForNews" resultType="clubBean">
+		select a.id,a.createtime, a.title, a.content, a.nickname, b.title as book_title, b.coverurl,b.writer,b.bid as book_bid from 
+		(select c.id, c.createtime, title, content, nickname,book_bid from club c join user u where c.user_id=u.id and title is not null and book_bid!=0) a
+		join book b where a.book_bid=b.bid order by a.createtime desc limit 10;
+	</select>
 
 	<select id="selectBookClubAll" resultType="clubBean">
 		select * from club where book_bid != 1;
@@ -44,8 +58,13 @@
 	</update>
 	
 	<select id="selectAboutBook" parameterType="clubBean" resultType="clubBean">
-		select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname from club c 
+	<!-- 	select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname from club c 
 		inner join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
+		#{search} order by createtime desc -->
+		
+		select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname,
+		(select count(*) from club where depth = 1 and deleted != 1 and ref = c.id) AS reply
+ 		from club c left join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
 		#{search} order by createtime desc
 	</select>
 	
@@ -67,7 +86,8 @@
 	
 	<select id="selectMore" parameterType="clubBean" resultType="clubBean">
 		select * from (select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname 
-		from club c inner join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
+		,(select count(*) from club where depth = 1 and deleted != 1 and ref = c.id) AS reply 
+		from club c left join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
 		#{search} order by createtime desc) s limit #{start},10
 	</select>
 	
@@ -80,6 +100,31 @@
 		select count(*) from club  where book_bid = #{book_bid} and deleted != 1
 	</select>
 	
+	<update id="updateClubPost" parameterType="clubBean">
+	  	update club set title=#{title},content=#{content},updatetime = now() where id = #{id}
+	</update>
 	
+	<update id="updateReply" parameterType="clubBean">
+	  	update club set content=#{content},updatetime = now() where id = #{id}
+	</update>
+	
+	<update id="updateRecommendUp" parameterType="_int">
+	  	update club set num = (num+1) where id = #{id}
+	</update>
+	<update id="updateRecommendDown" parameterType="_int">
+	  	update club set num = (num-1) where id = #{id}
+	</update>
+	
+	<insert id="insertRecommendChk" parameterType="recommendBean">
+		insert into recommend (user_id, club_id) values (#{user_id},#{club_id})
+	</insert>
+	
+	<delete id="deleteRecommendChk" parameterType="recommendBean">
+		delete from recommend where user_id = #{user_id} and club_id = #{club_id}
+	</delete>
+	
+	<select id="selectAllRecommend" resultType="_int" parameterType="_int">
+		select club_id from recommend where user_id = #{user_id}
+	</select>
 	
 </mapper>

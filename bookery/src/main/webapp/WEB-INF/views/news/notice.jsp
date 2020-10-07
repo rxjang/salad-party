@@ -62,6 +62,7 @@
 	.info-ment{
 		background-color:#ecece9;
 		margin-bottom:10px;
+		padding:15px 10px;
 	}
 	.usernmae{
 		font-weight:bold;
@@ -135,7 +136,14 @@ $(function(){
 				$(".2-box").hide();
 				$(".3-box").show();
 				if($(".login").val()==""){
-					alert("");
+					swal({
+					    title: "1:1문의는 로그인 후 사용 가능합니다",
+					    text: "버튼을 누르면 로그인 페이지로 이동합니다",
+					    icon:"info",
+					    type: "success"
+					}).then(function() {
+					    window.location = "${pageContext.request.contextPath }/account/login";
+					});
 				}
 				/******************본인이 쓴 문의 글 만 볼 수 있게함(관리자는 모든 문의글)***********************/
 				$(".qna1").each(function(){
@@ -208,7 +216,6 @@ $(function(){
 </head>
 <body>
 <%@ include file="../template/menu.jspf"%>
-<%@ include file="../template/news-menu.jspf" %>
 <!-- **********content start**********-->
 <div class="row">
 	<div class="col-md-2"></div>

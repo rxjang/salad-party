@@ -23,8 +23,7 @@ public class TodayController {
 		UserVo user=(UserVo) session.getAttribute("user");
 		int user_id=user.getId();
 		try {
-			todayService.listTodayStudiesService(user_id, model);
-			//현재 진행중인 스터디 목록 "studies" 목록 반환
+			todayService.todayService(user_id, model);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
