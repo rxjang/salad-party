@@ -48,11 +48,12 @@ public class MylibController {
 		return "mylib/plan-page";
 	}
 	
-	@RequestMapping(value = "/plan/page/fin",method = RequestMethod.POST)
+	@RequestMapping(value = "/plan/page",method = RequestMethod.POST)
 	public String insertPagePlan(@ModelAttribute StudyVo study,int studyDay, int planPage) {
 		System.out.println(study.getEnddate());
+		int study_id=study.getId();
 		mylibService.insertPagePlanService(study, studyDay, planPage);
-		return "redirect:../../../today";
+		return "redirect:../../today/page/"+study_id;
 	}
 	
 	/************************************ award ***********************************************/

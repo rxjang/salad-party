@@ -285,7 +285,7 @@ $(function() {
 						<label for="page">공부할 양</label><input type="text" name="page" class="page"/>
 						<button class="btn btn-priamary page-btn calc">계산</button>
 						<div class="page-result result">
-							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
+							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page">
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day" readonly/><br/>
@@ -313,7 +313,7 @@ $(function() {
 						<label for="enddate">마칠 날짜</label><input type="date" name="enddate" class="enddate"/>
 						<button class="btn btn-priamary enddate-btn calc">계산</button>
 						<div class="date-result result">
-							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page/fin">
+							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page">
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date1" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date1" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day1" readonly/><br/>
