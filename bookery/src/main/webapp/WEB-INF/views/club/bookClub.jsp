@@ -16,8 +16,10 @@ var studyingbooklist = '${studyingbooklist}';
 		
 		$('#search').on('keyup',function(){
 			var keyword = $(this).val();
+			console.log(keyword);
 			$('.thumb-box').hide();
 			$('.thumb-box:contains("'+keyword+'")').show();
+			aos();
 		});//input change
 		
 		$('.thumbnail').each(function(){
@@ -152,6 +154,16 @@ var studyingbooklist = '${studyingbooklist}';
 				location.reload();
 			}//if
 		});//click
+		setInterval(function() {
+			var window_x = $(window).width();
+			console.log(window_x);
+			if(window_x < 666){
+				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main-xs.png");				
+			}else{
+				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main.png");				
+			}
+		}, 500); 
+		
 		
 	});//ready
 </script>
@@ -237,6 +249,24 @@ var studyingbooklist = '${studyingbooklist}';
 	color:white;
 	background-color: #253629;
 }
+.jumbotron{
+	background-color: #ecece9;
+	z-index:-1000;
+	height: 140px;
+	padding: 15px;
+}
+.jumbotron img{
+	display: block;
+	margin:auto;
+	line-height:30px;
+	size:auto;
+}
+@media (max-width:666px) {
+	.jumbotron{
+		padding: 7px;
+	}
+}
+
 </style>
 </head>
 <body>
@@ -245,14 +275,11 @@ var studyingbooklist = '${studyingbooklist}';
 	<div class="row">
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-8 col-xs-12">
-		<!-- 	<h3>
-				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-				북클럽
-			</h3> -->
-			<br /><small>같은 책을 읽는 사람들과 소통할 수 있어요!</small>
 		</div>
+	</div>
+	<div class="jumbotron">
+		<img id = "main-img" alt="" src="">
 
-		<div class="bottom-line col-xs-12 col-md-12"></div>
 	</div>
 	<div class="row">
 		<!--************ search **********-->

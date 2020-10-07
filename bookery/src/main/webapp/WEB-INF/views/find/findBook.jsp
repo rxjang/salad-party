@@ -152,13 +152,14 @@ $(function(){
 			$('.caro-cnt').css({'font-size':'110%','font-weight':'500'});
 			
 			/**********************    캐러셀    **********************/
+			var cnt_item = $('.owl-item').length;
 			$('#owl_detail').owlCarousel({
-				items:4,
+				items:cnt_item,
 				loop : false,
-				autoplay : true,
+				autoplay : false,
 				margin : 10,
 				merge : false,
-				autoWidh:true,
+				autoWidh:false,
 				nav : false,
 				responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 				}
@@ -476,7 +477,7 @@ $(function(){
 		<div class="col-xs-12 col-md-6 mylib-btn">
 			<a id="putChapters" class="btn btn-default" role="button" href="#">내
 				서재에 담기</a>
-			<a id="bookclub" class="btn btn-default" role="button" href="#">공부방 참여하기</a>
+			<a id="bookclub" class="btn btn-default" role="button" href="#">북클럽 바로가기</a>
 		</div>
 	<div class="col-md-3"></div>
 	</div>

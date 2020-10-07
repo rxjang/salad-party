@@ -84,15 +84,15 @@ public class FIndServiceImpl implements FindService {
 
 		System.out.println(search + start);
 		try {
-			search = URLEncoder.encode(search, "UTF-8");// 검색단어는 UTF-8 url로 전달
+			search = URLEncoder.encode(search.trim(), "UTF-8");// 검색단어는 UTF-8 url로 전달
 			System.out.println(search);
-			findOpt = detailSearch(select, search);
+			findOpt = detailSearch(select.trim(), search.trim());
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("encoding error", e);
 
 		} // catch
 		String apiURL=null;
-		if(select.equals("출판사") || select.equals("저자")) {
+		if(select.equals("출판사") || select.equals("저자") || select.equals("제목")) {
 			param_start = "start="+start;
 			apiURL = "https://openapi.naver.com/v1/search/book_adv.xml?"+ param_start + findOpt; // book
 		}else {
@@ -117,6 +117,8 @@ public class FIndServiceImpl implements FindService {
 			findOpt = "&d_titl=";
 		} else if (select.equals("출판사")) {
 			findOpt = "&d_publ=";
+		} else {
+			findOpt ="";
 		}
 		findOpt += word;
 		return findOpt;
