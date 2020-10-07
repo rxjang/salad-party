@@ -95,7 +95,7 @@ public class MylibServiceImpl implements MylibService {
 		Date tempDate=startDate;//인서트할 값
 		int tempPage=planPage;
 		for(int i=0;i<StudyDay-1;i++) {
-			CheckPageVo bean=new CheckPageVo(tempDate,tempPage,study.getId());
+			CheckPageVo bean=new CheckPageVo(tempDate,tempPage,planPage,study.getId());
 			dao.insertOne(bean);
 			tempDate=nextDay(tempDate);
 			tempPage+=planPage;
@@ -105,8 +105,9 @@ public class MylibServiceImpl implements MylibService {
 		System.out.println("bid:"+bid);
 		BookVo bean=bookDao.selectOne(bid);
 		int pages=bean.getPages();
+		int lastPage=pages-(StudyDay-1)*planPage;
 		tempDate=lastDay(startDate,StudyDay);
-		CheckPageVo pageVo=new CheckPageVo(tempDate,pages,study.getId());
+		CheckPageVo pageVo=new CheckPageVo(tempDate,pages,lastPage,study.getId());
 		dao.insertOne(pageVo);
 		
 	}
