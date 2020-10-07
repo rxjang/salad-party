@@ -1,9 +1,6 @@
 package co.salpa.bookery.mylib.service;
 
-
 import java.sql.Date;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -14,15 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.BookDao;
+import co.salpa.bookery.model.CheckChapDao;
 import co.salpa.bookery.model.CheckPageDao;
 import co.salpa.bookery.model.MedalDao;
 import co.salpa.bookery.model.StudyDao;
+import co.salpa.bookery.model.TocDao;
 import co.salpa.bookery.model.V_AwardsDao;
 import co.salpa.bookery.model.V_StudyDao;
 import co.salpa.bookery.model.entity.BookVo;
+import co.salpa.bookery.model.entity.CheckChapVo;
 import co.salpa.bookery.model.entity.CheckPageVo;
 import co.salpa.bookery.model.entity.MedalVo;
 import co.salpa.bookery.model.entity.StudyVo;
+import co.salpa.bookery.model.entity.TocVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
 
 @Service
@@ -33,7 +34,7 @@ public class MylibServiceImpl implements MylibService {
 	
 	//mylib페이지 미독, 미완독, 완독 책 권수, 정보 출력
 	@Override
-	public Model myLibService(Model model,int user_id) throws DataAccessException{
+	public Model myLibService(Model model, int user_id) throws DataAccessException{
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
 		List<V_StudyVo> noGoalBookList=v_studyDao.selectNoGoalBook(user_id);
 		model.addAttribute("nogoalbooklist", noGoalBookList);
@@ -70,7 +71,7 @@ public class MylibServiceImpl implements MylibService {
 	public void insertToCheckPage(CheckPageDao dao,StudyVo study,int StudyDay,int planPage) throws DataAccessException {
 		BookDao bookDao=sqlSession.getMapper(BookDao.class);
 		//studyDay는 enddate-startdate+1한 값으로 실제 공부할 날-자바스크립트로 계산해서 받아옴
-		Date startDate=study.getStartdate();//study테이블에서 시작날짜 가져옴
+		Date  startDate=study.getStartdate();//study테이블에서 시작날짜 가져옴
 		Date tempDate=startDate;//인서트할 값
 		int tempPage=planPage;
 		for(int i=0;i<StudyDay-1;i++) {
@@ -110,6 +111,48 @@ public class MylibServiceImpl implements MylibService {
 		return nextday;
 	}
 
+	//chap 목표 설정 페이지에서 해당 스터디id의 책 정보 출력
+		@Override
+		public Model selectChapStudyService(int study_id, Model model) throws DataAccessException {
+			V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
+			V_StudyVo v_studyVo=v_studyDao.selectOneByStudyId(study_id);
+			// 목차 가져오기
+			TocDao tocDao = sqlSession.getMapper(TocDao.class);
+			List<TocVo> tocList = tocDao.selectOne(v_studyVo.getBook_bid());
+			model.addAttribute("v_study", v_studyVo);
+			model.addAttribute("tocList", tocList);
+			return null;
+		}
+		
+		@Override
+		public void insertChapPlanService(StudyVo study, int planChap, List<String> tocs) throws DataAccessException {
+			StudyDao studyDao=sqlSession.getMapper(StudyDao.class);
+			CheckChapDao checkChapDao = sqlSession.getMapper(CheckChapDao.class);
+			studyDao.assertPlan(study);	//기본적인 정보(시작날짜, 끝나는 날짜, type 입력)
+			insertToCheckChap(checkChapDao, study, planChap, tocs);
+			
+		}
+
+		public void insertToCheckChap(CheckChapDao checkChapDao, StudyVo study, int planChap, List<String> tocs) {
+			Date startDate = study.getStartdate();//study테이블에서 시작날짜 가져옴
+			Date tempDate = startDate;
+			int tempChap = planChap;
+			for(int i=0 ; i<tocs.size();i++) {
+				
+				if(tempChap == 0) 
+					tempChap = planChap;
+				if(i!=0 && tempChap == planChap) 
+					tempDate = nextDay(tempDate);
+				
+				CheckChapVo bean=new CheckChapVo();
+				bean.setToc(tocs.get(i));
+				bean.setPlantime(tempDate);
+				bean.setStudy_id(study.getId());
+				checkChapDao.insertOne(bean);
+				tempChap--;
+			}
+		}
+		
 	@Override
 	public Model awardService(Model model,int user_id) throws DataAccessException {
 		MedalDao medalDao=sqlSession.getMapper(MedalDao.class);

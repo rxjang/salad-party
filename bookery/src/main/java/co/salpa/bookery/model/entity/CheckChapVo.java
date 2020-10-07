@@ -20,4 +20,5 @@ public class CheckChapVo {
 	private Date plantime,actultime;
 	private int deleted;
 	private int study_id;
+	
 }

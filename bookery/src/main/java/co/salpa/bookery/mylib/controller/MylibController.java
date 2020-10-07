@@ -1,5 +1,7 @@
 package co.salpa.bookery.mylib.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import co.salpa.bookery.model.entity.StudyVo;
 import co.salpa.bookery.model.entity.UserVo;
@@ -46,9 +49,30 @@ public class MylibController {
 	}
 	
 	@RequestMapping(value = "/plan/page/fin",method = RequestMethod.POST)
-	public String insertPagePlan(@ModelAttribute StudyVo study,int studyDay, int planPage) {
+	public String insertPagePlan(@ModelAttribute StudyVo study, int studyDay, int planPage) {
 		System.out.println(study.getEnddate());
 		mylibService.insertPagePlanService(study, studyDay, planPage);
+		return "redirect:../../../today";
+	}
+	
+	@RequestMapping(value="/plan/chap/{study_id}")
+	public String mylibChapPlan(@PathVariable int study_id, Model model) {
+		mylibService.selectChapStudyService(study_id, model);
+		return "mylib/plan-chap";
+	}
+	
+	@RequestMapping(value = "/plan/chap/fin",method = RequestMethod.POST)
+	public String insertChapPlan(@ModelAttribute StudyVo study,int studyDay, int planChap, @RequestParam(value="toc") List<String> toc) {
+		// 목차 개수와 목차명, 하루에 진행할 chap개수, (StudyVO)startdate enddate 모두 가져오기
+	
+		for(String tocItem : toc) {
+			System.out.println(tocItem);
+		}
+		System.out.println(planChap);
+		System.out.println(study.getStartdate());
+		System.out.println(study.getEnddate());
+		mylibService.insertChapPlanService(study, planChap, toc);
+		
 		return "redirect:../../../today";
 	}
 	
