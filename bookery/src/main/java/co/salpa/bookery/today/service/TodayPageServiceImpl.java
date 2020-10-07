@@ -32,7 +32,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 	 *  sql type 오늘 날짜 구하기 2020-09-24
 	 */
 	public Date getSqlToday() {
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
 		Date today = Date.valueOf(sdf.format(new java.util.Date()));
 		return today;
 	}//getSqlToday
@@ -67,7 +67,7 @@ public class TodayPageServiceImpl implements TodayPageService {
 	@Override
 	public void checkPageService(int actualpage, int study_id) throws DataAccessException {
 		CheckPageDao checkPageDao = sqlSession.getMapper(CheckPageDao.class);
-		checkPageDao.updateOne(new CheckPageVo(actualpage, study_id, getSqlToday(), 0));//오늘날짜에 공부한페이지 입력
+		checkPageDao.updateOne(new CheckPageVo(actualpage, study_id, getSqlToday(), getSqlToday(), 0));//오늘날짜에 공부한페이지 입력
 		checkPageDao.updateTimeStudy(study_id);
 	}// checkPageService
 
