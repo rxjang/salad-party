@@ -20,9 +20,10 @@ public class CheckPageVo {
 
 	private int id;
 	private int planpage;
-	
+	private int planpageperday;
 	@NonNull
 	private int actualpage;
+	private int actualpageperday;
 	@NonNull
 	private int study_id;
 	@NonNull
