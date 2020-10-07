@@ -151,18 +151,18 @@ var id=${user.id}
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8 center-content">
-		<form method="POST" action="./${noticeOne.id}" class="form">
+		<form method="POST" action="./" class="form">
 		<input type="hidden" name="_method" value="put" class="restful">
 		<div class="content-box">
 			<input type="hidden" name="num" value="${noticeOne.num}"/>
-			<input type="hidden" name="depth" value="${noticeOne.depth}"/>
 			<input type="text" class="content-title" name="title" value="${noticeOne.title}" readonly/>
 			<p class="content-info">
 				<strong>작성일</strong>&nbsp;${noticeOne.createtime }
 				<strong class="rewrite">수정일</strong>&nbsp;<span class="updatetime"></span>
-				<label for="depth-temp" class="depth-temp">상단배치<input type="radio" name="depth-temp" value=1></label>
-				<label for="depth-temp" class="depth-temp">일반배치<input type="radio" name="depth-temp" value=0></label>
+				<label for="depth-temp" class="depth-temp">상단배치<input type="radio" name="depth-temp" value="1"></label>
+				<label for="depth-temp" class="depth-temp">일반배치<input type="radio" name="depth-temp" value="0"></label>
 				<input type="hidden" name="depth" class="depth"/>
+				<input type="hidden" name="id" value="${noticeOne.id }"/>
 			</p>
 			<textarea class="content-main" name="content" rows="15" readonly>${noticeOne.content}</textarea>
 		</div><!-- content-box -->
