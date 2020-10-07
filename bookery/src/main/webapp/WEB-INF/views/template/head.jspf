@@ -65,6 +65,9 @@
 		font-weight:bold;
 		text-decoration:none;
 	}
+	.color-green{
+		color:#8ba989;
+	}
 	textarea:focus { outline: none; } 
 	.btn-default:focus,
 	.btn-default.focus,
@@ -86,7 +89,7 @@
 	    -webkit-text-fill-color: black !important;
 	  }
 	/******************************		크롬	****************************/
-
+	
 	.top-line{
 		margin-top:20px;
 		margin-bottom:20px;

@@ -122,7 +122,7 @@ $(function() {
 	    margin-bottom:120px;
 	}
 	.wood{
-		width: 105%;
+		width: 106%;
 		position: relative;
 		right:3%;
 		height:5em;

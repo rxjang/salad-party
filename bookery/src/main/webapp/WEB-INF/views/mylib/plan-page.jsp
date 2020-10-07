@@ -180,9 +180,6 @@ $(function() {
 		display:inline-flex;
 		width:100%;
 	}
-	.page-color{
-		color:#8ba989;
-	}
 	.book-image{
 		width:14em;
 		box-shadow: 12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4);
@@ -250,7 +247,7 @@ $(function() {
 	.go-to-chap{
 		width:100%;
 		text-align:right;
-		padding-bottom:2em;
+		padding-bottom:1em;
 	}
  	@media (max-width:800px) {
 	 	label{
@@ -284,7 +281,7 @@ $(function() {
 			<div class="page-content">
 				<div class="book-info-detail">
 					<h4><strong>${v_study.title}</strong></h4>
-					<h5>본 책은 총 <strong class="page-color">${v_study.pages}</strong>페이지 입니다</h5>
+					<h5>본 책은 총 <strong class="color-green">${v_study.pages}</strong>페이지 입니다</h5>
 				</div><!-- book-info-detail -->
 				<div class="page-page">
 					<div class="choice page-choice">
