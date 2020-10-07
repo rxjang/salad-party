@@ -32,6 +32,7 @@
 	}
 	
 	$(function() {
+		aos();
 		console.log(new Date().format('HH:mm:ss'));
 		var url_here = window.location.href;
 		//	http://localhost:8085/bookery/club/list/16687560
@@ -102,7 +103,7 @@
 					var posts='';
 					for(var i = 0 ; i < result.length; i++){
 						//console.log('result = ',result[i].id);
-						posts += '<div class="panel panel-default pannel-post">'
+						posts += '<div class="panel panel-default pannel-post" data-aos="fade-up">'
 						posts += '<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/'+result[i].id+'"><span class="lead">'+result[i].title+'</span></a></div>'
 						posts += '<div class="panel-body"><span class="user_id">'+result[i].nickname+'</span>';
 						posts += '&nbsp;|&nbsp;<span class="wrote-day">'+todayToTime(result[i].updatetime)+'</span>';
@@ -110,7 +111,7 @@
 						posts += '</div></div>';
 					}
 						$('.div-post').append(posts);
-					
+						aos();
 						$('.pannel-post').each(function(idx,ele){
 							var aHref = $(this).children().eq(0).find('a').attr('href');
 							$(this).on('click',function(){
@@ -204,12 +205,15 @@
 <style type="text/css">
 
 #add{
+	background-color:#8ba989;
+	color:white;
 	float: right;
 }
 
 .pannel-post { /*   */
 	border: 1px solid rgb(221, 221, 221);
-	border-radius: 5px;
+	box-shadow: 0 2px 8px rgba(0,0,0,.1), 0 8px 20px rgba(0,0,0,.1);
+	border-radius: 16px;
 	transition-duration: 600ms;
 	display: block;
 	margin: auto;
@@ -238,6 +242,18 @@
 .glyphicon-ok{
 	color:#8ba989;
 }
+.order-btn>li a:hover{
+	color:white;
+	background-color: #253629;
+}
+.media-body{
+	vertical-align: middle;
+}
+.media-object{
+	margin:5px 5px 5px 5px;
+	width:4em;
+	box-shadow: 0 1px 5px rgba(0,0,0,.1), 0 2px 5px rgba(0,0,0,.1);
+}
 </style>
 </head>
 <body>
@@ -251,8 +267,16 @@
 				북클럽
 			</h3>
 			<br />
-				<small class="lead">${book.title }</small><br/>
-				<small>${listSize }건의 게시물이 있습니다.</small>
+			<div class="media">
+				<div class="media-left media-middle">
+					<a href="${pageContext.request.contextPath }/find/book/${book.bid}"> <img class="media-object" src="${book.coverurl }" alt="...">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">${book.title }</h4>
+					<small>${listSize }건의 게시물이 있습니다.</small>
+				</div>
+			</div>
 		</div>
 
 		<div class="bottom-line col-xs-12 col-md-12"></div>
@@ -295,7 +319,7 @@
 	<div class="col-xs-12 col-md-8  div-post">
 	
 		<c:forEach items="${list }" var="bean" begin="0" end="9">
-				<div class="panel panel-default pannel-post">
+				<div class="panel panel-default pannel-post" data-aos="fade-up">
 					<div class="panel-body"><a href="${pageContext.request.contextPath }/club/detail/${bean.id}"><span class="lead">${bean.title }</span></a></div>
 					<div class="panel-body"><span class="user_id">${bean.nickname }</span> &nbsp;|&nbsp;<span class="update-day">${bean.updatetime }</span>
 					&nbsp;|&nbsp;<span class="cnt-reply"> 댓글&nbsp;${bean.reply }개</span>&nbsp;|&nbsp;

@@ -1,14 +1,9 @@
 package co.salpa.bookery.club.controller;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import co.salpa.bookery.club.service.ClubService;
 import co.salpa.bookery.find.service.FindService;
 import co.salpa.bookery.model.entity.ClubVo;
+import co.salpa.bookery.model.entity.UserVo;
+import co.salpa.bookery.mylib.service.MylibService;
 
 @Controller
 @RequestMapping("/club")
@@ -28,10 +25,14 @@ public class ClubController {
 	ClubService clubService;
 	@Autowired
 	FindService findService;
-
+	@Autowired
+	MylibService mylibService;
+	
+	
 	// 북클럽 메인 화면
-	@RequestMapping("")
-	public String bookClub(Model model) {
+	@RequestMapping
+	public String bookClub(Model model,HttpSession session) {
+		clubService.listStudyingBookService(session, model);
 		clubService.listBookClubService(model);
 		findService.listBookService(model);
 		clubService.listReadersService(model);
@@ -51,6 +52,8 @@ public class ClubController {
 	// 글 상세보기
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
 	public String detail(Model model, @PathVariable int id, HttpSession session) {
+		
+		findService.getBookService(clubService.getOneService(id).getBook_bid(),model);
 		clubService.getOneService(id, model);
 		clubService.listReplyService(id, model);
 		clubService.listRecommendByUserService(model,session);

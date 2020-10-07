@@ -11,6 +11,7 @@ var img_link;
 var bid = ${bid}; //컨트롤러에서 bid를 받아온다.
 var owlItem='';
 var bookMap ={};
+
 $(function(){
 
 	$('#crawling_div').hide();
@@ -185,7 +186,7 @@ $(function(){
 				/*************	네이버북스 책목차는 tableOfContentsContent아래에 있다	*************/
 				var newLineText='';
 				var noTagText='';
-				if(typeof list != 'undefined'){
+				if(list.length != 0){
 					newLineText = $(list).html().replace(/<(\/br|br)([^>]*)>/gi, "\n");
 					noTagText = newLineText.replace(/(<([^>]+)>)/ig, "");
 				}
@@ -357,17 +358,7 @@ $(function(){
 			$(document).scrollTop(0);
 		});//탑 버튼 클릭
 		
-		if (!window.Cypress) {//aos 적용.
-	        const scrollCounter = document.querySelector('.js-scroll-counter');
 
-	        AOS.init({
-	          mirror: true
-	        });
-
-	        document.addEventListener('aos:in', function(e) {
-	          //console.log('in!', e.detail);
-	        });
-	      }//AOS
 	  
 	      $('.book-info').hide();//책소개 내용 처음엔 숨김
 	      $('.panel-heading').css({'cursor':'pointer','background-color':'white'});
@@ -380,6 +371,7 @@ $(function(){
 					$(this).find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 					
 					$(this).next().slideDown(500);
+					aos();
 			//	}else if($(this).find('.triangle').text() == '▽'){
 				}else if($(this).find('span').attr('class').includes('up')){
 					

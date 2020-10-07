@@ -21,9 +21,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import co.salpa.bookery.model.ClubDao;
 import co.salpa.bookery.model.V_Readers_cntDao;
+import co.salpa.bookery.model.V_StudyDao;
 import co.salpa.bookery.model.entity.ClubVo;
 import co.salpa.bookery.model.entity.RecommendVo;
 import co.salpa.bookery.model.entity.UserVo;
+import co.salpa.bookery.model.entity.V_StudyVo;
 
 @Service
 @Transactional
@@ -131,22 +133,20 @@ public class ClubServiceImpl implements ClubService {
 //		map.put("start", start+"");
 //		map.put("search", search);
 		List<ClubVo> list = clubDao.selectMore(club);
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		objectMapper.setDateFormat(dateFormat);
 		Map<String, List<ClubVo>> dist = new HashMap<String, List<ClubVo>>();
 		dist.put("key", list);
-		String jsonStr=null;
+		String jsonStr = null;
 		try {
-			jsonStr=objectMapper.writeValueAsString(dist);
+			jsonStr = objectMapper.writeValueAsString(dist);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		
-		
 //		String json = "{\"key\":[";
 //
 //		int cnt = 0;
@@ -266,9 +266,9 @@ public class ClubServiceImpl implements ClubService {
 	public void listRecommendByUserService(Model model, HttpSession session) throws DataAccessException {
 		UserVo user = (UserVo) session.getAttribute("user");
 		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
-		
+
 		String json = "";
-		
+
 		try {
 			json = objectMapper.writeValueAsString(clubDao.selectAllRecommend(user.getId()));
 			System.out.println(json);
@@ -278,7 +278,7 @@ public class ClubServiceImpl implements ClubService {
 		}
 		model.addAttribute("recommendChk", json);
 	}
-	
+
 	/*
 	 * 추천 취소. -1
 	 */
@@ -286,7 +286,7 @@ public class ClubServiceImpl implements ClubService {
 	public void recommendDownService(int id) throws DataAccessException {
 		ClubDao clubDao = sqlSession.getMapper(ClubDao.class);
 		clubDao.updateRecommendDown(id);
-		
+
 	}
 
 	/*
@@ -302,7 +302,26 @@ public class ClubServiceImpl implements ClubService {
 		recommendVo.setClub_id(id);
 
 		clubDao.deleteRecommendChk(recommendVo);
-		
+
+	}
+
+	@Override
+	public Model listStudyingBookService(HttpSession session, Model model) throws DataAccessException {
+		UserVo user = (UserVo) session.getAttribute("user");
+		V_StudyDao v_studyDao = sqlSession.getMapper(V_StudyDao.class);
+		List<V_StudyVo> list = v_studyDao.selectStudyingBook(user.getId());
+		Map<String, List<V_StudyVo>> map = new HashMap<String, List<V_StudyVo>>();
+		map.put("key", list);
+
+		String jsonStr = null;
+
+		try {
+			jsonStr = objectMapper.writeValueAsString(map);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return model.addAttribute("studyingbooklist", jsonStr);
 	}
 
 }
