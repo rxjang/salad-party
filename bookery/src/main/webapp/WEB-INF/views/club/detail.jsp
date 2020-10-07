@@ -364,10 +364,6 @@ small span{
 	<div class="row">
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-8 col-xs-12">
-			<h3>
-				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-				북클럽
-			</h3>
 			<br />
 				<div class="media">
 				<div class="media-left media-middle">

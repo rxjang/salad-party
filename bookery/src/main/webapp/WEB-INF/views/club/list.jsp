@@ -226,19 +226,43 @@
 	box-shadow: rgb(192, 207, 178) 0px 0px 6px;
 	cursor: pointer;
 }
-#search{
-	margin-right:10px;
-	width:300px;
+
+.search-form {
+	margin-bottom: 15px;
 }
-.form-group{
-	width:100%;
+
+.input-search { /* 검색form안의 div */
+	height: 30px;
+	border-radius: 25px;
+	border-bottom: 1px solid #e4e4e4;
+	box-shadow: rgb(192, 207, 178) 0px 0px 3px;
+	width: 100%;
 }
-.form-group input,.form-group button{
-	float:left;
+
+#search { /* 검색 input */
+	display: block;
+	width: 100%;
+	padding: 6px 12px;
+	font-size: 14px;
+	border: 0px;
+	border-radius: 25px;
 }
-.pager{
-	text-align: left;
+
+#search-btn { /* 검색버튼 */
+	border: 0px;
+	width: 90%;
+	border-radius: 25px;
 }
+
+#search-btn:hover {
+	background-color: white;
+}
+
+#input_group_btn {
+	width: 30px;
+}
+
+
 .glyphicon-ok{
 	color:#8ba989;
 }
@@ -262,10 +286,6 @@
 	<div class="row">
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-8 col-xs-12">
-			<h3>
-				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-				북클럽
-			</h3>
 			<br />
 			<div class="media">
 				<div class="media-left media-middle">
@@ -291,12 +311,23 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-2"></div>
-		<div class="col-xs-12 col-md-8 div-search">
-			<form class="form-inline" action="${pageContext.request.contextPath }/club/list/${book.bid }" method="get">
+		<div class="col-md-3"></div>
+		<div class="col-xs-12 col-md-6 div-search">
+		<%-- 	<form class="form-inline" action="${pageContext.request.contextPath }/club/list/${book.bid }" method="get">
 				<div class="form-group">
 					<input type="text" class="form-control" id="search"	name="search" placeholder="제목을 입력하세요."/>
 					<button type="submit" class="btn btn-default">검색</button>
+				</div>
+			</form> --%>
+			<form action="${pageContext.request.contextPath }/club/list/${book.bid }" method="get" class="search-form form-inline">
+				<div class="input-search input-group">
+					<input type="text" class="" placeholder="책 제목을 입력해보세요." name="search"
+						id="search" /> <span class="input-group-btn" id="input_group_btn">
+						<button type="submit" id="search-btn"
+							class="btn btn-default btn-md">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</span>
 				</div>
 			</form>
 		</div>
