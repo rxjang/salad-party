@@ -41,15 +41,16 @@ public class LoginInterceptor implements HandlerInterceptor {
 //        System.out.println((UserVo)userVo);
 //        
         if(userBean != null) {
-//        
             // 로그인 성공시 Session에 저장후, 초기 화면 이동
             logger.info("new login success");
             session.setAttribute("user", userBean);
             Object dest = session.getAttribute("dest");
             
-//            if(dest != null) 
+//            if(dest != null) {
 //            	response.sendRedirect((String)dest);
-//            response.sendRedirect("/");
+//            	response.sendRedirect("/");
+//            }
+            
         }
 		
 	}
