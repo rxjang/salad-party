@@ -21,6 +21,7 @@
 	<typeAlias alias="v_readers_cntBean" type="co.salpa.bookery.model.entity.V_Readers_cntVo"/>
 	<typeAlias alias="v_noticeBean" type="co.salpa.bookery.model.entity.V_NoticeVo"/>
 	<typeAlias alias="recommendBean" type="co.salpa.bookery.model.entity.RecommendVo"/>
+	<typeAlias alias="v_calendarBean" type="co.salpa.bookery.model.entity.V_CalendarVo"/>
 </typeAliases>
 	
 	<mappers>
@@ -37,5 +38,6 @@
 		<mapper resource="config/ClubMapper.xml" />
 		<mapper resource="config/V_Readers_cntMapper.xml" />
 		<mapper resource="config/V_NoticeMapper.xml" />
+		<mapper resource="config/V_CalendarMapper.xml" />
 	</mappers>
 </configuration>

@@ -22,7 +22,7 @@ public class MylibCalendarController {
 	public String calendar(Model model, HttpSession session) throws SQLException {
 		UserVo user=(UserVo) session.getAttribute("user");
 		int user_id=user.getId();
-		mylibCalendarService.listTodayStudiesService(user_id,model);
+		mylibCalendarService.calendarService(user_id, model);
 		return "/mylib/calendar";
 	}
 }

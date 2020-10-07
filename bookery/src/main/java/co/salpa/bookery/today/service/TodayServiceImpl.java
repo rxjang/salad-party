@@ -13,9 +13,11 @@ import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.CheckChapDao;
 import co.salpa.bookery.model.CheckPageDao;
+import co.salpa.bookery.model.V_CalendarDao;
 import co.salpa.bookery.model.V_StudyDao;
 import co.salpa.bookery.model.entity.CheckChapVo;
 import co.salpa.bookery.model.entity.CheckPageVo;
+import co.salpa.bookery.model.entity.V_CalendarVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
 
 @Service
@@ -32,16 +34,14 @@ public class TodayServiceImpl implements TodayService {
 		Map<String,Object> map_study=null;
 			// key : "v_study", value:
 			V_StudyVo v_study=new V_StudyVo();
-			// key : "checkchap", value:
-			List<CheckChapVo> checkChap=new ArrayList<CheckChapVo>();
-			// key : "checkpage", value:
-			List<CheckPageVo> checkPage=new ArrayList<CheckPageVo>();
-		
-		// user_id에 해당하는 진행중인 study_id 목록 구하기
+			// key : "v_calendar", value:
+			List<V_CalendarVo> v_calendar=new ArrayList<V_CalendarVo>();
+
+			// user_id에 해당하는 진행중인 study_id 목록 구하기
 		V_StudyDao studyDao=sqlSession.getMapper(V_StudyDao.class);
 		List<Integer> study_id=studyDao.selectActiveStudyIDByUserId(user_id);
 		
-		// study_id에해당하는 세 가지 정보 모두 map_study에 담기
+		// study_id에해당하는 정보들 map_study에 담기
 		for(Integer sid : study_id) {
 			map_study=new HashMap<String,Object>();
 			
@@ -49,23 +49,16 @@ public class TodayServiceImpl implements TodayService {
 			V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
 			v_study=v_studyDao.selectOneByStudyId(sid);
 			map_study.put("v_study", v_study);
-
-			//key : "checkchap", value: checkchap 목록 담기
-			CheckChapDao checkChapDao=sqlSession.getMapper(CheckChapDao.class);
-			checkChap=checkChapDao.selectAllByStudyId(sid);
-			map_study.put("checkchap", checkChap);
-
-			//key : "checkpage", value: checkpage 목록 담기
-			CheckPageDao checkPageDao=sqlSession.getMapper(CheckPageDao.class);
-			checkPage=checkPageDao.selectAllByStudyId(sid);
-			map_study.put("checkpage", checkPage);
+			
+			// key : "v_calendar", value: List<v_calendarVo> 담기
+			V_CalendarDao v_calendarDao=sqlSession.getMapper(V_CalendarDao.class);
+			v_calendar=v_calendarDao.selectAllByStudyId(sid);
+			System.out.println("test"+v_calendar.toString());
+			map_study.put("v_calendar", v_calendar);
 			
 			//map_by_study_id 에 key : study_id, value : map_study 담기
 			map_by_study_id.put(sid, map_study);
-			
 		}
-		System.out.println(map_by_study_id.size());
-		System.out.println(map_by_study_id.toString());
 		model.addAttribute("studymap", map_by_study_id);
 		return model;
 	}
