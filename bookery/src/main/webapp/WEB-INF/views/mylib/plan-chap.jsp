@@ -99,6 +99,11 @@
 		text-align:center;
 		margin-top:10px;
 	}
+	.go-to-page{
+		width:100%;
+		text-align:right;
+		padding-bottom:2em;
+	}
 	.setToc{
 		background-color:white;
 		line-height:15px;
@@ -431,7 +436,7 @@ var emptyToc  = '<li class="list-group-item tocListItem"><input type="text" clas
 						<label for="chap" class="lb-chap">1일 학습 챕터 개수</label><input type="text" name="chap" class="chap" onkeypress="onlyNumber();" id="input_chap"/>개
 						<button class="btn btn-priamary chap-btn calc">계산</button>
 						<div class="chap-result result">
-							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/chap/fin" id="form1">
+							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/chap" id="form1">
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day" readonly/><br/>
@@ -459,7 +464,7 @@ var emptyToc  = '<li class="list-group-item tocListItem"><input type="text" clas
 						<label for="enddate">마칠 날짜</label><input type="date" name="enddate" class="enddate"/>
 						<button class="btn btn-priamary enddate-btn calc">계산</button>
 						<div class="chapdate-result result">
-							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/chap/fin" id="form2">
+							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/chap" id="form2">
 								<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="start-date1" readonly/><br/>
 								<label for="enddate">끝나는 날짜</label><input type="date" name="enddate" class="end-date1" readonly/><br/>
 								<label for="studyday">총 공부일</label><input type="text" name="studyDay" class="study-day1" readonly/><br/>
@@ -479,6 +484,9 @@ var emptyToc  = '<li class="list-group-item tocListItem"><input type="text" clas
 				</div><!-- chap-date -->
 			</div><!-- chap content -->
 		</div><!-- .chap-main end -->
+		<div class="go-to-page">
+			<a href="${pageContext.request.contextPath }/mylib/plan/page/${v_study.study_id}"><em>페이지 목표설정 페이지로 이동</em></a>
+		</div>
 	</div><!-- jumbotron end -->
 </div><!-- .row end -->
 <!--**********content end**********-->

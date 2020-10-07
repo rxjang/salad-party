@@ -65,7 +65,7 @@ public class MylibController {
 		return "mylib/plan-chap";
 	}
 	
-	@RequestMapping(value = "/plan/chap/fin",method = RequestMethod.POST)
+	@RequestMapping(value = "/plan/chap",method = RequestMethod.POST)
 	public String insertChapPlan(@ModelAttribute StudyVo study,int studyDay, int planChap, @RequestParam(value="toc") List<String> toc) {
 		// 목차 개수와 목차명, 하루에 진행할 chap개수, (StudyVO)startdate enddate 모두 가져오기
 	
@@ -77,7 +77,7 @@ public class MylibController {
 		System.out.println(study.getEnddate());
 		mylibService.insertChapPlanService(study, planChap, toc);
 		
-		return "redirect:../../../today";
+		return "redirect:../../today/chap/"+study.getBook_bid();
 	}
 	
 
