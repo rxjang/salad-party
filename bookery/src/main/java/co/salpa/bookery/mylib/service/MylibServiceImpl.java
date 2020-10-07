@@ -5,7 +5,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +15,21 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import co.salpa.bookery.model.BookDao;
 import co.salpa.bookery.model.CheckPageDao;
 import co.salpa.bookery.model.MedalDao;
 import co.salpa.bookery.model.StudyDao;
 import co.salpa.bookery.model.V_AwardsDao;
+import co.salpa.bookery.model.V_CalendarDao;
 import co.salpa.bookery.model.V_StudyDao;
 import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.CheckPageVo;
 import co.salpa.bookery.model.entity.MedalVo;
 import co.salpa.bookery.model.entity.StudyVo;
+import co.salpa.bookery.model.entity.V_CalendarVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
 
 @Service
@@ -30,6 +37,8 @@ public class MylibServiceImpl implements MylibService {
 
 	@Autowired
 	SqlSession sqlSession;
+	
+	ObjectMapper objectMapper=new ObjectMapper();
 	
 	//mylib페이지 미독, 미완독, 완독 책 권수, 정보 출력
 	@Override
@@ -52,8 +61,19 @@ public class MylibServiceImpl implements MylibService {
 	@Override
 	public Model selectStudyService(int study_id, Model model) throws DataAccessException {
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
+		V_CalendarDao v_CalendarDao=sqlSession.getMapper(V_CalendarDao.class);
 		V_StudyVo v_studyVo=v_studyDao.selectOneByStudyId(study_id);
+		List<V_CalendarVo> list=v_CalendarDao.selectFinData(study_id);
+		Map<String,List<V_CalendarVo>> map=new HashMap<String,List<V_CalendarVo>>();
+		map.put("key", list);
+		String jsonStr=null;
+		try {
+			jsonStr = objectMapper.writeValueAsString(map);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("v_study", v_studyVo);
+		model.addAttribute("finData", jsonStr);
 		return null;
 	}
 

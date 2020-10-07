@@ -16,7 +16,7 @@ $(function() {
 	if(studying==0){
 		$(".studying").append("<img class=\"media-object\" src=\"${pageContext.request.contextPath}/resources/imgs/empty_book.jpg\" alt=\"책 이미지\">");
 	}
-	if(nogoal==0){
+	if(finished==0){
 		$(".finished").append("<img class=\"media-object\" src=\"${pageContext.request.contextPath}/resources/imgs/empty_book.jpg\" alt=\"책 이미지\">");
 	}
 	
