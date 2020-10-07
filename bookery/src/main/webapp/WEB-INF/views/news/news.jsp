@@ -13,6 +13,58 @@
 	.title{
 		font-weight:bold;
 	}
+	/********************************carousel-css*******************************/
+	.news-carousel .item{
+		width:100%;
+		margin:0px;
+		height:300px;
+		overflow: hidden;
+	}
+	.item1{
+		background: rgb(228,230,218);
+		background: linear-gradient(90deg, rgba(228,230,218,1) 0%, rgba(199,255,255,1) 100%);
+	}
+	.item2{
+		background: rgb(199,255,255);
+		background: linear-gradient(90deg, rgba(199,255,255,1) 0%, rgba(227,255,219,1) 100%);
+	}
+	.item3{
+		background: rgb(227,255,219);
+		background: linear-gradient(90deg, rgba(227,255,219,1) 0%, rgba(254,255,191,1) 100%);
+	}
+	.item4{
+		background: rgb(254,255,191);
+		background: linear-gradient(90deg, rgba(254,255,191,1) 0%, rgba(173,211,255,1) 100%);
+	}
+	.item5{
+		background: rgb(173,211,255);
+		background: linear-gradient(90deg, rgba(173,211,255,1) 0%, rgba(228,230,218,1) 100%);
+	}
+	.news-main{
+		height:100%;
+	}
+	.car-ment{
+		position:relative;
+		margin-top:8%;
+	}
+	.main-ment{
+		font-weight:900;
+	}
+	.owl-carousel .owl-item .item-image{
+		width:28%;
+		display:inline;
+		position:absolute;
+		top:20%;
+		left:60%;
+	}
+	.owl-carousel .owl-item .phone{
+		width:25%;
+		top:10%;
+	}
+	.owl-carousel .owl-item .group{
+		width:40%;
+	}
+	/********************************bestbooks-css*******************************/
 	.best-books{
 		width:100%;
 		text-align:center;
@@ -205,56 +257,7 @@
 			margin-bottom:1.5em;
 		}	
 	}
-	.news-carousel .item{
-		width:100%;
-		margin:0px;
-		height:300px;
-		overflow: hidden;
-	}
-	.item1{
-		background: rgb(228,230,218);
-		background: linear-gradient(90deg, rgba(228,230,218,1) 0%, rgba(199,255,255,1) 100%);
-	}
-	.item2{
-		background: rgb(199,255,255);
-		background: linear-gradient(90deg, rgba(199,255,255,1) 0%, rgba(227,255,219,1) 100%);
-	}
-	.item3{
-		background: rgb(227,255,219);
-		background: linear-gradient(90deg, rgba(227,255,219,1) 0%, rgba(254,255,191,1) 100%);
-	}
-	.item4{
-		background: rgb(254,255,191);
-		background: linear-gradient(90deg, rgba(254,255,191,1) 0%, rgba(173,211,255,1) 100%);
-	}
-	.item5{
-		background: rgb(173,211,255);
-		background: linear-gradient(90deg, rgba(173,211,255,1) 0%, rgba(228,230,218,1) 100%);
-	}
-	.news-main{
-		height:100%;
-	}
-	.car-ment{
-		position:relative;
-		margin-top:8%;
-	}
-	.main-ment{
-		font-weight:900;
-	}
-	.owl-carousel .owl-item .item-image{
-		width:28%;
-		display:inline;
-		position:absolute;
-		top:20%;
-		left:60%;
-	}
-	.owl-carousel .owl-item .phone{
-		width:25%;
-		top:10%;
-	}
-	.owl-carousel .owl-item .group{
-		width:40%;
-	}
+	
 	@media (max-width:450px) {
 		.book-list{
 			width:40%;
@@ -312,7 +315,8 @@ $(function(){
 	$('.news-carousel').owlCarousel({
 	    loop:true,
 	    autoplay : true,
-	    smartSpeed:500,
+	    autoplayTimeout:7000,
+	    smartSpeed:700,
 	    dots:false,
 	    nav:true,
 	    responsive:{
@@ -366,8 +370,8 @@ $(function(){
 			<a href="${pageContext.request.contextPath }/club">
 			<div class="col-xs-12 col-md-8 news-main">
 				<div class="car-ment">
-					<h2 class="main-ment">스터디는 북커리 회원들과 함께</h2>
-					<h4 class="sub-ment">책에 관한 이야기를 함께 나누어 보아요</h4>
+					<h2 class="main-ment">스터디는 북커리 회원들과 함께!</h2>
+					<h4 class="sub-ment">책에 관한 이야기를 나누어 보아요</h4>
 				</div>
 				<img class="item-image group" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/group.png"><br/>
 			</div>
@@ -379,7 +383,7 @@ $(function(){
 			<a href="${pageContext.request.contextPath }/find">
 			<div class="col-xs-12 col-md-8 news-main">
 				<div class="car-ment">
-					<h2 class="main-ment">막막던 수험서 공부,</h2>
+					<h2 class="main-ment">막막하던 수험서 공부,</h2>
 					<h4 class="sub-ment">북커리가 도와드리겠습니다<br/>내서재에 책을 추가하러 가요!</h4>
 				</div>
 				<img class="item-image" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/toby.png"><br/>
@@ -405,7 +409,7 @@ $(function(){
 			<a href="${pageContext.request.contextPath }">
 			<div class="col-xs-12 col-md-8 news-main">
 				<div class="car-ment">
-					<h2 class="main-ment">북커리 사용법이 궁금하다면</h2>
+					<h2 class="main-ment">북커리 사용법이 궁금하다면,</h2>
 					<h4 class="sub-ment">어렵지 않아요!<br/>남녀노소 사용하기 쉽게 알려드립니다</h4>
 				</div>
 				<img class="item-image phone" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/phone.png"><br/>

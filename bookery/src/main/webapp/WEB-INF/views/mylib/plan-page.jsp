@@ -52,6 +52,16 @@ $(function() {
 		$('.page-result').hide();
 	});//click
 		
+	$(".startdate").prop("min",  get_date_str(new Date()));
+	$(".startdate1").prop("min",  get_date_str(new Date()));
+	$(".startdate1").on("change", function() {
+		$(".enddate").prop("min", $(".startdate1").val());
+		var pos_enddate = new Date($(".startdate1").val());
+		pos_enddate = pos_enddate.setDate(pos_enddate.getDate()+cntToc-1);
+		pos_enddate = new Date(pos_enddate); // 선택할 수 있는 마칠 날짜
+	     $(".enddate").prop("max", get_date_str(pos_enddate));
+	});
+	
 	$('.page-btn').on('click',function(){
 		startdate=$('.startdate').val();
 		$('.start-date').val(startdate);
@@ -286,7 +296,7 @@ $(function() {
 					</div><!-- choice -->
 					<div class="by-page by">
 						<label for="startdate">시작 날짜</label><input type="date" name="startdate" class="startdate"/><br/>
-						<label for="page">공부할 양</label><input type="text" name="page" class="page"/>
+						<label for="page">공부할 양</label><input type="number" name="page" class="page"/>
 						<button class="btn btn-priamary page-btn calc">계산</button>
 						<div class="page-result result">
 							<form class="form" method="post" action="${pageContext.request.contextPath }/mylib/plan/page">
