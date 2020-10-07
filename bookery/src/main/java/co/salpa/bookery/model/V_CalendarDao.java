@@ -10,4 +10,6 @@ public interface V_CalendarDao {
 	List<V_CalendarVo> selectAllByUserId(int user_id) throws DataAccessException;
 
 	List<V_CalendarVo> selectAllByStudyId(int study_id) throws DataAccessException;
+
+	List<V_CalendarVo> selectFinData(int study_id) throws DataAccessException;
 }

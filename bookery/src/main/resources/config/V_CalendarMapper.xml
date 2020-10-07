@@ -12,4 +12,9 @@
 		parameterType="_int">
 		select * from v_calendar where study_id=#{study_id}
 	</select>
+	
+	<select id="selectFinData" resultType="v_calendarBean" parameterType="_int">
+		select * from v_calendar where study_id=#{study_id} and actual is not null
+	</select>
+
 </mapper>

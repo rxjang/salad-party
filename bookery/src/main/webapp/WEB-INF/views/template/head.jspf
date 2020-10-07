@@ -57,6 +57,14 @@
  -->
 <style>
 	/**** 크롬 자동포커스 아웃라인, 자동 배경색 채우기 해제 ****/
+	em{
+		color:#787878;
+	}
+	em:hover{
+		color:#c0cfb2;
+		font-weight:bold;
+		text-decoration:none;
+	}
 	textarea:focus { outline: none; } 
 	.btn-default:focus,
 	.btn-default.focus,

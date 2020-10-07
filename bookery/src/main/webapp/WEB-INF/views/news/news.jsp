@@ -6,14 +6,7 @@
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
 <style type="text/css">
-	em{
-		color:#787878;
-	}
-	em:hover{
-		color:#c0cfb2;
-		font-weight:bold;
-		text-decoration:none;
-	}
+	
 	.news-row{
 		padding:10px 0px 30px 0px; 
 	}
