@@ -49,7 +49,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	    
 	    if(request.getMethod().equals("GET")) {
 	        logger.info("dest: " + (uri + query));
-
 	        request.getSession().setAttribute("dest", uri + query);
 	    }
 	}

@@ -15,7 +15,6 @@ var startdate;
 var enddate;
 var plan_page;
 var temp;
-
 var mql = window.matchMedia("screen and (max-width: 800px)");
 	mql.addListener(function(e) {
 	    if(e.matches) {
@@ -24,17 +23,14 @@ var mql = window.matchMedia("screen and (max-width: 800px)");
 			$('.temp').remove();
 	    }
 	});
-
 function get_date_str(date){
     var sYear = date.getFullYear();
     var sMonth = date.getMonth() + 1;
     var sDate = date.getDate();
-
     sMonth = sMonth > 9 ? sMonth : "0" + sMonth;
     sDate  = sDate > 9 ? sDate : "0" + sDate;
     return sYear +"-"+ sMonth +"-"+ sDate;
 }//날짜 형변환
-
 $(function() {
 	if (mql.matches) {
 		$(".btn").before("<div class=\"temp\"><br/><div/>");
