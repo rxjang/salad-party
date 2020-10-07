@@ -6,14 +6,7 @@
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
 <style type="text/css">
-	em{
-		color:#787878;
-	}
-	em:hover{
-		color:#c0cfb2;
-		font-weight:bold;
-		text-decoration:none;
-	}
+	
 	.news-row{
 		padding:10px 0px 30px 0px; 
 	}
@@ -33,11 +26,11 @@
 	}
 	.list-image{
 		padding:10px;
-		line-height:220px;
 		width:100%;
 		background-color:#ecece9;
 	    border-radius: 10px;
 	    margin-bottom:5px;
+		height:220px;
 	}
 	.book-image{
 		box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
@@ -194,7 +187,7 @@
 		margin-left:5px;
 	}
 	@media (max-width:900px) {
-		.best-books li{
+		.book-list{
 			width:45%;
 		}
 		.item-content{
@@ -212,27 +205,25 @@
 			margin-bottom:1.5em;
 		}	
 	}
+	@media (max-width:450px) {
+		.book-list{
+			width:40%;
+			height:200px;
+		}
+		.book-image{
+			width:80%;
+		}
+		.list-image{
+			height:190px;
+		}
+	}
 </style>
 <script>
 var i=0;
+
 $(function(){
 	$(".content-main").hide();
 	
-	$('.cut-12').each(function(){
-		if($(this).text().length > 12){
-			$(this).text($(this).text().substring(0,12)+' ...');			
-		}
-	});//book-title each
-	$('.cut-15').each(function(){
-		if($(this).text().length > 15){
-			$(this).text($(this).text().substring(0,15)+' ...');			
-		}
-	});//writer each
-	$('.real-time-content').each(function(){
-		if($(this).text().length > 100){
-			$(this).text($(this).text().substring(0,100)+' ...');			
-		}
-	});//real-time-content each
 	
 	//글내용 열고 닫기는 횟수 기준으로
 	$(".content-box").each(function(){
@@ -339,7 +330,7 @@ $(function(){
 					<div class="item-inner">
 						<div class="item-content">
 							<h4 class="title">${contents.title}</h4>
-							<p class="real-time-content">${contents.content}</p>
+							<p class="real-time-content cut-100">${contents.content}</p>
 						</div><!-- item-content -->
 						<div class="realtime-book-info">
 							<img class="book-image-content" src="${contents.coverurl }" alt="책 이미지"/>

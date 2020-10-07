@@ -57,6 +57,14 @@
  -->
 <style>
 	/**** 크롬 자동포커스 아웃라인, 자동 배경색 채우기 해제 ****/
+	em{
+		color:#787878;
+	}
+	em:hover{
+		color:#c0cfb2;
+		font-weight:bold;
+		text-decoration:none;
+	}
 	textarea:focus { outline: none; } 
 	.btn-default:focus,
 	.btn-default.focus,
@@ -261,26 +269,82 @@ mql.addListener(function(e) {
 });//넓이 변경시 이벤트 발생
 
 $(function(){
-	  $('.add-jung').mouseenter(function(){
-	    $(this).children(".jung").css('color','black');
-		$(this).css('font-weight','bold');
-		$(this).prev().css('font-weight','bold');
-	  });
-	  $('.add-jung').mouseleave(function(){
-	    $(this).children(".jung").css('color','white');
-	    $(this).css('font-weight','normal').css('background-color','none');
-		$(this).prev().css('font-weight','normal');
-	  });
-	  
-	  $(".nav li").click( function() { 
-          $(this).css("background-color", "rgba(255, 0, 0, 0.0)");
-       });
+		var str = location.href;
+		var temp1=str.indexOf("bookery/");
+		var temp2=str.substring(temp1,temp1+9);
+		var temp=temp2.substring(temp2.lastIndexOf('/')+1);
 		
 		if (mql.matches) {
 		    mobile();
 		} else {
 			pc()
 		}//최초 접속 상태로 판단
+		
+		if(temp=="t"){
+			$(".menu-today").css("font-weight","bold")
+			temp="오늘의 기록";
+			temp2="#오늘의 기록";
+		}else if(temp=="m"){
+			temp="내서재";
+			temp2="#내서재";
+		}else if(temp=="c"){
+			temp="북클럽";
+			temp2="#북클럽";
+		}else if(temp=="f"){
+			temp="검색";
+			temp2="#검색";
+		}else if(temp=="n"){
+			temp="책거리 뉴스";
+			temp2="#책거리 뉴스";
+		}
+		
+
+		$('.cut-10').each(function(){
+			if($(this).text().length > 10){
+				$(this).text($(this).text().substring(0,10)+' ...');			
+			}
+		});//12개 까지 끊기
+		$('.cut-12').each(function(){
+			if($(this).text().length > 12){
+				$(this).text($(this).text().substring(0,12)+' ...');			
+			}
+		});//12개 까지 끊기
+		$('.cut-15').each(function(){
+			if($(this).text().length > 15){
+				$(this).text($(this).text().substring(0,15)+' ...');			
+			}
+		});//15개까지 끊기
+		$('.cut-20').each(function(){
+			if($(this).text().length > 20){
+				$(this).text($(this).text().substring(0,20)+' ...');			
+			}
+		});//15개까지 끊기
+		$('.cut-100').each(function(){
+			if($(this).text().length > 100){
+				$(this).text($(this).text().substring(0,100)+' ...');			
+			}
+		});//100개까지 끊기
+		
+		
+	  $('.add-jung').mouseenter(function(){
+		$(this).children(".jung").css('color','black');
+		$(this).css('font-weight','bold');
+		$(this).prev().css('font-weight','bold');
+	  });
+	  $('.add-jung').mouseleave(function(){
+	    $(this).children(".jung").css('color','white');
+		if($(this).text()==temp||$(this).text()==temp2){
+		}else{
+		    $(this).css('font-weight','normal').css('background-color','none');
+			$(this).prev().css('font-weight','normal');
+		}
+	  });
+	  
+	  $(".nav li").click( function() { 
+          $(this).css("background-color", "rgba(255, 0, 0, 0.0)");
+       });
+		
+		
 
 });//function
 	 
@@ -293,12 +357,14 @@ function mobile(){
 	$(".menu-find").prepend( "<span class=\"menu-icon glyphicon glyphicon-search\"></span><br/>" );
 	$(".menu-news").prepend( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span><br/>" );
 	$(".add-jung").css("color","#666666");
+	$(".rank-who b").addClass("cut-10");
 }
 function pc(){
 	$(".jung").text("#");
 	$(".menu-icon").remove();
 	$(".add-jung").children("br").remove();
 	$(".add-jung").css("color","black");
+	$(".rank-who b").removeClass("cut-10");
 }
 
 Date.prototype.format = function (f) {

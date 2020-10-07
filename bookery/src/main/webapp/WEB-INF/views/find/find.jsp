@@ -131,7 +131,7 @@ pubdate	datetime	출간일 정보이다.
 			
 	/*********************** 검색 form 전송  ***********************/
 		$('.search-form').submit(function() { 
-			$('#owl_div').hide();
+			$('#owl_div,.top10').hide();
 			$('#result').html('');
 			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			startResult=1; //검색결과들 중 읽어올 문서의 순서. ex:start=2 라면 10개 검색됐으면 2번째부터 출력
@@ -188,6 +188,11 @@ pubdate	datetime	출간일 정보이다.
 			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
 			selectOpt_val = $(this).text();
 		});		
+		$('#opt-all').click(function(){
+			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
+			$('#search').prop('placeholder',$(this).text()+'을 입력하세요.');
+			selectOpt_val = $(this).text();
+		});		
 		
 		
 		
@@ -202,9 +207,21 @@ pubdate	datetime	출간일 정보이다.
 	$('.top10').click(function(){
 		location.href='${pageContext.request.contextPath}/news';
 	});//click
-		
+
+	/* 메달 반응형 */
+	setInterval(function() {
+		var window_x = $(window).width();
+		console.log(window_x);
+		if(window_x < 666){
+			$('.medal').hide();
+		}else{
+			$('.medal').show();
+		}
+	}, 500); 
+	
+	
 	});//ready
-		
+	
 </script>
 <style type="text/css">
 
@@ -243,10 +260,12 @@ pubdate	datetime	출간일 정보이다.
 .dropdown-menu{
 	left: 0px;
 }
+
 #selectOpt{
 	border-radius:25px;
 	border:0px;
-	box-shadow: #e4e4e4 0px 0px 3px;
+	box-shadow: rgb(192, 207, 178) 0px 0px 3px;
+	float: right;
 }
 .media-object{
 	width:120px;
@@ -301,6 +320,11 @@ pubdate	datetime	출간일 정보이다.
 	position: relative;
 	bottom: 45px;
 }
+ @media (min-width:900px) {
+	.btn-group{
+		width:100px;
+	}
+}
 </style>
 </head>
 <body>
@@ -312,10 +336,9 @@ pubdate	datetime	출간일 정보이다.
 				<div class="col-md-2">&nbsp;</div>
 				<div class="col-md-8 col-xs-12">
 				<br/>
-					<!-- 	<h3> -->
 						<!-- 	<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 책 찾기 -->
 						<!-- search option select -->
-							  <div class="btn-group" role="group">
+						<!-- 	  <div class="btn-group" role="group">
 							    <button type="button" id="selectOpt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							      제목
 							      <span class="caret"></span>
@@ -326,16 +349,30 @@ pubdate	datetime	출간일 정보이다.
 							      <li><a id="opt-pub" href="#">출판사 </a></li>
 							    </ul>
 							  </div>
-						<!-- </h3> -->
-						<h4><small id="cntOfTotal"></small></h4>
+						<h4><small id="cntOfTotal"></small></h4> -->
 				</div>
 				
 			<!-- 	<div class="bottom-line col-xs-12 col-md-12"></div> -->
 			</div>
 
 			<div class="row">	<!--************ search **********-->
-			<div class="col-md-3">&nbsp;</div>
-			<div class="col-xs-12 col-md-6">
+			
+			<div class="col-md-2">&nbsp;</div>
+			<div class="col-xs-2 col-md-1">
+			 <div class="btn-group" role="group">
+				 <button type="button" id="selectOpt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				      전체
+				      <span class="caret"></span>
+				    </button>
+				    <ul class="dropdown-menu">
+				      <li><a id="opt-all" href="#">전체</a></li>
+				      <li><a id="opt-tit" href="#">제목</a></li>
+				      <li><a id="opt-auth" href="#">저자</a></li>
+				      <li><a id="opt-pub" href="#">출판사</a></li>
+				    </ul>
+			</div>
+			</div>
+			<div class="col-xs-10 col-md-6">
 					<form action="#" class="search-form form-inline">
 						<div class="input-search input-group">
 							<input type="text" class="" placeholder="제목을 입력하세요." name="search" id="search"/>
@@ -346,6 +383,7 @@ pubdate	datetime	출간일 정보이다.
 							</span>
 						</div>
 					</form>
+					<h4><small id="cntOfTotal"></small></h4>
 			</div>
 			<div class="col-md-3"></div>
 			</div>
@@ -363,9 +401,10 @@ pubdate	datetime	출간일 정보이다.
 		<div class="panel panel-default top10">
 			<div class="panel-body">
 				지금 많이 공부하는 책 TOP10<br/><small>북커리회원들이 많이 공부하는 책을 살펴보세요</small>
-			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/bronze_madal.png">
+			<%-- <img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/bronze_madal.png">
 			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/silver_madal.png">
-			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/gold_madal.png">
+			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/gold_madal.png"> --%>
+			<img class="medal" style="height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/medals.png">
 			</div>
 		</div>
 		
