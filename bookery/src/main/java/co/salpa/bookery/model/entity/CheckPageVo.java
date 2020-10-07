@@ -26,7 +26,7 @@ public class CheckPageVo {
 	@NonNull
 	private int study_id;
 	@NonNull
-	private Date date;
+	private Date date, updatetime;
 	@NonNull
 	private int deleted;
 	

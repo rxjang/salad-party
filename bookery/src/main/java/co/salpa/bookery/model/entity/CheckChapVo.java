@@ -17,7 +17,7 @@ public class CheckChapVo {
 	
 	private int id;
 	private String toc;
-	private Date plantime,actualtime;
+	private Date plantime,actualtime,updatetime;
 	private int deleted;
 	private int study_id;
 }
