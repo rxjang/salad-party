@@ -285,7 +285,7 @@ $(function(){
 		</div><!-- n-box -->
 		</c:forEach>
 		<div class="ask 2-box">
-			<em>그래도 해결이 안되시나요?</em><a href="${pageContext.request.contextPath }/news/notice/write/3" class="ask-btn"> 1:1 문의 하기</a>
+			그래도 해결이 안되시나요?<em><a href="${pageContext.request.contextPath }/news/notice/write/3" class="ask-btn"> 1:1 문의 하기</a></em>
 			<input type="hidden" value="${user.id }" class="login"/>
 		</div>
 	</div><!-- center-content -->

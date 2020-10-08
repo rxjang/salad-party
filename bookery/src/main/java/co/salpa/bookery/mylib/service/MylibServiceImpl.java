@@ -30,6 +30,7 @@ import co.salpa.bookery.model.entity.CheckPageVo;
 import co.salpa.bookery.model.entity.MedalVo;
 import co.salpa.bookery.model.entity.StudyVo;
 import co.salpa.bookery.model.entity.TocVo;
+import co.salpa.bookery.model.entity.V_AwardsVo;
 import co.salpa.bookery.model.entity.V_CalendarVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
 
@@ -96,19 +97,17 @@ public class MylibServiceImpl implements MylibService {
 		Date tempDate=startDate;//인서트할 값
 		int tempPage=planPage;
 		for(int i=0;i<StudyDay-1;i++) {
-			CheckPageVo bean=new CheckPageVo(tempDate,tempPage,planPage,study.getId());
+			CheckPageVo bean=new CheckPageVo(tempDate,tempPage,study.getId());
 			dao.insertOne(bean);
 			tempDate=nextDay(tempDate);
 			tempPage+=planPage;
 		}
 		//마지막 날 입력
 		int bid=study.getBook_bid();
-		System.out.println("bid:"+bid);
 		BookVo bean=bookDao.selectOne(bid);
 		int pages=bean.getPages();
-		int lastPage=pages-(StudyDay-1)*planPage;
 		tempDate=lastDay(startDate,StudyDay);
-		CheckPageVo pageVo=new CheckPageVo(tempDate,pages,lastPage,study.getId());
+		CheckPageVo pageVo=new CheckPageVo(tempDate,pages,study.getId());
 		dao.insertOne(pageVo);
 		
 	}
@@ -179,10 +178,12 @@ public class MylibServiceImpl implements MylibService {
 	@Override
 	public Model awardService(Model model,int user_id) throws DataAccessException {
 		MedalDao medalDao=sqlSession.getMapper(MedalDao.class);
-		List<MedalVo> medalList=medalDao.selectAllMedal();
-		model.addAttribute("medalList", medalList);
 		V_AwardsDao v_AwardsDao=sqlSession.getMapper(V_AwardsDao.class);
+		List<MedalVo> medalList=medalDao.selectAllMedal();
+		List<V_AwardsVo> achieveMedalList=v_AwardsDao.selectAchieveMedal(user_id);
+		model.addAttribute("medalList", medalList);
 		model.addAttribute("countAchieveMedal", v_AwardsDao.countAchieveMedal(user_id));
+		model.addAttribute("achieveMedalList", achieveMedalList);
 		return null;
 	}
 

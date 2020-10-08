@@ -109,10 +109,10 @@
 	</update>
 	
 	<update id="updateRecommendUp" parameterType="_int">
-	  	update club set num = (num+1) where id = #{id}
+	  	update club set num = (num+1), updatetime=now() where id = #{id}
 	</update>
 	<update id="updateRecommendDown" parameterType="_int">
-	  	update club set num = (num-1) where id = #{id}
+	  	update club set num = (num-1), updatetime=now() where id = #{id}
 	</update>
 	
 	<insert id="insertRecommendChk" parameterType="recommendBean">

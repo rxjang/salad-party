@@ -8,6 +8,6 @@
 		select * from v_awards where user_id=#{id}
 	</select>
 	<select id="countAchieveMedal" resultType="INTEGER" parameterType="_int">
-		select count(*) from v_awards where user_id=#{id}
+		select count(distinct medal) from v_awards where user_id=#{user_id}
 	</select>
 </mapper>
