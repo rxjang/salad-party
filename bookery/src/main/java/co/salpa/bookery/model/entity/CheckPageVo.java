@@ -40,7 +40,6 @@ public class CheckPageVo {
 	
 	public CheckPageVo(Date date,int planpage, int study_id) {
 		super();
-		this.planpageperday = planpageperday;
 		this.planpage = planpage;
 		this.study_id = study_id;
 		this.date = date;
