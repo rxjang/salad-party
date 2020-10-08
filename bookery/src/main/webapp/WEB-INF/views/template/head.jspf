@@ -292,20 +292,43 @@ $(function(){
 			temp="오늘의 기록";
 			temp2="#오늘의 기록";
 		}else if(temp=="m"){
+			$(".menu-mylib").css("font-weight","bold")
 			temp="내서재";
 			temp2="#내서재";
 		}else if(temp=="c"){
+			$(".menu-club").css("font-weight","bold")
 			temp="북클럽";
 			temp2="#북클럽";
 		}else if(temp=="f"){
+			$(".menu-find").css("font-weight","bold")
 			temp="검색";
 			temp2="#검색";
 		}else if(temp=="n"){
+			$(".menu-news").css("font-weight","bold")
 			temp="책거리 뉴스";
 			temp2="#책거리 뉴스";
 		}
 		
-
+	  $('.add-jung').mouseenter(function(){
+		$(this).children(".jung").css('color','black');
+		$(this).css('font-weight','bold');
+		$(this).prev().css('font-weight','bold');
+	  });
+	  $('.add-jung').mouseleave(function(){
+		  $(this).children(".jung").css('color','white');
+			if($(this).text()==temp||$(this).text()==temp2){
+			}else{
+			    $(this).css('font-weight','normal').css('background-color','none');
+				$(this).prev().css('font-weight','normal');
+			}
+	  });
+	  
+	  $(".nav li").click( function() { 
+          $(this).css("background-color", "rgba(255, 0, 0, 0.0)");
+       });
+		
+		
+		/**************************글자 수 끊기(클래스만 추가하면 됩니다.)*******************************/
 		$('.cut-10').each(function(){
 			if($(this).text().length > 10){
 				$(this).text($(this).text().substring(0,10)+' ...');			
@@ -331,28 +354,6 @@ $(function(){
 				$(this).text($(this).text().substring(0,100)+' ...');			
 			}
 		});//100개까지 끊기
-		
-		
-	  $('.add-jung').mouseenter(function(){
-		$(this).children(".jung").css('color','black');
-		$(this).css('font-weight','bold');
-		$(this).prev().css('font-weight','bold');
-	  });
-	  $('.add-jung').mouseleave(function(){
-	    $(this).children(".jung").css('color','white');
-		if($(this).text()==temp||$(this).text()==temp2){
-		}else{
-		    $(this).css('font-weight','normal').css('background-color','none');
-			$(this).prev().css('font-weight','normal');
-		}
-	  });
-	  
-	  $(".nav li").click( function() { 
-          $(this).css("background-color", "rgba(255, 0, 0, 0.0)");
-       });
-		
-		
-
 });//function
 	 
 	

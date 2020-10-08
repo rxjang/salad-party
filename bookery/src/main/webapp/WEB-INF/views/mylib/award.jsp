@@ -113,6 +113,14 @@
 			</c:forEach>			
 			</ul>
 		</div>
+		<div class="jumbotron">
+		달성 목록
+			<ul class="all-medal">
+			<c:forEach items="${achieveMedalList }" var="award">
+					<li>${award.criteria }</li>
+			</c:forEach>			
+			</ul>
+		</div>
 		<div class="jumbotron temp">
 			<img src="${pageContext.request.contextPath}/resources/imgs/award/achieve-1st.png"/>
 			<img src="${pageContext.request.contextPath}/resources/imgs/award/achieve-3rd.png"/>

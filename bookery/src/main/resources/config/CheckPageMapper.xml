@@ -35,7 +35,7 @@
 	</select>
 	
 	<insert id="insertOne" parameterType="checkPageBean">
-		insert into checkPage (date, planpage, planpageperday,study_id) values (#{date}, #{planpage}, #{planpageperday},#{study_id})
+		insert into checkPage (date, planpage,study_id) values (#{date}, #{planpage},#{study_id})
 	</insert>
 
 	<update id="updateOne" parameterType="checkPageBean">
