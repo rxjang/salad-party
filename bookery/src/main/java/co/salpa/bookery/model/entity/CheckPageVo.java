@@ -20,10 +20,8 @@ public class CheckPageVo {
 
 	private int id;
 	private int planpage;
-	private int planpageperday;
 	@NonNull
 	private int actualpage;
-	private int actualpageperday;
 	@NonNull
 	private int study_id;
 	@NonNull
@@ -35,7 +33,6 @@ public class CheckPageVo {
 	
 	public CheckPageVo(Date date,int planpage,int planpageperday, int study_id) {
 		super();
-		this.planpageperday = planpageperday;
 		this.planpage = planpage;
 		this.study_id = study_id;
 		this.date = date;

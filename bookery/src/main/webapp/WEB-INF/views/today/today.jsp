@@ -229,9 +229,9 @@
 										${cal.sid_date} 
 										${cal.type} 
 										${cal.study_id} 
-										${cal.date} 
-										${cal.plan} 
-										${cal.actual} 
+										${cal.start} 
+										${cal.plan_accum} 
+										${cal.actual_accum} 
 										${cal.status}<br>
 									</c:forEach>
 								</div>
@@ -243,9 +243,9 @@
 										${cal.sid_date} 
 										${cal.type} 
 										${cal.study_id} 
-										${cal.date} 
-										${cal.plan} 
-										${cal.actual} 
+										${cal.start} 
+										${cal.plan_perday} 
+										${cal.actual_perday} 
 										${cal.status}<br>
 									</c:forEach>
 								</div>
