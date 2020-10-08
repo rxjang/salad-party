@@ -48,4 +48,9 @@ public interface ClubService {
 	void recommendDownChkService(HttpSession session, int id)throws DataAccessException;
 
 	Model listStudyingBookService(HttpSession session,Model model) throws DataAccessException;
+
+	Model listNoGoalBookService(HttpSession session, Model model)throws DataAccessException;
+
+	Model listFinishedBookService(HttpSession session, Model model)throws DataAccessException;
+
 }

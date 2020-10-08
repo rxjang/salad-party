@@ -164,10 +164,10 @@ $(function(){
 				responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 				}
 			});//owl캐러셀
-			
+			//onerror="this.src='불러와야할 이미지없을때 대체될 이미지경로'"
 			var book_thumbnail_html = '<div class="media-img">';
 			book_thumbnail_html += '<a href="#">';
-			book_thumbnail_html += '<img class="media-object" src="'+img_link+'" alt="...">';
+			book_thumbnail_html += '<img class="media-object" src="'+img_link+'" onerror="this.src=\'${pageContext.request.contextPath}/resources/imgs/no-image.png\'" alt="...">';
 			book_thumbnail_html += '</a>';
 			book_thumbnail_html += '</div>';
 			$('#book_thumbnail').html(book_thumbnail_html);
@@ -179,8 +179,7 @@ $(function(){
 			}
 				book_info_html += '</div></div>';
 			$('#book_detail').html(book_info_html).css('text-align','center');
-			
-			$('.media-img img').css({'box-shadow':'rgb(37, 54, 41) 5px 5px 10px','display':'block','margin':'auto'});
+			$('.media-img img').css({'box-shadow':'12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4)','display':'block','margin':'auto'});
 			//책 썸네일 그림자색
 			
 			var list =$('#crawling_div').find('#tableOfContentsContent');

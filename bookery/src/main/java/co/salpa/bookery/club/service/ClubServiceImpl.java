@@ -305,6 +305,9 @@ public class ClubServiceImpl implements ClubService {
 
 	}
 
+	/*
+	 * bookclub메인 화면에서 미완독 책보기 탭 눌렀을 때 사용하는 list
+	 */
 	@Override
 	public Model listStudyingBookService(HttpSession session, Model model) throws DataAccessException {
 		UserVo user = (UserVo) session.getAttribute("user");
@@ -322,6 +325,52 @@ public class ClubServiceImpl implements ClubService {
 			e.printStackTrace();
 		}
 		return model.addAttribute("studyingbooklist", jsonStr);
+	}
+
+	/*
+	 * bookclub메인 화면에서 미독 책보기 탭 눌렀을 때 사용하는 list
+	 */
+	@Override
+	public Model listNoGoalBookService(HttpSession session, Model model) throws DataAccessException {
+		UserVo user = (UserVo) session.getAttribute("user");
+		V_StudyDao v_studyDao = sqlSession.getMapper(V_StudyDao.class);
+		List<V_StudyVo> list = v_studyDao.selectNoGoalBook(user.getId());
+		Map<String, List<V_StudyVo>> map = new HashMap<String, List<V_StudyVo>>();
+		map.put("key", list);
+
+		String jsonStr = null;
+
+		try {
+			jsonStr = objectMapper.writeValueAsString(map);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return  model.addAttribute("nogoalbooklist", jsonStr);
+	}
+
+	/*
+	 * bookclub메인 화면에서 완독 책보기 탭 눌렀을 때 사용하는 list
+	 */
+	@Override
+	public Model listFinishedBookService(HttpSession session, Model model) throws DataAccessException {
+		UserVo user = (UserVo) session.getAttribute("user");
+		V_StudyDao v_studyDao = sqlSession.getMapper(V_StudyDao.class);
+	
+		List<V_StudyVo> list = v_studyDao.selectFinishedBook(user.getId());
+		Map<String, List<V_StudyVo>> map = new HashMap<String, List<V_StudyVo>>();
+		map.put("key", list);
+
+		String jsonStr = null;
+
+		try {
+			jsonStr = objectMapper.writeValueAsString(map);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  model.addAttribute("finishedbooklist", jsonStr);
 	}
 
 }

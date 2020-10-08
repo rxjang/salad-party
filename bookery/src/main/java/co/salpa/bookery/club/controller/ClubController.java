@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import co.salpa.bookery.club.service.ClubService;
 import co.salpa.bookery.find.service.FindService;
 import co.salpa.bookery.model.entity.ClubVo;
-import co.salpa.bookery.model.entity.UserVo;
-import co.salpa.bookery.mylib.service.MylibService;
 
 @Controller
 @RequestMapping("/club")
@@ -25,13 +23,14 @@ public class ClubController {
 	ClubService clubService;
 	@Autowired
 	FindService findService;
-	@Autowired
-	MylibService mylibService;
+
 	
 	
 	// 북클럽 메인 화면
 	@RequestMapping
 	public String bookClub(Model model,HttpSession session) {
+		clubService.listNoGoalBookService(session, model);
+		clubService.listFinishedBookService(session, model);
 		clubService.listStudyingBookService(session, model);
 		clubService.listBookClubService(model);
 		findService.listBookService(model);
@@ -107,6 +106,7 @@ public class ClubController {
 		return "redirect:list/" + club.getBook_bid();
 	}
 
+	//추천
 	@RequestMapping(value = "/recommend",method = RequestMethod.GET)
 	@ResponseBody
 	public String recommendUp(int id, HttpSession session) {
@@ -116,6 +116,8 @@ public class ClubController {
 		String responseData = "{\"success\":\"success\",\"num\":\"" + clubService.getOneService(id).getNum() + "\"}";
 		return responseData;
 	}
+	
+	// 추천취소
 	@RequestMapping(value = "/recommenddown",method = RequestMethod.GET)
 	@ResponseBody
 	public String recommendDown(int id, HttpSession session) {

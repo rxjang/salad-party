@@ -63,16 +63,16 @@
 
 					<div class="form-group">
 						<input type="text" class="form-control content-main"
-							id="inputPassword3" readonly="readonly" value="${book.title }">
+							id="inputPassword3" readonly="readonly" value="${book.title }"/>
 					</div>
 
 					<div class="form-group">
 						<input type="text" class="form-control content-title" name="title"
-							id="title" value="${club.title }">
+							id="title" value="${club.title }" required="required"/>
 					</div>
 					<div class="form-group">
 						<textarea class="form-control content-main" rows="15"
-							name="content" id="content">${club.content }</textarea>
+							name="content" id="content" required="required">${club.content }</textarea>
 					</div>
 					<input type="hidden" name="book_bid" value="${book.bid }" /> <input
 						type="hidden" name="depth" value="0" /> <input type="hidden"

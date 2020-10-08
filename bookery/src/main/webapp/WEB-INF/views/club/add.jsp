@@ -58,11 +58,11 @@
 
 				<div class="form-group">
 						<input type="text" class="form-control content-title" name="title" id="title"
-							placeholder="제목을 입력하세요.">
+							placeholder="제목을 입력하세요." required="required">
 					</div>
 				
 				<div class="form-group">
-						<textarea class="form-control content-main" rows="15" name="content" id="content" placeholder="내용을 입력하세요."></textarea>
+						<textarea class="form-control content-main" required="required" rows="15" name="content" id="content" placeholder="내용을 입력하세요."></textarea>
 				</div>
 				
 				<input type="hidden" name="book_bid" value="${book.bid }" />
