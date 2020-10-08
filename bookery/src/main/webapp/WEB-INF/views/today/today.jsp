@@ -77,7 +77,7 @@
 			<div class="col-md-8 col-md-offset-2 col-xs-12">
 				<h3>
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					오늘의 기록 : 
+					(test)오늘의 기록 : 
 					<c:if test="${fn:length(studymap) eq 0}">
 						 기록할 스터디가 없습니다.
 					</c:if>
