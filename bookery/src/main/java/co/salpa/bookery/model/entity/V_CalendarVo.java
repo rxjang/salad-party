@@ -12,12 +12,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class V_CalendarVo {
+	private String title;// boot title
+	private String url;// mylib/study_id link address
 	private int user_id;
 	private String sid_date;//"study_id:yyyy-mm-dd"
 	private String type;//"chap","page"
 	private int study_id;
-	private Date date;
-	private int plan;//# of planned pages or chapters of the day
-	private int actual;//# of actual pages or chapters of the day
-	private int status;//actual - plan
+	private Date start;// date
+	private int plan_accum;//누적 페이지/챕터수
+	private int actual_accum;//누적 페이지/챕터수
+	private int plan_perday;//그날의 페이지/챕터수
+	private int actual_perday;//그날의 페이지/챕터수
+	private int status;//actual_perday - plan_perday; 그날의 목표량 달성정도 수치
+	private String color;//달력에 사용할 배경색
+	private String textColor;//달력에 사용할 글자색
 }
