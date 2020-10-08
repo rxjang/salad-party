@@ -5,10 +5,15 @@
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
 <script type="text/javascript">
+	//미완독 미독 완독 책 리스트. JSON
+	var studyingbooklist = '${studyingbooklist}';
+	var nogoalbooklist = '${nogoalbooklist}';
+	var finishedbooklist = '${finishedbooklist}';
 
-var studyingbooklist = '${studyingbooklist}';
 	$(function() {
-		//console.log(JSON.parse(studyingbooklist));
+		console.log(JSON.parse(studyingbooklist));
+		console.log(JSON.parse(nogoalbooklist));
+		console.log(JSON.parse(finishedbooklist));
 		aos();
 		$('form').on('submit',function(){
 			return false;
@@ -37,18 +42,28 @@ var studyingbooklist = '${studyingbooklist}';
 			}
 		});//each title
 			
-		/* 미완독 v_study list에서 book_bid만 배열에 저장 */
-		var arr = [];
+		/* v_study list에서 book_bid만 배열에 저장 */
+		var studying_arr = [];
 		var studyingbooks = JSON.parse(studyingbooklist).key;
 		studyingbooks.forEach(function(ele){
-			arr.push(ele.book_bid);
+			studying_arr.push(ele.book_bid);
 		});//forEach
-		console.log(arr);
+		var nogoal_arr = [];
+		var nogoalbooks = JSON.parse(nogoalbooklist).key;
+		nogoalbooks.forEach(function(ele){
+			nogoal_arr.push(ele.book_bid);
+		});//forEach
+		var finished_arr = [];
+		var finishedbooks = JSON.parse(finishedbooklist).key;
+		finishedbooks.forEach(function(ele){
+			finished_arr.push(ele.book_bid);
+		});//forEach
+
 		
-		/* 내책만보기 */
+		/* 미완독 책만보기 */
 		$('#orderByMyBook').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
-
+/* 
 			if($('#orderByABC').attr('class').includes('ok',0)){
 				$('#orderByABC').addClass('not-ok').removeClass('ok');
 				$('#orderByABC .glyphicon-ok').remove();
@@ -57,25 +72,116 @@ var studyingbooklist = '${studyingbooklist}';
 				$('#orderByCBA').addClass('not-ok').removeClass('ok');
 				$('#orderByCBA .glyphicon-ok').remove();
 			}
+			 */
+			
+			$('.order-btn a').not($(this)).each(function(){
+				if($(this).attr('class').includes('ok',0)){
+					$(this).addClass('not-ok').removeClass('ok');
+					$(this).find('.glyphicon-ok').remove();
+				}//if
+			});//each
 			
 			if($(this).attr('class').includes('not-ok',0)){
-				console.log('내책만보기');
+				//console.log('내책만보기');
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
 				
 				var items = $('.thumb-box').get(); 
 				$.each(items, function(idx, ele){
-					if(arr.includes(Number($(ele).attr('id')))){
-							console.log('same');
+					if(studying_arr.includes(Number($(ele).attr('id')))){
+						//	console.log('same');
 							$(ele).show();
-					}else if(!arr.includes(Number($(ele).attr('id')))){
+					}else if(!studying_arr.includes(Number($(ele).attr('id')))){
 							$(ele).hide();
 					}
 				});
 				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
-				$(this).find('glyphicon-ok').remove();
+				$(this).find('.glyphicon-ok').remove();
+				location.reload();
+			}//if
+		});//click
+		
+		/* 완독 책만보기 */
+		$('#orderByFinished').click(function(){
+			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+
+/* 			if($('#orderByABC').attr('class').includes('ok',0)){
+				$('#orderByABC').addClass('not-ok').removeClass('ok');
+				$('#orderByABC .glyphicon-ok').remove();
+			}
+			if($('#orderByCBA').attr('class').includes('ok',0)){
+				$('#orderByCBA').addClass('not-ok').removeClass('ok');
+				$('#orderByCBA .glyphicon-ok').remove();
+			} */
+			
+			$('.order-btn a').not($(this)).each(function(){
+				
+				if($(this).attr('class').includes('ok',0)){
+					$(this).addClass('not-ok').removeClass('ok');
+					$(this).find('.glyphicon-ok').remove();
+				}//if
+			});//each
+			
+			if($(this).attr('class').includes('not-ok',0)){
+				//console.log('내책만보기');
+				$(this).append(okIcon);
+				$(this).addClass('ok').removeClass('not-ok');
+				
+				var items = $('.thumb-box').get(); 
+				$.each(items, function(idx, ele){
+					if(finished_arr.includes(Number($(ele).attr('id')))){
+							console.log('same');
+							$(ele).show();
+					}else if(!finished_arr.includes(Number($(ele).attr('id')))){
+							$(ele).hide();
+					}
+				});
+				aos();
+			}else if($(this).attr('class').includes('ok',0)){
+				$(this).addClass('not-ok').removeClass('ok');
+				$(this).find('.glyphicon-ok').remove();
+				location.reload();
+			}//if
+		});//click
+		
+		/* 미독 책만보기 */
+		$('#orderByNoGoal').click(function(){
+			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+
+			/* if($('#orderByABC').attr('class').includes('ok',0)){
+				$('#orderByABC').addClass('not-ok').removeClass('ok');
+				$('#orderByABC .glyphicon-ok').remove();
+			}
+			if($('#orderByCBA').attr('class').includes('ok',0)){
+				$('#orderByCBA').addClass('not-ok').removeClass('ok');
+				$('#orderByCBA .glyphicon-ok').remove();
+			} */
+			$('.order-btn a').not($(this)).each(function(){
+				if($(this).attr('class').includes('ok',0)){
+					$(this).addClass('not-ok').removeClass('ok');
+					$(this).find('.glyphicon-ok').remove();
+				}//if
+			});//each
+			
+			if($(this).attr('class').includes('not-ok',0)){
+			//	console.log('내책만보기');
+				$(this).append(okIcon);
+				$(this).addClass('ok').removeClass('not-ok');
+				
+				var items = $('.thumb-box').get(); 
+				$.each(items, function(idx, ele){
+					if(nogoal_arr.includes(Number($(ele).attr('id')))){
+							$(ele).show();
+					}else if(!nogoal_arr.includes(Number($(ele).attr('id')))){
+							$(ele).hide();
+					}
+				});
+				aos();
+			}else if($(this).attr('class').includes('ok',0)){
+				$(this).addClass('not-ok').removeClass('ok');
+				$(this).find('.glyphicon-ok').remove();
 				location.reload();
 			}//if
 		});//click
@@ -84,18 +190,23 @@ var studyingbooklist = '${studyingbooklist}';
 		$('#orderByABC').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 			
-			if($('#orderByMyBook').attr('class').includes('ok',0)){
+/* 			if($('#orderByMyBook').attr('class').includes('ok',0)){
 				$('#orderByMyBook').addClass('not-ok').removeClass('ok');
 				$('#orderByMyBook .glyphicon-ok').remove();
-			}
+			} */
 			if($('#orderByCBA').attr('class').includes('ok',0)){
 				$('#orderByCBA').addClass('not-ok').removeClass('ok');
 				$('#orderByCBA .glyphicon-ok').remove();
-			}
-			
+			} 
+/* 			$('.order-btn a').not($(this)).each(function(){
+				if($(this).attr('class').includes('ok',0)){
+					$(this).addClass('not-ok').removeClass('ok');
+					$(this).find('.glyphicon-ok').remove();
+				}//if
+			});//each */
 			
 			if($(this).attr('class').includes('not-ok',0)){
-				console.log('내책만보기');
+				//console.log('내책만보기');
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
 				
@@ -112,8 +223,21 @@ var studyingbooklist = '${studyingbooklist}';
 				});
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
-				$(this).find('glyphicon-ok').remove();
-				location.reload();
+				$(this).find('.glyphicon-ok').remove();
+				
+				var items = $('.thumb-box .badge').get(); 
+				items.sort(function(a,b){ 
+					  var keyA = $(a).text();
+					  var keyB = $(b).text();
+					  if (keyB > keyA) return -1;
+					  if (keyA > keyB) return 1;
+					  return 0;
+				});	
+				$.each(items, function(idx, ele){
+					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
+				});
+				
+				//location.reload();
 			}//if
 		});//click
 		
@@ -121,15 +245,16 @@ var studyingbooklist = '${studyingbooklist}';
 		$('#orderByCBA').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 			
-			if($('#orderByMyBook').attr('class').includes('ok',0)){
+			/* if($('#orderByMyBook').attr('class').includes('ok',0)){
 				$('#orderByMyBook').addClass('not-ok').removeClass('ok');
 				$('#orderByMyBook .glyphicon-ok').remove();
 			}
-			
+			 */
 			if($('#orderByABC').attr('class').includes('ok',0)){
 				$('#orderByABC').addClass('not-ok').removeClass('ok');
 				$('#orderByABC .glyphicon-ok').remove();
 			}
+			
 			
 			
 			if($(this).attr('class').includes('not-ok',0)){
@@ -149,11 +274,38 @@ var studyingbooklist = '${studyingbooklist}';
 					$('.bookclub-contents').prepend($(ele).parent().parent().parent());
 				});
 			}else if($(this).attr('class').includes('ok',0)){
+				//console.log('역순취소');
 				$(this).addClass('not-ok').removeClass('ok');
-				$(this).find('glyphicon-ok').remove();
-				location.reload();
+				$(this).find('.glyphicon-ok').remove();
+				
+				var items = $('.thumb-box .badge').get(); 
+				items.sort(function(a,b){ 
+					  var keyA = $(a).text();
+					  var keyB = $(b).text();
+					  if (keyB > keyA) return -1;
+					  if (keyA > keyB) return 1;
+					  return 0;
+				});	
+				$.each(items, function(idx, ele){
+					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
+				});
+				
+				
+				//location.reload();
 			}//if
 		});//click
+		
+		
+		
+		
+		/* 화면 상단에 책더미그림: 모바일, pc에 따라 다른그림 배치 */
+			var window_x = $(window).width();
+			console.log(window_x);
+			if(window_x < 666){
+				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main-xs.png");				
+			}else{
+				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main.png");				
+			}
 		setInterval(function() {
 			var window_x = $(window).width();
 			console.log(window_x);
@@ -162,7 +314,7 @@ var studyingbooklist = '${studyingbooklist}';
 			}else{
 				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main.png");				
 			}
-		}, 500); 
+		}, 1000); 
 		
 		
 	});//ready
@@ -297,8 +449,10 @@ var studyingbooklist = '${studyingbooklist}';
 				</div>
 			</form>
 			<ul class="pager order-btn">
-					<li><a id="orderByMyBook" class="not-ok" href="#">내책만보기</a></li>
-					<li><a id="orderByStar" class="not-ok" href="#">평점(미구현)</a></li>
+					<li><a id="orderByNoGoal" class="not-ok" href="#">미독</a></li>
+					<li><a id="orderByMyBook" class="not-ok" href="#">미완독</a></li>
+					<li><a id="orderByFinished" class="not-ok" href="#">완독</a></li>
+					<!-- <li><a id="orderByStar" class="not-ok" href="#">평점(미구현)</a></li> -->
 					<li><a id="orderByABC" class="not-ok" href="#">가나다</a></li>
 					<li><a id="orderByCBA" class="not-ok" href="#">가나다역순</a></li>
 			</ul>
@@ -309,11 +463,11 @@ var studyingbooklist = '${studyingbooklist}';
 
 	</div>
 	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6 bookclub-contents">
+		<div class="col-md-2"></div>
+		<div class="col-xs-12 col-md-8 bookclub-contents">
 			<!--**********post start**********-->
 			<c:forEach items="${cntReaders }" var="bean" >
-				<div id="${bean.book_bid}" class="col-xs-12 col-md-6 thumb-box" data-aos="fade-down">
+				<div id="${bean.book_bid}" class="col-xs-12 col-md-4 thumb-box" data-aos="fade-down">
 					<div class="thumbnail">
 						<a href="${pageContext.request.contextPath }/club/list/${bean.book_bid}"> 
 							<c:choose>

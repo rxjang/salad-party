@@ -92,7 +92,7 @@ pubdate	datetime	출간일 정보이다.
 					*/
 					content += '<div id="scrollMove'+scrollMove_cnt+'" class="media" data-aos="fade-up"><div class="media-left media-middle">'
 					content += '<a class="bid"  href="' + $(ele).find('link').text() + '">'  
-					content += '<img class="media-object" src="' + $(ele).find('image').text() + '" alt="loading fail">'    
+					content += '<img class="media-object" src="' + $(ele).find('image').text() + '" onerror="this.src=\'${pageContext.request.contextPath}/resources/imgs/no-image.png\'" alt="loading fail">'    
 					content += '</a></div>'   
 					content += '<div class="media-body">' 
 					content += '<h4 class="media-heading">' +$(ele).find('title').text() + '</h4>' 
@@ -107,7 +107,8 @@ pubdate	datetime	출간일 정보이다.
 				/***********	책 이미지 눌렀을 때 bid를 이용해 서버에서 해당 책정보 받아오기	**********/
 				 bookDetail(); //비동기 웹 크롤링
 				//$('#moreResult').show();//더 보기 버튼 활성화
-				$('#moveTop').show();//탑 버튼 비활성화
+				$('#moveTop').show();//탑 버튼
+				
 			},//success
 			error:function(){
 				swal("검색 실패", "검색어를 바르게 입력해주세요.", "error");
@@ -122,7 +123,6 @@ pubdate	datetime	출간일 정보이다.
 			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			bookSearch(startResult, selectOpt_val);
 		});//moreResult 버튼 클릭
-
 	/*********************** 탑 버튼, 문서 제일 위로 이동 ***********************/
 		$('#moveTop').on('click',function(){ 
 			$(document).scrollTop(0);
@@ -133,6 +133,7 @@ pubdate	datetime	출간일 정보이다.
 		$('.search-form').submit(function() { 
 			$('#owl_div,.top10').hide();
 			$('#result').html('');
+			$('#result').append($('<div class="align-right"><a href="#"><em>+책 직접 입력하기</em></a></div>'));
 			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			startResult=1; //검색결과들 중 읽어올 문서의 순서. ex:start=2 라면 10개 검색됐으면 2번째부터 출력
 			scrollMove_cnt=0; //더보기 눌렀을 때 스크롤 이동시키기 위한 id값,검색버튼 누를때마다 초기화.
@@ -153,15 +154,15 @@ pubdate	datetime	출간일 정보이다.
 	      
 	 
 	/**********************    캐러셀    **********************/
-		$('.owl-stage-outer').owlCarousel({
-			loop : true,
-			autoplay : true,
-			margin : 30,
-			merge : false,
+		$('.owl-carousel').owlCarousel({
+			margin:20,
+	    	responsiveClass:true,
 			nav : false,
+			autoplay:true,
+			dots:false,
 			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 				480 : {
-					items:4
+					items:3
 				},
 				800 : {
 					items:5
@@ -224,7 +225,12 @@ pubdate	datetime	출간일 정보이다.
 	
 </script>
 <style type="text/css">
-
+.align-right{
+	text-align: right;
+}
+.no-image{
+	display: none;
+}
 .search-form{
 	margin-bottom: 15px;
 }
@@ -270,26 +276,32 @@ pubdate	datetime	출간일 정보이다.
 .media-object{
 	width:120px;
 }
+.jumbotron{
+	background-color:white;
+	padding:0px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+.owl-carousel{
+}
 .owl-item{
-	text-align: center;
-}
-.owl-item a{
-	text-decoration: none;
-	color:black;
-}
-.owl-item a:hover{
-	font-weight:600;
-	color:#49654d;
 }
 .owl-stage{	/* 캐러셀 아래로 정렬 */
+	padding-left:12px;
+	padding-right:20px;
 	align-items: baseline;
 	display: inline-flex;
 }
-.owl-item img, .bid img{
-	margin:5px 5px 5px 5px;
-	box-sizing:border-box;
-	box-shadow:rgb(37, 54, 41) 5px 5px 10px;
+.media-object{
 }
+.owl-item img{
+	box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
+}
+ .bid img {
+ 	margin:5px 5px 5px 5px;
+	box-sizing:border-box;
+	box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
+ }
 .wood{
 		width:107%;
 		height:5em;
@@ -336,23 +348,8 @@ pubdate	datetime	출간일 정보이다.
 				<div class="col-md-2">&nbsp;</div>
 				<div class="col-md-8 col-xs-12">
 				<br/>
-						<!-- 	<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 책 찾기 -->
-						<!-- search option select -->
-						<!-- 	  <div class="btn-group" role="group">
-							    <button type="button" id="selectOpt" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							      제목
-							      <span class="caret"></span>
-							    </button>
-							    <ul class="dropdown-menu">
-							      <li><a id="opt-tit" href="#">제목 </a></li>
-							      <li><a id="opt-auth" href="#">저자 </a></li>
-							      <li><a id="opt-pub" href="#">출판사 </a></li>
-							    </ul>
-							  </div>
-						<h4><small id="cntOfTotal"></small></h4> -->
 				</div>
 				
-			<!-- 	<div class="bottom-line col-xs-12 col-md-12"></div> -->
 			</div>
 
 			<div class="row">	<!--************ search **********-->
@@ -387,14 +384,6 @@ pubdate	datetime	출간일 정보이다.
 			</div>
 			<div class="col-md-3"></div>
 			</div>
-				
-			<div class="row">			
-				<div class="col-md-1">&nbsp;</div>
-				<div class="col-xs-12 col-md-10">
-					<a id="inputBook" class="text-success" href="#">+직접 입력하기</a>
-				</div>
-			</div>
-
 	<div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-xs-12 col-md-10">
@@ -410,25 +399,20 @@ pubdate	datetime	출간일 정보이다.
 		
 		</div>
 	</div>
-
 	<!-- ************** OWL carousel ************  -->
 	<div class="row" id="owl_div">
-		<div class="col-md-1">&nbsp;</div>
-		<div class="col-xs-12 col-md-10"   id="owl">
-			<div class="owl-carousel owl-themeowl-loading owl-loaded">
-				<div class="owl-stage-outer" >
-					<div class="owl-stage owl-refresh" >
-					<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
-					<div class="owl-item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'>
-					<img alt="image loading fail" src="${bean.coverurl }">
-					</a></div>
-					</c:forEach>
-					</div>
+		<div class="col-xs-1 col-md-1"></div>
+		<div class="col-xs-10 col-md-10"   id="owl">
+				<div class="owl-carousel owl-theme">
+						<c:forEach items="${most_list }" var="bean"><!-- 많이 공부 중인 책 리스트 -->
+						<div class="item"><a href='${pageContext.request.contextPath }/find/book/${bean.bid}'>
+						<img class="media-object" alt="image loading fail" src="${bean.coverurl }">
+						</a></div>
+						</c:forEach>
 				</div>
-			</div>
 
 		</div>
-		<div class="col-md-1">&nbsp;</div>
+		<div class="col-md-1"></div>
 		<div class="bottom-line col-xs-12 col-md-12"></div>
 	</div><!-- /캐러셀 -->
 
@@ -447,7 +431,9 @@ pubdate	datetime	출간일 정보이다.
 			<button id="moveTop" class="btn btn-default"> Top </button>
 			</div>
 			<span id="aMove"></span>
-		<div class="col-md-12 col-xs-12">&nbsp;</div>
+		<div class="col-md-12 col-xs-12">&nbsp;
+		<img class="no-image" alt="" src="${pageContext.request.contextPath}/resources/imgs/no-image.png">
+		</div>
 		</div>
 
 	<!--**********content end**********-->

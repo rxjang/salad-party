@@ -79,7 +79,7 @@
 		Dday = dateDiff;
 		$('#owl-dday').text('D-'+Dday);
 		console.log(dateDiff);
-		$('.thumbnail').css({'box-shadow':'rgb(37, 54, 41) 5px 5px 10px','display':'block','margin':'auto'});
+		$('.thumbnail').css({'box-shadow':'12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4)','display':'block','margin':'auto'});
 		//box-shadow:rgb(37, 54, 41) 5px 5px 10px;
 		/**********************    캐러셀    **********************/
 		var owlyear = deadLine.substring(0,4)+'년';
