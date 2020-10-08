@@ -18,7 +18,7 @@ public class V_CalendarVo {
 	private String sid_date;//"study_id:yyyy-mm-dd"
 	private String type;//"chap","page"
 	private int study_id;
-	private Date start;// date
+	private Date start;//날짜
 	private int plan_accum;//누적 페이지/챕터수
 	private int actual_accum;//누적 페이지/챕터수
 	private int plan_perday;//그날의 페이지/챕터수

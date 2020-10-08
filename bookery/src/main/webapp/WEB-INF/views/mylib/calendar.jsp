@@ -6,6 +6,32 @@
 <%@ include file="../template/head.jspf" %>
 <style type="text/css">
 </style>
+<script type="text/javascript">
+	var map='${map}';
+	var arr=[];
+	arr=JSON.parse(map).cal;
+	
+	document.addEventListener('DOMContentLoaded',function(){
+		var calendarEl=document.getElementById('calendar');
+		
+		var calendar=new FullCalendar.Calendar(calendarEl,{
+			initialView: 'dayGridMonth',
+			headerToolbar:{
+				left:'prevYear,prev,next,nextYear today',
+				center: 'title',
+				right: 'dayGridMonth,dayGridWeek'
+			},
+			navLinks:false,
+			editable:false,
+			dayMaxEvents:true,
+			contentHeight: 'auto',
+
+			events: arr
+		});
+		calendar.render();
+	});
+
+</script>
 </head>
 <body>
 <%@ include file="../template/menu.jspf" %>
@@ -14,6 +40,7 @@
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 	<h2>스터디캘린더</h2>
+	<div id='calendar'></div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2 col-xs-12">
 			<c:forEach items="${cals }" var="cal">
