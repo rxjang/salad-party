@@ -356,7 +356,7 @@ $(function(){
 		});//100개까지 끊기
 
 		
-		
+		/* 실시간 댓글알림 표시. 비동기처리. 백에서 계속 서버에 요청보냄. */
 		var notisize = "${notiSize}";
 		$.ajax({
 			url:'${pageContext.request.contextPath}/account/noti/size',
@@ -373,8 +373,6 @@ $(function(){
 					$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/belling-icon.png");				
 				}
 			},error:function(error){
-				swal('error');
-				
 			}
 		});//ajax
 		setInterval(function() {
@@ -393,8 +391,6 @@ $(function(){
 						$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/belling-icon.png");				
 					}
 				},error:function(error){
-					swal('error');
-					
 				}
 			});//ajax
 			
