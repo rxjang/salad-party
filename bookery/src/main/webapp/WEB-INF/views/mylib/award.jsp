@@ -56,7 +56,7 @@
 		border: 1px solid #e4e4e4;
 	}
 	.all-medal li{
-		width:20%;
+		width:25%;
 		float:left;
 		list-style:none;
 		margin-bottom:10px;
@@ -109,7 +109,9 @@
 			메달 목록
 			<ul class="all-medal">
 			<c:forEach items="${medalList }" var="medal">
-					<li>${medal.criteria }</li>
+				<li class="${medal.medal}">${medal.criteria }
+					<img src="${pageContext.request.contextPath}/resources/imgs/award/${medal.medal }.png" alt="${medal.medal }"/>
+				</li>
 			</c:forEach>			
 			</ul>
 		</div>
@@ -120,10 +122,6 @@
 					<li>${award.criteria }</li>
 			</c:forEach>			
 			</ul>
-		</div>
-		<div class="jumbotron temp">
-			<img src="${pageContext.request.contextPath}/resources/imgs/award/achieve-1st.png"/>
-			<img src="${pageContext.request.contextPath}/resources/imgs/award/achieve-3rd.png"/>
 		</div>
 	</div>
 </div><!-- .row end -->

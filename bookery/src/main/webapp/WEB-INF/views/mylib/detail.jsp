@@ -127,8 +127,8 @@ var actual=new Array();
 finList.forEach(function(ele){
 	var temp=(new Date(ele.date).format('yyyy-MM-dd'));
 	arr.push(temp);
-	plan.push(ele.plan);
-	actual.push(ele.actual);
+	plan.push(ele.plan_accum);
+	actual.push(ele.actual_accum);
 });//forEach
 
 var ctx = document.getElementById('myChart');
