@@ -1,4 +1,4 @@
-package co.salpa.bookery.account.controller;
+       package co.salpa.bookery.account.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import co.salpa.bookery.account.service.AccountService;
+import co.salpa.bookery.account.service.NotificationService;
 import co.salpa.bookery.model.entity.UserVo;
 
 @Controller
@@ -23,6 +24,8 @@ public class LoginController {
 	
 	@Autowired
 	AccountService accountService;
+	@Autowired
+	NotificationService notificationService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpSession session) {
@@ -42,7 +45,10 @@ public class LoginController {
 		userBean = accountService.login(bean.getEmail(), bean.getPassword());
 		
 		if(userBean != null) {
+			int notiSize = -1; 
 			session.setAttribute("user", userBean);
+			notiSize = notificationService.getReplyMyPostListSize(session);
+			session.setAttribute("notiSize", notiSize); //확인 안한 댓글 목록 size() 
 			try {
 				resp.getWriter().write("{\"result\":\"success\"}");
 			} catch (IOException e) {

@@ -68,6 +68,8 @@
 	    <mapping path="/mylib/**"/>
 	    <mapping path="/club"/>
 	    <mapping path="/club/**"/>
+	    <mapping path="/account/noti"/>
+	    <mapping path="/account/profile"/>
 	    <beans:ref bean="authInterceptor"/>
   	</interceptor>
 	</interceptors>

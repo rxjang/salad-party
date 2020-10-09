@@ -18,6 +18,7 @@ public class ClubVo {
 	private Timestamp updatetime;
 	private String search,nickname;
 	private int reply;
+	private String o_titl;
 	
 	public ClubVo(int id, int book_bid, String title, String content, Date createtime) {
 		super();
