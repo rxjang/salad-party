@@ -25,6 +25,7 @@
 			console.log(keyword);
 			$('.thumb-box').hide();
 			$('.thumb-box:contains("'+keyword+'")').show();
+			$('.not-found').hide();  
 			aos();
 		});//input change
 		
@@ -351,12 +352,12 @@
 		
 		
 		/* 화면 상단에 책더미그림: 모바일, pc에 따라 다른그림 배치 */
-			var window_x = $(window).width();
+				$('.jumbotron').css('background-image','url("${pageContext.request.contextPath }/resources/imgs/bookclub-main2.png")');				
+/* 			var window_x = $(window).width();
 			console.log(window_x);
 			if(window_x < 666){
 				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main-xs.png");				
 			}else{
-				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main.png");				
 			}
 		setInterval(function() {
 			var window_x = $(window).width();
@@ -364,18 +365,20 @@
 			if(window_x < 666){
 				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main-xs.png");				
 			}else{
-				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main.png");				
+				$('.jumbotron').css('background-image','url("${pageContext.request.contextPath }/resources/imgs/bookclub-main2.png")');				
 			}
 		}, 1000); 
-		
+ */		
 		/* 스크롤바 다내리면 새로운 목록 로딩 */
-
+		
+/* 
  		$('.thumb-box').each(function(idx,ele){
  			console.log('check');
 		    			if(idx >= 5 ){
 		    				return false;
 		    			}
 				   $(ele).show();
+				   aos();
    		}); 
 		var cnt = 1;
 		$(document).scroll(function(){
@@ -393,24 +396,28 @@
 	        $('.thumb-box').each(function(idx,ele){
 		    			if(cnt*5 > (idx-1) ){
 		    				$(this).show();
+		    				  aos();
 		    			}else if((idx-1) >(cnt+1)*5){
 		    				return false;
 		    			}
 		    		}); 
 	      //  console.log(cnt);
 	        cnt++;
-	        /* 
 	        
-	        cnt   idx
-	        1		5         (cnt *5
-	        2		10
-	        3		15
 	        
-	        */
+	    //    cnt   idx
+	   //     1		5         (cnt *5
+	   //     2		10
+	    //    3		15
+	        
+	        
 	        
 	        
 	        }
-	    });//scoll
+	        
+	    });//scoll 
+	 
+	    */
 	        
 	    /* 미독완독 미완독 가나다순 정렬 클릭시 검색결과없음 표시. */
 	       $('.order-btn a').each(function(){
@@ -433,15 +440,15 @@
 	});//ready
 </script>
 <style type="text/css">
-.thumb-box {
+/* .thumb-box {
+	display: none;
+} */
+.not-found {
+	text-align: center;
+	font-size: 1.5em;
 	display: none;
 }
 
-.not-found{
-	text-align:center;
-	font-size:1.5em;
-	display:none;
-}
 .search-form {
 	margin-bottom: 15px;
 }
@@ -476,66 +483,108 @@
 #input_group_btn {
 	width: 30px;
 }
-.thumb-box{
-/* 	width:300px;
+
+.thumb-box {
+	/* 	width:300px;
 */
-	height: 350px; 
-	margin-bottom:50px;
+	height: 350px;
+	margin-bottom: 50px;
 }
+
 .thumbnail { /*   */
-	text-align:center;
+	text-align: center;
 	border: 1px solid rgb(221, 221, 221);
-	box-shadow: 0 2px 8px rgba(0,0,0,.1), 0 8px 20px rgba(0,0,0,.1);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .1), 0 8px 20px rgba(0, 0, 0, .1);
 	border-radius: 16px;
 	transition-duration: 600ms;
 	display: block;
 	margin: auto;
 	margin-top: 3px;
 }
+
 .thumbnail:hover { /*  반짝 */
 	transition-duration: 600ms;
 	border: 1px solid rgb(139, 169, 137);
 	box-shadow: rgb(192, 207, 178) 0px 0px 6px;
 	cursor: pointer;
 }
-.thumbnail a img{
-	margin-top:10px;
-	margin-bottom:10px;
-	width:140px;
-	height:190px;
-	box-shadow:rgb(37, 54, 41) 5px 5px 10px;
+
+.thumbnail a img {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 140px;
+	height: 190px;
+	box-shadow: rgb(37, 54, 41) 5px 5px 10px;
 }
-.badge{
+
+.badge {
 	background-color: #8ba989;
 }
-.additional-info a{
-	color:#49654d;
+
+.additional-info a {
+	color: #49654d;
 }
-.glyphicon-ok{
-	color:#8ba989;
+
+.glyphicon-ok {
+	color: #8ba989;
 }
-.order-btn>li a:hover{
-	color:white;
+
+.order-btn>li a:hover {
+	color: white;
 	background-color: #253629;
 }
-.jumbotron{
-	background-color: #ecece9;
-	z-index:-1000;
+.gradient{
+	background: linear-gradient( to right, #ecece9, #c0cfb2 );
+	overflow:hidden;
+		height: 140px;
+	border-radius: 6px;
+}
+.jumbotron {
+		height: 140px;
+	padding: 15px;
+	background-color: rgba( 255, 255, 255, 0.0 );
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 30%;
 	height: 140px;
 	padding: 15px;
 }
-.jumbotron img{
-	display: block;
-	margin:auto;
-	line-height:30px;
-	size:auto;
-}
-@media (max-width:666px) {
-	.jumbotron{
-		padding: 7px;
-	}
+
+.jumbotron div {
+	height: 100%;
 }
 
+.jumbotron h2, .jumbotron h5 {
+	color:#253629;
+	line-height: 2px;
+	text-align: center;
+	font-size: 1.4em;
+	margin-top: 33px;
+}
+
+@media ( max-width :1000px) {
+	.bookclub-msg {
+		margin-left: 140px;
+	}
+	.jumbotron h2, .jumbotron h5 {
+		line-height: normal;
+		margin-top: 15px;
+	}
+}
+@media ( max-width :460px) {
+	.jumbotron {
+		padding: 7px;
+		background-position-x: 15px;
+	}
+	.jumbotron h2, .jumbotron h5 {
+		margin-top: 11px;
+		line-height: normal;
+	}
+	.bookclub-msg {
+		float: right;
+		width: 66%;
+	}
+}
 </style>
 </head>
 <body>
@@ -546,9 +595,13 @@
 		<div class="col-md-8 col-xs-12">
 		</div>
 	</div>
+	<div class="gradient bottom-line">
 	<div class="jumbotron">
-		<img id = "main-img" alt="" src="">
-
+		<div class="bookclub-msg">
+		<h5>함께하는 독서라이프, 북클럽에서 함께 나누는 건 어때요?</h5>
+		<h2><strong>무엇이든 궁금한 건 북클럽에 물어보세요!</strong></h2>
+		</div>
+	</div>
 	</div>
 	<div class="row">
 		<!--************ search **********-->

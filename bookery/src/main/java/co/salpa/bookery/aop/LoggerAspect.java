@@ -9,10 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 @Aspect
 public class LoggerAspect {
-
+	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	//FindService 메소드에만 적용되어있다.

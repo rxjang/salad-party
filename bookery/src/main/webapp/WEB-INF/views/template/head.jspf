@@ -146,7 +146,7 @@
 	.nav li{float:left;}
 	.real-menu{padding:0px;} 
 	.menu-setting{padding-left:80px;}/*좌측 적당한 공간 띄움*/
-	.pull-right{padding:23px 80px;}
+	.pull-right{padding:23px; padding-bottom:5px;padding-right:10px;}
 	.jung{color:white;}/*#처음에 안보이게*/
 	.dropdown-toggle:active, .open .dropdown-toggle {
         background:white !important; 
@@ -157,7 +157,7 @@
     }
     .login-menu{/*드롭다운 메뉴 이동 방지*/
     	left:auto;
-    	right:90;
+    	right:30px;
     }
     #footer{
 		background-color:white;
@@ -208,7 +208,7 @@
 			height:50px;
 		}
 		.menu-setting{padding:0px 25px;}
-		.pull-right{padding:23px 25px;}
+		.pull-right{padding:23px; padding-bottom:5px;padding-right:10px;}
 		.real-menu{
 			background-color:white;
 			border-top:1px solid #e4e4e4;
@@ -354,6 +354,48 @@ $(function(){
 				$(this).text($(this).text().substring(0,100)+' ...');			
 			}
 		});//100개까지 끊기
+
+		
+		/* 실시간 댓글알림 표시. 비동기처리. 백에서 계속 서버에 요청보냄. */
+		var notisize = "${notiSize}";
+		$.ajax({
+			url:'${pageContext.request.contextPath}/account/noti/size',
+			method:'get',
+			dataType:'json',
+			success:function(data){
+				notisize = data.notisize;
+				console.log('suces',notisize);
+				if(notisize == 0){
+					console.log('bell');
+					$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/bell-icon.png");				
+				}else if(notisize != 0){
+					console.log('belling');
+					$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/belling-icon.png");				
+				}
+			},error:function(error){
+			}
+		});//ajax
+		setInterval(function() {
+			$.ajax({
+				url:'${pageContext.request.contextPath}/account/noti/size',
+				method:'get',
+				dataType:'json',
+				success:function(data){
+					notisize = data.notisize;
+					console.log('suces',notisize);
+					if(notisize == 0){
+						console.log('bell');
+						$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/bell-icon.png");				
+					}else if(notisize != 0){
+						console.log('belling');
+						$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/belling-icon.png");				
+					}
+				},error:function(error){
+				}
+			});//ajax
+			
+		}, 5000); 
+
 });//function
 	 
 	

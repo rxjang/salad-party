@@ -64,4 +64,8 @@ public interface ClubDao {
 
 	void deleteRecommendChk(RecommendVo recommendVo) throws DataAccessException; // 댓글 추천 기록 취소
 
+	List<ClubVo> selectReplyALLByUserId(int id) throws DataAccessException; // 내 글에 달린 댓글리스트
+
+	void updateReplyTitleForMark(int club_id) throws DataAccessException; // 댓글 제목null이라 알림페이지에서 댓글확인시 title에 마킹.
+
 }
