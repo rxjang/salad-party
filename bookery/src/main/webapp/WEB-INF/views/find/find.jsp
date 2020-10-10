@@ -225,118 +225,163 @@ pubdate	datetime	출간일 정보이다.
 	
 </script>
 <style type="text/css">
-.align-right{
+.align-right {
 	text-align: right;
 }
-.no-image{
+
+.no-image {
 	display: none;
 }
-.search-form{
+
+.search-form {
 	margin-bottom: 15px;
 }
-.input-search {/* 검색form안의 div */
- 	height:30px;
- 	border-radius:25px;
-	border-bottom:1px solid #e4e4e4;
-	box-shadow: rgb(192, 207, 178) 0px 0px 3px;
-	width:100%;
 
+.input-search { /* 검색form안의 div */
+	height: 30px;
+	border-radius: 25px;
+	border-bottom: 1px solid #e4e4e4;
+	box-shadow: rgb(192, 207, 178) 0px 0px 3px;
+	width: 100%;
 }
-#search{/* 검색 input */
+
+#search { /* 검색 input */
 	display: block;
 	width: 100%;
 	padding: 6px 12px;
- 	font-size: 14px;
-	border:0px;
- 	border-radius:25px;
- 
-}
-
-#search-btn{	/* 검색버튼 */
-	border:0px;	
-	width:90%;
+	font-size: 14px;
+	border: 0px;
 	border-radius: 25px;
 }
-#search-btn:hover{
-	background-color: white;
-}
-#input_group_btn{
-	width:30px;
-}
-.dropdown-menu{
-	left: 0px;
+
+#search-btn { /* 검색버튼 */
+	border: 0px;
+	width: 90%;
+	border-radius: 25px;
 }
 
-#selectOpt{
-	border-radius:25px;
-	border:0px;
+#search-btn:hover {
+	background-color: white;
+}
+
+#input_group_btn {
+	width: 30px;
+}
+
+.dropdown-menu {
+	left: 30px;
+	margin-top: 5px;
+}
+
+#selectOpt {
+	border-radius: 25px;
+	border: 0px;
 	box-shadow: rgb(192, 207, 178) 0px 0px 3px;
 	float: right;
 }
-.media-object{
-	width:120px;
+
+.media-object {
+	width: 120px;
 }
-.jumbotron{
-	background-color:white;
-	padding:0px;
+
+.jumbotron {
+	background-color: white;
+	padding: 0px;
 	padding-right: 0px;
 	padding-left: 0px;
 }
-.owl-carousel{
+
+.owl-carousel {
+	
 }
-.owl-item{
+
+.owl-item {
+	
 }
-.owl-stage{	/* 캐러셀 아래로 정렬 */
-	padding-left:12px;
-	padding-right:20px;
+
+.owl-stage { /* 캐러셀 아래로 정렬 */
+	padding-left: 12px;
+	padding-right: 20px;
 	align-items: baseline;
 	display: inline-flex;
 }
-.media-object{
+
+.media-object {
+	
 }
-.owl-item img{
-	box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
+
+.owl-item img {
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, .1), 0 0 2px rgba(0, 0, 0, .2);
 }
- .bid img {
- 	margin:5px 5px 5px 5px;
-	box-sizing:border-box;
-	box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
- }
-.wood{
-		width:107%;
-		height:5em;
-		position:relative;
-		right:3.5%;
-		bottom:6px;
-		
-	}
-.top10{
-	cursor:pointer;
-	font-size:120%;
-	font-weight:600;
-	color:rgb(37, 54, 41);
-	border:1px solid  #ecece9;
-	background-color: #ecece9;
-	height:100px;
+
+.bid img {
+	margin: 5px 5px 5px 5px;
+	box-sizing: border-box;
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, .1), 0 0 2px rgba(0, 0, 0, .2);
 }
-.top10 small{
-	font-size:90%;
+
+.wood {
+	width: 107%;
+	height: 5em;
+	position: relative;
+	right: 3.5%;
+	bottom: 6px;
+}
+
+.top10 {
+	cursor: pointer;
+	font-size: 120%;
+	font-weight: 600;
+	color: rgb(37, 54, 41);
+/* 	border: 1px solid #ecece9; */
+	/* background-color: #ecece9; */
+	height: 100px;
+}
+
+.top10 small {
+	font-size: 90%;
 	font-weight: normal;
 	color: #445243;
 }
-.top10 .panel-body{
-	padding:30px;
+
+.top10 .panel-body {
+	padding: 30px;
 }
-.medal{
+
+.medal {
 	float: right;
 	position: relative;
 	bottom: 45px;
 }
- @media (min-width:900px) {
-	.btn-group{
-		width:100px;
+.panel{
+	border: 0px;
+	-webkit-box-shadow: 0 0px 0px rgba(0,0,0,.05);
+	box-shadow: 0 0px 0px rgba(0,0,0,.05);
+}
+.panel-bg-img{
+	border-radius:6px;
+	background-image: url("${pageContext.request.contextPath }/resources/imgs/yellow-book2.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-color: #f8f5f8;
+	text-align: center;
+}
+@media ( min-width :900px) {
+	.btn-group {
+		width: 100px;
 	}
 }
+
+@media ( max-width :800px) {
+	.dropdown-menu {
+		left: 0px;
+	}
+	.panel-bg-img{
+	background-size: cover;
+	}
+}
+
+
 </style>
 </head>
 <body>
@@ -388,12 +433,12 @@ pubdate	datetime	출간일 정보이다.
 		<div class="col-md-1"></div>
 		<div class="col-xs-12 col-md-10">
 		<div class="panel panel-default top10">
-			<div class="panel-body">
+			<div class="panel-body panel-bg-img">
 				지금 많이 공부하는 책 TOP10<br/><small>북커리회원들이 많이 공부하는 책을 살펴보세요</small>
 			<%-- <img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/bronze_madal.png">
 			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/silver_madal.png">
 			<img class="medal" style="width:64px;height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/gold_madal.png"> --%>
-			<img class="medal" style="height:84px;" src="${pageContext.request.contextPath }/resources/imgs/award/medals.png">
+		<%-- 	<img class="medal" style="height:84px;" src="${pageContext.request.contextPath }/resources/imgs/yellow_book.jpg"/> --%>
 			</div>
 		</div>
 		
