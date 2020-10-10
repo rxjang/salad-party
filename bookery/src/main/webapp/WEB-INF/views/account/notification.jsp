@@ -52,6 +52,8 @@
 				post += '</div><br/>';
 				$('.div-post').append(post);
 		}	
+		
+		
 	});//ready
 	
 	</script>
@@ -85,7 +87,7 @@
 <div class="col-md-2"></div>
 <div class="col-xs-12 col-md-8 bottom-line">
 
-	<h3>  <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>&nbsp;&nbsp;${notiSize}건의 댓글이 있습니다.</h3>
+	<h3>  <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>&nbsp;&nbsp;<span class="cnt-reply">${notiSize}</span>건의 댓글이 있습니다.</h3>
 	<p>댓글을 클릭하면 게시글로 바로 이동할 수 있습니다.</p>
 	
 </div>

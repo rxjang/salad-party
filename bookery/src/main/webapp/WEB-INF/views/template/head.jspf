@@ -159,6 +159,9 @@
     	left:auto;
     	right:30px;
     }
+     .login-menu li:nth-child(2)~li:hover{
+     	background-color: #e4e4e4;
+     }
     #footer{
 		background-color:white;
 		border-top: 1px solid #e4e4e4;
@@ -266,7 +269,7 @@
 </style>
 <script type="text/javascript">
 var mql = window.matchMedia("screen and (max-width: 1000px)");
-
+var notisize; 
 mql.addListener(function(e) {
     if(e.matches) {
     	mobile();
@@ -357,19 +360,19 @@ $(function(){
 
 		
 		/* 실시간 댓글알림 표시. 비동기처리. 백에서 계속 서버에 요청보냄. */
-		var notisize = "${notiSize}";
+		notisize = "${notiSize}";
 		$.ajax({
 			url:'${pageContext.request.contextPath}/account/noti/size',
 			method:'get',
 			dataType:'json',
 			success:function(data){
 				notisize = data.notisize;
-				console.log('suces',notisize);
+				//console.log('suces',notisize);
 				if(notisize == 0){
-					console.log('bell');
+					//console.log('bell');
 					$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/bell-icon.png");				
 				}else if(notisize != 0){
-					console.log('belling');
+					//console.log('belling');
 					$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/belling-icon.png");				
 				}
 			},error:function(error){
@@ -382,12 +385,12 @@ $(function(){
 				dataType:'json',
 				success:function(data){
 					notisize = data.notisize;
-					console.log('suces',notisize);
+					//console.log('suces',notisize);
 					if(notisize == 0){
-						console.log('bell');
+						//console.log('bell');
 						$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/bell-icon.png");				
 					}else if(notisize != 0){
-						console.log('belling');
+						//console.log('belling');
 						$('.noti-icon').attr('src',"${pageContext.request.contextPath }/resources/imgs/belling-icon.png");				
 					}
 				},error:function(error){

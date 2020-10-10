@@ -37,6 +37,7 @@ public class NotificationController {
 	@ResponseBody
 	public String notiSize(HttpSession session) {
 		int notiSize = notificationService.getReplyMyPostListSize(session);
+		session.setAttribute("notiSize", notiSize);
 		return "{\"notisize\":"+notiSize+"}";
 	}
 	

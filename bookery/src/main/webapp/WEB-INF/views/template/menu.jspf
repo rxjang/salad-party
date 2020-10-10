@@ -33,7 +33,6 @@
 	       <li><a>${user.nickname }</a></li>
 	       <li><a>${user.email }</a></li>
 	       <li role="separator" class="divider"></li>
-	       <li><a href="${pageContext.request.contextPath }/account/profile">프로필 사진</a></li>
 	       <li><a href="${pageContext.request.contextPath }/account/update">내 정보</a></li>
 	       <li><a href="${pageContext.request.contextPath }/news/notice">공지사항</a></li>
 	       <li role="separator" class="divider"></li>

@@ -10,11 +10,12 @@
 	var nogoalbooklist = '${nogoalbooklist}';
 	var finishedbooklist = '${finishedbooklist}';
 	var full_badge_items;
+	var show_class_name='thumb-box';
 	$(function() {
-		
-		console.log(JSON.parse(studyingbooklist));
-		console.log(JSON.parse(nogoalbooklist));
-		console.log(JSON.parse(finishedbooklist));
+		infinityScroll(show_class_name);
+		//console.log(JSON.parse(studyingbooklist));
+		//console.log(JSON.parse(nogoalbooklist));
+		//console.log(JSON.parse(finishedbooklist));
 		aos();
 		$('form').on('submit',function(){
 			return false;
@@ -62,19 +63,38 @@
 		});//forEach
 	 
 		
+		var items_nogoal = $('.thumb-box').get(); 
+		$.each(items_nogoal, function(idx, ele){
+			if(nogoal_arr.includes(Number($(ele).attr('id')))){
+				//	console.log('same');
+					$(ele).addClass('nogoal');
+			}else if(!studying_arr.includes(Number($(ele).attr('id')))){
+			}
+		});
+		var items_studying = $('.thumb-box').get(); 
+		$.each(items_studying, function(idx, ele){
+			if(studying_arr.includes(Number($(ele).attr('id')))){
+				//	console.log('same');
+				$(ele).addClass('studying');
+			}else if(!studying_arr.includes(Number($(ele).attr('id')))){
+			}
+		});
+		var items_finished = $('.thumb-box').get(); 
+		$.each(items_finished, function(idx, ele){
+			if(finished_arr.includes(Number($(ele).attr('id')))){
+				//	console.log('same');
+				$(ele).addClass('finished');
+			}else if(!studying_arr.includes(Number($(ele).attr('id')))){
+			}
+		});
+		
+		
+		
+		
 		/* 미완독 책만보기 */
 		$('#orderByMyBook').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
-/* 
-			if($('#orderByABC').attr('class').includes('ok',0)){
-				$('#orderByABC').addClass('not-ok').removeClass('ok');
-				$('#orderByABC .glyphicon-ok').remove();
-			}
-			if($('#orderByCBA').attr('class').includes('ok',0)){
-				$('#orderByCBA').addClass('not-ok').removeClass('ok');
-				$('#orderByCBA .glyphicon-ok').remove();
-			}
-			 */
+
 			
 			$('.order-btn a').not($(this)).each(function(){
 				if($(this).attr('class').includes('ok',0)){
@@ -88,15 +108,10 @@
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
 				
-				var items = $('.thumb-box').get(); 
-				$.each(items, function(idx, ele){
-					if(studying_arr.includes(Number($(ele).attr('id')))){
-						//	console.log('same');
-							$(ele).show();
-					}else if(!studying_arr.includes(Number($(ele).attr('id')))){
-							$(ele).hide();
-					}
-				});
+				
+				//$('.studying').show();
+				$('.thumb-box').not('.studying').hide();
+				infinityScroll('studying');
 				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
@@ -109,6 +124,7 @@
 				});//each
 				full_badge_items = $('.thumb-box').get();
 				var items = full_badge_items;
+				var items = $('.thumb-box .badge').get(); 
 				items.sort(function(a,b){ 
 					  var keyA = $(a).text();
 					  var keyB = $(b).text();
@@ -117,23 +133,17 @@
 					  return 0;
 				});	
 				$.each(items, function(idx, ele){
-					$(this).show();
+					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
+					$(ele).parent().parent().parent().parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
 			}//if
 		});//click
 		
 		/* 완독 책만보기 */
 		$('#orderByFinished').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
-
-/* 			if($('#orderByABC').attr('class').includes('ok',0)){
-				$('#orderByABC').addClass('not-ok').removeClass('ok');
-				$('#orderByABC .glyphicon-ok').remove();
-			}
-			if($('#orderByCBA').attr('class').includes('ok',0)){
-				$('#orderByCBA').addClass('not-ok').removeClass('ok');
-				$('#orderByCBA .glyphicon-ok').remove();
-			} */
 			
 			$('.order-btn a').not($(this)).each(function(){
 				
@@ -148,15 +158,10 @@
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
 				
-				var items = $('.thumb-box').get(); 
-				$.each(items, function(idx, ele){
-					if(finished_arr.includes(Number($(ele).attr('id')))){
-							console.log('same');
-							$(ele).show();
-					}else if(!finished_arr.includes(Number($(ele).attr('id')))){
-							$(ele).hide();
-					}
-				});
+				//$('.finished').show();
+				$('.thumb-box').not('.finished').hide();
+				$(document).off('scroll');
+				infinityScroll('finished');
 				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
@@ -168,7 +173,7 @@
 					}//if
 				});//each
 				full_badge_items = $('.thumb-box').get();
-				var items = full_badge_items;
+				var items = $('.thumb-box .badge').get(); 
 				items.sort(function(a,b){ 
 					  var keyA = $(a).text();
 					  var keyB = $(b).text();
@@ -177,8 +182,11 @@
 					  return 0;
 				});	
 				$.each(items, function(idx, ele){
-					$(this).show();
+					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
+					$(ele).parent().parent().parent().parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
 			}//if
 		});//click
 		
@@ -186,14 +194,6 @@
 		$('#orderByNoGoal').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 
-			/* if($('#orderByABC').attr('class').includes('ok',0)){
-				$('#orderByABC').addClass('not-ok').removeClass('ok');
-				$('#orderByABC .glyphicon-ok').remove();
-			}
-			if($('#orderByCBA').attr('class').includes('ok',0)){
-				$('#orderByCBA').addClass('not-ok').removeClass('ok');
-				$('#orderByCBA .glyphicon-ok').remove();
-			} */
 			$('.order-btn a').not($(this)).each(function(){
 				if($(this).attr('class').includes('ok',0)){
 					$(this).addClass('not-ok').removeClass('ok');
@@ -204,16 +204,11 @@
 			if($(this).attr('class').includes('not-ok',0)){
 			//	console.log('내책만보기');
 				$(this).append(okIcon);
-				$(this).addClass('ok').removeClass('not-ok');
-				
-				var items = $('.thumb-box').get(); 
-				$.each(items, function(idx, ele){
-					if(nogoal_arr.includes(Number($(ele).attr('id')))){
-							$(ele).show();
-					}else if(!nogoal_arr.includes(Number($(ele).attr('id')))){
-							$(ele).hide();
-					}
-				});
+				$(this).addClass('ok').removeClass('not-ok');				
+
+				//$('.nogoal').show();
+				$('.thumb-box').not('.nogoal').hide();
+				infinityScroll('nogoal');
 				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
@@ -225,7 +220,7 @@
 					}//if
 				});//each
 				full_badge_items = $('.thumb-box').get();
-				var items = full_badge_items;
+				var items = $('.thumb-box .badge').get(); 
 				items.sort(function(a,b){ 
 					  var keyA = $(a).text();
 					  var keyB = $(b).text();
@@ -234,8 +229,12 @@
 					  return 0;
 				});	
 				$.each(items, function(idx, ele){
-					$(this).show();
+					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
+					$(ele).parent().parent().parent().parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
+				
 			}//if
 		});//click
 		
@@ -243,20 +242,10 @@
 		$('#orderByABC').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 			
-/* 			if($('#orderByMyBook').attr('class').includes('ok',0)){
-				$('#orderByMyBook').addClass('not-ok').removeClass('ok');
-				$('#orderByMyBook .glyphicon-ok').remove();
-			} */
 			if($('#orderByCBA').attr('class').includes('ok',0)){
 				$('#orderByCBA').addClass('not-ok').removeClass('ok');
 				$('#orderByCBA .glyphicon-ok').remove();
 			} 
-/* 			$('.order-btn a').not($(this)).each(function(){
-				if($(this).attr('class').includes('ok',0)){
-					$(this).addClass('not-ok').removeClass('ok');
-					$(this).find('.glyphicon-ok').remove();
-				}//if
-			});//each */
 			
 			if($(this).attr('class').includes('not-ok',0)){
 				//console.log('내책만보기');
@@ -273,7 +262,10 @@
 				});	
 				$.each(items, function(idx, ele){
 					$('.bookclub-contents').append($(ele).parent().parent().parent());
+					$(ele).parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
 				$(this).find('.glyphicon-ok').remove();
@@ -289,7 +281,7 @@
 				$.each(items, function(idx, ele){
 					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
 				});
-				
+					
 				//location.reload();
 			}//if
 		});//click
@@ -298,17 +290,10 @@
 		$('#orderByCBA').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 			
-			/* if($('#orderByMyBook').attr('class').includes('ok',0)){
-				$('#orderByMyBook').addClass('not-ok').removeClass('ok');
-				$('#orderByMyBook .glyphicon-ok').remove();
-			}
-			 */
 			if($('#orderByABC').attr('class').includes('ok',0)){
 				$('#orderByABC').addClass('not-ok').removeClass('ok');
 				$('#orderByABC .glyphicon-ok').remove();
 			}
-			
-			
 			
 			if($(this).attr('class').includes('not-ok',0)){
 				console.log('내책만보기');
@@ -325,7 +310,10 @@
 				});	
 				$.each(items, function(idx, ele){
 					$('.bookclub-contents').prepend($(ele).parent().parent().parent());
+					$(ele).parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				//console.log('역순취소');
 				$(this).addClass('not-ok').removeClass('ok');
@@ -348,9 +336,6 @@
 			}//if
 		});//click
 		
-		
-		
-		
 		/* 화면 상단에 책더미그림: 모바일, pc에 따라 다른그림 배치 */
 				$('.jumbotron').css('background-image','url("${pageContext.request.contextPath }/resources/imgs/bookclub-main2.png")');				
 /* 			var window_x = $(window).width();
@@ -371,54 +356,6 @@
  */		
 		/* 스크롤바 다내리면 새로운 목록 로딩 */
 		
-/* 
- 		$('.thumb-box').each(function(idx,ele){
- 			console.log('check');
-		    			if(idx >= 5 ){
-		    				return false;
-		    			}
-				   $(ele).show();
-				   aos();
-   		}); 
-		var cnt = 1;
-		$(document).scroll(function(){
-			//console.log('스크롤');
-	        var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
-			//console.log(scrollT)
-	        var scrollH = $('.thumb-box').height(); //스크롤바를 갖는 div의 높이
-	        var contentH = $('.bookclub-contents').height(); //문서 전체 내용을 갖는 div의 높이
-			//console.log(scrollH);
-			//console.log(contentH);
-			
-	        if(scrollT + scrollH +1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
-	          // $('.bookclub-contents').append($('<div class="col-xs-12 col-md-4 thumb-box" data-aos="fade-down"><p>APPEND</p></div>'));
- 		        
-	        $('.thumb-box').each(function(idx,ele){
-		    			if(cnt*5 > (idx-1) ){
-		    				$(this).show();
-		    				  aos();
-		    			}else if((idx-1) >(cnt+1)*5){
-		    				return false;
-		    			}
-		    		}); 
-	      //  console.log(cnt);
-	        cnt++;
-	        
-	        
-	    //    cnt   idx
-	   //     1		5         (cnt *5
-	   //     2		10
-	    //    3		15
-	        
-	        
-	        
-	        
-	        }
-	        
-	    });//scoll 
-	 
-	    */
-	        
 	    /* 미독완독 미완독 가나다순 정렬 클릭시 검색결과없음 표시. */
 	       $('.order-btn a').each(function(){
 	    	   $(this).click(function(){
@@ -438,11 +375,54 @@
 	       });//each
 		
 	});//ready
+	
+	
+	function infinityScroll(className){
+		
+		$(document).off('scroll');
+		
+ 		$('.'+className+'').each(function(idx,ele){
+ 			console.log('check');
+		    			if(idx >= 5 ){
+		    				return false;
+		    			}
+				   $(ele).show();
+				   aos();
+   		}); 
+
+		var cnt = 1;
+		
+		var sevent= $(document).on('scroll',function(){
+			//console.log('스크롤');
+	        var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
+			//console.log(scrollT)
+	        var scrollH = $('.thumb-box').height(); //스크롤바를 갖는 div의 높이
+	        var contentH = $('.bookclub-contents').height(); //문서 전체 내용을 갖는 div의 높이
+			//console.log(scrollH);
+			//console.log(contentH);
+	        if(scrollT + scrollH +1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
+	          // $('.bookclub-contents').append($('<div class="col-xs-12 col-md-4 thumb-box" data-aos="fade-down"><p>APPEND</p></div>'));
+	        $('.'+className+'').each(function(idx,ele){
+		    			if(cnt*5 > (idx-1) ){
+		    				$(this).show();
+		    				  aos();
+		    			}else if((idx-1) >(cnt+1)*5){
+		    				return false;
+		    			}
+		    		}); 
+	      //  console.log(cnt);
+	        cnt++;
+	        }
+	    });//scoll 
+	 
+		
+	}
+	
 </script>
 <style type="text/css">
-/* .thumb-box {
+ .thumb-box {
 	display: none;
-} */
+} 
 .not-found {
 	text-align: center;
 	font-size: 1.5em;
