@@ -16,7 +16,7 @@
 }
 .btn-write{
 	color:white;
-	background-color:#8ba989; 
+	background-color:#c0cfb2; 
 }
 .form-btns{
 	text-align: center;

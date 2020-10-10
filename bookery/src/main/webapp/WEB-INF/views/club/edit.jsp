@@ -19,7 +19,7 @@
 
 .btn-edit {
 	color: white;
-	background-color: #8ba989;
+	background-color: #c0cfb2;
 }
 
 .form-btns {
