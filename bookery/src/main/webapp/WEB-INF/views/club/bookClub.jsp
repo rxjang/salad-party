@@ -10,11 +10,12 @@
 	var nogoalbooklist = '${nogoalbooklist}';
 	var finishedbooklist = '${finishedbooklist}';
 	var full_badge_items;
+	var show_class_name='thumb-box';
 	$(function() {
-		
-		console.log(JSON.parse(studyingbooklist));
-		console.log(JSON.parse(nogoalbooklist));
-		console.log(JSON.parse(finishedbooklist));
+		infinityScroll(show_class_name);
+		//console.log(JSON.parse(studyingbooklist));
+		//console.log(JSON.parse(nogoalbooklist));
+		//console.log(JSON.parse(finishedbooklist));
 		aos();
 		$('form').on('submit',function(){
 			return false;
@@ -25,6 +26,7 @@
 			console.log(keyword);
 			$('.thumb-box').hide();
 			$('.thumb-box:contains("'+keyword+'")').show();
+			$('.not-found').hide();  
 			aos();
 		});//input change
 		
@@ -61,19 +63,38 @@
 		});//forEach
 	 
 		
+		var items_nogoal = $('.thumb-box').get(); 
+		$.each(items_nogoal, function(idx, ele){
+			if(nogoal_arr.includes(Number($(ele).attr('id')))){
+				//	console.log('same');
+					$(ele).addClass('nogoal');
+			}else if(!studying_arr.includes(Number($(ele).attr('id')))){
+			}
+		});
+		var items_studying = $('.thumb-box').get(); 
+		$.each(items_studying, function(idx, ele){
+			if(studying_arr.includes(Number($(ele).attr('id')))){
+				//	console.log('same');
+				$(ele).addClass('studying');
+			}else if(!studying_arr.includes(Number($(ele).attr('id')))){
+			}
+		});
+		var items_finished = $('.thumb-box').get(); 
+		$.each(items_finished, function(idx, ele){
+			if(finished_arr.includes(Number($(ele).attr('id')))){
+				//	console.log('same');
+				$(ele).addClass('finished');
+			}else if(!studying_arr.includes(Number($(ele).attr('id')))){
+			}
+		});
+		
+		
+		
+		
 		/* 미완독 책만보기 */
 		$('#orderByMyBook').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
-/* 
-			if($('#orderByABC').attr('class').includes('ok',0)){
-				$('#orderByABC').addClass('not-ok').removeClass('ok');
-				$('#orderByABC .glyphicon-ok').remove();
-			}
-			if($('#orderByCBA').attr('class').includes('ok',0)){
-				$('#orderByCBA').addClass('not-ok').removeClass('ok');
-				$('#orderByCBA .glyphicon-ok').remove();
-			}
-			 */
+
 			
 			$('.order-btn a').not($(this)).each(function(){
 				if($(this).attr('class').includes('ok',0)){
@@ -87,15 +108,10 @@
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
 				
-				var items = $('.thumb-box').get(); 
-				$.each(items, function(idx, ele){
-					if(studying_arr.includes(Number($(ele).attr('id')))){
-						//	console.log('same');
-							$(ele).show();
-					}else if(!studying_arr.includes(Number($(ele).attr('id')))){
-							$(ele).hide();
-					}
-				});
+				
+				//$('.studying').show();
+				$('.thumb-box').not('.studying').hide();
+				infinityScroll('studying');
 				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
@@ -108,6 +124,7 @@
 				});//each
 				full_badge_items = $('.thumb-box').get();
 				var items = full_badge_items;
+				var items = $('.thumb-box .badge').get(); 
 				items.sort(function(a,b){ 
 					  var keyA = $(a).text();
 					  var keyB = $(b).text();
@@ -116,23 +133,17 @@
 					  return 0;
 				});	
 				$.each(items, function(idx, ele){
-					$(this).show();
+					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
+					$(ele).parent().parent().parent().parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
 			}//if
 		});//click
 		
 		/* 완독 책만보기 */
 		$('#orderByFinished').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
-
-/* 			if($('#orderByABC').attr('class').includes('ok',0)){
-				$('#orderByABC').addClass('not-ok').removeClass('ok');
-				$('#orderByABC .glyphicon-ok').remove();
-			}
-			if($('#orderByCBA').attr('class').includes('ok',0)){
-				$('#orderByCBA').addClass('not-ok').removeClass('ok');
-				$('#orderByCBA .glyphicon-ok').remove();
-			} */
 			
 			$('.order-btn a').not($(this)).each(function(){
 				
@@ -147,15 +158,10 @@
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
 				
-				var items = $('.thumb-box').get(); 
-				$.each(items, function(idx, ele){
-					if(finished_arr.includes(Number($(ele).attr('id')))){
-							console.log('same');
-							$(ele).show();
-					}else if(!finished_arr.includes(Number($(ele).attr('id')))){
-							$(ele).hide();
-					}
-				});
+				//$('.finished').show();
+				$('.thumb-box').not('.finished').hide();
+				$(document).off('scroll');
+				infinityScroll('finished');
 				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
@@ -167,7 +173,7 @@
 					}//if
 				});//each
 				full_badge_items = $('.thumb-box').get();
-				var items = full_badge_items;
+				var items = $('.thumb-box .badge').get(); 
 				items.sort(function(a,b){ 
 					  var keyA = $(a).text();
 					  var keyB = $(b).text();
@@ -176,8 +182,11 @@
 					  return 0;
 				});	
 				$.each(items, function(idx, ele){
-					$(this).show();
+					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
+					$(ele).parent().parent().parent().parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
 			}//if
 		});//click
 		
@@ -185,14 +194,6 @@
 		$('#orderByNoGoal').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 
-			/* if($('#orderByABC').attr('class').includes('ok',0)){
-				$('#orderByABC').addClass('not-ok').removeClass('ok');
-				$('#orderByABC .glyphicon-ok').remove();
-			}
-			if($('#orderByCBA').attr('class').includes('ok',0)){
-				$('#orderByCBA').addClass('not-ok').removeClass('ok');
-				$('#orderByCBA .glyphicon-ok').remove();
-			} */
 			$('.order-btn a').not($(this)).each(function(){
 				if($(this).attr('class').includes('ok',0)){
 					$(this).addClass('not-ok').removeClass('ok');
@@ -203,16 +204,11 @@
 			if($(this).attr('class').includes('not-ok',0)){
 			//	console.log('내책만보기');
 				$(this).append(okIcon);
-				$(this).addClass('ok').removeClass('not-ok');
-				
-				var items = $('.thumb-box').get(); 
-				$.each(items, function(idx, ele){
-					if(nogoal_arr.includes(Number($(ele).attr('id')))){
-							$(ele).show();
-					}else if(!nogoal_arr.includes(Number($(ele).attr('id')))){
-							$(ele).hide();
-					}
-				});
+				$(this).addClass('ok').removeClass('not-ok');				
+
+				//$('.nogoal').show();
+				$('.thumb-box').not('.nogoal').hide();
+				infinityScroll('nogoal');
 				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
@@ -224,7 +220,7 @@
 					}//if
 				});//each
 				full_badge_items = $('.thumb-box').get();
-				var items = full_badge_items;
+				var items = $('.thumb-box .badge').get(); 
 				items.sort(function(a,b){ 
 					  var keyA = $(a).text();
 					  var keyB = $(b).text();
@@ -233,8 +229,12 @@
 					  return 0;
 				});	
 				$.each(items, function(idx, ele){
-					$(this).show();
+					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
+					$(ele).parent().parent().parent().parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
+				
 			}//if
 		});//click
 		
@@ -242,20 +242,10 @@
 		$('#orderByABC').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 			
-/* 			if($('#orderByMyBook').attr('class').includes('ok',0)){
-				$('#orderByMyBook').addClass('not-ok').removeClass('ok');
-				$('#orderByMyBook .glyphicon-ok').remove();
-			} */
 			if($('#orderByCBA').attr('class').includes('ok',0)){
 				$('#orderByCBA').addClass('not-ok').removeClass('ok');
 				$('#orderByCBA .glyphicon-ok').remove();
 			} 
-/* 			$('.order-btn a').not($(this)).each(function(){
-				if($(this).attr('class').includes('ok',0)){
-					$(this).addClass('not-ok').removeClass('ok');
-					$(this).find('.glyphicon-ok').remove();
-				}//if
-			});//each */
 			
 			if($(this).attr('class').includes('not-ok',0)){
 				//console.log('내책만보기');
@@ -272,7 +262,10 @@
 				});	
 				$.each(items, function(idx, ele){
 					$('.bookclub-contents').append($(ele).parent().parent().parent());
+					$(ele).parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
 				$(this).find('.glyphicon-ok').remove();
@@ -288,7 +281,7 @@
 				$.each(items, function(idx, ele){
 					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
 				});
-				
+					
 				//location.reload();
 			}//if
 		});//click
@@ -297,17 +290,10 @@
 		$('#orderByCBA').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 			
-			/* if($('#orderByMyBook').attr('class').includes('ok',0)){
-				$('#orderByMyBook').addClass('not-ok').removeClass('ok');
-				$('#orderByMyBook .glyphicon-ok').remove();
-			}
-			 */
 			if($('#orderByABC').attr('class').includes('ok',0)){
 				$('#orderByABC').addClass('not-ok').removeClass('ok');
 				$('#orderByABC .glyphicon-ok').remove();
 			}
-			
-			
 			
 			if($(this).attr('class').includes('not-ok',0)){
 				console.log('내책만보기');
@@ -324,7 +310,10 @@
 				});	
 				$.each(items, function(idx, ele){
 					$('.bookclub-contents').prepend($(ele).parent().parent().parent());
+					$(ele).parent().parent().parent().hide();
 				});
+				infinityScroll('thumb-box');
+				aos();
 			}else if($(this).attr('class').includes('ok',0)){
 				//console.log('역순취소');
 				$(this).addClass('not-ok').removeClass('ok');
@@ -347,16 +336,13 @@
 			}//if
 		});//click
 		
-		
-		
-		
 		/* 화면 상단에 책더미그림: 모바일, pc에 따라 다른그림 배치 */
-			var window_x = $(window).width();
+				$('.jumbotron').css('background-image','url("${pageContext.request.contextPath }/resources/imgs/bookclub-main2.png")');				
+/* 			var window_x = $(window).width();
 			console.log(window_x);
 			if(window_x < 666){
 				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main-xs.png");				
 			}else{
-				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main.png");				
 			}
 		setInterval(function() {
 			var window_x = $(window).width();
@@ -364,54 +350,12 @@
 			if(window_x < 666){
 				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main-xs.png");				
 			}else{
-				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main.png");				
+				$('.jumbotron').css('background-image','url("${pageContext.request.contextPath }/resources/imgs/bookclub-main2.png")');				
 			}
 		}, 1000); 
-		
+ */		
 		/* 스크롤바 다내리면 새로운 목록 로딩 */
-
- 		$('.thumb-box').each(function(idx,ele){
- 			console.log('check');
-		    			if(idx >= 5 ){
-		    				return false;
-		    			}
-				   $(ele).show();
-   		}); 
-		var cnt = 1;
-		$(document).scroll(function(){
-			//console.log('스크롤');
-	        var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
-			//console.log(scrollT)
-	        var scrollH = $('.thumb-box').height(); //스크롤바를 갖는 div의 높이
-	        var contentH = $('.bookclub-contents').height(); //문서 전체 내용을 갖는 div의 높이
-			//console.log(scrollH);
-			//console.log(contentH);
-			
-	        if(scrollT + scrollH +1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
-	          // $('.bookclub-contents').append($('<div class="col-xs-12 col-md-4 thumb-box" data-aos="fade-down"><p>APPEND</p></div>'));
- 		        
-	        $('.thumb-box').each(function(idx,ele){
-		    			if(cnt*5 > (idx-1) ){
-		    				$(this).show();
-		    			}else if((idx-1) >(cnt+1)*5){
-		    				return false;
-		    			}
-		    		}); 
-	      //  console.log(cnt);
-	        cnt++;
-	        /* 
-	        
-	        cnt   idx
-	        1		5         (cnt *5
-	        2		10
-	        3		15
-	        
-	        */
-	        
-	        
-	        }
-	    });//scoll
-	        
+		
 	    /* 미독완독 미완독 가나다순 정렬 클릭시 검색결과없음 표시. */
 	       $('.order-btn a').each(function(){
 	    	   $(this).click(function(){
@@ -431,17 +375,60 @@
 	       });//each
 		
 	});//ready
+	
+	
+	function infinityScroll(className){
+		
+		$(document).off('scroll');
+		
+ 		$('.'+className+'').each(function(idx,ele){
+ 			console.log('check');
+		    			if(idx >= 5 ){
+		    				return false;
+		    			}
+				   $(ele).show();
+				   aos();
+   		}); 
+
+		var cnt = 1;
+		
+		var sevent= $(document).on('scroll',function(){
+			//console.log('스크롤');
+	        var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
+			//console.log(scrollT)
+	        var scrollH = $('.thumb-box').height(); //스크롤바를 갖는 div의 높이
+	        var contentH = $('.bookclub-contents').height(); //문서 전체 내용을 갖는 div의 높이
+			//console.log(scrollH);
+			//console.log(contentH);
+	        if(scrollT + scrollH +1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
+	          // $('.bookclub-contents').append($('<div class="col-xs-12 col-md-4 thumb-box" data-aos="fade-down"><p>APPEND</p></div>'));
+	        $('.'+className+'').each(function(idx,ele){
+		    			if(cnt*5 > (idx-1) ){
+		    				$(this).show();
+		    				  aos();
+		    			}else if((idx-1) >(cnt+1)*5){
+		    				return false;
+		    			}
+		    		}); 
+	      //  console.log(cnt);
+	        cnt++;
+	        }
+	    });//scoll 
+	 
+		
+	}
+	
 </script>
 <style type="text/css">
-.thumb-box {
+ .thumb-box {
+	display: none;
+} 
+.not-found {
+	text-align: center;
+	font-size: 1.5em;
 	display: none;
 }
 
-.not-found{
-	text-align:center;
-	font-size:1.5em;
-	display:none;
-}
 .search-form {
 	margin-bottom: 15px;
 }
@@ -476,66 +463,108 @@
 #input_group_btn {
 	width: 30px;
 }
-.thumb-box{
-/* 	width:300px;
+
+.thumb-box {
+	/* 	width:300px;
 */
-	height: 350px; 
-	margin-bottom:50px;
+	height: 350px;
+	margin-bottom: 50px;
 }
+
 .thumbnail { /*   */
-	text-align:center;
+	text-align: center;
 	border: 1px solid rgb(221, 221, 221);
-	box-shadow: 0 2px 8px rgba(0,0,0,.1), 0 8px 20px rgba(0,0,0,.1);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .1), 0 8px 20px rgba(0, 0, 0, .1);
 	border-radius: 16px;
 	transition-duration: 600ms;
 	display: block;
 	margin: auto;
 	margin-top: 3px;
 }
+
 .thumbnail:hover { /*  반짝 */
 	transition-duration: 600ms;
 	border: 1px solid rgb(139, 169, 137);
 	box-shadow: rgb(192, 207, 178) 0px 0px 6px;
 	cursor: pointer;
 }
-.thumbnail a img{
-	margin-top:10px;
-	margin-bottom:10px;
-	width:140px;
-	height:190px;
-	box-shadow:rgb(37, 54, 41) 5px 5px 10px;
+
+.thumbnail a img {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 140px;
+	height: 190px;
+	box-shadow: rgb(37, 54, 41) 5px 5px 10px;
 }
-.badge{
+
+.badge {
 	background-color: #8ba989;
 }
-.additional-info a{
-	color:#49654d;
+
+.additional-info a {
+	color: #49654d;
 }
-.glyphicon-ok{
-	color:#8ba989;
+
+.glyphicon-ok {
+	color: #8ba989;
 }
-.order-btn>li a:hover{
-	color:white;
+
+.order-btn>li a:hover {
+	color: white;
 	background-color: #253629;
 }
-.jumbotron{
-	background-color: #ecece9;
-	z-index:-1000;
+.gradient{
+	background: linear-gradient( to right, #ecece9, #c0cfb2 );
+	overflow:hidden;
+		height: 140px;
+	border-radius: 6px;
+}
+.jumbotron {
+		height: 140px;
+	padding: 15px;
+	background-color: rgba( 255, 255, 255, 0.0 );
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 30%;
 	height: 140px;
 	padding: 15px;
 }
-.jumbotron img{
-	display: block;
-	margin:auto;
-	line-height:30px;
-	size:auto;
-}
-@media (max-width:666px) {
-	.jumbotron{
-		padding: 7px;
-	}
+
+.jumbotron div {
+	height: 100%;
 }
 
+.jumbotron h2, .jumbotron h5 {
+	color:#253629;
+	line-height: 2px;
+	text-align: center;
+	font-size: 1.4em;
+	margin-top: 33px;
+}
+
+@media ( max-width :1000px) {
+	.bookclub-msg {
+		margin-left: 140px;
+	}
+	.jumbotron h2, .jumbotron h5 {
+		line-height: normal;
+		margin-top: 15px;
+	}
+}
+@media ( max-width :460px) {
+	.jumbotron {
+		padding: 7px;
+		background-position-x: 15px;
+	}
+	.jumbotron h2, .jumbotron h5 {
+		margin-top: 11px;
+		line-height: normal;
+	}
+	.bookclub-msg {
+		float: right;
+		width: 66%;
+	}
+}
 </style>
 </head>
 <body>
@@ -546,9 +575,13 @@
 		<div class="col-md-8 col-xs-12">
 		</div>
 	</div>
+	<div class="gradient bottom-line">
 	<div class="jumbotron">
-		<img id = "main-img" alt="" src="">
-
+		<div class="bookclub-msg">
+		<h5>함께하는 독서라이프, 북클럽에서 함께 나누는 건 어때요?</h5>
+		<h2><strong>무엇이든 궁금한 건 북클럽에 물어보세요!</strong></h2>
+		</div>
+	</div>
 	</div>
 	<div class="row">
 		<!--************ search **********-->

@@ -58,13 +58,9 @@
 	</update>
 	
 	<select id="selectAboutBook" parameterType="clubBean" resultType="clubBean">
-	<!-- 	select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname from club c 
-		inner join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
-		#{search} order by createtime desc -->
-		
 		select c.id, c.createtime, c.updatetime ,title , content,ref ,depth ,num ,c.deleted ,user_id ,book_bid,nickname,
 		(select count(*) from club where depth = 1 and deleted != 1 and ref = c.id) AS reply
- 		from club c left join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and title like 
+ 		from club c left join user u on c.user_id = u.id where book_bid=#{book_bid} and c.deleted != 1 and depth = 0 and title like 
 		#{search} order by createtime desc
 	</select>
 	
@@ -126,5 +122,17 @@
 	<select id="selectAllRecommend" resultType="_int" parameterType="_int">
 		select club_id from recommend where user_id = #{user_id}
 	</select>
+	
+	<select id="selectReplyALLByUserId" parameterType="_int" resultType="clubBean">
+		select u.nickname,r.o_titl,r.id,r.createtime ,r.updatetime ,r.title,r.content ,r.ref ,r.depth ,r.num ,r.deleted ,r.repl_id AS repl ,r.book_bid 
+		from salpa.user u inner join (select a.user_id,a.title AS o_titl ,b.id,b.createtime ,b.updatetime ,b.title,b.content ,b.ref ,b.depth ,b.num ,
+		b.deleted,b.user_id AS repl_id ,b.book_bid 
+		from salpa.club a inner join salpa.club b on a.id = b.ref where a.user_id = #{user_id} and b.user_id != #{user_id}) r 
+		on r.repl_id = u.id where r.title is null and r.deleted != 1 order by r.updatetime desc;
+	</select>
+	
+	<update id="updateReplyTitleForMark" parameterType="_int">
+		update club set title='checked' where id = #{id} 
+	</update>
 	
 </mapper>

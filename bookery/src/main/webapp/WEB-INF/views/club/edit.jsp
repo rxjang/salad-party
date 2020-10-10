@@ -34,20 +34,34 @@
 .jumbotron {
 	background-color: white;
 }
+.media-body{
+	vertical-align: middle;
+}
+.media-object{
+	margin:5px 5px 5px 5px;
+	width:4em;
+	box-shadow: 0 1px 5px rgba(0,0,0,.1), 0 2px 5px rgba(0,0,0,.1);
+}
 </style>
 </head>
 <body>
 	<%@ include file="../template/menu.jspf"%>
 	<!-- **********content start**********-->
-	<div class="row">
+		<div class="row">
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-8 col-xs-12">
-			<h3>
-				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-				북클럽
-			</h3>
 			<br />
-			<small>같은 책을 읽는 사람들과 소통할 수 있어요!</small>
+				<div class="media">
+				<div class="media-left media-middle">
+					<a href="${pageContext.request.contextPath }/find/book/${book.bid}"> <img class="media-object" src="${book.coverurl }" alt="...">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">${book.title }</h4>
+					<small>${book.writer }</small><br/>
+					<small>${book.publisher }</small>
+				</div>
+			</div>
 		</div>
 
 		<div class="bottom-line col-xs-12 col-md-12"></div>
@@ -62,7 +76,7 @@
 					<input type="hidden" name="_method" value="PUT" />
 
 					<div class="form-group">
-						<input type="text" class="form-control content-main"
+						<input type="hidden" class="form-control content-main"
 							id="inputPassword3" readonly="readonly" value="${book.title }"/>
 					</div>
 
