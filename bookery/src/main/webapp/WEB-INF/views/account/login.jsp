@@ -4,7 +4,6 @@
 <% 	
 	String dest = (String)session.getAttribute("dest");
 
-	
 	String ip = request.getHeader("X-Forwarded-For");
 	   if (ip == null) ip = request.getRemoteAddr();
 	   else if (ip == "127.0.0.1") ip = "localhost";

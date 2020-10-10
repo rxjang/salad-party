@@ -205,7 +205,7 @@
 <style type="text/css">
 
 #add{
-	background-color:#8ba989;
+	background-color:#c0cfb2;
 	color:white;
 	float: right;
 }
@@ -340,6 +340,7 @@
 				<ul class="pager order-btn">
 					<li><a id="orderByRecommend" class="not-ok" href="#">추천순</a></li>
 					<li><a id="orderByReply" class="not-ok" href="#">댓글순</a></li>
+					<li><a href="#" id="add" class="btn btn-default" role="button">글쓰기</a></li>
 				</ul>
 		
 		</div>
@@ -370,7 +371,7 @@
 				<br/>
 				<button class="btn btn-default more-posts">더보기</button>
 				<button class="btn btn-default btn-top">Top</button>
-					<a href="#" id="add" class="btn btn-default" role="button">글쓰기</a>
+					<!-- <a href="#" id="add" class="btn btn-default" role="button">글쓰기</a> -->
 	</div>
 	</div>
 	<!--**********content end**********-->
