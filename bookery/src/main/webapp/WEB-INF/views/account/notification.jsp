@@ -126,7 +126,7 @@
 					<div class="panel-body">
 					<p>	<strong>획득한 메달</strong></p>
 					<a href="${pageContext.request.contextPath }/mylib/award/"><span class="">${bean2.medal }</span></a></div>
-					<div class="panel-body"><span class="user_id">받은 날짜</span> &nbsp;|&nbsp;<span class="update-day">${bean2.awarddate }</span>
+					<div class="panel-body"><span class="user_id">획득 날짜</span> &nbsp;|&nbsp;<span class="update-day">${bean2.awarddate }</span>
 					</div>
 				</div>
 		</c:forEach>
