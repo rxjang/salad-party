@@ -14,8 +14,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class AwardVo {
-	private int id, medal_id, user_id;
+	private int id, medal_id, user_id,checked;
 	private Date date;
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

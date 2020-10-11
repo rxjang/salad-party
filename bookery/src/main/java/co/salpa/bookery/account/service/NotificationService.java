@@ -12,5 +12,7 @@ public interface NotificationService {
 	int getReplyMyPostListSize(HttpSession session) throws DataAccessException; // 확인안한 댓글 알림 리스트
 
 	void checkedNotiService(int club_id) throws DataAccessException; // 댓글알림 확인표시
+	
+	void checkedAwardService(int award_id) throws DataAccessException; // 댓글알림 확인표시
 
 }

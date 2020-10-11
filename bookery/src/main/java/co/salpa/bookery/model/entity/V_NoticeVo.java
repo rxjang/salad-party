@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class V_NoticeVo {
-	private int id,deleted,user_id;
-	private String title,content,answer;
+	private int id,deleted,user_id,club_id;
+	private String title,content,answer,chekced;
 	private Timestamp createtime, answertime;
 }
