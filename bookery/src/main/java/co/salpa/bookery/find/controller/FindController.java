@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.salpa.bookery.find.service.FindService;
+import co.salpa.bookery.find.service.FindWordCloudService;
 
 @Controller
 public class FindController {
 
 	@Autowired
 	FindService findService;
+	@Autowired
+	FindWordCloudService wordCloud;
 
 	@RequestMapping("/find") // 검색페이지로 이동
 	public String find(Model model) {
@@ -44,7 +47,7 @@ public class FindController {
 	@ResponseBody// select = {제목,저자,출판사} 상세검색 요청변수 생성
 	public String wordCloud(HttpServletRequest req ) throws Exception {
 		HttpSession session = req.getSession();
-		session.setAttribute("wordCloud", findService.listReadersService());
+		session.setAttribute("wordCloud", wordCloud.listReadersService());
 		return null;// ajax통신이라 view가 없음
 	}// searchBooks
 	
