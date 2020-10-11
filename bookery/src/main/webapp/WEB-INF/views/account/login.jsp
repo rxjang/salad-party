@@ -8,6 +8,7 @@
 	String ip = request.getHeader("X-Forwarded-For");
 	   if (ip == null) ip = request.getRemoteAddr();
 	   else if (ip == "127.0.0.1") ip = "localhost";
+	   System.out.println(ip);
 %>
 <!DOCTYPE>
 <html>
@@ -127,7 +128,7 @@
              }else{
             	 var dest = "<%=dest%>";
             	 if(dest != "null" && dest != "") {
-            		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> +""+ dest); 
+            		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> +""+ dest);
             		 return false;
             	 } else {
                   	window.location.replace("${pageContext.request.contextPath }/"); 
