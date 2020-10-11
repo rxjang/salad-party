@@ -5,7 +5,10 @@
 
 <mapper namespace="co.salpa.bookery.model.V_AwardsDao">
 	<select id="selectAchieveMedal" resultType="v_awardsBean" parameterType="_int">
-		select * from v_awards where user_id=#{id}
+		select * from v_awards where user_id=#{user_id}
+	</select>
+	<select id="selectAchieveMedalNotice" resultType="v_awardsBean" parameterType="_int">
+		select * from v_awards where user_id=#{user_id} and checked!=1
 	</select>
 	<select id="countAchieveMedal" resultType="INTEGER" parameterType="_int">
 		select count(distinct medal) from v_awards where user_id=#{user_id}

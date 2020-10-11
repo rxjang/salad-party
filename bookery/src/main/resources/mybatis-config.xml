@@ -7,37 +7,37 @@
 
 
 <typeAliases>
+	<typeAlias alias="awardBean" type="co.salpa.bookery.model.entity.AwardVo"/>
 	<typeAlias alias="bookBean" type="co.salpa.bookery.model.entity.BookVo"/>
-	<typeAlias alias="studyBean" type="co.salpa.bookery.model.entity.StudyVo"/>
-	<typeAlias alias="tocBean" type="co.salpa.bookery.model.entity.TocVo"/>
-	<typeAlias alias="userBean" type="co.salpa.bookery.model.entity.UserVo"/>
-	<typeAlias alias="v_studyBean" type="co.salpa.bookery.model.entity.V_StudyVo"/>
 	<typeAlias alias="checkChapBean" type="co.salpa.bookery.model.entity.CheckChapVo"/>
 	<typeAlias alias="checkPageBean" type="co.salpa.bookery.model.entity.CheckPageVo"/>
-	<typeAlias alias="medalBean" type="co.salpa.bookery.model.entity.MedalVo"/>
-	<typeAlias alias="awardBean" type="co.salpa.bookery.model.entity.AwardVo"/>
-	<typeAlias alias="v_awardsBean" type="co.salpa.bookery.model.entity.V_AwardsVo"/>
 	<typeAlias alias="clubBean" type="co.salpa.bookery.model.entity.ClubVo"/>
-	<typeAlias alias="v_readers_cntBean" type="co.salpa.bookery.model.entity.V_Readers_cntVo"/>
-	<typeAlias alias="v_noticeBean" type="co.salpa.bookery.model.entity.V_NoticeVo"/>
+	<typeAlias alias="studyBean" type="co.salpa.bookery.model.entity.StudyVo"/>
+	<typeAlias alias="medalBean" type="co.salpa.bookery.model.entity.MedalVo"/>
 	<typeAlias alias="recommendBean" type="co.salpa.bookery.model.entity.RecommendVo"/>
+	<typeAlias alias="tocBean" type="co.salpa.bookery.model.entity.TocVo"/>
+	<typeAlias alias="userBean" type="co.salpa.bookery.model.entity.UserVo"/>
+	<typeAlias alias="v_awardsBean" type="co.salpa.bookery.model.entity.V_AwardsVo"/>
+	<typeAlias alias="v_noticeBean" type="co.salpa.bookery.model.entity.V_NoticeVo"/>
+	<typeAlias alias="v_readers_cntBean" type="co.salpa.bookery.model.entity.V_Readers_cntVo"/>
+	<typeAlias alias="v_studyBean" type="co.salpa.bookery.model.entity.V_StudyVo"/>
 	<typeAlias alias="v_calendarBean" type="co.salpa.bookery.model.entity.V_CalendarVo"/>
 </typeAliases>
 	
 	<mappers>
+		<mapper resource="config/AwardMapper.xml" />
 		<mapper resource="config/BookMapper.xml" />
-		<mapper resource="config/StudyMapper.xml" />
-		<mapper resource="config/TocMapper.xml" />
-		<mapper resource="config/UserMapper.xml" />
-		<mapper resource="config/V_StudyMapper.xml" />
 		<mapper resource="config/CheckChapMapper.xml" />
 		<mapper resource="config/CheckPageMapper.xml" />
-		<mapper resource="config/MedalMapper.xml" />
-		<mapper resource="config/AwardMapper.xml" />
-		<mapper resource="config/V_AwardsMapper.xml" />
 		<mapper resource="config/ClubMapper.xml" />
-		<mapper resource="config/V_Readers_cntMapper.xml" />
-		<mapper resource="config/V_NoticeMapper.xml" />
+		<mapper resource="config/MedalMapper.xml" />
+		<mapper resource="config/StudyMapper.xml" />
+		<mapper resource="config/UserMapper.xml" />
+		<mapper resource="config/TocMapper.xml" />
+		<mapper resource="config/V_AwardsMapper.xml" />
 		<mapper resource="config/V_CalendarMapper.xml" />
+		<mapper resource="config/V_NoticeMapper.xml" />
+		<mapper resource="config/V_Readers_cntMapper.xml" />
+		<mapper resource="config/V_StudyMapper.xml" />
 	</mappers>
 </configuration>

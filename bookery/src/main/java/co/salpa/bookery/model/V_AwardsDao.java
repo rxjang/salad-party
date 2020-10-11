@@ -10,4 +10,6 @@ public interface V_AwardsDao {
 	int countAchieveMedal(int id) throws DataAccessException;
 	
 	List<V_AwardsVo> selectAchieveMedal(int user_id) throws DataAccessException;
+	
+	List<V_AwardsVo> selectAchieveMedalNotice(int user_id) throws DataAccessException;
 }

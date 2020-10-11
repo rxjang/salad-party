@@ -18,8 +18,24 @@ USE `salpa` ;
 -- -----------------------------------------------------
 -- Placeholder table for view `salpa`.`v_awards`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `salpa`.`v_awards` (`id` INT, `medal` INT, `criteria` INT, `awarddate` INT, `user_id` INT);
-
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_awards` AS
+    SELECT 
+        `m`.`id` AS `id`,
+        `m`.`medal` AS `medal`,
+        `m`.`criteria` AS `criteria`,
+        `a`.`awarddate` AS `awarddate`,
+        `a`.`user_id` AS `user_id`,
+        `a`.`checked` AS `checked`,
+        `a`.`id` AS `award_id`
+    FROM
+        (`medal` `m`
+        JOIN `award` `a`)
+    WHERE
+        (`m`.`id` = `a`.`medal_id`);
 -- -----------------------------------------------------
 -- Placeholder table for view `salpa`.`v_cal_chap`
 -- -----------------------------------------------------
@@ -319,11 +335,27 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY 
 -- -----------------------------------------------------
 -- View `salpa`.`v_notice`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `salpa`.`v_notice`;
-DROP VIEW IF EXISTS `salpa`.`v_notice` ;
-USE `salpa`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY DEFINER VIEW `salpa`.`v_notice` AS select `a`.`id` AS `id`,`a`.`createtime` AS `createtime`,`b`.`createtime` AS `answertime`,`a`.`title` AS `title`,`a`.`content` AS `content`,`b`.`content` AS `answer`,`a`.`user_id` AS `user_id`,`a`.`deleted` AS `deleted` from (`salpa`.`club` `a` join `salpa`.`club` `b` on((`a`.`id` = `b`.`ref`))) where (`a`.`book_bid` = 0);
-
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_notice` AS
+    SELECT 
+        `a`.`id` AS `id`,
+        `a`.`createtime` AS `createtime`,
+        `b`.`createtime` AS `answertime`,
+        `a`.`title` AS `title`,
+        `a`.`content` AS `content`,
+        `b`.`content` AS `answer`,
+        `b`.`title` AS `checked`,
+        `b`.`id` AS `club_id`,
+        `a`.`user_id` AS `user_id`,
+        `a`.`deleted` AS `deleted`
+    FROM
+        (`club` `a`
+        JOIN `club` `b` ON ((`a`.`id` = `b`.`ref`)))
+    WHERE
+        (`a`.`book_bid` = 0);
 -- -----------------------------------------------------
 -- View `salpa`.`v_readers_cnt`
 -- -----------------------------------------------------

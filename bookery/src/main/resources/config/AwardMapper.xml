@@ -5,8 +5,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="co.salpa.bookery.model.AwardDao">
-	<select id="selectAward" resultType="awardBean">
-		select * from award where user_id=#{user_id}
+	<select id="selectAward01" resultType="AwardBean" parameterType="_int">
+		select checked * from awards where medal_id=1 and user_id=#{user_id} order by awarddate asc limit 1
 	</select>
-	
+	<update id="updateMedal1Checked" parameterType="_int">
+		update award set checked=1 where user_id = #{id} and medal_id=1 
+	</update>
+	<update id="updateAwardChecked" parameterType="_int">
+		update award set checked=1 where id = #{id} 
+	</update>
 </mapper>
