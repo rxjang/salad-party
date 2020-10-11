@@ -398,6 +398,30 @@ $(function(){
 			});//ajax
 			
 		}, 5000); 
+		
+		$.ajax({
+			url:'${pageContext.request.contextPath}/find/cloud',
+			type:'post',
+			success:function(data){
+			},
+			error:function(){
+				
+			}
+			
+		});
+		setInterval(function() {
+			$.ajax({
+				url:'${pageContext.request.contextPath}/find/cloud',
+				type:'post',
+				success:function(data){
+				},
+				error:function(){
+
+				}
+				
+			});
+			
+		},30000);
 
 });//function
 	 
