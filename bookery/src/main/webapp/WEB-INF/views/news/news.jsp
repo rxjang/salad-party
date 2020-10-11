@@ -79,10 +79,11 @@
 	.list-image{
 		padding:10px;
 		width:100%;
-		background-color:#ecece9;
 	    border-radius: 10px;
 	    margin-bottom:5px;
 		height:220px;
+		border:1px solid #e4e4e4;
+		box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
 	}
 	.book-image{
 		box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
@@ -238,6 +239,9 @@
 		float:right;
 		margin-left:5px;
 	}
+	.cut-15{
+		font-weight:bold;
+	}
 	@media (max-width:900px) {
 		.book-list{
 			width:45%;
@@ -257,8 +261,37 @@
 			margin-bottom:1.5em;
 		}	
 	}
-	
-	@media (max-width:450px) {
+	@media (max-width:990px) {
+		.car-ment{
+			margin-left:30px
+		}
+	}
+	@media (max-width:550px) {
+		/********************************carousel-css*******************************/
+		.news-carousel .item{
+			margin:0px;
+			height:250px;
+		}
+		.car-ment h2{
+			font-size:1.8em;
+		}
+		.car-ment h4{
+			font-size:1.2em;
+		}
+		.owl-carousel .owl-item .item-image{
+			width:45%;
+			top:38%;
+			left:40%;
+		}
+		.owl-carousel .owl-item .phone,.owl-carousel .owl-item .write{
+			width:35%;
+			top:40%;
+		}
+		
+		.owl-carousel .owl-item .group{
+			width:50%;
+		} 
+	/********************************bestbooks-css*******************************/
 		.book-list{
 			width:40%;
 			height:200px;
@@ -360,7 +393,7 @@ $(function(){
 					<h2 class="main-ment">오늘의 기록, 잘하고 계신가요?</h2>
 					<h4 class="sub-ment">그래프로 한눈에 보는 목표치,<br/>오늘의 기록에서 확인 할 수 있습니다</h4>
 				</div>
-				<img class="item-image" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/record.png"><br/>
+				<img class="item-image write" alt="image loading fail" src="${pageContext.request.contextPath}/resources/imgs/news/record.png"><br/>
 			</div>
 			</a>
 			<div class="col-md-2"></div>
@@ -503,7 +536,7 @@ $(function(){
 				<c:forEach items="${popularContents }" var="popular">
 				<div class="rank-content">
 					<span class="rank-num2"></span>
-					<a href="${pageContext.request.contextPath}/club/detail/${popular.id}"><span class="rank-who"><b>${popular.title }</b></span></a>
+					<a href="${pageContext.request.contextPath}/club/detail/${popular.id}"><span class="rank-who cut-20"><b>${popular.title }</b></span></a>
 					<span class="rank-what"><img class="rank-image" src="${pageContext.request.contextPath}/resources/imgs/news/thumb-up.png"/>
 					&nbsp;${popular.num }</span>
 				</div>

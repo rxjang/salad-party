@@ -87,8 +87,7 @@
 			}else if(!studying_arr.includes(Number($(ele).attr('id')))){
 			}
 		});
-		
-		
+
 		var orderby = 'thumb-box';
 		
 		/* 미완독 책만보기 */
@@ -121,6 +120,7 @@
 						$(this).find('.glyphicon-ok').remove();
 					}//if
 				});//each
+
 				//full_badge_items = $('.thumb-box').get();
 				//var items = full_badge_items;
 			//	var items = $('.thumb-box .badge').get(); 
@@ -230,7 +230,6 @@
 				}); */
 				$('.thumb-box').hide();
 				infinityScroll('thumb-box');
-				
 			}//if
 		});//click
 		
@@ -261,6 +260,7 @@
 				$.each(items_ABC, function(idx, ele){
 				//	console.log('가나다');
 					$('.bookclub-contents').append($(ele).parent().parent().parent());
+					$(ele).parent().parent().parent().hide();
 				});
 				 $('.thumb-box').hide();
 				infinityScroll(orderby);
@@ -311,6 +311,7 @@
 				});	
 				$.each(items_CBA, function(idx, ele){
 					$('.bookclub-contents').prepend($(ele).parent().parent().parent());
+					$(ele).parent().parent().parent().hide();
 				});
 				 $('.thumb-box').hide();
 				infinityScroll(orderby);
@@ -416,12 +417,16 @@
 	        cnt++;
 	        }
 	    });//scoll 
-		
 	}
 	
 </script>
 <style type="text/css">
-.thumb-box {
+ .thumb-box {
+	display: none;
+} 
+.not-found {
+	text-align: center;
+	font-size: 1.5em;
 	display: none;
 }
 
@@ -515,7 +520,6 @@
 	color: white;
 	background-color: #253629;
 }
-
 .gradient {
 	margin-left: -15px;
 	margin-right: -15px;

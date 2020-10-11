@@ -24,7 +24,7 @@
 	}
 	#award-account{
 		height:280px;
-		background:url('${pageContext.request.contextPath}/resources/imgs/award.jpg')center/cover;
+		background:url('${pageContext.request.contextPath}/resources/imgs/star.jpg')center/cover;
 		color:white;
 		padding:30px 60px;
 	}
@@ -53,17 +53,28 @@
 	}
 	.all-medal{
 		width:100%;
-		border: 1px solid #e4e4e4;
 	}
 	.all-medal li{
 		width:25%;
 		float:left;
 		list-style:none;
-		margin-bottom:10px;
+		text-align:center;
+		margin-bottom:3em;
 	}
-	.temp{
+	.circle{
+		height:180px;
 	}
-	
+	.medal-image{
+		width:130px;
+		padding-top:2em;
+	}
+	.achieve-medal{
+		width:180px;
+		padding-top:0;
+	}
+	.data-tooltip:hover {
+		position: relative;
+	}
 	@media (max-width:1000px) {
 		.jumbtron{
 			width:100%;
@@ -72,10 +83,11 @@
 			height:250px;
 			padding:20px;
 			padding-left:30px;
+			text-shadow: 2px 2px 2px #000000;
 		}
 		.award-info-ment{
 			font-weight:bold;
-			text-shadow: 3px 3px 3px #000000;
+			text-shadow: 2px 2px 2px #000000;
 			font-size:1.1em;
 		}
 		#award-account{
@@ -84,7 +96,34 @@
 	}
 </style>
 <script type="text/javascript">
+var awardJson='${awardJson }';
+var awardJsonList=JSON.parse(awardJson).awardKey;
+var medalJson='${medalJson }';
+var medalJsonList=JSON.parse(medalJson).awardKey;
+var achieve=new Array();
 
+awardJsonList.forEach(function(ele){
+	achieve.push(ele.medal);
+});
+
+$(function(){
+	$(".circle").each(function(){
+		for(var i=0;i<achieve.length;i++){
+			var medalName=$(this).children(".medal-name").val();
+			if(medalName==achieve[i]){
+				$(this).children(".medal-image").addClass("achieve-medal");
+				$(this).children(".medal-image").attr("src","${pageContext.request.contextPath}/resources/imgs/award/"+medalName+".png");
+				$(this).parent("li").tooltip();
+			}//if
+		}//for
+		var imgClass=$(this).children('img').attr('class');
+		var am='achieve-medal';
+		if(imgClass.search(am)>0){
+		}else{
+			$(this).parent("li").attr("title","");
+		}
+	});//each
+});//ready
 </script>
 </head>
 <body>
@@ -106,24 +145,19 @@
 			</div><!-- .award-info-ment end -->
 		</div><!-- award-account -->	
 		<div class="jumbotron">
-			메달 목록
 			<ul class="all-medal">
-			<c:forEach items="${medalList }" var="medal">
-				<li class="${medal.medal}">${medal.criteria }
-					<img src="${pageContext.request.contextPath}/resources/imgs/award/${medal.medal }.png" alt="${medal.medal }"/>
+				<c:forEach items="${medalList }" var="medal">
+				<li class="${medal.medal}" data-toggle="tooltip" data-placement="bottom" title="${medal.criteria }">
+					<div class="circle">
+						<img src="${pageContext.request.contextPath}/resources/imgs/award/lock.png" alt="${medal.medal }" class="medal-image"/><br/>
+						<input type="hidden" class="medal-name" value="${medal.medal }"/>
+					</div><!-- circle -->
+					<span class="medal-title">${medal.medal }</span>
 				</li>
-			</c:forEach>			
-			</ul>
+				</c:forEach>
+			</ul>		
 		</div>
-		<div class="jumbotron">
-		달성 목록
-			<ul class="all-medal">
-			<c:forEach items="${achieveMedalList }" var="award">
-					<li>${award.criteria }</li>
-			</c:forEach>			
-			</ul>
-		</div>
-	</div>
+	</div>		
 </div><!-- .row end -->
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>

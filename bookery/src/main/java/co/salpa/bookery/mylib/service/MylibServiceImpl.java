@@ -180,10 +180,25 @@ public class MylibServiceImpl implements MylibService {
 		MedalDao medalDao=sqlSession.getMapper(MedalDao.class);
 		V_AwardsDao v_AwardsDao=sqlSession.getMapper(V_AwardsDao.class);
 		List<MedalVo> medalList=medalDao.selectAllMedal();
-		List<V_AwardsVo> achieveMedalList=v_AwardsDao.selectAchieveMedal(user_id);
+		List<V_AwardsVo> awardList=v_AwardsDao.selectAchieveMedal(user_id);
+		Map<String,List<MedalVo>> medalMap=new HashMap<String,List<MedalVo>>();
+		Map<String,List<V_AwardsVo>> awardMap=new HashMap<String,List<V_AwardsVo>>();
+		medalMap.put("medalKey", medalList);
+		awardMap.put("awardKey", awardList);
+		
+		String jsonMedal=null;
+		String jsonAward=null;
+		try {
+			jsonMedal = objectMapper.writeValueAsString(medalMap);
+			jsonAward = objectMapper.writeValueAsString(awardMap);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("medalList", medalList);
+		model.addAttribute("awardList", awardList);
+		model.addAttribute("medalJson", jsonMedal);
+		model.addAttribute("awardJson", jsonAward);
 		model.addAttribute("countAchieveMedal", v_AwardsDao.countAchieveMedal(user_id));
-		model.addAttribute("achieveMedalList", achieveMedalList);
 		return null;
 	}
 

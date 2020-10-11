@@ -27,7 +27,7 @@
 	
 	<select id="selectContentForNews" resultType="clubBean">
 		select a.id,a.createtime, a.title, a.content, a.nickname, b.title as book_title, b.coverurl,b.writer,b.bid as book_bid from 
-		(select c.id, c.createtime, title, content, nickname,book_bid from club c join user u where c.user_id=u.id and title is not null and book_bid!=0) a
+		(select c.id, c.createtime, title, content, nickname,book_bid from club c join user u where c.user_id=u.id and title is not null and depth=0 and book_bid!=0) a
 		join book b where a.book_bid=b.bid order by a.createtime desc limit 10;
 	</select>
 
