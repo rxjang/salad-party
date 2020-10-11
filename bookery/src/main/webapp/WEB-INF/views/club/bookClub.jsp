@@ -521,9 +521,8 @@
 	background-color: #253629;
 }
 .gradient {
-	margin-left: -15px;
-	margin-right: -15px;
-	width: 105%;
+	margin-top:0px;
+	width: 100%;
 	background: rgb(237, 255, 245); background : radial-gradient( circle,
 	rgba( 237, 255, 245, 1) 0%, rgba( 231, 249, 215, 1) 100%);
 	overflow: hidden;
@@ -586,12 +585,14 @@
 <body>
 	<%@ include file="../template/menu.jspf"%>
 	<!-- **********content start**********-->
+	<div class="row">
 	<div class="gradient bottom-line">
 	<div class="jumbotron">
 		<div class="bookclub-msg">
 		<h5>함께하는 독서라이프, 북클럽에서 함께 나누는 건 어때요?</h5>
 		<h2><strong>무엇이든 궁금한 건 북클럽에 물어보세요!</strong></h2>
 		</div>
+	</div>
 	</div>
 	</div>
 	<div class="row">

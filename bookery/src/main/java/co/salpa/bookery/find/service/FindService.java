@@ -30,4 +30,6 @@ public interface FindService {
 	public void deleteService() throws DataAccessException;
 
 	public Model getStudyOverlapChk(int id, int bid,Model model);
+
+	String listReadersService() throws DataAccessException;
 }

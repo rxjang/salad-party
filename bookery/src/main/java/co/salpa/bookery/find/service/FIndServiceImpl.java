@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +39,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import co.salpa.bookery.model.BookDao;
 import co.salpa.bookery.model.ClubDao;
 import co.salpa.bookery.model.StudyDao;
 import co.salpa.bookery.model.TocDao;
+import co.salpa.bookery.model.V_Readers_cntDao;
 import co.salpa.bookery.model.entity.BookVo;
 import co.salpa.bookery.model.entity.StudyVo;
 import co.salpa.bookery.model.entity.TocVo;
+import co.salpa.bookery.model.entity.V_Readers_cntVo;
 
 //클래스 내 메소드들을 트랜잭션 처리함. 예외발생 시 데이터액세스 작업의 경우 롤백처리
 @Transactional
@@ -91,14 +97,14 @@ public class FIndServiceImpl implements FindService {
 			throw new RuntimeException("encoding error", e);
 
 		} // catch
-		String apiURL=null;
-		if(select.equals("출판사") || select.equals("저자") || select.equals("제목")) {
-			param_start = "start="+start;
-			apiURL = "https://openapi.naver.com/v1/search/book_adv.xml?"+ param_start + findOpt; // book
-		}else {
+		String apiURL = null;
+		if (select.equals("출판사") || select.equals("저자") || select.equals("제목")) {
+			param_start = "start=" + start;
+			apiURL = "https://openapi.naver.com/v1/search/book_adv.xml?" + param_start + findOpt; // book
+		} else {
 			apiURL = "https://openapi.naver.com/v1/search/book.xml?query=" + search + param_start; // book
 		}
-																													// search
+		// search
 		System.out.println(apiURL);
 
 		Map<String, String> requestHeaders = new HashMap<>();
@@ -118,7 +124,7 @@ public class FIndServiceImpl implements FindService {
 		} else if (select.equals("출판사")) {
 			findOpt = "&d_publ=";
 		} else {
-			findOpt ="";
+			findOpt = "";
 		}
 		findOpt += word;
 		return findOpt;
@@ -187,29 +193,26 @@ public class FIndServiceImpl implements FindService {
 		Document doc = null;
 		String result = null;
 		try {
-			doc = Jsoup.connect(url)
-					.header("path", "/bookdb/book_detail.nhn?bid="+bid)
-					.header("authority", "book.naver.com")
-					.header("scheme", "https")
-					.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-					.header("cache-control", "max-age=0")
-					.header("accept-encoding", "book.naver.com")
+			doc = Jsoup.connect(url).header("path", "/bookdb/book_detail.nhn?bid=" + bid)
+					.header("authority", "book.naver.com").header("scheme", "https")
+					.header("accept",
+							"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+					.header("cache-control", "max-age=0").header("accept-encoding", "book.naver.com")
 					.header("accept-language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
-					.header("sec-fetch-dest", "document")
-					.header("sec-fetch-mode", "navigate")
-					.header("sec-fetch-site", "none")
-					.header("sec-fetch-user", "?1")
-					.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36")
+					.header("sec-fetch-dest", "document").header("sec-fetch-mode", "navigate")
+					.header("sec-fetch-site", "none").header("sec-fetch-user", "?1")
+					.userAgent(
+							"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36")
 					.timeout(3000).data("query", "Java").get();
 			Elements e1 = doc.select("div.book_info");
 			Elements e2 = doc.select("div.book_info_inner");
 			Elements e3 = doc.select("div#bookIntroContent");
 			Elements e4 = doc.select("div#tableOfContentsContent");
-			result = e1.toString()+e2.toString()+e3.toString()+e4.toString();
+			result = e1.toString() + e2.toString() + e3.toString() + e4.toString();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		return model.addAttribute("crawlingDoc", result);
 	}// crawlingService
 
@@ -231,7 +234,8 @@ public class FIndServiceImpl implements FindService {
 		/*
 		 * 트랜잭션 속성에 list* 메소드 read-only속성을 지정해둬서 데이터조작 이 발생하면 예외가 발생한다. SQL [];
 		 * Connection is read-only. Queries leading to data modification are not
-		 * allowed; nested exception is java.sql.DataAccessException: Connection is read-only.
+		 * allowed; nested exception is java.sql.DataAccessException: Connection is
+		 * read-only.
 		 */
 		return model;
 	}//
@@ -278,8 +282,7 @@ public class FIndServiceImpl implements FindService {
 	 * 검색해서 선택한 책정보를 book테이블에 추가하고 그 책의 목차를 toc테이블에 추가한다.
 	 * 
 	 * 그리고 study테이블에도 책정보와함게 스터디생성 Transactional 어노테이션으로 insertStudyService 메소드가
-	 * 정상종료되기전에 예외가 발생하면 모두 롤백된다.
-	 * throws SQLException 
+	 * 정상종료되기전에 예외가 발생하면 모두 롤백된다. throws SQLException
 	 * 
 	 ****/
 	@Override
@@ -290,13 +293,11 @@ public class FIndServiceImpl implements FindService {
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		TocDao tocDao = sqlSession.getMapper(TocDao.class);
 		StudyDao studyDao = sqlSession.getMapper(StudyDao.class);
-		
-		
+
 		bookDao.insertOne(book);// 책입력
 		tocsPut(book, tocDao, chapters);// 목차들 입력
 		studyDao.insertOne(study);// 스터디생성
-		
-		
+
 	}// studyAddService
 
 	/****
@@ -340,7 +341,7 @@ public class FIndServiceImpl implements FindService {
 		System.out.println(getSqlToday() + " 23:59:59");
 		study = studyDao.selectOneByIdAndBid(map);
 		System.out.println(study.toString());
-		
+
 		if (study.size() == 0) {
 			System.out.println("중복아님");
 			model.addAttribute("studyOverlap", 1); // 중복아닌경우
@@ -363,5 +364,33 @@ public class FIndServiceImpl implements FindService {
 		// TODO Auto-generated method stub
 
 	}//
+
+	/*
+	 * 책제목, 커버, 함꼐읽는 사람수. 리스트로 반환.
+	 */
+	@Override
+	public String listReadersService() throws DataAccessException {
+		V_Readers_cntDao v_Readers_cntDao = sqlSession.getMapper(V_Readers_cntDao.class);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		List<V_Readers_cntVo> wordCloud = v_Readers_cntDao.selectAll();
+		List<String> titles = new ArrayList<String>();
+		
+		String data = "";
+		for (V_Readers_cntVo v_Readers_cntVo : wordCloud) {
+			titles.add(v_Readers_cntVo.getTitle());
+			data += v_Readers_cntVo.getTitle() + " ";
+		}
+		String jsonStr = null;
+		try {
+			jsonStr = mapper.writeValueAsString(titles);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return data;
+		// return model.addAttribute("cntReaders", v_Readers_cntDao.selectAll());
+	}// listReadersService
 
 }// ClassEnd
