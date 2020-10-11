@@ -342,11 +342,11 @@ small span{
 }
 .badge{
 	color:white;
-	background-color: #8ba989;
+	background-color: #c0cfb2;
 }
 .btn-reply,.submit-reply{
 	color:white;
-	background-color: #8ba989;
+	background-color: #c0cfb2;
 }
 .media-body{
 	vertical-align: middle;
