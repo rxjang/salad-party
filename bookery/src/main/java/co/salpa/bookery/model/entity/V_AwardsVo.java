@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString@NoArgsConstructor
 @AllArgsConstructor
 public class V_AwardsVo {
-	private int id, user_id;
-	private Date date;
+	private int id, user_id,checked,award_id;
+	private Date awarddate;
 	private String medal,criteria;
 }

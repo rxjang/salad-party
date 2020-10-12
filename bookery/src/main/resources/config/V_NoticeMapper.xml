@@ -8,4 +8,7 @@
 	<select id="selectQnA" resultType="v_noticeBean">
 		select * from v_notice where deleted!=1 order by answertime desc
 	</select>
+	<select id="selectQnAByUserId" parameterType="_int" resultType="v_noticeBean">
+		select * from v_notice where deleted!=1 and checked="" and user_id=#{user_id} order by answertime desc
+	</select>
 </mapper>

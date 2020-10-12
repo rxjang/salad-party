@@ -12,7 +12,7 @@
 		aos();
 		
 		/* 게시글 박스 클릭 시 Detail로 이동 */
-		$('.panel-post').each(function(idx,ele){
+		$('.to-club').each(function(idx,ele){
 			var aHref = $(this).find('a').attr('href');
 			var club_id = $(this).find('#id').val();
 			
@@ -23,6 +23,23 @@
 				$.ajax('${pageContext.request.contextPath}/account/noti/check',{
 					method:'post',
 					data:'id='+club_id,
+					success:function(){
+					},error:function(){
+					}
+				});//ajax
+			});//click 
+		});//each
+		
+		$('.to-award').each(function(idx,ele){
+			var aHref = $(this).find('a').attr('href');
+			var award_id = $(this).find('.id').val();
+			$(this).on('click',function(){
+				location.href=aHref;
+				
+				/* 확인한 답변으로 바꾼다. checked에 값 업데이트 */
+				$.ajax('${pageContext.request.contextPath}/account/noti/awardcheck',{
+					method:'post',
+					data:'award_id='+award_id,
 					success:function(){
 					},error:function(){
 					}
@@ -87,8 +104,8 @@
 <div class="col-md-2"></div>
 <div class="col-xs-12 col-md-8 bottom-line">
 
-	<h3>  <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>&nbsp;&nbsp;<span class="cnt-reply">${notiSize}</span>건의 댓글이 있습니다.</h3>
-	<p>댓글을 클릭하면 게시글로 바로 이동할 수 있습니다.</p>
+	<h3>  <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>&nbsp;&nbsp;<span class="cnt-reply">${notiSize}</span>건의 알림이 있습니다.</h3>
+	<p>알림을 클릭하면 관련 페이지로 이동할 수 있습니다.</p>
 	
 </div>
 <div class="col-md-2"></div>
@@ -103,8 +120,28 @@
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8  div-post">
 	
+		<c:forEach items="${awardNotice }" var="bean2" begin="0" end="29">
+				<div class="panel panel-default panel-post to-award" data-aos="fade-up">
+					<input type="hidden" name="id" class="id" value="${bean2.award_id }"/>
+					<div class="panel-body">
+					<p>	<strong>획득한 메달</strong></p>
+					<a href="${pageContext.request.contextPath }/mylib/award/"><span class="">${bean2.medal }</span></a></div>
+					<div class="panel-body"><span class="user_id">획득 날짜</span> &nbsp;|&nbsp;<span class="update-day">${bean2.awarddate }</span>
+					</div>
+				</div>
+		</c:forEach>
+		<c:forEach items="${QnANotice }" var="bean1" begin="0" end="29">
+				<div class="panel panel-default panel-post to-club" data-aos="fade-up">
+					<input type="hidden" name="id" id="id" value="${bean1.club_id }"/>
+					<div class="panel-body">
+					<p>	<strong><span class="o-titl">${bean1.title }</span></strong>&nbsp;&nbsp;<small>에 달린 댓글</small></p>
+					<a href="${pageContext.request.contextPath }/news/notice/"><span class="">${bean1.answer }</span></a></div>
+					<div class="panel-body"><span class="user_id">관리자</span> &nbsp;|&nbsp;<span class="update-day">${bean1.answertime }</span>
+					</div>
+				</div>
+		</c:forEach>
 		<c:forEach items="${replyMyPost }" var="bean" begin="0" end="29">
-				<div class="panel panel-default panel-post" data-aos="fade-up">
+				<div class="panel panel-default panel-post to-club" data-aos="fade-up">
 					<input type="hidden" name="id" id="id" value="${bean.id }"/>
 					<div class="panel-body">
 					<p>	<strong><span class="o-titl">${bean.o_titl }</span></strong>&nbsp;&nbsp;<small>에 달린 댓글</small></p>

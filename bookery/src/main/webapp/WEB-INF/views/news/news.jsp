@@ -83,7 +83,6 @@
 	    margin-bottom:5px;
 		height:220px;
 		border:1px solid #e4e4e4;
-		box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
 	}
 	.book-image{
 		box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);

@@ -30,9 +30,16 @@ public class NotificationController {
 	public void notiCheck(int id) {
 		notificationService.checkedNotiService(id);
 		System.out.println("댓글확인");
-		
-		
 	}
+	
+	@RequestMapping(value="/noti/awardcheck",method = RequestMethod.POST)
+	@ResponseBody
+	public void awardCheck(int award_id,HttpSession session) {
+		notificationService.checkedAwardService(award_id);
+		System.out.println("어워드 체크 확인");
+	}
+	
+	
 	@RequestMapping(value="/noti/size",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public String notiSize(HttpSession session) {
