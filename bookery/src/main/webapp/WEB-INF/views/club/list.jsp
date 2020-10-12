@@ -311,8 +311,8 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-xs-12 col-md-6 div-search">
+		<div class="col-md-2"></div>
+		<div class="col-xs-12 col-md-8 div-search">
 		<%-- 	<form class="form-inline" action="${pageContext.request.contextPath }/club/list/${book.bid }" method="get">
 				<div class="form-group">
 					<input type="text" class="form-control" id="search"	name="search" placeholder="제목을 입력하세요."/>
