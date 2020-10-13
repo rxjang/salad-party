@@ -53,40 +53,20 @@
 		.owl-stage { /* 캐러셀 아래로 정렬 */
 			margin-top:10px;
 		}
+	}
 		
 /* 스터디의 오늘 할일 요약 */
-	#today-body{
-		margin: 20px 0;
-		padding: 10px 0;
+	.perStudy{
+		margin:20px 0; 
+		padding:0;
 		height: 100px;
 		line-height: 100px;
-		background-color:red;
 	}
-
-	#todayDiv1,#todayDiv2,#todayDiv3{
-		border-radius: 5px;
-		border: 1px solid #dddddd;
-		padding: 5px 5px 0px 5px;
-		background-color: rgb(246,246,246);
-		margin: 10px;
-/* 		height: 180px; */
+	.perStudy h4{
+/* 		text-align:center; */
 	}
-	#todayDiv1 img{
-/* 		height: 170px; */
-	}
-	#todayDiv1>span{
-		margin: 0;
-		float: left;
-	}
-	#todayDiv1 h4{
-		color: #888888;
-	}
-	#todayDiv1 h4 a{
-		text-decoration: none;
-		color: #888888;
-	}
-	
-	#todaybtn{
+	.perStudy a{
+		margin-top: 20px;
 	}
 	.green,
 	.yellow,
@@ -106,6 +86,42 @@
 		background-color: rgb(197,174,132);
 		color: white;
 	}
+	#today-chartlist{
+		margin:0 auto;
+	}
+	#today-chartlist>div{
+		border-top:1px solid #cccccc;
+		border-bottom:1px solid #cccccc;
+		
+	}
+	
+	#chart-list{ /* ul */
+		text-decoration: none;
+		margin:0 auto;
+		padding:0;
+		width:80%;
+		height:50px;
+		overflow:hidden;
+	}
+	#chart-list li{
+		display:inline-block;
+		margin:0;
+		padding:0;
+		width: 20%;
+		float:left;
+		line-height:50px;
+		text-align:center;
+		border-left:1px solid #cccccc;
+	}
+	#chart-list li:last-child{
+		border-right:1px solid #cccccc;
+	}
+	#chart-list li:hover{
+/* 		background-color:#c0cfb2; */
+/* 		border:1px solid #c0cfb2; */
+		color:#c0cfb2;
+		box-shadow: 0px 0px 3px 0.1px #c0cfb2;
+	}
 	
 	#chart1{
 		width: 100%;
@@ -122,11 +138,11 @@
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
 <script type="text/javascript">
-// 	var studyList=[];
-// 	studyList=${studyList};
-	
-// 	var studyCnt=studyList.length;
-
+	var studyVo;//study_id당 V_StudyVo
+	var calList;//study_id당 List<V_calendarVo>
+	var amdata=[];//chart1에 사용할 data
+	var start;
+	var actual_perday;
 
 	// 책 목록 케러셀
 	$(function() {
@@ -149,8 +165,44 @@
 		});
 	});
 
-	// 숨기기
-	$("#perStudy").eq(0).hide;
+	$(function(){
+		// 케러셀 아래부분 숨겼다가, 책 표지 클릭하면 해당하는 내용만 보이게 처리
+		$(".perStudy").hide();
+		$('.item').each(function(){
+			$(this).click(function(){
+				var study_id = $(this).find('input').val();//캐러셀에서 선택한 책의 study_id
+				$('.perStudy').each(function(){
+					var study_id2 = $(this).find('input').val();//캐러셀 하단 div에서 study_id 찾아 보이게 하기
+					if(study_id==study_id2){
+						$(this).show();
+					}else{
+						$(this).hide();
+					}
+				});
+				// 클릭한 표지의 study_id을 service로 보내 data 받아오기
+				$.ajax({
+					url:'${pageContext.request.contextPath}/today/chart',
+					type:'GET',
+					data:'study_id='+study_id,
+					success: function(data){
+						console.log(data.code);//"OK" ajax 통신 성공 확인
+						studyVo=data.study;
+						calList=data.calList;
+						console.log(studyVo.study_id);
+						console.log(calList.length);
+						calList.forEach(function(element,index){
+								start = new Date(element.start).format('yyyy-MM-dd');
+								actual_perday = element.actual_perday;
+								console.log(start);
+								console.log(actual_perday);
+								amdata.push({startDate: start, dailyvalue: actual_perday});
+								console.log(amdata);
+						});
+					}
+				});
+			});
+		});
+	});
 	// 책 이미지 클릭
 //     $("#book").click(function(){
 //         var objParams = {
@@ -197,25 +249,18 @@
 	sid.forEach(function(e,i){
 	});
 */	
-	//chart1
-	/*
+	// chart1 
+	// https://www.amcharts.com/demos/serpentine-stepline-chart/
 	am4core.ready(function() {
 		// Themes begin
 		am4core.useTheme(am4themes_animated);
 		// Themes end
+
 		var chart = am4core.create("chart1", am4plugins_timeline.SerpentineChart);
 		chart.levelCount = 3;
 		
 		chart.curveContainer.padding(50,20,50,20);
-// 		var data=[];
-// 		var arr = '{map.value.v_calendar }';
-// 		var cnt='{fn:length(data) }';
-// 		arr.forEach(function(element,index){
-// 			var start = element.start;
-// 			var actual_perday = element.actual_perday;
-// 			data.push({ date: startdate, value: actual_perday});
-// 		};
-// 		chart.data = data;
+		chart.data = amdata;
 
 		var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 		dateAxis.renderer.grid.template.location = 0;
@@ -232,8 +277,8 @@
 
 		var series = chart.series.push(new am4plugins_timeline.CurveStepLineSeries());
 		series.fillOpacity = 0.3;
-		series.dataFields.dateX = "date";
-		series.dataFields.valueY = "value";
+		series.dataFields.dateX = "startDate";
+		series.dataFields.valueY = "dailyvalue";
 		series.tooltipText = "{valueY}";
 		series.tooltip.pointerOrientation = "vertical";
 		series.tooltip.background.fillOpacity = 0.7;
@@ -250,7 +295,6 @@
 		chart.scrollbarX.align = "center";
 
 		}); // end am4core.ready()
-*/
 </script>
 </head>
 <body>
@@ -273,102 +317,111 @@
 				<div class="owl-carousel owl-theme y-center">
 					<c:forEach items="${studyList }" var="list">
 						<div class="item">
-							<img class="media-object" id="book" src="${list.coverurl }" alt="책 이미지">
+							<img class="media-object" src="${list.coverurl }" alt="책 이미지">
+							<input type="hidden" value="${list.study_id }" />
 						</div>
 					</c:forEach>
 				</div><!-- owl end -->
 			</div>
-		</div><!-- mylib-main -->	
+		</div><!-- today-main -->	
 		<div class="row" id="today-body">
 			<c:forEach items="${studyList }" var="study">
-				<div id="perStudy">
-					<div class="col-md-5 col-md-offset-2 col-xs-12" id="today-body-ment">
-						<div class="row">
-							<div class="col-md-3 col-xs-3" id="smile">
-								<c:set var="today" value="<%=new java.util.Date()%>"/>
-								<c:if test="${study.type eq 'chap'}">
-									<c:if test="${study.plan_chap-study.actual_chap eq 0}">
-										<c:if test="${study.updatetime lt today}">
-											<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sleepy.png">
-										</c:if>
-										<c:if test="${study.updatetime eq today}">
-											<img src="${pageContext.request.contextPath }/resources/imgs/Smile-blush.png">
-										</c:if>
-									</c:if>
-									<c:if test="${study.plan_chap-study.actual_chap >= 0}">
-										<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sweat.png">
-									</c:if>
-								</c:if>
-								<c:if test="${study.type eq 'page'}">
-									<c:if test="${study.plan_page-study.actual_page eq 0}">
-										<c:if test="${study.updatetime lt today}">
-											<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sleepy.png">
-										</c:if>
-										<c:if test="${study.updatetime eq today}">
-											<img src="${pageContext.request.contextPath }/resources/imgs/Smile-blush.png">
-										</c:if>
-									</c:if>
-									<c:if test="${study.plan_page-study.actual_page >= 0}">
-										<img src="${pageContext.request.contextPath }/resources/imgs/Smile-sweat.png">
-									</c:if>
-								</c:if>
-							</div>
-							<div class="col-md-9 col-xs-9 main-ment">
-								<c:if test="${study.type eq 'chap'}">
-									<c:if test="${study.plan_chap-study.actual_chap eq 0}">
-										<c:if test="${study.updatetime lt today}">
-											오늘엔 목표설정한 계획이 없어요 
-										</c:if>
-										<c:if test="${study.updatetime eq today}">
-											축하합니다. 오늘의 목표를 모두 달성하셨습니다.
-										</c:if>
-									</c:if>
-									<c:if test="${study.plan_chap-study.actual_chap >= 0}">
-										${study.plan_chap-study.actual_chap } 챕터를 끝낼 계획이에요.
-									</c:if>
-								</c:if>
-								<c:if test="${study.type eq 'page'}">
-									<c:if test="${study.plan_page-study.actual_page eq 0}">
-										<c:if test="${study.updatetime lt today}">
-											오늘엔 목표설정한 계획이 없어요 
-										</c:if>
-										<c:if test="${study.updatetime eq today}">
-											축하합니다. 오늘의 목표를 모두 달성하셨습니다.
-										</c:if>
-									</c:if>
-									<c:if test="${study.plan_page-study.actual_page >= 0}">
-										${study.plan_page-study.actual_page } 페이지를 끝낼 계획이에요.
-									</c:if>
-								</c:if>
-							</div>
-						</div>
+				<div class="col-md-8 col-md-offset-2 col-xs-12 perStudy">
+					<input type="hidden" value="${study.study_id }" />
+					<div class="row">
+						<c:set var="today" value="<%=new java.util.Date()%>"/>
+						<c:if test="${study.type eq 'chap'}">
+							<c:if test="${study.plan_chap lt study.actual_chap}">
+								<div class="col-md-6 col-xs-10 col-xs-offset-1">
+									<h2 class="main-ment">우와! 정말 대단해요!</h2>
+									<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
+								</div>
+								<div class="col-md-6 col-xs-10 col-xs-offset-1">
+									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+									type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
+								</div>
+							</c:if>
+							<c:if test="${study.plan_chap eq study.actual_chap}">
+								<div class="col-md-6 col-xs-10 col-xs-offset-1">
+									<h2 class="main-ment">축하합니다!</h2>
+									<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
+								</div>
+								<div class="col-md-6 col-xs-10 col-xs-offset-1">
+									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+									type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
+								</div>
+							</c:if>
+							<c:if test="${study.plan_chap gt study.actual_chap}">
+								<div class="col-md-5 col-xs-10 col-xs-offset-1">
+									<h2 class="main-ment">열심히 노력하는 당신!</h2>
+									<h4 class="sub-ment">목표 달성까지 ${study.plan_chap-study.actual_chap } 챕터 남았어요!</h4>
+								</div>
+								<div class="col-md-5 col-xs-10 col-xs-offset-1">
+									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+									type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
+								</div>
+							</c:if>
+						</c:if>
+						<c:if test="${study.type eq 'page'}">
+							<c:if test="${study.plan_page lt study.actual_page}">
+								<div class="col-md-6 col-xs-10 col-xs-offset-1">
+									<h2 class="main-ment">우와! 정말 대단해요!</h2>
+									<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
+								</div>
+								<div class="col-md-6 col-xs-10 col-xs-offset-1">
+									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+									type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
+								</div>
+							</c:if>
+							<c:if test="${study.plan_page eq study.actual_page}">
+								<div class="col-md-6 col-xs-10 col-xs-offset-1">
+									<h2 class="main-ment">축하합니다!</h2>
+									<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
+								</div>
+								<div class="col-md-6 col-xs-10 col-xs-offset-1">
+									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+									type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
+								</div>
+							</c:if>
+							<c:if test="${study.plan_page gt study.actual_page}">
+								<div class="col-md-5 col-xs-10 col-xs-offset-1">
+									<h2 class="main-ment">열심히 노력하는 당신!</h2>
+									<h4 class="sub-ment">목표 달성까지 ${study.plan_page-study.actual_page } 페이지 남았어요!</h4>
+								</div>
+								<div class="col-md-5 col-xs-10 col-xs-offset-1">
+									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+									type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
+								</div>
+							</c:if>
+						</c:if>
 					</div>
 				</div>
-				<div class="col-md-3 col-xs-12" id="today-body-button">
-					<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-					type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
-				</div>
 			</c:forEach>
-		</div>
-		<div class="row" id="today-charts">
+		</div><!-- today-body -->
+		<div class="row" id="today-chartlist">
+			<div class="col-md-12 col-xs-12">
+				<ul id="chart-list">
+					<li>타임라인 보기</li>
+					<li>완료율 보기</li>
+					<li>평균 공부양으로 보기</li>
+					<li>일일 공부양 보기</li>
+					<li>누적 공부양 보기</li>
+				</ul>
+			</div>
 			<div class="col-md-8 col-md-offset-2 col-xs-12">
 				<div class="row" id="today-body">
 				</div>
-				<div >
-				
-				</div>
-				<ul id="chart-list">
-					<li></li>
-				</ul>
-			</div>		
-		</div>			
+				<div id="chart1"></div><!-- timeline -->
+				<div id="chartdiv"></div>
+			</div>
+		</div><!-- today-charts -->	
 	</div>
 </div>
 <!-- 							study_id: ${study_id }<br> -->
 <!-- 							제목: ${study.title }<br> -->
 <!-- 							시작일: ${study.startdate }<br> -->
 <!-- 							끝일: ${study.enddate }<br> -->
-<!-- 							--> -->
+<!-- 							-->
 <!-- 							</div>todayDiv1 -->
 <!-- 							<div id="todayDiv2" class="row"> -->
 <!-- 								<div class="col-md-3 col-xs-3"> -->
@@ -387,10 +440,6 @@
 <%-- 									시작일: ${study.startdate }<br> --%>
 <%-- 									오늘: <fmt:formatDate value="${today }" pattern="yyyy-MM-dd" /><br> --%>
 <%-- 									완료일: ${study.enddate } --%>
-									
-									
-									
-									
 <!-- 								</div> -->
 <!-- 								<div class="col-md-3 col-xs-3"> -->
 <!-- 									그래프 2 (반달 대시보드 그래프)<br> -->
@@ -468,12 +517,6 @@
 <%-- 										${cal.actual_perday}  --%>
 <%-- 										${cal.status}<br> --%>
 <%-- 									</c:forEach> --%>
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							</div> -->
-<!-- 						</div>item -->
-<%-- 					</c:forEach> --%>
-<!--  				</div>owl-carousel -->
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
 </body>

@@ -35,10 +35,10 @@ public class TodayController {
 	}// today
 	
 	// 미완독 책 표지 눌렀을 때 해당 차트 자료 전달
-	@RequestMapping(value="/today/chart", method = RequestMethod.GET, produces = "application/xml;charset=utf-8")
+	@RequestMapping(value="/today/chart", method = RequestMethod.GET)
 	@ResponseBody // study_id 별 검색결과 전달
 	public Object todayChart(int study_id) throws JsonProcessingException {
-		return todayService.todayChartService(study_id); // ajax 통신이라 view가 없
+		return todayService.todayChartService(study_id); // ajax 통신이라 view가 없음
 	}// todayChart
 	
 }// class end
