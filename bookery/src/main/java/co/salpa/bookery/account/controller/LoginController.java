@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -30,17 +31,18 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpSession session) {
 		// 페이지 매핑
+		
 		if(session.getAttribute("user") == null)
 			return "account/login";
 		
-		else 
+		else
 			return "redirect:../";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(HttpSession session, HttpServletResponse resp, @ModelAttribute UserVo bean) 
+	public String login(HttpSession session, HttpServletRequest request, HttpServletResponse resp, @ModelAttribute UserVo bean) 
 			throws SQLException {
-
+		
 		UserVo userBean = null;
 		userBean = accountService.login(bean.getEmail(), bean.getPassword());
 		
@@ -76,7 +78,7 @@ public class LoginController {
 		return null;
 	}
 	@RequestMapping("/logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpServletRequest request, HttpSession session) {
 		session.invalidate();
 		return "redirect:./login";
 	}

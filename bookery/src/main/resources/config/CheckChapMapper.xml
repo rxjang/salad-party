@@ -9,7 +9,38 @@
 		parameterType="int">
 		select * from salpa.checkchap where study_id = #{study_id}
 	</select>
+	
 	<insert id="insertOne" parameterType="checkChapBean">
 		insert into checkchap(toc, plantime, study_id) values(#{toc}, #{plantime}, #{study_id})
 	</insert>
+	
+	<select id="selectRecentChecked" resultType="checkPageBean">
+		select * from
+		salpa.checkchap where date &gt; now() and actualtime = (select max(actualtime) from
+		salpa.checkchap where actualtime is not null)
+	</select>
+	
+	<select id="selectActualChapsToday" resultType="int"
+		parameterType="map">
+		select count(*) as cnt from salpa.checkchap where study_id=#{study_id} and actualtime=#{actualtime}
+	</select>
+	<select id="selectPlanChapsToday" resultType="int"
+		parameterType="map">
+		select count(*) as cnt from salpa.checkchap where study_id=#{study_id} and plantime=#{plantime}
+	</select>
+	<select id="selectAllNotCompleted" resultType="checkChapBean">
+		select * from salpa.checkchap where study_id=#{study_id}
+	</select>
+	<select id="selectAllByDate" resultType="checkChapBean"
+		parameterType="map">
+		select * from salpa.checkchap where study_id=#{study_id} and plantime=#{plantime}
+	</select>
+	
+	<update id="updateOne" parameterType="_int">
+		update salpa.checkchap set
+		actualtime = now(), updatetime = now() where deleted=0 and id=#{id}
+	</update>
+	<update id="updateTimeStudy">
+		update study set updatetime=now() where id=#{study_id}
+	</update>
 </mapper>

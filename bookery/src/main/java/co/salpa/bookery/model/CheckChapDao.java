@@ -14,13 +14,15 @@ public interface CheckChapDao {
 	
 	CheckChapVo selectRecentChecked() throws DataAccessException;
 
-	CheckChapVo selectOneByStudyId(Map<String, Integer> map) throws DataAccessException;
-
-	CheckChapVo selectOneByDate(Map<String, String> map) throws DataAccessException;
+	int selectActualChapsToday(Map<String, String> map) throws DataAccessException;
+	
+	int selectPlanChapsToday(Map<String, String> map) throws DataAccessException;
+	
+	List<CheckChapVo> selectAllByDate(Map<String, String> map) throws DataAccessException;
 
 	void insertOne(CheckChapVo bean) throws DataAccessException;
 	
-	int updateOne(CheckChapVo page) throws DataAccessException;
+	int updateOne(int id) throws DataAccessException;
 
 	int updateTimeStudy(int study_id) throws DataAccessException;
 
