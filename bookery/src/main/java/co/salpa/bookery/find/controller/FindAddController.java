@@ -68,9 +68,9 @@ public class FindAddController {
 	public Object coverImgUpload(MultipartFile coverimg, HttpServletRequest req, HttpServletResponse resp) {
 		UUID uuid = UUID.randomUUID();
 		String context_path = req.getRealPath("/");
-		String cover_folder = context_path + "resources\\cover";
+		String cover_folder = context_path + "resources/cover";
 		String cover_name = uuid + coverimg.getOriginalFilename();
-		System.out.println(cover_folder + "\\" + cover_name);
+		System.out.println(cover_folder + "/" + cover_name);
 		File file = new File(cover_folder, cover_name);
 		if (!file.exists()) {
 			file.mkdirs();
