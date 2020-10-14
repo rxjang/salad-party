@@ -5,8 +5,10 @@ import static org.junit.Assert.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -55,6 +57,37 @@ public class TodayPageServiceImplTest {
 
 	@Test
 	public void testGetV_StudyService() {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		
+CheckPageDao checkPageDao = sqlSession.getMapper(CheckPageDao.class);
+		
+		List<CheckPageVo> list = checkPageDao.selectAllByStudyId(40);
+		ArrayList<String> arrDays = new ArrayList<String>();
+		java.util.Date today = new java.util.Date();
+		System.out.println(sdf.format(today));
+		//java.util.Date planDay = new java.util.Date();
+		for (CheckPageVo vo : list) {
+				arrDays.add(sdf.format(vo.getDate()));
+				System.out.println(vo.getDate());
+		}
+
+		if(arrDays.contains(sdf.format(today))) {
+			
+			System.out.println("contain");
+			
+		}else {
+			
+			System.out.println("contain false");
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 	@Test
