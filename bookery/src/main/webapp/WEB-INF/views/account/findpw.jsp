@@ -141,7 +141,14 @@
 										location.href = '${pageContext.request.contextPath }/account/login';
 								}//if
 							});//swal						
-						} else {
+						} else if(result == 'naver') {
+							$('#cover').css('display', 'none');
+							swal("네이버 계정", "해당 계정은 네이버 로그인으로 가입된 계정입니다.\n 네이버를 통해 회원 정보를 확인해주세요.","warning");
+						} else if(result == 'kakao') {
+							$('#cover').css('display', 'none');
+							swal("카카오 계정", "해당 계정은 카카오 로그인으로 가입된 계정입니다.\n 카카오를 통해 회원 정보를 확인해주세요.","warning");
+						}
+						else {
 						    $('#cover').css('display', 'none');	
 						    swal("계정 조회 실패", "가입된 이력이 없는 회원 정보입니다.\n 이름과 연락처를 확인해주세요.","warning");
 						}

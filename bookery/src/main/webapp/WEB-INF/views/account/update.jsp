@@ -88,14 +88,11 @@
 	$('#updateForm').on('submit',function(){ //등록버튼 눌렀을 때 이벤트.
 		/* console.log('서브밋'); */
 		var contact = $('#tel1').val() + $('#tel2').val() + $('#tel3').val();
-		var param = 'email=' + $('#email').val()+'&password='+$('#password').val()+'&name='+$('#name').val()+'&nickname='+$('#nickname').val()+'&tel='+contact;
-		console.log(param);
 		/* 
 			비밀번호는 영문 + 숫자 조합, 8~12자리 
 		*/
 		var passwordVal = $('#password').val(); //비밀번호
 		var signuppw2 = $('#passwordChk').val(); //비밀번호2
-		var chk = $('#emailChk');
 		
 		$('#passwordMessage').text('');
 		$('#passwordChkMessage').text('');
@@ -103,8 +100,9 @@
 		$('#nicknameMessage').text('');
 		$('#telMessage').text('');
 		
-		if($('#password').val() == ""){
-			$('#passwordMessage').text('비밀번호를 입력해주세요.');
+		if($('#password').css('display') != 'none'){
+			if($('#password').val() == "")
+				$('#passwordMessage').text('비밀번호를 입력해주세요.');
 		}else if($('#name').val() == ""){
 			$('#nameMessage').text('이름을 입력해주세요.');
 		}else if($('#nickname').val() == "") {
@@ -113,15 +111,26 @@
 			$('#nicknameMessage').text('닉네임은 3자 이상 입력해주세요.');
 		}else if($('#tel1').val() == "" || $('#tel2').val() == "" || $('#tel3').val() == ""){
 			$('#telMessage').text('전화번호를 입력해주세요.');
-		}else if(pwCheck(passwordVal)){
+		}else if($('#password').css('display') != 'none'){
 			//비밀번호 검증 하기.	영문이나 숫자가 포함되어야함., 포함되어있으면 false 영어나숫자만 true
-			$('#passwordMessage').text('비밀번호는 영문 + 숫자 조합이어야 합니다.');
-		}else if(passwordVal.length < 8 || passwordVal.length > 12){
+			if(pwCheck(passwordVal))
+				$('#passwordMessage').text('비밀번호는 영문 + 숫자 조합이어야 합니다.');
+		}else if($('#password').css('display') != 'none'){
 			//비밀번호 길이는 8자~12자까지. 
-			$('#passwordMessage').text('비밀번호는 8 ~ 12자리 입니다.');	
-		}else if(passwordVal!=signuppw2){
-			$('#emailChkMessage').text('비밀번호가 일치하지 않습니다.');	
+			if(passwordVal.length < 8 || passwordVal.length > 12)
+				$('#passwordMessage').text('비밀번호는 8 ~ 12자리 입니다.');	
+		}else if($('#password').css('display') != 'none'){
+			if(passwordVal!=signuppw2)
+				$('#passwordMessage').text('비밀번호가 일치하지 않습니다.');	
 		}else{
+			var param;
+			if($('#password').val().length != 0) {
+				param = 'email=' + $('#email').val()+'&password='+$('#password').val()+'&name='+$('#name').val()+'&nickname='+$('#nickname').val()+'&tel='+contact;
+			} else {
+				param = 'email=' + $('#email').val()+'&password='+${userBean.password}+'&name='+$('#name').val()+'&nickname='+$('#nickname').val()+'&tel='+contact;
+			}
+			
+			
 			$.ajax('${pageContext.request.contextPath}/account/update',{
 				'method':'post',
 				'data':param,
@@ -129,7 +138,6 @@
 				'success':function(data){
 					var result = data.result;
 					if(result == 'ok') {
-						$('#cover').css('display', 'none');
 						swal({
 							  title: "정보 수정 완료",
 							  text: "회원 정보 수정이 완료 되었습니다.",
@@ -159,26 +167,30 @@
 	});//submit
 		
 	$('#password').on('keyup',function() {
-		signuppw1 = $('#password').val();		//비밀번호1
-		
-		if(pwCheck(signuppw1)){
-			$('#passwordMessage').text('비밀번호는 영문+숫자 조합이어야 합니다');
-		}else if(signuppw1.length<8||signuppw1.length>12){
-			$('#passwordMessage').text('비밀번호는 8~12 자리입니다');
-		}else{
-			$('#passwordMessage').text('');
+		if($('#password').css('display') == 'block') {
+			signuppw1 = $('#password').val();		//비밀번호1
+			
+			if(pwCheck(signuppw1)){
+				$('#passwordMessage').text('비밀번호는 영문+숫자 조합이어야 합니다');
+			}else if(signuppw1.length<8||signuppw1.length>12){
+				$('#passwordMessage').text('비밀번호는 8~12 자리입니다');
+			}else{
+				$('#passwordMessage').text('');
+			}
 		}
 	});
 	
 	$('#passwordChk').on('keyup',function(){
-		signuppw1 = $('#password').val();		//비밀번호1
-		signuppw2 = $('#passwordChk').val();		//비밀번호2
-		if(signuppw2 == ''){
-			$('#passwordChkMessage').text('비밀번호를 한번 더 입력해주세요.');
-		}else if((signuppw1 == signuppw2) && (signuppw2 != null)){
-			$('#passwordChkMessage').text('');
-		}else{
-			$('#passwordChkMessage').text('비밀번호가 일치하지 않습니다.다시 입력해주세요.');
+		if($('#password').css('display', 'block')) {
+			signuppw1 = $('#password').val();		//비밀번호1
+			signuppw2 = $('#passwordChk').val();		//비밀번호2
+			if(signuppw2 == ''){
+				$('#passwordChkMessage').text('비밀번호를 한번 더 입력해주세요.');
+			}else if((signuppw1 == signuppw2) && (signuppw2 != null)){
+				$('#passwordChkMessage').text('');
+			}else{
+				$('#passwordChkMessage').text('비밀번호가 일치하지 않습니다.다시 입력해주세요.');
+			}	
 		}
 	});
 	
@@ -254,16 +266,18 @@ function delchk() {
 <%@ include file="../template/menu.jspf" %>
 <% 
 	UserVo userBean = (UserVo)request.getAttribute("userBean");
-	String mobile = userBean.getTel();
 	String tel1 = "", tel2 = "", tel3 = "";
-	if(mobile.length() == 10) {
-		tel1 = mobile.substring(0,3);
-		tel2 = mobile.substring(3,6);
-		tel3 = mobile.substring(6,mobile.length());
-	} else if(mobile.length() == 11) {
-		tel1 = mobile.substring(0,3);
-		tel2 = mobile.substring(3,7);
-		tel3 = mobile.substring(7,mobile.length());
+	if(userBean.getTel() != null){
+		String mobile = userBean.getTel();
+		if(mobile.length() == 10) {
+			tel1 = mobile.substring(0,3);
+			tel2 = mobile.substring(3,6);
+			tel3 = mobile.substring(6,mobile.length());
+		} else if(mobile.length() == 11) {
+			tel1 = mobile.substring(0,3);
+			tel2 = mobile.substring(3,7);
+			tel3 = mobile.substring(7,mobile.length());
+		}
 	}
 %>
 <!-- **********content start********** --> 
@@ -272,10 +286,9 @@ function delchk() {
 		<form method="post" id="updateForm">
 				<!-- <h1><img src="" alt="Bookery" class="logo"></h1> -->
 				<h1>정보수정</h1>
-			 	<input type="text" placeholder="이메일" name="email" id="email" value="${userBean.email }" readonly/><span id="emailMessage" class="message"></span>
-			 	<input type="hidden" id="emailChk" value="false" />
-			 	<input type="password" placeholder="비밀번호" name="password" id="password" /><span id="passwordMessage" class="message"></span>
-			 	<input type="password" placeholder="비밀번호 확인" name="passwordChk" id="passwordChk" /><span id="passwordChkMessage" class="message"></span>
+			 	<input type="text" placeholder="이메일" name="email" id="email" value="${userBean.email }" readonly/>
+			 	<input type="password" placeholder="비밀번호" name="password" id="password" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>/><span id="passwordMessage" class="message" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>></span>
+			 	<input type="password" placeholder="비밀번호 확인" name="passwordChk" id="passwordChk" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if> /><span id="passwordChkMessage" class="message" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>></span>
 			 	<input type="text" placeholder="이름" name="name" id="name" value="${userBean.name }"/><span id="nameMessage" class="message"></span>
 			 	<input type="text" placeholder="닉네임" name="nickname" id="nickname" value="${userBean.nickname }"/><span id="nicknameMessage" class="message"></span>
 			 	<input type="text" placeholder="010" name="tel1" id="tel1" class="tel" value="<%=tel1 %>" style="width: 80px;" onkeypress="onlyNumber();" maxlength="3" oninput="numberMaxLength(this);"/>

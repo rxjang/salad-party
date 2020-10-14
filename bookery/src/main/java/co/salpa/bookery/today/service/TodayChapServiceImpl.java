@@ -86,31 +86,32 @@ public class TodayChapServiceImpl implements TodayChapService {
 		Map<String, String> map1 = new HashMap<String, String>();
 			map1.put("study_id", study_id+"");
 			map1.put("actualtime", getSqlToday()+""); // 오늘 날짜
-		int actual_chap = 0;
+		int today_actual_chap = 0;
 		try {// actualtime이 오늘 날짜인(입력된) chap의 개수
-			actual_chap = checkChapDao.selectActualChapsToday(map1);
-			System.out.println(actual_chap);
+			today_actual_chap = checkChapDao.selectActualChapsToday(map1);
+			System.out.println(getSqlToday());
+			System.out.println(today_actual_chap);
 		} catch (Exception e) {
-			actual_chap = 0; //null이면 0으로 처리
+			today_actual_chap = 0; //null이면 0으로 처리
 		}
 		
 		Map<String, String> map2 = new HashMap<String, String>();
 		map2.put("study_id", study_id+"");
 		map2.put("plantime", getSqlToday()+""); // 오늘 날짜
 		
-		int plan_chap = 0;
+		int today_plan_chap = 0;
 		try {
-			plan_chap = checkChapDao.selectPlanChapsToday(map2);
-			System.out.println(plan_chap);
+			today_plan_chap = checkChapDao.selectPlanChapsToday(map2);
+			System.out.println(today_plan_chap);
 		} catch (Exception e) {
-			plan_chap = 0; //null이면 0으로 처리
+			today_plan_chap = 0; //null이면 0으로 처리
 		}
 		
 		List<CheckChapVo> listChap = checkChapDao.selectAllByStudyId(study_id);
 
-		model.addAttribute("listChap", listChap);//챕터 리스트
-		model.addAttribute("plan_chap", plan_chap);//오늘 입력된 챕터
-		model.addAttribute("actual_chap", actual_chap);//오늘 제외 가장 최근 입력된 페이지
+		model.addAttribute("listChap", listChap); //챕터 리스트
+		model.addAttribute("today_plan_chap", today_plan_chap); // 계획된 날짜가 오늘인 챕터
+		model.addAttribute("today_actual_chap", today_actual_chap);// 오늘 입력된 챕터
 	
 		return null;
 	}

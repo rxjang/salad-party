@@ -92,6 +92,8 @@ public class AccountController {
 	public String update(HttpSession session, Model model) throws SQLException {
 		// 페이지 매핑
 		UserVo user = (UserVo) session.getAttribute("user");
+		triming(user);
+		
 		if(user == null) System.out.println("session is null");
 		System.out.println(user.getId());
 		
@@ -237,20 +239,36 @@ public class AccountController {
 		name = name.trim();
 		tel = tel.trim();
 		
-		int cnt = -1;
-		cnt = accountService.findPw(email, name, tel);
-		if(cnt == 1) {
+		String lvl = accountService.chkBySns(email);
+		if(lvl == "naver") {
+			
 			try {
-				newPw(email);
-				resp.getWriter().write("{\"result\":\"ok\"}");
-			} catch (Exception e) {
+				resp.getWriter().write("{\"result\":\"naver\"}");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if(lvl == "kakao") {
+			try {
+				resp.getWriter().write("{\"result\":\"kakao\"}");
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			try {
-				resp.getWriter().write("{\"result\":\"fail\"}");
-			} catch (IOException e) {
-				e.printStackTrace();
+			int cnt = -1;
+			cnt = accountService.findPw(email, name, tel);
+			if(cnt == 1) {
+				try {
+					newPw(email);
+					resp.getWriter().write("{\"result\":\"ok\"}");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					resp.getWriter().write("{\"result\":\"fail\"}");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -427,7 +445,8 @@ public class AccountController {
 		bean.setPassword(bean.getPassword().trim());
 		bean.setName(bean.getName().trim());
 		bean.setNickname(bean.getNickname().trim());
-		bean.setTel(bean.getTel().trim());
+		if(bean.getTel() != null)bean.setTel(bean.getTel().trim());
+		
 	}//triming
 
 	

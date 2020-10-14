@@ -22,11 +22,11 @@
 	
 	<select id="selectActualChapsToday" resultType="int"
 		parameterType="map">
-		select count(*) as cnt from salpa.checkchap where study_id=#{study_id} and actualtime=#{actualtime}
+		select count(*) as cnt from salpa.checkchap where study_id=#{study_id} and DATE(actualtime)=#{actualtime}
 	</select>
 	<select id="selectPlanChapsToday" resultType="int"
 		parameterType="map">
-		select count(*) as cnt from salpa.checkchap where study_id=#{study_id} and plantime=#{plantime}
+		select count(*) as cnt from salpa.checkchap where study_id=#{study_id} and DATE(plantime)=#{plantime}
 	</select>
 	<select id="selectAllNotCompleted" resultType="checkChapBean">
 		select * from salpa.checkchap where study_id=#{study_id}

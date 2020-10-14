@@ -6,8 +6,7 @@
 
 	String ip = request.getHeader("X-Forwarded-For");
 	   if (ip == null) ip = request.getRemoteAddr();
-	   else if (ip == "127.0.0.1") ip = "localhost";
-	   System.out.println(ip);
+	 /*   else if (ip == "127.0.0.1") ip = "localhost"; */
 %>
 <!DOCTYPE>
 <html>
@@ -145,6 +144,7 @@
 		var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 		return re.test(email);
 	}
+	
 	</script>
 	</head>
 <body>

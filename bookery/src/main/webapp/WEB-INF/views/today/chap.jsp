@@ -12,12 +12,13 @@
 	var study_id = "${v_study.study_id}";
 	var total_chap = "${v_study.total_chap}";
 	var total_actual_chap = "${v_study.actual_chap}";
-	var actual_chap = "${actual_chap}";
-	var plan_chap = "${plan_chap}";
+	var actual_chap = "${today_actual_chap}";
+	var plan_chap = "${today_plan_chap}";
 	var coverurl = "${v_study.coverurl}"
 	var title = "${v_study.title}";
 
-			
+	console.log(actual_chap);
+	console.log(plan_chap)
 	//오늘 날짜 yyyy-mm-dd
 	function getRecentDate(){
 	    var dt = new Date();
@@ -48,7 +49,10 @@
 		var dateDiff = Math.ceil((end.getTime() - start.getTime())
 				/ (1000 * 3600 * 24));
 		Dday = dateDiff;
-		$('#owl-dday').text('D-'+Dday);
+		if(dateDiff < 0)
+			$('#owl-dday').text('D+'+ (-Dday));
+		else 
+			$('#owl-dday').text('D-'+ Dday);
 		console.log(dateDiff);
 		$('.thumbnail').css({'box-shadow':'12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4)','display':'block','margin':'auto'});
 		//box-shadow:rgb(37, 54, 41) 5px 5px 10px;
@@ -85,17 +89,18 @@
 		 $('#enter_chap').css('display', 'block');
 		 $('.disable_chap').parent().css('color','lightgray');
 	});//chap btn
-	$(".enable_chap").each(function(idx,ele){
+	
+	/* $(".enable_chap").each(function(idx,ele){
 		$(ele).change(function(e){
 			if($(this).prop('checked') == true) {
 				if(idx != 0) {
-					/* console.log($(this).parent().prev().prev().find('input').prop('checked')); */
+		
 					if($(this).parent().prev().prev().find('input').prop('checked') == false) {
-						swal('선택 오', '연속적인 챕터만 입력할 수 있습니다.', 'error');
+						swal('선택 오류', '연속적인 챕터만 입력할 수 있습니다.', 'error');
 						$(this).prop("checked", false);
 					} 
 				}
-			} 
+			}//if
 			else if($(this).prop('checked') == false) {
 				console.log($(this).parent().next().next().find('input').prop('checked'));
 				if($(this).parent().next().next().find('input').prop('checked') == true) {
@@ -104,9 +109,10 @@
 				} else {
 					console.log('checked false');
 				}
-			}
-	    });
-	})
+			}//else
+	    });//change
+	});//each */
+	
 	$('#enter_chap').click(function(e){
 		var cnt = 0;
 		var params = new Array();
@@ -245,12 +251,12 @@
 				  max = $(this).attr('aria-valuemax',actual_chap);
 				  $('.bar-text').text('+ '+(actual_chap - plan_chap)+'챕터');				 
 			  		$('.progress2').css('background-color', '#ffc979');
-					$(this).text('Plan:'+plan_chap+'p');
+					$(this).text('Plan:'+plan_chap);
 			  }else if(Number(actual_chap)<Number(plan_chap)){
 				  now = $(this).attr('aria-valuenow',actual_chap);
 				  max = $(this).attr('aria-valuemax',plan_chap);
-					$('.bar-text').text('- '+(plan_page-actual_chap)+'p').css({'color':'#555','font-weight':'bold','font-size':'1.1em'});
-					$(this).text(actual_chap + '챕터');
+					$('.bar-text').text('- '+(plan_page-actual_chap)+'챕터').css({'color':'#555','font-weight':'bold','font-size':'1.1em'});
+					$(this).text(actual_chap + ' 챕터');
 			  }else if(Number(actual_chap)==Number(plan_chap)){
 				  now = $(this).attr('aria-valuenow',actual_chap);
 				  max = $(this).attr('aria-valuemax',plan_chap);
@@ -297,14 +303,14 @@
 									<p id="owl-monthday"></p>	
 								</div><!-- deadLine -->
 								<div class="owl-item">
-									<p><small>디데이</small></p>	
+									<p><small>완료일</small></p>	
 									<p><span class="caro-cnt" id="owl-dday"></span></p>	
 									<p><small>&nbsp;</small></p>	
 								</div><!-- D day -->
 								<div class="owl-item">
 									<p><small>오늘의 진도</small></p>	
 									<p><span class="caro-cnt">${plan_chap }</span></p>	
-									<p><small>페이지</small></p>	
+									<p><small>챕터</small></p>	
 								</div><!-- plan -->
 								<div class="owl-item" id="owl-chapRate">
 									<p><small>현황</small></p>	
