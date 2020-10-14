@@ -295,7 +295,9 @@ var session_user_id = '${user.id}';
 				});//each
 
 	});//ready
-	
+	function goToList(){
+		location.href='${pageContext.request.contextPath}/club/list/${club.book_bid}';		
+	}
 </script>
 <style type="text/css">
 
@@ -406,7 +408,7 @@ small span{
 				
 				<div class="div-btn">
 				<button class="btn btn-default btn-reply">댓글달기</button>
-				<button class="btn btn-default" onclick="history.back();">뒤로가기</button>
+				<button class="btn btn-default" onclick="goToList()">목록</button>
 				<button class="btn btn-default btn-edit">수정</button>
 				<button class="btn btn-default btn-delete">삭제</button>
 				<form class="delete-form delete-post" action="${pageContext.request.contextPath}/club/delete" method="post">

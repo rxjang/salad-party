@@ -58,7 +58,7 @@ pubdate	datetime	출간일 정보이다.
 			$('#moreResult').hide();//더 보기 버튼 비활성화
 			$('#moveTop').hide();//탑 버튼 비활성화
 			return;
-		}else{
+		}else{0
 			//$('#moreResult').show();//더 보기 버튼 활성화
 			//$('#moveTop').show();//탑 버튼 비활성화
 		}
@@ -131,9 +131,9 @@ pubdate	datetime	출간일 정보이다.
 			
 	/*********************** 검색 form 전송  ***********************/
 		$('.search-form').submit(function() { 
-			$('#owl_div,.top10').hide();
+			$('#owl_div,.top10,#chartdiv').hide();
 			$('#result').html('');
-			$('#result').append($('<div class="align-right"><a href="#"><em>+책 직접 입력하기</em></a></div>'));
+			$('#result').append($('<div class="align-right"><a href="${pageContext.request.contextPath}/find/direct"><em>+책 직접 입력하기</em></a></div>'));
 			selectOpt_val = $('#selectOpt').text().trim();//검색 옵션값(제목 저자 출판사)
 			startResult=1; //검색결과들 중 읽어올 문서의 순서. ex:start=2 라면 10개 검색됐으면 2번째부터 출력
 			scrollMove_cnt=0; //더보기 눌렀을 때 스크롤 이동시키기 위한 id값,검색버튼 누를때마다 초기화.
@@ -208,17 +208,6 @@ pubdate	datetime	출간일 정보이다.
 	$('.top10').click(function(){
 		location.href='${pageContext.request.contextPath}/news';
 	});//click
-
-	/* 메달 반응형 */
-	setInterval(function() {
-		var window_x = $(window).width();
-		console.log(window_x);
-		if(window_x < 666){
-			$('.medal').hide();
-		}else{
-			$('.medal').show();
-		}
-	}, 500); 
 	
 	
 	});//ready
@@ -443,8 +432,8 @@ pubdate	datetime	출간일 정보이다.
 		
 		</div>
 	</div>
-	
-		<div id="chartdiv"></div>	
+
+			<div id="chartdiv"></div>
 	<!-- ************** OWL carousel ************  -->
 	<div class="row" id="owl_div">
 		<div class="col-xs-1 col-md-1"></div>
@@ -496,7 +485,7 @@ am4core.useTheme(am4themes_animated);
 var chart = am4core.create("chartdiv", am4plugins_wordCloud.WordCloud);
 var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
 
-series.accuracy = 2;
+series.accuracy = 10;
 series.step = 15;
 series.rotationThreshold = 0.7;
 series.maxCount = 100;

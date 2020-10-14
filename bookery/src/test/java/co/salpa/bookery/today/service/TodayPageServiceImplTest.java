@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Scanner;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
@@ -58,33 +59,51 @@ public class TodayPageServiceImplTest {
 
 	@Test
 	public void testCheckPageService() throws SQLException {
-		//assertNotNull(sqlSession);
-		//'34', '2020-09-23 00:00:00', '920', NULL, '0', '3'
+		// assertNotNull(sqlSession);
+		// '34', '2020-09-23 00:00:00', '920', NULL, '0', '3'
 
-		//CheckPageDao dao = sqlSession.getMapper(CheckPageDao.class);
+		// CheckPageDao dao = sqlSession.getMapper(CheckPageDao.class);
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-		
-		//java.util.Date now = new Date(2020, 8, 23);
+
+		// java.util.Date now = new Date(2020, 8, 23);
 
 		Date today = Date.valueOf(sdf.format(new java.util.Date()));
-		
-		
+
 		System.out.println(today);
-		
+
 		Calendar cal = new GregorianCalendar(Locale.KOREA);
 		cal.setTime(today);
 		cal.add(Calendar.DATE, -1);
-		//SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-		String yesterday =sdf.format(cal.getTime());
-		
+		// SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		String yesterday = sdf.format(cal.getTime());
+
 		System.out.println(yesterday);
-		
-		
+
 //		CheckPageVo bean = new CheckPageVo(34, 920, 909, 3, today, 0);
 //		System.out.println(bean);
 //		dao.updateOne(bean);
-		
-		
+
+	}
+
+	@Test
+	public void testbid() {
+
+		System.out.println(System.currentTimeMillis());
+		System.out.println((System.currentTimeMillis() + "").substring(1, 11));
+		Scanner sc = new Scanner(System.in);
+
+		while (true) {
+			String input = sc.nextLine();
+			if (input == "qqq") {
+				break;
+			} else {
+				String s = (System.currentTimeMillis() + "").substring(2, 11);
+				System.out.println(-Integer.parseInt(s));
+
+			}
+
+		}
+ 
 	}
 
 }

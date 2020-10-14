@@ -8,14 +8,11 @@
 var chapters, book_id, title, writer, publisher, pages, category, isbn, translator, title_original, publication_date, revision,imgUrl;
 var description;
 var img_link;
-var bid = ${bid}; //컨트롤러에서 bid를 받아온다.
 var owlItem='';
 var bookMap ={};
 
 $(function(){
-
-	$('#crawling_div').hide();
-
+console.log('DIRECT');
 	if('${user}'==''){
 		$('#bookclub').hide();
 	}else{
@@ -25,74 +22,20 @@ $(function(){
 	writer=''; publisher=''; pages=''; category=''; isbn=''; translator=''; title_original=''; publication_date=''; revision='';
 	img_link='';//혹시 남아있을지 모를 값들을 페이지 로딩할 때 초기화 해둔다.
 	
+	bid = "${book.bid}";
+	title ="${book.title}"; 
+	writer = "${book.writer}";
+	publisher = "${book.publisher}";
+	pages = "${book.pages}"; 
+	category ="${book.category}"; 
+	translator ="${book.translator}"; 
+	title_original ="${book.titleoriginal}";
+	revision = "${book.revision}";
+	publication_date ="${book.publicationdate}"; 
+	imgUrl = "${book.coverurl}";
 	
 	console.log("중복체크:${studyOverlap}");
-	
-/* 	$.ajax('${pageContext.request.contextPath }/find/crawling',{
-		method:'get',
-		data:'bid='+bid,	
-		success:function(data){ */
 
-			data = $('#crawling_div');
-			var bookInfo = $(data).find('.book_info');
-			img_link = bookInfo.find('.thumb_type img').attr('src');
-			//console.log(img_link);
-			title = bookInfo.find('h2').text(); //책제목
-			//console.log('title = ' + title);
-			title_original = bookInfo.find('.tit_ori').text().replace('원제','').trim(); //원제
-			//console.log('original_title = '+title_original);
-			description = $(data).find('#bookIntroContent').html(); //책 소개
-			$('#bookIntro').html(description);
-			var translator_cnt = 1;
-			var author_cnt = 1;
-			$(data).find('.book_info_inner').children().eq(1).find('a').each(function(){
-				//저자, 역자, 출판사, 출간일 정보가 담겨있는 div
-				//console.log($(this).attr('class'));
-				var aClassName = $(this).attr('class');
-				if(aClassName.includes('author',0)) {
-					if(author_cnt==1){							//저자
-						writer += $(this).text();									
-					}else{
-						writer += ', '+$(this).text();
-					}
-					author_cnt++;
-				}else if(aClassName.includes('translator',0)){
-					if(translator_cnt==1){							//역자
-						translator += $(this).text();									
-					}else{
-						translator += ', '+$(this).text();
-					}
-					translator_cnt++;
-				}else if(aClassName.includes('publisher',0))
-					publisher = $(this).text();						//출판사
-			});//each
-			//console.log('저자='+writer,'역자='+translator,'출판사='+publisher);
-			var revision_tmp = $(data).find('.book_info_inner div:contains("페이지")').text().substring( $(data).find('.book_info_inner div:contains("페이지")').text().lastIndexOf('개정'),$(data).find('.book_info_inner div:contains("페이지")').text().lastIndexOf('판')+1).trim();
-			//개정
-			if(revision_tmp.includes('개정',0)) {
-				revision = revision_tmp;
-				//console.log('개정 = '+revision);
-			}
-			pages_tmp = $(data).find('.book_info_inner div:contains("페이지")').text().substring( $(data).find('.book_info_inner div:contains("페이지")').text().indexOf('지')+1, $(data).find('.book_info_inner div:contains("페이지")').text().indexOf('|')).trim();      
-			//총 페이지 수
-				pages = pages_tmp;
-			if ($.isNumeric(pages)){
-				//console.log('총 페이지  = ' +pages);
-			}else{
-				pages=''; //혹시 페이지가 없으면 그냥 공백처리
-			}
-			publication_date = $(data).find('.book_info_inner div:contains("저자")').text().substring($(data).find('.book_info_inner div:contains("저자")').text().lastIndexOf('|')+1).trim();
-			publication_date = publication_date.replace(/\./gi, "-");
-			//출간일
-			//console.log('출간일 = '+publication_date);
-			category = $(data).find('#category_location1_depth').text();
-			//console.log('분류 = '+category);
-			///카테고리
-			
-			imgUrl = $(bookInfo).find('.thumb_type img').attr('src');
-			//image url 이미지 URL
-			//https://bookthumb-phinf.pstatic.net/cover/163/114/16311458.jpg?type=m140&udate=20200701
-			//console.log(imgUrl);
 
 			//bookMap Object에 정보저장. 캐러셀용
 			bookMap.publisher=publisher;
@@ -167,13 +110,13 @@ $(function(){
 			//onerror="this.src='불러와야할 이미지없을때 대체될 이미지경로'"
 			var book_thumbnail_html = '<div class="media-img">';
 			book_thumbnail_html += '<a href="#">';
-			book_thumbnail_html += '<img class="media-object" src="'+img_link+'" onerror="this.src=\'${pageContext.request.contextPath}/resources/imgs/no-image.png\'" alt="...">';
+			book_thumbnail_html += '<img class="media-object" src="${book.coverurl}" onerror="this.src=\'${pageContext.request.contextPath}/resources/imgs/no-image.png\'" alt="...">';
 			book_thumbnail_html += '</a>';
 			book_thumbnail_html += '</div>';
 			$('#book_thumbnail').html(book_thumbnail_html);
 			var	book_info_html = '<div class="media"><div class="media-body">';
-				book_info_html += '<h4 class="media-heading">'+title+'</h4>';
-				book_info_html += '<p><small>저자</small> '+writer+'</p>';
+				book_info_html += '<h4 class="media-heading"> ${book.title}</h4>';
+				book_info_html += '<p><small>저자</small> ${book.writer}</p>';
 			if(title_original!=''){
 				book_info_html += '<p><small>원제</small> '+title_original+'</p>';
 			}
@@ -394,7 +337,9 @@ $(function(){
 
 </script>
 <style type="text/css">
-
+.media-object{
+	width:140px;
+}
 .additional-info li>a:hover,.additional-info li>a:focus{
 	background-color: white;
 	color:#49654d;
@@ -412,7 +357,7 @@ $(function(){
 .panel-heading{
 	border:0px;
 }
-#crawling_div{
+.chap_list{
 	display: none;
 }
 </style>
@@ -487,7 +432,7 @@ $(function(){
 		<div class="faq-box col-xs-12 col-md-6">
 			<div class="panel panel-default book-intro">
 				<div class="panel-heading"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>&nbsp;책 소개</div>
-				<div class="panel-body book-info" data-aos="fade-up" id="bookIntro">${description }</div>
+				<div class="panel-body book-info" data-aos="fade-up" id="bookIntro">이 책은 소개가 없습니다.</div>
 			</div>
 		</div>
 		<div class="col-md-3"></div>
@@ -497,6 +442,13 @@ $(function(){
 		<div class="faq-box col-xs-12 col-md-6">
 			<div class="panel panel-default book-intro" id="chapter_list">
 				<div class="panel-heading"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>&nbsp;목차</div>
+				<div class="chap_list">
+					<ul class="list-group">
+						<c:forEach items="${toc }" var="bean">
+							<li class="list-group-item" data-aos="fade-up">${bean.toc}</li>
+						</c:forEach>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-3"></div>

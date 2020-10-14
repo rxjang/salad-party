@@ -42,7 +42,7 @@ public class FindController {
 
 
 	
-	// 검색페이지에 검색결과 전달
+	// wordcloud에 넣을 책정보를 주기적으로 session변수에 담음
 	@RequestMapping(value = "/find/cloud", method = RequestMethod.POST)
 	@ResponseBody// select = {제목,저자,출판사} 상세검색 요청변수 생성
 	public String wordCloud(HttpServletRequest req ) throws Exception {
@@ -51,7 +51,9 @@ public class FindController {
 		return null;// ajax통신이라 view가 없음
 	}// searchBooks
 	
-	
-	
+	@RequestMapping(value = "/find/direct",method = RequestMethod.GET)
+	public String directInput() {
+		return "find/inputDirect";
+	}
 	
 }// classEnd

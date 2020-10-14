@@ -227,7 +227,7 @@ public class FIndServiceImpl implements FindService {
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		TocDao tocDao = sqlSession.getMapper(TocDao.class);
 		model.addAttribute("book", bookDao.selectOne(bid));
-		model.addAttribute("bookChapters", tocDao.selectOne(bid));
+		model.addAttribute("toc", tocDao.selectOne(bid));
 
 		// bookDao.insertOne(new BookVo(1212, null, null, null, 0, null, null, null,
 		// null, null, null));
