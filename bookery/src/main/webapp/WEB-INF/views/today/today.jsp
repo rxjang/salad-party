@@ -128,7 +128,11 @@
 		height: 600px;
 		display: block;
 	}
-	
+	.chart-inner{
+		margin:0px auto;
+		width:70%;
+		height:300px;
+	}
 	
 	
 </style>
@@ -138,13 +142,24 @@
 <script src="https://cdn.amcharts.com/lib/4/plugins/timeline.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+
 <script type="text/javascript">
 	var studyVo;//study_id당 V_StudyVo
 	var calList;//study_id당 List<V_calendarVo>
 	var amdata=[];//chart1에 사용할 data
 	var start;
 	var actual_perday;
-	
+
+  
+	var list_date=new Array();
+	var list_plan_perday=new Array();
+	var list_actual_perday=new Array();
+	var list_plan_accum=new Array();
+	var list_actual_accum=new Array();
+	var typeKor;
+
 
 	// 책 목록 케러셀
 	$(function() {
@@ -189,125 +204,103 @@
 					success: function(data){
 						console.log(data.code);//"OK" ajax 통신 성공 확인
 						studyVo=data.study;
+						if(studyVo.type=='chap'){typeKor="챕터"}else if(studyVo.type=='page'){typeKor="페이지"}
 						calList=data.calList;
 						console.log(studyVo.study_id);
 						console.log(calList.length);
-						var cnt = 0;
-						amdata = [];
+
+						amdata=[];
+						list_date=[];
+						list_plan_perday=[];
+						list_actual_perday=[];
+						list_plan_accum=[];
+						list_actual_accum=[];
+
 						calList.forEach(function(element,index){
 								start = new Date(element.start).format('yyyy-MM-dd');
 								actual_perday = element.actual_perday;
-								console.log(start);
-								console.log(actual_perday);
+// 								console.log(start);
+// 								console.log(actual_perday);
 								amdata.push({startDate: start, dailyvalue: actual_perday});
-								console.log(amdata);
+// 								console.log(amdata);
+								//Chart.js
+								list_date.push(start);
+// 								console.log(start)
+								list_plan_perday.push(element.plan_perday);
+// 								console.log(element.plan_perday)
+								list_actual_perday.push(element.actual_perday);
+								list_plan_accum.push(element.plan_accum);
+								list_actual_accum.push(element.actual_accum);
 						});
+						console.log(list_actual_accum.length);
 					}
-				});
+
+				}); // ajax
 				
+			});// .item click
+			
+			$('#labelChartTimeline').click(function(){
+				chartTimelineStart();
 			});
-		});
-		
-		
-		$('#chart-list li').click(function(){
-				amChartStart();
-		});
-	});//ready
-	// 책 이미지 클릭
-//     $("#book").click(function(){
-//         var objParams = {
-//                 searchCd : $("input[name=searchCd]").val() //검색할 코드 (실제로 예제에서는 사용 안함)
-//         }
- 
-//         var values = []; //ArrayList 값을 받을 변수를 선언
- 
-//         //검색할 코드를 넘겨서 값을 가져온다.        
-//         $.post(
-//             "http://www.test.com/get", 
-//             objParams,
-//             function(retVal) {
-//                 if(retVal.code == "OK") { //controller에서 넘겨준 성공여부 코드
-                    
-//                     values = retVal.bookList ; //java에서 정의한 ArrayList명을 적어준다.
-                    
-//                     $.each(values, function( index, value ) {
-//                        console.log( index + " : " + value.name ); //Book.java 의 변수명을 써주면 된다.
-//                     });
-                    
-//                     alert("성공");
-//                 }
-//                 else {
-//                     alert("실패");
-//                 }                    
-//             }
-//         );
-        
-//     });
+			$('#labelChartPerDay').click(function(){
+				chartPerDayStart();
+			});
+			$('#labelChartAccum').click(function(){
+				chartAccumStart();
+			});
+			
+		});// .item each
+	});// doc ready
 
 	
-// 	$('#todaybtn').
-// 		입력전이면 : 오늘의 공부 입력하러 가기
-// 		입력했으면 : 버튼 불활성화
-// 		입력할 목표가 없으면 : ???
-/*
-	var sid='${sid}';//study_id 목록 list
-	var map='${map}';
-	var obj={};
-	sid.forEach(funtion(ele,idx)){
-		obj.ele=JSON.parse(map).ele.v_calendar;// key값으로 ele에 study_id가 담기고, value로 List<v_calendar> 담
-	}
-	sid.forEach(function(e,i){
-	});
-*/	
-	// chart1 
 	// https://www.amcharts.com/demos/serpentine-stepline-chart/
-function amChartStart(){ 
-	am4core.ready(function() {
-		// Themes begin
-		am4core.useTheme(am4themes_animated);
-		// Themes end
-		console.log('amready = ',amdata);
-		var chart = am4core.create("chart1", am4plugins_timeline.SerpentineChart);
-		chart.levelCount = 3;
-		
-		chart.curveContainer.padding(50,20,50,20);
-		chart.data = amdata;
+  
+	function chartTimelineStart(){
+		am4core.ready(function() {
+			// Themes begin
+			am4core.useTheme(am4themes_animated);
+			// Themes end
+	
+			var chart = am4core.create("chartTimeline", am4plugins_timeline.SerpentineChart);
+			chart.levelCount = 3;
+			
+			chart.curveContainer.padding(50,20,50,20);
+			chart.data = amdata;
+	
+			var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+			dateAxis.renderer.grid.template.location = 0;
+	
+			dateAxis.renderer.line.disabled = true;
+			dateAxis.cursorTooltipEnabled = false;
+			dateAxis.minZoomCount = 5;
+	
+			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+			valueAxis.tooltip.disabled = true;
+			valueAxis.renderer.innerRadius = -50;
+			valueAxis.renderer.radius = 50;
+			chart.seriesContainer.zIndex = -1;
+	
+			var series = chart.series.push(new am4plugins_timeline.CurveStepLineSeries());
+			series.fillOpacity = 0.3;
+			series.dataFields.dateX = "startDate";
+			series.dataFields.valueY = "dailyvalue";
+			series.tooltipText = "{valueY}";
+			series.tooltip.pointerOrientation = "vertical";
+			series.tooltip.background.fillOpacity = 0.7;
+			series.fill = chart.colors.getIndex(3);
+			series.strokeWidth = 2;
+	
+			chart.cursor = new am4plugins_timeline.CurveCursor();
+			chart.cursor.xAxis = dateAxis;
+			chart.cursor.yAxis = valueAxis;
+			chart.cursor.lineY.disabled = true;
+	
+			chart.scrollbarX = new am4core.Scrollbar();
+			chart.scrollbarX.width = am4core.percent(80);
+			chart.scrollbarX.align = "center";
+		}); // am4core.ready()
+	} // chartTimelineStart
 
-		var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-		dateAxis.renderer.grid.template.location = 0;
-
-		dateAxis.renderer.line.disabled = true;
-		dateAxis.cursorTooltipEnabled = false;
-		dateAxis.minZoomCount = 5;
-
-		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-		valueAxis.tooltip.disabled = true;
-		valueAxis.renderer.innerRadius = -50;
-		valueAxis.renderer.radius = 50;
-		chart.seriesContainer.zIndex = -1;
-
-		var series = chart.series.push(new am4plugins_timeline.CurveStepLineSeries());
-		series.fillOpacity = 0.3;
-		series.dataFields.dateX = "startDate";
-		series.dataFields.valueY = "dailyvalue";
-		series.tooltipText = "{valueY}";
-		series.tooltip.pointerOrientation = "vertical";
-		series.tooltip.background.fillOpacity = 0.7;
-		series.fill = chart.colors.getIndex(3);
-		series.strokeWidth = 2;
-
-		chart.cursor = new am4plugins_timeline.CurveCursor();
-		chart.cursor.xAxis = dateAxis;
-		chart.cursor.yAxis = valueAxis;
-		chart.cursor.lineY.disabled = true;
-
-		chart.scrollbarX = new am4core.Scrollbar();
-		chart.scrollbarX.width = am4core.percent(80);
-		chart.scrollbarX.align = "center";
-
-		}); // end am4core.ready()
-		
-	}
 </script>
 </head>
 <body>
@@ -411,21 +404,22 @@ function amChartStart(){
 				</div>
 			</c:forEach>
 		</div><!-- today-body -->
-		<div class="row" id="today-chartlist">
+		<div class="row" id="today-chart">
 			<div class="col-md-12 col-xs-12">
 				<ul id="chart-list">
-					<li>타임라인 보기</li>
+					<li id="labelChartTimeline">타임라인 보기</li>
 					<li>완료율 보기</li>
 					<li>평균 공부양으로 보기</li>
-					<li>일일 공부양 보기</li>
-					<li>누적 공부양 보기</li>
+					<li id="labelChartPerDay">일일 공부양 보기</li>
+					<li id="labelChartAccum">누적 공부양 보기</li>
 				</ul>
 			</div>
-			<div class="col-md-8 col-md-offset-2 col-xs-12">
-				<div class="row" id="today-body">
+			<div  id="today-chart" class="col-md-8 col-md-offset-2 col-xs-12">
+				<div id="charts" class="chart-inner">
+					<div id="chartTimeline"></div><!-- timeline -->
+					<canvas id="chartPerDay"></canvas>
+					<canvas id="chartAccum"></canvas>
 				</div>
-				<div id="chart1"></div><!-- timeline -->
-				<div id="chartdiv"></div>
 			</div>
 		</div><!-- today-charts -->	
 	</div>
@@ -530,6 +524,89 @@ function amChartStart(){
 <%-- 										${cal.actual_perday}  --%>
 <%-- 										${cal.status}<br> --%>
 <%-- 									</c:forEach> --%>
+
+<script type="text/javascript">
+
+	//일일 차트 Chart.js
+	function chartPerDayStart(){
+		var ctx_perday=document.getElementById('chartPerDay');
+		console.log(list_date);
+		
+		var config_perday={
+			type: 'line',
+			data: {
+				labels:list_date,
+				datasets: [{
+					label: '계획한 양',
+					backgroundColor: '#e4e6da',
+					borderColor: '#e4e6da',
+					fill: false,
+					data: list_plan_perday
+				}, {
+					label: '실제 공부한 양',
+					backgroundColor: '#8ba989',
+					borderColor: '#8ba989',
+					fill: true,
+					data: list_actual_perday
+				}]
+			},
+			options: {
+				maintainAspectRatio: false,
+				title: {
+					text: 'Chart.js Time Scale'
+				},
+				scales: {
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: typeKor
+						}
+					}]
+				},
+			}
+		};
+		var chartPerDay = new Chart(ctx_perday, config_perday);
+	}
+	
+	// 누적 차트 Chart.js
+	function chartAccumStart(){
+		var ctx_accum=document.getElementById('chartAccum');
+		var config_accum = {
+			type: 'line',
+			data: {
+				labels:list_date,
+				datasets: [{
+					label: '계획한 양',
+					backgroundColor: '#e4e6da',
+					borderColor: '#e4e6da',
+					fill: false,
+					data: list_plan_accum,
+				}, {
+					label: '실제 공부한 양',
+					backgroundColor: '#8ba989',
+					borderColor: '#8ba989',
+					fill: true,
+					data: list_actual_accum,
+				}]
+			},
+			options: {
+				maintainAspectRatio: false,
+				title: {
+					text: 'Chart.js Time Scale'
+				},
+				scales: {
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: typeKor
+						}
+					}]
+				},
+			}
+		};
+		var chartAccum = new Chart(ctx_accum, config_accum);
+	}
+</script>
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
 </body>
