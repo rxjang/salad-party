@@ -228,7 +228,7 @@ $(function(){
 			 	<input type="text" placeholder="원제목" name="titleoriginal" id="titleoriginal" />
 			 	<input type="text" placeholder="글쓴이" name="writer" id="writer" required="required"/> <!-- 필수 -->
 			 	<input type="text" placeholder="출판사" name="publisher" id="publisher" />
-			 	<input type="date" placeholder="출간일" name="publicationdate" id="publicationdate" />
+			 	<input type="date" placeholder="출간일" name="publicationdate" id="publicationdate" required="required"/><!-- 필수 -->
 			 	<input type="text" placeholder="역자" name="translator" id="translator" />
 			 	<input type="number" placeholder="페이지" name="pages" id="pages" required="required"/> <!-- 필수 -->
 			 	<input type="text" placeholder="개정" name="revision" id="revision" />

@@ -126,6 +126,7 @@
 	#chart1{
 		width: 100%;
 		height: 600px;
+		display: block;
 	}
 	.chart-inner{
 		margin:0px auto;
@@ -150,12 +151,15 @@
 	var amdata=[];//chart1에 사용할 data
 	var start;
 	var actual_perday;
+
+  
 	var list_date=new Array();
 	var list_plan_perday=new Array();
 	var list_actual_perday=new Array();
 	var list_plan_accum=new Array();
 	var list_actual_accum=new Array();
 	var typeKor;
+
 
 	// 책 목록 케러셀
 	$(function() {
@@ -177,7 +181,7 @@
 			}
 		});
 	});
-
+	
 	$(function(){
 		// 케러셀 아래부분 숨겼다가, 책 표지 클릭하면 해당하는 내용만 보이게 처리
 		$(".perStudy").hide();
@@ -204,12 +208,14 @@
 						calList=data.calList;
 						console.log(studyVo.study_id);
 						console.log(calList.length);
+
 						amdata=[];
 						list_date=[];
 						list_plan_perday=[];
 						list_actual_perday=[];
 						list_plan_accum=[];
 						list_actual_accum=[];
+
 						calList.forEach(function(element,index){
 								start = new Date(element.start).format('yyyy-MM-dd');
 								actual_perday = element.actual_perday;
@@ -228,6 +234,7 @@
 						});
 						console.log(list_actual_accum.length);
 					}
+
 				}); // ajax
 				
 			});// .item click
@@ -244,8 +251,10 @@
 			
 		});// .item each
 	});// doc ready
+
 	
 	// https://www.amcharts.com/demos/serpentine-stepline-chart/
+  
 	function chartTimelineStart(){
 		am4core.ready(function() {
 			// Themes begin
@@ -291,7 +300,7 @@
 			chart.scrollbarX.align = "center";
 		}); // am4core.ready()
 	} // chartTimelineStart
-		
+
 </script>
 </head>
 <body>
