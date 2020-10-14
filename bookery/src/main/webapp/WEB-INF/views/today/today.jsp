@@ -86,16 +86,16 @@
 		background-color: rgb(197,174,132);
 		color: white;
 	}
-	#today-chartlist{
+	#todayChartList{
 		margin:0 auto;
 	}
-	#today-chartlist>div{
+	#todayChartList>div{
 		border-top:1px solid #cccccc;
 		border-bottom:1px solid #cccccc;
 		
 	}
 	
-	#chart-list{ /* ul */
+	#chartList{ /* ul */
 		text-decoration: none;
 		margin:0 auto;
 		padding:0;
@@ -103,7 +103,7 @@
 		height:50px;
 		overflow:hidden;
 	}
-	#chart-list li{
+	#chartList li{
 		display:inline-block;
 		margin:0;
 		padding:0;
@@ -113,10 +113,10 @@
 		text-align:center;
 		border-left:1px solid #cccccc;
 	}
-	#chart-list li:last-child{
+	#chartList li:last-child{
 		border-right:1px solid #cccccc;
 	}
-	#chart-list li:hover{
+	#chartList li:hover{
 /* 		background-color:#c0cfb2; */
 /* 		border:1px solid #c0cfb2; */
 		color:#c0cfb2;
@@ -132,22 +132,13 @@
 		width:70%;
 		height:300px;
 	}
-	
-	
 </style>
 
-<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/plugins/timeline.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
-
 <script type="text/javascript">
-	var studyVo;//study_id당 V_StudyVo
-	var calList;//study_id당 List<V_calendarVo>
-	var amdata=[];//chart1에 사용할 data
+	var studyVo;// study_id당 V_StudyVo
+	var calList;// study_id당 List<V_calendarVo>
+	var amdata=[];// chart1에 사용할 data
+	var chart;
 	var start;
 	var actual_perday;
 	var list_date=new Array();
@@ -155,8 +146,13 @@
 	var list_actual_perday=new Array();
 	var list_plan_accum=new Array();
 	var list_actual_accum=new Array();
-	var typeKor;
-
+	var typeKor;// "챕터","페이지"
+	var total;// 총챕터수 or 총페이지수
+	var progress;// progress_rate
+	var arrPlan=[];// [[x값,y값],[],[],[]]
+	var arrActual=[];// [[x값,y값],[],[],[]]
+	var today=new Date().format('yyyy-MM-dd');
+	
 	// 책 목록 케러셀
 	$(function() {
 		$('.owl-carousel').owlCarousel({
@@ -181,6 +177,7 @@
 	$(function(){
 		// 케러셀 아래부분 숨겼다가, 책 표지 클릭하면 해당하는 내용만 보이게 처리
 		$(".perStudy").hide();
+		$('#todayChartList').hide();
 		$('.item').each(function(){
 			$(this).click(function(){
 				var study_id = $(this).find('input').val();//캐러셀에서 선택한 책의 study_id
@@ -200,10 +197,15 @@
 					success: function(data){
 						console.log(data.code);//"OK" ajax 통신 성공 확인
 						studyVo=data.study;
-						if(studyVo.type=='chap'){typeKor="챕터"}else if(studyVo.type=='page'){typeKor="페이지"}
+						if(studyVo.type=='chap'){
+							typeKor="챕터";
+							total=studyVo.total_chap;
+						}else if(studyVo.type=='page'){
+							typeKor="페이지";
+							total=studyVo.total_pages;
+						}
+						progress=studyVo.progress_rate;
 						calList=data.calList;
-						console.log(studyVo.study_id);
-						console.log(calList.length);
 						amdata=[];
 						list_date=[];
 						list_plan_perday=[];
@@ -211,37 +213,111 @@
 						list_plan_accum=[];
 						list_actual_accum=[];
 						calList.forEach(function(element,index){
-								start = new Date(element.start).format('yyyy-MM-dd');
-								actual_perday = element.actual_perday;
-// 								console.log(start);
-// 								console.log(actual_perday);
-								amdata.push({startDate: start, dailyvalue: actual_perday});
-// 								console.log(amdata);
-								//Chart.js
-								list_date.push(start);
-// 								console.log(start)
-								list_plan_perday.push(element.plan_perday);
-// 								console.log(element.plan_perday)
-								list_actual_perday.push(element.actual_perday);
-								list_plan_accum.push(element.plan_accum);
-								list_actual_accum.push(element.actual_accum);
+							//amchart
+							start = new Date(element.start).format('yyyy-MM-dd');
+							actual_perday = element.actual_perday;
+							amdata.push({startDate: start, dailyvalue: actual_perday});
+							//Chart.js
+							list_date.push(start);
+							list_plan_perday.push(element.plan_perday);
+							list_actual_perday.push(element.actual_perday);
+							list_plan_accum.push(element.plan_accum);
+							list_actual_accum.push(element.actual_accum);
 						});
-						console.log(list_actual_accum.length);
-					}
+							
+						//highcgart
+						var days=studyVo.total_days; //총 날짜 수
+						var daysPlan=studyVo.plan_days_yesterday; //어제까지 계획한 날짜 수
+						var daysActual=studyVo.actual_days_yesterday; //어제까지 공부한 날짜 수
+						var daysRemain=studyVo.remain_days; // 오늘 포함 남은 날 수
+						console.log(daysRemain);
+						arrPlan=[];
+						arrActual=[];
+						var y_plan;
+						var y_actual;
+						for(var i=0; i<days; i++){
+							temp_plan=[];
+							temp_actual=[];
+							if(studyVo.type=='chap'){
+								if(i<daysPlan){
+									y_plan=studyVo.plan_chap / studyVo.total_days;
+									temp_plan.push(i+1,y_plan);
+									arrPlan.push(temp_plan);
+									y_actual=studyVo.actual_chap_yesterday / studyVo.plan_days_yesterday;
+									temp_actual.push(i+1,y_actual);
+									arrActual.push(temp_actual);
+								}else if(i>=daysPlan && daysRemain>0){
+									y_plan=studyVo.plan_chap / studyVo.total_days;
+									temp_plan.push(i+1,y_plan);
+									arrPlan.push(temp_plan);
+									y_actual=(studyVo.total_chap - studyVo.actual_chap_yesterday) / daysRemain;
+									console.log(y_actual);
+									temp_actual.push(i+1,y_actual);
+									arrActual.push(temp_actual);
+								}else if(i>=daysPlan && daysRemain==0){	
+									y_plan=studyVo.plan_chap / studyVo.total_days;
+									temp_plan.push(i+1,y_plan);
+									arrPlan.push(temp_plan);
+									y_actual=studyVo.total_chap - studyVo.actual_chap_yesterday;
+									console.log(y_actual);
+									temp_actual.push(i+1,y_actual);
+									arrActual.push(temp_actual);
+								}
+							}else if(studyVo.type=='page'){
+								if(i<daysPlan){
+									y_plan=studyVo.plan_page / studyVo.total_days;
+									temp_plan.push(i+1,y_plan);
+									arrPlan.push(temp_plan);
+									y_actual=studyVo.actual_page_yesterday / studyVo.plan_days_yesterday;
+									temp_actual.push(i+1,y_actual);
+									arrActual.push(temp_actual);
+								}else if(i>=daysPlan && daysRemain>0){
+									y_plan=studyVo.plan_page / studyVo.total_days;
+									temp_plan.push(i+1,y_plan);
+									arrPlan.push(temp_plan);
+									y_actual=(studyVo.total_page - studyVo.actual_page_yesterday) / daysRemain;
+									temp_actual.push(i+1,y_actual);
+									arrActual.push(temp_actual);
+								}else if(i>=daysPlan && daysRemain==0){	
+									y_plan=studyVo.plan_page / studyVo.total_days;
+									temp_plan.push(i+1,y_plan);
+									arrPlan.push(temp_plan);
+									y_actual=studyVo.total_page - studyVo.actual_page_yesterday;
+									temp_actual.push(i+1,y_actual);
+									arrActual.push(temp_actual);
+								}
+							}
+						} //for
+					} //success: function(data)
 				}); // ajax
-				
+				$('#todayChartList').show();
 			});// .item click
-			
+
 			$('#labelChartTimeline').click(function(){
 				chartTimelineStart();
+				$('#charts').children().hide();
+				$('#chartTimeline').show();
+			});
+			$('#labelChartGauge').click(function(){
+				chartGaugeStart();
+				$('#charts').children().hide();
+				$('#chartGauge').show();
+			});
+			$('#labelChartAvg').click(function(){
+				chartAvgStart();
+				$('#charts').children().hide();
+				$('#chartAvg').show();
 			});
 			$('#labelChartPerDay').click(function(){
 				chartPerDayStart();
+				$('#charts').children().hide();
+				$('#chartPerDay').show();
 			});
 			$('#labelChartAccum').click(function(){
 				chartAccumStart();
+				$('#charts').children().hide();
+				$('#chartAccum').show();
 			});
-			
 		});// .item each
 	});// doc ready
 	
@@ -252,7 +328,7 @@
 			am4core.useTheme(am4themes_animated);
 			// Themes end
 	
-			var chart = am4core.create("chartTimeline", am4plugins_timeline.SerpentineChart);
+			chart = am4core.create("chartTimeline", am4plugins_timeline.SerpentineChart);
 			chart.levelCount = 3;
 			
 			chart.curveContainer.padding(50,20,50,20);
@@ -290,8 +366,124 @@
 			chart.scrollbarX.width = am4core.percent(80);
 			chart.scrollbarX.align = "center";
 		}); // am4core.ready()
-	} // chartTimelineStart
-		
+	} // chartTimelineStart()
+	
+	// https://www.amcharts.com/demos/gauge-with-gradient-fill/
+	function chartGaugeStart(){
+		am4core.ready(function() {
+			// Themes begin
+			am4core.useTheme(am4themes_animated);
+			// Themes end
+
+			// create chartG
+			var chartG = am4core.create("chartGauge", am4charts.GaugeChart);
+			chartG.innerRadius = -15;
+
+			var axis = chartG.xAxes.push(new am4charts.ValueAxis());
+			axis.min = 0;
+			axis.max = total;
+			axis.strictMinMax = true;
+
+			var colorSet = new am4core.ColorSet();
+
+			var gradient = new am4core.LinearGradient();
+			gradient.stops.push({color:am4core.color("#e4e6da")})
+			gradient.stops.push({color:am4core.color("#c0cfb2")})
+			gradient.stops.push({color:am4core.color("#8ba989")})
+			gradient.stops.push({color:am4core.color("#49654d")})
+// 			gradient.stops.push({color:am4core.color("#253629")})
+
+			axis.renderer.line.stroke = gradient;
+			axis.renderer.line.strokeWidth = 15;
+			axis.renderer.line.strokeOpacity = 1;
+
+			axis.renderer.grid.template.disabled = true;
+
+			var hand = chartG.hands.push(new am4charts.ClockHand());
+			hand.radius = am4core.percent(95);
+			hand.showValue(progress);
+// 			setInterval(function() {
+// 				hand.showValue(Math.random() * 100, 1000, am4core.ease.cubicOut);
+// 			}, 2000);
+		});// am4core.ready()
+	}// chartGaugeStart()
+	
+	function chartAvgStart(){
+		Highcharts.chart('chartAvg', {
+				chart: {
+					type: 'area',
+					zoomType: 'xy'
+				},
+				title: {
+					text: '일일 평균 독서/공부량'
+				},
+				xAxis: {
+					minPadding: 0,
+					maxPadding: 0,
+					plotLines: [{
+						color: '#888',
+						value: today,
+						width: 1,
+						label: {
+							text: '오늘',
+							rotation: 90
+						}
+					}],
+					title: {
+						text: '날짜'
+					}
+				},
+				yAxis: [{
+					lineWidth: 1,
+					gridLineWidth: 1,
+					title: typeKor,
+					tickWidth: 1,
+					tickLength: 5,
+					tickPosition: 'inside',
+					labels: {
+						align: 'left',
+						x: 8
+					}
+				}, {
+					opposite: true,
+					linkedTo: 0,
+					lineWidth: 1,
+					gridLineWidth: 0,
+					title: typeKor,
+					tickWidth: 1,
+					tickLength: 5,
+					tickPosition: 'inside',
+					labels: {
+						align: 'right',
+						x: -8
+					}
+				}],
+				legend: {
+					enabled: false
+				},
+				plotOptions: {
+					area: {
+						fillOpacity: 0.2,
+						lineWidth: 1,
+						step: 'center'
+					}
+				},
+				tooltip: {
+					headerFormat: '<span style="font-size=10px;">날짜수: {point.key}</span><br/>',
+					valueDecimals: 2
+				},
+				series: [{
+					name: '목표',
+					data: arrPlan,
+					color: '#03a7a8'
+				}, {
+					name: '실행',
+					data: arrActual,
+					color: '#fc5857'
+				}]
+		});
+	} // chartAvgStart()
+	
 </script>
 </head>
 <body>
@@ -351,7 +543,7 @@
 							<c:if test="${study.plan_chap gt study.actual_chap}">
 								<div class="col-md-5 col-xs-10 col-xs-offset-1">
 									<h2 class="main-ment">열심히 노력하는 당신!</h2>
-									<h4 class="sub-ment">목표 달성까지 ${study.plan_chap-study.actual_chap } 챕터 남았어요!</h4>
+									<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_chap-study.actual_chap } 챕터 남았어요!</h4>
 								</div>
 								<div class="col-md-5 col-xs-10 col-xs-offset-1">
 									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
@@ -383,7 +575,7 @@
 							<c:if test="${study.plan_page gt study.actual_page}">
 								<div class="col-md-5 col-xs-10 col-xs-offset-1">
 									<h2 class="main-ment">열심히 노력하는 당신!</h2>
-									<h4 class="sub-ment">목표 달성까지 ${study.plan_page-study.actual_page } 페이지 남았어요!</h4>
+									<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_page-study.actual_page } 페이지 남았어요!</h4>
 								</div>
 								<div class="col-md-5 col-xs-10 col-xs-offset-1">
 									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
@@ -395,130 +587,45 @@
 				</div>
 			</c:forEach>
 		</div><!-- today-body -->
-		<div class="row" id="today-chart">
+		<div class="row" id="todayChartList">
 			<div class="col-md-12 col-xs-12">
-				<ul id="chart-list">
-					<li id="labelChartTimeline">타임라인 보기</li>
-					<li>완료율 보기</li>
-					<li>평균 공부양으로 보기</li>
-					<li id="labelChartPerDay">일일 공부양 보기</li>
-					<li id="labelChartAccum">누적 공부양 보기</li>
+				<ul id="chartList">
+					<li id="labelChartTimeline">타임라인</li>
+					<li id="labelChartGauge">진행률</li>
+					<li id="labelChartAvg">일일 평균</li>
+					<li id="labelChartPerDay">일일 기록</li>
+					<li id="labelChartAccum">누적 기록</li>
 				</ul>
 			</div>
-			<div  id="today-chart" class="col-md-8 col-md-offset-2 col-xs-12">
+		</div><!-- todayChartList -->
+		<div class="row" id="todayCharts">
+			<div class="col-md-8 col-md-offset-2 col-xs-12">
 				<div id="charts" class="chart-inner">
-					<div id="chartTimeline"></div><!-- timeline -->
+					<div id="chartCommon">
+						study_id: ${study_id }<br>
+						제목: ${study.title }<br>
+						시작일: ${study.startdate }<br>
+						끝일: ${study.enddate }<br>
+						완료: ${study.actual_page + study.actual_chap }<br>
+						전체: ${study.total_pages + study.total_chap }<br>
+					
+					</div>
+					<div id="chartTimeline"></div>
+					<div id="chartGauge"></div>
+					<div id="chartAvg"></div>
 					<canvas id="chartPerDay"></canvas>
 					<canvas id="chartAccum"></canvas>
 				</div>
 			</div>
-		</div><!-- today-charts -->	
+		</div><!-- todayCharts -->
 	</div>
 </div>
-<!-- 							study_id: ${study_id }<br> -->
-<!-- 							제목: ${study.title }<br> -->
-<!-- 							시작일: ${study.startdate }<br> -->
-<!-- 							끝일: ${study.enddate }<br> -->
-<!-- 							-->
-<!-- 							</div>todayDiv1 -->
-<!-- 							<div id="todayDiv2" class="row"> -->
-<!-- 								<div class="col-md-3 col-xs-3"> -->
-<%-- 									<c:if test="${study.success_rate gt 100}"> --%>
-<!-- 										<div class="green">목표를<br>초과달성했어요</div> -->
-<%-- 									</c:if> --%>
-<%-- 									<c:if test="${study.success_rate eq 100}"> --%>
-<!-- 										<div class="yellow">목표를<br>달성했어요</div> -->
-<%-- 									</c:if> --%>
-<%-- 									<c:if test="${study.success_rate lt 100}"> --%>
-<!-- 										<div class="brown">조금 더<br>분발하세요</div> -->
-<%-- 									</c:if> --%>
-<!-- 								</div> -->
-<!-- 								<div class="col-md-3 col-xs-3"> -->
-<!-- 									그래프 1 (지렁이그래프)<br> -->
-<%-- 									시작일: ${study.startdate }<br> --%>
-<%-- 									오늘: <fmt:formatDate value="${today }" pattern="yyyy-MM-dd" /><br> --%>
-<%-- 									완료일: ${study.enddate } --%>
-<!-- 								</div> -->
-<!-- 								<div class="col-md-3 col-xs-3"> -->
-<!-- 									그래프 2 (반달 대시보드 그래프)<br> -->
-<%-- 									완료율: ${study.progress_rate }<br> --%>
-<%-- 									완료: ${study.actual_page + study.actual_chap }<br> --%>
-<%-- 									전체: ${study.total_pages + study.total_chap }<br> --%>
-<!-- 								</div> -->
-<!-- 								<div class="col-md-3 col-xs-3"> -->
-<!-- 									그래프 3 (어제밤 기준 일일 평균진도/남은 양)<br> -->
-<%-- 									총 날짜수: 	${study.total_days}<br> --%>
-<%-- 									공부한날: ${study.actual_days_yesterday }일<br> --%>
-<%-- 									계획했던 날 수: ${study.plan_days_yesterday }일<br> --%>
-<%-- 									남은 날 수: ${study.remain_days }<br> --%>
-<%-- 									<c:if test="${study.type eq 'chap'}"> --%>
-<%-- 										챕터-총 챕터수: 	${study.total_chap}<br> --%>
-<%-- 										챕터-목표 챕터수: 	${study.plan_chap_yesterday}<br> --%>
-<%-- 										챕터-실제 챕터수: 	${study.actual_chap_yesterday}<br> --%>
-<%-- 										일일 평균 목표량:	${study.plan_chap div study.total_days}<br> --%>
-<%-- 										어제까지 평균일일진도:${study.actual_chap_yesterday div study.plan_days_yesterday}<br> --%>
-<%-- 										<c:if test="${study.remain_days > 0}"> --%>
-<%-- 											남은 기간동안 해야 하는 평균 일일 양:${(study.total_chap - study.actual_chap_yesterday) div (study.remain_days)} --%>
-<%-- 										</c:if> --%>
-<%-- 										<c:if test="${study.remain_days eq 0}"> --%>
-<%-- 											남은 기간동안 해야 하는 평균 일일 양:${(study.total_chap-study.actual_chap_yesterday)} --%>
-<%-- 										</c:if> --%>
-<%-- 									</c:if> --%>
-<%-- 									<c:if test="${study.type eq 'page'}"> --%>
-<%-- 										페이지-총페이지수: 	${study.total_pages}<br> --%>
-<%-- 										페이지-목표 페이지수:	${study.plan_page_yesterday}<br> --%>
-<%-- 										페이지-실제 페이지수:	${study.actual_page_yesterday}<br> --%>
-<%-- 										일일 평균 목표량:	${study.total_pages div study.total_days}<br> --%>
-<%-- 										어제까지 평균 일일 진도:${study.actual_page_yesterday div study.plan_days_yesterday}<br> --%>
-<%-- 										<c:if test="${study.remain_days > 0}"> --%>
-<%-- 											남은 기간동안 해야 하는 평균 일일 양:${(study.total_pages - study.actual_page_yesterday) div (study.remain_days)} --%>
-<%-- 										</c:if> --%>
-<%-- 										<c:if test="${study.remain_days eq 0}"> --%>
-<%-- 											남은 기간동안 해야 하는 평균 일일 양:${(study.total_pages-study.actual_page_yesterday)} --%>
-<%-- 										</c:if> --%>
-<%-- 									</c:if> --%>
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div id="chart12" class="row"> -->
-<!-- 								<div id="chart1" class="col-md-6 col-xs-6"> -->
-									
-<!-- 								</div> -->
-<!-- 								<div id="chart2" class="col-md-6 col-xs-6"> -->
-									
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div id="todayDiv3" class="row"> -->
-<!-- 								<div class="col-md-6 col-xs-6"> -->
-<!-- 									그래프 4 (전체 기간동안 누적 actual(green,yellow,brown)/plan(gray))<br> -->
-<%-- 									목록길이: ${fn:length(cals) }<br> --%>
-<%-- 									<c:forEach items="${cals}" var="cal" varStatus="status"> --%>
-<%-- 										${cal.user_id}  --%>
-<%-- 										${cal.sid_date}  --%>
-<%-- 										${cal.type}  --%>
-<%-- 										${cal.study_id}  --%>
-<%-- 										${cal.start}  --%>
-<%-- 										${cal.plan_accum}  --%>
-<%-- 										${cal.actual_accum}  --%>
-<%-- 										${cal.status}<br> --%>
-<%-- 									</c:forEach> --%>
-<!-- 								</div> -->
-<!-- 								<div class="col-md-6 col-xs-6"> -->
-<!-- 									그래프 5 (전체 기간동안 일일 actual(green,yellow,brown)/plan(gray))<br> -->
-<%-- 									목록길이: ${fn:length(cals) }<br> --%>
-<%-- 									<c:forEach items="${cals}" var="cal" varStatus="status"> --%>
-<%-- 										${cal.user_id}  --%>
-<%-- 										${cal.sid_date}  --%>
-<%-- 										${cal.type}  --%>
-<%-- 										${cal.study_id}  --%>
-<%-- 										${cal.start}  --%>
-<%-- 										${cal.plan_perday}  --%>
-<%-- 										${cal.actual_perday}  --%>
-<%-- 										${cal.status}<br> --%>
-<%-- 									</c:forEach> --%>
+<!--**********content end**********-->
 
 <script type="text/javascript">
 
 	//일일 차트 Chart.js
+	//요소 상태별 샐깔 달리 줄 수 있는지 시험
 	function chartPerDayStart(){
 		var ctx_perday=document.getElementById('chartPerDay');
 		console.log(list_date);
@@ -598,7 +705,6 @@
 		var chartAccum = new Chart(ctx_accum, config_accum);
 	}
 </script>
-	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
 </body>
 </html>
