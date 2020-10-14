@@ -496,7 +496,7 @@ am4core.useTheme(am4themes_animated);
 var chart = am4core.create("chartdiv", am4plugins_wordCloud.WordCloud);
 var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
 
-series.accuracy = 2;
+series.accuracy = 10;
 series.step = 15;
 series.rotationThreshold = 0.7;
 series.maxCount = 100;

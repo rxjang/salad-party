@@ -64,8 +64,10 @@ public class MylibServiceImpl implements MylibService {
 	public Model selectStudyService(int study_id, Model model) throws DataAccessException {
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
 		V_CalendarDao v_CalendarDao=sqlSession.getMapper(V_CalendarDao.class);
+		BookDao bookDao=sqlSession.getMapper(BookDao.class);
 		V_StudyVo v_studyVo=v_studyDao.selectOneByStudyId(study_id);
 		List<V_CalendarVo> list=v_CalendarDao.selectFinData(study_id);
+		BookVo bookVo=bookDao.selectOneByStudyId(study_id);
 		Map<String,List<V_CalendarVo>> map=new HashMap<String,List<V_CalendarVo>>();
 		map.put("key", list);
 		String jsonStr=null;
@@ -76,6 +78,7 @@ public class MylibServiceImpl implements MylibService {
 		}
 		model.addAttribute("v_study", v_studyVo);
 		model.addAttribute("finData", jsonStr);
+		model.addAttribute("bookInfo", bookVo);
 		return null;
 	}
 
