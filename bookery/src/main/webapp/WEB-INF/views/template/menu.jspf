@@ -1,5 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script>
+	function cantLogOutNotice(){
+		swal({
+			  title: "주의",
+			  text: "sns계정으로 로그인 하신 경우, \n 해당 홈페이지에서 다시 한번 로그아웃를 해주세요.",
+			  icon: "warning",
+			  buttons: {
+			    confirm:{
+			    	text:"확인",
+			    	value:true
+			    }
+			  },
+		}).then((value) => {	//value가 true이면 내서재로 이동한다.
+			if(value){
+					location.href = '${pageContext.request.contextPath }/account/logout';
+			}//if
+		});//swal
+	}
+</script>
 <div class="container-fluid">
 	<div id="menu" class="row">
 	<!-- 로고 위치 -->
@@ -36,7 +55,9 @@
 	       <li><a href="${pageContext.request.contextPath }/account/update">내 정보</a></li>
 	       <li><a href="${pageContext.request.contextPath }/news/notice">공지사항</a></li>
 	       <li role="separator" class="divider"></li>
-	       <li><a href="${pageContext.request.contextPath }/account/logout">로그아웃</a></li>
+	       <li><c:if test="${user.lvl eq null }"><a href="${pageContext.request.contextPath }/account/logout">로그아웃</a></c:if>
+	       	   <c:if test="${user.lvl ne null }"><a href="javascript:void(0);" onClick="cantLogOutNotice();">로그아웃</a></c:if>
+	       </li>
 	       </c:if>
 	       
 	       <c:if test="${user eq null}">

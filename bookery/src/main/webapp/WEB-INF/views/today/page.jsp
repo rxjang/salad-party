@@ -77,7 +77,10 @@
 		var dateDiff = Math.ceil((end.getTime() - start.getTime())
 				/ (1000 * 3600 * 24));
 		Dday = dateDiff;
-		$('#owl-dday').text('D-'+Dday);
+		if(dateDiff < 0)
+			$('#owl-dday').text('D+'+ (-Dday));
+		else 
+			$('#owl-dday').text('D-'+ Dday);
 		console.log(dateDiff);
 		$('.thumbnail').css({'box-shadow':'12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4)','display':'block','margin':'auto'});
 		//box-shadow:rgb(37, 54, 41) 5px 5px 10px;
@@ -288,7 +291,7 @@
 									<p id="owl-monthday"></p>	
 								</div><!-- deadLine -->
 								<div class="owl-item">
-									<p><small>디데이</small></p>	
+									<p><small>완료일</small></p>	
 									<p><span class="caro-cnt" id="owl-dday"></span></p>	
 									<p><small>&nbsp;</small></p>	
 								</div><!-- D day -->

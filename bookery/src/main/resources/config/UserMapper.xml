@@ -11,8 +11,8 @@
   		select * from user where deleted=0 and id=#{value}
   	</select>
   	<insert id="insertOne" parameterType="userBean">
-  		insert into user(email, name, password, nickname, createtime, tel) values
-  		(#{email}, #{name}, #{password}, #{nickname}, now(), #{tel})
+  		insert into user(email, name, password, nickname, createtime, tel, lvl) values
+  		(#{email}, #{name}, #{password}, #{nickname}, now(), #{tel}, #{lvl})
   	</insert>
   	<update id="updateOne" parameterType="userBean">
   		update user set name=#{name}, password=#{password}, nickname=#{nickname}, tel=#{tel}
@@ -44,7 +44,10 @@
   	</select>
   	
   	<select id="chkNaver" resultType="int" parameterType="String">
-  		select count(*) as cnt from user where deleted=0 and password=#{text}
+  		select count(*) as cnt from user where deleted=0 and password=#{password} and lvl=#{lvl}
+  	</select>
+  	<select id="chkBySns" resultType="String" parameterType="String">
+  		select lvl from user where deleted=0 and email=#{email}
   	</select>
   	
   	<select id="findEmail" resultType="String" parameterType="map">

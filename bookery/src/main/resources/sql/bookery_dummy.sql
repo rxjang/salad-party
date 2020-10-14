@@ -1,3 +1,13 @@
+ALTER TABLE salpa.award AUTO_INCREMENT = 1;
+ALTER TABLE salpa.book AUTO_INCREMENT = 1;
+ALTER TABLE salpa.checkchap AUTO_INCREMENT = 1;
+ALTER TABLE salpa.checkpage AUTO_INCREMENT = 1;
+ALTER TABLE salpa.club AUTO_INCREMENT = 1;
+ALTER TABLE salpa.medal AUTO_INCREMENT = 1;
+ALTER TABLE salpa.recommend AUTO_INCREMENT = 1;
+ALTER TABLE salpa.study AUTO_INCREMENT = 1;
+ALTER TABLE salpa.toc AUTO_INCREMENT = 1;
+ALTER TABLE salpa.user AUTO_INCREMENT = 1;
 insert into salpa.medal(medal,criteria) values ('record1','공부 완료 1개');
 insert into salpa.medal(medal,criteria) values ('record7','공부 완료 7개');
 insert into salpa.medal(medal,criteria) values ('record30','공부 완료 30개');

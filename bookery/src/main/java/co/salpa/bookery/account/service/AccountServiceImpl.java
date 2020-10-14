@@ -25,14 +25,18 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public void register(UserVo newUser) throws SQLException {
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		UserVo bean = new UserVo(newUser.getEmail(), newUser.getPassword(), newUser.getName(), newUser.getNickname(), newUser.getTel());
+		UserVo bean = new UserVo(newUser.getEmail(), newUser.getPassword(), newUser.getName(), newUser.getNickname(), newUser.getTel(), newUser.getLvl());
 		userDao.insertOne(bean);
 	}
 	
 	@Override
 	public int chkNaver(String password) throws SQLException {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("password", password);
+		map.put("lvl", "naver");
+		
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		int cnt = userDao.chkNaver(password);
+		int cnt = userDao.chkNaver(map);
 		return cnt;
 	}
 
@@ -60,7 +64,6 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public Model getUserInfo(int id, Model model) throws SQLException {
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		
 		UserVo userBean = userDao.selectOne(id);
 		return model.addAttribute("userBean", userBean);
 	}
@@ -144,6 +147,13 @@ public class AccountServiceImpl implements AccountService{
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
 		int result = userDao.deleteOne(id);
 		return result;
+	}
+
+	@Override
+	public String chkBySns(String email) {
+		UserDao userDao = sqlSession.getMapper(UserDao.class);
+		String lvl = userDao.chkBySns(email);
+		return lvl;
 	}
 
 }
