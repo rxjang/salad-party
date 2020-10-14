@@ -126,6 +126,7 @@
 	#chart1{
 		width: 100%;
 		height: 600px;
+		display: block;
 	}
 	
 	
@@ -143,6 +144,7 @@
 	var amdata=[];//chart1에 사용할 data
 	var start;
 	var actual_perday;
+	
 
 	// 책 목록 케러셀
 	$(function() {
@@ -164,7 +166,7 @@
 			}
 		});
 	});
-
+	
 	$(function(){
 		// 케러셀 아래부분 숨겼다가, 책 표지 클릭하면 해당하는 내용만 보이게 처리
 		$(".perStudy").hide();
@@ -190,6 +192,8 @@
 						calList=data.calList;
 						console.log(studyVo.study_id);
 						console.log(calList.length);
+						var cnt = 0;
+						amdata = [];
 						calList.forEach(function(element,index){
 								start = new Date(element.start).format('yyyy-MM-dd');
 								actual_perday = element.actual_perday;
@@ -200,9 +204,15 @@
 						});
 					}
 				});
+				
 			});
 		});
-	});
+		
+		
+		$('#chart-list li').click(function(){
+				amChartStart();
+		});
+	});//ready
 	// 책 이미지 클릭
 //     $("#book").click(function(){
 //         var objParams = {
@@ -251,11 +261,12 @@
 */	
 	// chart1 
 	// https://www.amcharts.com/demos/serpentine-stepline-chart/
+function amChartStart(){ 
 	am4core.ready(function() {
 		// Themes begin
 		am4core.useTheme(am4themes_animated);
 		// Themes end
-
+		console.log('amready = ',amdata);
 		var chart = am4core.create("chart1", am4plugins_timeline.SerpentineChart);
 		chart.levelCount = 3;
 		
@@ -295,6 +306,8 @@
 		chart.scrollbarX.align = "center";
 
 		}); // end am4core.ready()
+		
+	}
 </script>
 </head>
 <body>
