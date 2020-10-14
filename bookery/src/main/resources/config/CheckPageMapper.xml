@@ -44,6 +44,10 @@
 		study_id=#{study_id}
 		and deleted = 0
 	</update>
+	<update id="insertPage" parameterType="checkPageBean">
+		insert into salpa.checkpage (actualpage,updatetime,date,study_id) values
+		(#{actualpage},now(),now(),#{study_id})
+	</update>
 	<update id="updateTimeStudy">
 		update study set updatetime=now() where id=#{study_id}
 	</update>

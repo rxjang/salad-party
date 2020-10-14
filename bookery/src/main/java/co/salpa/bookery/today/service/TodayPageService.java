@@ -12,7 +12,7 @@ public interface TodayPageService {
 
 	void checkPageService(int actualpage, int study_id) throws DataAccessException;
 	
-	Model getTodayProgress(Model model, int study_id) throws DataAccessException;
+	//Model getTodayProgress(Model model, int study_id) throws DataAccessException;
 	
 	
 	

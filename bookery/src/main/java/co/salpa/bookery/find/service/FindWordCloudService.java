@@ -44,8 +44,8 @@ public class FindWordCloudService {
 			map.put("bid", v_Readers_cntVo.getBook_bid()+"");
 			
 			int title_length = v_Readers_cntVo.getTitle().length();
-			if(title_length > 8) {
-				map.put("title", v_Readers_cntVo.getTitle().substring(0,8));
+			if(title_length > 4) {
+				map.put("title", v_Readers_cntVo.getTitle().substring(0,4));
 			}else {
 				map.put("title", v_Readers_cntVo.getTitle());
 			}

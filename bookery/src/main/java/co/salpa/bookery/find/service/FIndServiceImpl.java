@@ -427,7 +427,7 @@ public class FIndServiceImpl implements FindService {
 		    Graphics graphics = newImage.getGraphics();
 		    graphics.drawImage(resizeImage, 0, 0, null);
 			graphics.dispose();
-
+			
 			String resizeImgName = savedName;
 			File newFile = new File(coverurl+File.separator+savedName);
 		    String formatName = savedName.substring(savedName.lastIndexOf(".") + 1);
