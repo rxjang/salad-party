@@ -100,11 +100,15 @@ $(function() {
 		top:0;
 	}
 	.mylib-main-inner{padding-top:15px; padding-left:30px;}
-	.sub-title{position:relative;}
+	.sub-title{
+		position:relative;
+		margin-top:1em;
+	}
 	.owl-theme{
-		padding-bottom:20px;
-		margin-bottom:20px;
 		border-bottom:1px solid #e4e4e4;
+	}
+	.owl-theme:last-child{
+		border-bottom:0px solid #e4e4e4;
 	}
 	.owl-stage{	/* 캐러셀 아래로 정렬 */
 		padding-left:5px;

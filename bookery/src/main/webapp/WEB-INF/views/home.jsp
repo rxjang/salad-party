@@ -9,14 +9,12 @@
 <%@ include file="template/menu.jspf" %>
 	<!-- **********content start**********--> 
 <div class="row">
-	<div class="col-xs-12 col-md-12">
+<div class="col-xs-12 col-md-12">
 	<c:if test="${user ne null}">
 	<h3>${user.nickname }님 로그인 하셨습니다.</h3>
 	</c:if>
 	<br/>
-	1<br/>
-	1<br/>
-	1<br/>
+	<a href="${pageContext.request.contextPath }/main">main</a><br/>
 	1<br/>
 	1<br/>
 	1<br/>

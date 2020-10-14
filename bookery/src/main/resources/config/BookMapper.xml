@@ -7,9 +7,11 @@
 	<select id="selectAll" resultType="bookBean">
 		select * from book
 	</select>
-	<select id="selectOne" resultType="bookBean"
-		parameterType="_int">
+	<select id="selectOne" resultType="bookBean" parameterType="_int">
 		select * from book where bid = #{bid}
+	</select>
+	<select id="selectOneByStudyId" resultType="bookBean" parameterType="_int">
+		select * from book where bid=(select book_bid from study where id=#{id})
 	</select>
 
 

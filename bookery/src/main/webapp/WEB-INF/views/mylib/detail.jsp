@@ -8,28 +8,35 @@
 
 </Script>
 <style type="text/css">
+	.book-info{
+		margin-left:30px;
+	}
 	.title{
 		margin:15px auto;
 		text-align:center;
 	}
 	.book-title{
 		margin:0px;
-		font-size:1.5em;
 	}
 	.book-img-container{
 		text-align:center;
+		margin-top:20px;
+	}
+	.book-img-container span{
+		color:rgb(143,143,143);
 	}
 	.book-image{
 		width:14em;
 		box-shadow: 12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4);
-		margin-bottom:5em;
+		margin-bottom:1em;
 	}
 	.dates{
-		background-color:#ecece9;
+		background-color:#f7f7f7;
 		border-radius:10px;
 		display:flex;
-		width:100%;
-		margin:20px auto;
+		width:97%;
+		margin-left:20px;
+		margin-bottom:20px;
 	}
 	.date{
 		text-align:center;
@@ -49,13 +56,26 @@
 		font-weight:bold;
 		color:#505050;
 	}
+	.chart-title{
+		text-align:center;
+	}
 	.chart-inner{
 		margin:0px auto;
-		width:70%;
+		width:100%;
 		height:300px;
 	}
  	@media (max-width:800px) {
-		.book-image{margin-bottom:2em;}
+ 		.book-info{
+			margin-left:0px;
+		}
+		.book-image{
+			margin-bottom:2em;
+		}
+		.dates{
+			width:100%;
+			margin:2em auto;
+			margin-top:1em;
+		}
 		.all-data{
 			text-align:center;
 		}
@@ -63,7 +83,6 @@
 			width:100%;
 			height:250px;
 		}
-		
 	}
 </style>
 
@@ -75,7 +94,6 @@
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8 title">
-		<h3>완독 기록</h3>
 	</div>
 	<div class="col-md-2"></div>
 </div><!-- row end --> 
@@ -83,12 +101,20 @@
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-2">
 		<div class="book-img-container">
-			<img class="book-image" src="${v_study.coverurl }" alt="책 이미지">
+			<img class="book-image" src="${bookInfo.coverurl }" alt="책 이미지">
+			<h5><span>저자</span> <strong>${bookInfo.writer }</strong></h5>
+			<h5><span>출판사</span> <strong>${bookInfo.publisher}</strong></h5>
+			<h5><span>출간일</span> <strong>${bookInfo.publicationdate}</strong></h5>
 		</div>
 	</div>
 	<div class="col-xs-12 col-md-6 all-data">
-		<h4 class="book-title"><strong>${v_study.title}</strong></h4>
-		<h5>본 책은 총 <strong class="color-green">${v_study.pages}</strong>페이지 입니다</h5>
+		<div class="book-info">
+			<h3 class="book-title"><strong>${bookInfo.title}</strong></h3>
+			<h5>본 책은 총 <strong class="color-green">${v_study.pages}</strong>페이지 입니다</h5>
+		</div>
+		<div class="chart-inner">
+			<canvas id="myChart" width="400" height="400"></canvas>
+		</div><!-- chart-inner -->
 		<div class="dates">
 			<div class="date">
 				시작일<br/>
@@ -102,20 +128,10 @@
 				완료일<br/>
 				<span class="date-data">${v_study.updatetime}</span>
 			</div>
-		</div>
-	</div>
+		</div><!-- dates -->
+	</div><!-- all-data -->
 	<div class="col-md-2"></div>
 </div><!-- .row end -->
-<div class="row">
-	<div class="col-md-1"></div>
-	<div class="col-xs-12 col-md-10">
-		<div class="chart-inner">
-			<canvas id="myChart" width="400" height="400"></canvas>
-		</div>
-		
-	</div>
-	<div class="col-md-1"></div>
-</div>
 <!--**********content end**********-->
 <script>
 var finData='${finData}';

@@ -14,6 +14,8 @@ public interface BookDao {
 
 	BookVo selectOne(int key) throws DataAccessException;
 
+	BookVo selectOneByStudyId(int id) throws DataAccessException;
+
 	void insertOne(BookVo bean) throws DataAccessException;
 
 	int updateOne(BookVo bean) throws DataAccessException;
