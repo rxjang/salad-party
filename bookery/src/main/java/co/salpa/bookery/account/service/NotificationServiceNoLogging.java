@@ -24,7 +24,7 @@ public class NotificationServiceNoLogging implements NotificationService {
 	SqlSession sqlSession;
 
 	/*
-	 * 내 글에 달린 댓글들 목록
+	 * 내 알림들 목록 댓글, 1대1문의, 어워즈
 	 */
 	@Override
 	public Model listReplyMyPostService(Model model, HttpSession session) {
@@ -39,7 +39,7 @@ public class NotificationServiceNoLogging implements NotificationService {
 	}
 
 	/*
-	 * 내 글에 달린 댓글들 목록 사이즈 반환
+	 * 내 글에 달린 알림 목록 사이즈 반환
 	 */
 	@Override
 	public int getReplyMyPostListSize(HttpSession session) {

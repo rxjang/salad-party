@@ -403,7 +403,7 @@
 	        var contentH = $('.bookclub-contents').height(); //문서 전체 내용을 갖는 div의 높이
 			//console.log(scrollH);
 			//console.log(contentH);
-	        if(scrollT + scrollH +1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
+	        if(scrollT + scrollH+1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
 	          // $('.bookclub-contents').append($('<div class="col-xs-12 col-md-4 thumb-box" data-aos="fade-down"><p>APPEND</p></div>'));
 	        $('.'+className+'').each(function(idx,ele){
 		    			if(cnt*5 > (idx-1) ){

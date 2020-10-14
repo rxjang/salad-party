@@ -26,22 +26,26 @@ public class FindBookController {
 	FindService findService;
 	@Autowired
 	ClubService clubService;
-	
+
 	/***************************
 	 * 검색목록에서 책 눌렀을 때 책 상세보기 페이지로 이동
 	 **********************************/
 
 	@RequestMapping("/book/{bid}")
 	public String findBook(@PathVariable int bid, HttpServletRequest request, Model model) {
-		
+
 		HttpSession session = request.getSession();
 		UserVo user = (UserVo) session.getAttribute("user");
-		
-		findService.crawlingService(bid, model);
 		clubService.getReaderService(bid, model);
-		
-		if(user!=null) {
+
+		if (user != null) {
 			findService.getStudyOverlapChk(user.getId(), bid, model);
+		}
+		if (bid < 0) {
+			findService.listTocService(model, bid);//book, toc
+			return "/find/findBookDirect";
+		} else {
+			findService.crawlingService(bid, model);
 		}
 		return "/find/findBook";
 	}
