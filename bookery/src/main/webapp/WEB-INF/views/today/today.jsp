@@ -126,6 +126,7 @@
 	#chart1{
 		width: 100%;
 		height: 600px;
+		display: block;
 	}
 	.chart-inner{
 		margin:0px auto;
@@ -141,18 +142,21 @@
 	var chart;
 	var start;
 	var actual_perday;
+
+  
 	var list_date=new Array();
 	var list_plan_perday=new Array();
 	var list_actual_perday=new Array();
 	var list_plan_accum=new Array();
 	var list_actual_accum=new Array();
+
 	var typeKor;// "챕터","페이지"
 	var total;// 총챕터수 or 총페이지수
 	var progress;// progress_rate
 	var arrPlan=[];// [[x값,y값],[],[],[]]
 	var arrActual=[];// [[x값,y값],[],[],[]]
 	var today=new Date().format('yyyy-MM-dd');
-	
+
 	// 책 목록 케러셀
 	$(function() {
 		$('.owl-carousel').owlCarousel({
@@ -173,7 +177,7 @@
 			}
 		});
 	});
-
+	
 	$(function(){
 		// 케러셀 아래부분 숨겼다가, 책 표지 클릭하면 해당하는 내용만 보이게 처리
 		$(".perStudy").hide();
@@ -206,12 +210,14 @@
 						}
 						progress=studyVo.progress_rate;
 						calList=data.calList;
+
 						amdata=[];
 						list_date=[];
 						list_plan_perday=[];
 						list_actual_perday=[];
 						list_plan_accum=[];
 						list_actual_accum=[];
+
 						calList.forEach(function(element,index){
 							//amchart
 							start = new Date(element.start).format('yyyy-MM-dd');
@@ -224,7 +230,7 @@
 							list_plan_accum.push(element.plan_accum);
 							list_actual_accum.push(element.actual_accum);
 						});
-							
+            
 						//highcgart
 						var days=studyVo.total_days; //총 날짜 수
 						var daysPlan=studyVo.plan_days_yesterday; //어제까지 계획한 날짜 수
@@ -289,6 +295,7 @@
 							}
 						} //for
 					} //success: function(data)
+
 				}); // ajax
 				$('#todayChartList').show();
 			});// .item click
@@ -320,8 +327,10 @@
 			});
 		});// .item each
 	});// doc ready
+
 	
 	// https://www.amcharts.com/demos/serpentine-stepline-chart/
+  
 	function chartTimelineStart(){
 		am4core.ready(function() {
 			// Themes begin
@@ -366,6 +375,7 @@
 			chart.scrollbarX.width = am4core.percent(80);
 			chart.scrollbarX.align = "center";
 		}); // am4core.ready()
+
 	} // chartTimelineStart()
 	
 	// https://www.amcharts.com/demos/gauge-with-gradient-fill/

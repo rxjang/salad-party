@@ -261,17 +261,13 @@ $(function(){
 					    	value:true
 					    }
 					  },
-				}).then((value) => {	//value가 true이면 내서재로 이동한다.
+				}).then((value) => {	//value가 true이면 로그인하러감
 					if(value){
 							location.href = '${pageContext.request.contextPath }/account/login';
 					}//if
 				});//swal
 				return false;
 			}else{
-				var parameter = 'chapters='+chapters.trim()+'&bid='+ bid+'&title='+ title+'&writer='+ writer+'&publisher='+ publisher+'&pages='+ pages+
-					'&category='+ category+'&translator='+ translator+'&titleoriginal='+ title_original+'&publicationdate='+ publication_date+
-					'&revision='+ revision+'&coverurl='+ imgUrl;
-				//$.post('${pageContext.request.contextPath }/find/put', {
 				var jparam ={
 					"chapters" : chapters,
 					"book":
@@ -305,32 +301,6 @@ $(function(){
 					}//errro	
 				});//ajax
 			}//else 로그인 검사
-/* 		
-			XHRPOSThttp://localhost:8085/bookery/find/put
-				[HTTP/1.1 400  36ms]
-
-				    	
-				    chapters	""
-				    bid	"12247527"
-				    title	"감자가 만났어"
-				    writer	"수초이"
-				    publisher	"후즈갓마이테일"
-				    pages	"48"
-				    category	""
-				    translator	""
-				    titleoriginal	""
-				    publicationdate	""
-				    revision	""
-				    coverurl	"https://bookthumb-phinf.pstatic.net/cover/122/475/12247527.jpg?type"
-				    udate	"20191011"
- */
-//chapters=&bid=12247527&title=감자가 만났어&writer=수초이&publisher=후즈갓마이테일
-//&pages=48&category=&translator=&titleoriginal=&publicationdate=&revision=
-//&coverurl=https://bookthumb-phinf.pstatic.net/cover/122/475/12247527.jpg?type=m140&udate=20191011
-
-
-
-			
 			swal({
 				  title: "내서재에 담았습니다.",
 				  text: "내서재로 이동하시겠습니까?",
@@ -345,9 +315,7 @@ $(function(){
 			}).then((value) => {	//value가 true이면 내서재로 이동한다.
 				if(value){
 						location.href = '${pageContext.request.contextPath }/mylib';
-				}else{
-					location.reload();					
-				}//if
+				}
 			});//swal
 
 			return false;//a tag 이동 방지

@@ -31,5 +31,7 @@ public interface FindService {
 
 	public Model getStudyOverlapChk(int id, int bid,Model model);
 
-	String listReadersService() throws DataAccessException;
+	public String listReadersService() throws DataAccessException;
+	
+	void imageResize(String coverurl, String savedName) throws Exception; 
 }

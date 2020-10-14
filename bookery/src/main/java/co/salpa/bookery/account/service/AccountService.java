@@ -36,4 +36,6 @@ public interface AccountService {
 	
 	public int withdraw(int id) throws SQLException;
 
+	public String chkBySns(String email);
+
 }

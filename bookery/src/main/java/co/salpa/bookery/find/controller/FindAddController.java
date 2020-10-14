@@ -88,6 +88,16 @@ public class FindAddController {
 		 * catch block e.printStackTrace(); }
 		 */
 		// String jsonURL = null;
+		
+		/*
+		 * image resize하기
+		 */
+		try {
+			findService.imageResize(cover_folder, cover_name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String url = req.getContextPath()+"/resources/cover/" + cover_name;
 		// ObjectMapper mapper = new ObjectMapper();
 		Map<String, String> map = new HashMap<String, String>();

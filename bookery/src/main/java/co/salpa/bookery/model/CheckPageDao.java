@@ -8,7 +8,7 @@ import org.springframework.dao.DataAccessException;
 import co.salpa.bookery.model.entity.CheckPageVo;
 
 public interface CheckPageDao {
-	
+
 	List<CheckPageVo> selectAll(int study_id) throws DataAccessException;
 
 	List<CheckPageVo> selectAllByStudyId(Integer sid) throws DataAccessException;
@@ -20,9 +20,11 @@ public interface CheckPageDao {
 	CheckPageVo selectOneByDate(Map<String, String> map) throws DataAccessException;
 
 	void insertOne(CheckPageVo bean) throws DataAccessException;
-	
+
 	int updateOne(CheckPageVo page) throws DataAccessException;
 
 	int updateTimeStudy(int study_id) throws DataAccessException;
+
+	void insertPage(CheckPageVo checkPageVo) throws DataAccessException;
 
 }

@@ -1,7 +1,10 @@
 package co.salpa.bookery.find.service;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -393,4 +398,48 @@ public class FIndServiceImpl implements FindService {
 		// return model.addAttribute("cntReaders", v_Readers_cntDao.selectAll());
 	}// listReadersService
 
+	
+	
+
+	
+	@Override
+	public void imageResize(String coverurl, String savedName) throws Exception {
+		 
+	//	path = "C:\\Users\\jhj71\\Desktop\\eGovFrameDev-3.9.0-64bit\\sts-bundle\\sts-3.9.13.RELEASE\\stsworkspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\bookery\\resources\\cover";
+	//	savedName = "ca4afc9b-23b6-4f69-8ed6-f41bb5cdcd31bell-icon.png";
+		 
+	
+		
+		Image originalImage = ImageIO.read(new File(coverurl,savedName));
+
+		  int originWidth = originalImage.getWidth(null);
+		  int originHeight = originalImage.getHeight(null);
+
+		  int newWidth = 140;
+
+		if (originWidth > 100) {
+			 System.out.println("reSize");
+		    int newHeight = (originHeight * newWidth) / originWidth;
+
+			Image resizeImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+
+		    BufferedImage newImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+		    Graphics graphics = newImage.getGraphics();
+		    graphics.drawImage(resizeImage, 0, 0, null);
+			graphics.dispose();
+			
+			String resizeImgName = savedName;
+			File newFile = new File(coverurl+File.separator+savedName);
+		    String formatName = savedName.substring(savedName.lastIndexOf(".") + 1);
+		    ImageIO.write(newImage, formatName.toLowerCase(), newFile);
+		    
+			//transparency(path + File.separator + formatName.toLowerCase());
+		    
+		  } 
+		}//resizeImageFile
+	
+	
+	
+	
+	
 }// ClassEnd

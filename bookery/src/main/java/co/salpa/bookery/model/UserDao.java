@@ -15,7 +15,7 @@ public interface UserDao {
 	UserVo selectOne(int id) throws DataAccessException;
 	
 	// 네이버 계정 등록 여부 확인
-	int chkNaver(String password) throws DataAccessException;
+	int chkNaver(Map<String, String> map) throws DataAccessException;
 	
 	// 회원가입
 	void insertOne(UserVo bean) throws DataAccessException;
@@ -52,5 +52,7 @@ public interface UserDao {
 	
 	// 비밀번호 변경처리
 	int newPw(Map<String, String> map) throws DataAccessException;
+
+	String chkBySns(String email);
 	
 }
