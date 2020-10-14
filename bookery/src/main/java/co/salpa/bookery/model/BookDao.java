@@ -12,6 +12,8 @@ public interface BookDao {
 
 	List<BookVo> selectMostBook() throws DataAccessException;//스터디 테이블에 가장 많이 등록된 책 순서대로
 
+	List<BookVo> selectThirtyBook() throws DataAccessException;
+
 	BookVo selectOne(int key) throws DataAccessException;
 
 	BookVo selectOneByStudyId(int id) throws DataAccessException;
