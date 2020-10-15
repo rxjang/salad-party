@@ -154,7 +154,7 @@ pubdate	datetime	출간일 정보이다.
 	      
 	 
 	/**********************    캐러셀    **********************/
-		$('.owl-carousel').owlCarousel({
+		/* $('.owl-carousel').owlCarousel({
 			margin:20,
 	    	responsiveClass:true,
 			nav : false,
@@ -172,7 +172,7 @@ pubdate	datetime	출간일 정보이다.
 				}
 			}
 		});//owl캐러셀
-		$('.owl-stage-outer').after('<img class=\"wood\" src=\"${pageContext.request.contextPath}/resources/imgs/shelf.png\">');
+		$('.owl-stage-outer').after('<img class=\"wood\" src=\"${pageContext.request.contextPath}/resources/imgs/shelf.png\">'); */
 		/* 검색 옵션 제목,저자,출판사 */
 		$('#opt-tit').click(function(){
 			$('#selectOpt').html($(this).text()+'<span class="caret"/>');
@@ -480,7 +480,6 @@ am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4plugins_wordCloud.WordCloud);
 var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
-series.rotationThreshold = 0.5;
 series.dataFields.word = "title";
 series.dataFields.bid = "bid";
 series.dataFields.fulltitle = "full_title";
@@ -517,8 +516,6 @@ setInterval(function () {
 
 }); // end am4core.ready()
 </script>
-
-<!-- HTML -->
 
 	<!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>

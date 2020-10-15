@@ -239,50 +239,36 @@
 		/* 가나다순 정렬하기 */
 		$('#orderByABC').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+			var items_ABC = $('.thumb-box .book-title').get(); 
+			items_ABC.sort(function(a,b){ 
+				  var keyA = $(a).text();
+				  var keyB = $(b).text();
+				  if (keyB > keyA) return -1;
+				  if (keyA > keyB) return 1;
+				  return 0;
+			});	
 			
 			if($('#orderByCBA').attr('class').includes('ok',0)){
 				$('#orderByCBA').addClass('not-ok').removeClass('ok');
 				$('#orderByCBA .glyphicon-ok').remove();
 			} 
-			
 			if($(this).attr('class').includes('not-ok',0)){
 				//console.log('내책만보기');
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
-				var items_ABC = $('.thumb-box .book-title').get(); 
-				items_ABC.sort(function(a,b){ 
-					  var keyA = $(a).text();
-					  var keyB = $(b).text();
-					  if (keyB > keyA) return -1;
-					  if (keyA > keyB) return 1;
-					  return 0;
-				});	
+				
 				$.each(items_ABC, function(idx, ele){
 				//	console.log('가나다');
 					$('.bookclub-contents').append($(ele).parent().parent().parent());
 					$(ele).parent().parent().parent().hide();
 				});
-				 $('.thumb-box').hide();
+			
 				infinityScroll(orderby);
 			}else if($(this).attr('class').includes('ok',0)){
 				$(this).addClass('not-ok').removeClass('ok');
 				$(this).find('.glyphicon-ok').remove();
 				
-				var items = $('.thumb-box .badge').get(); 
-			/*	items.sort(function(a,b){ 
-					  var keyA = $(a).text();
-					  var keyB = $(b).text();
-					  if (keyB > keyA) return -1;
-					  if (keyA > keyB) return 1;
-					  return 0;
-				});	 */
-		/* 		$.each(items, function(idx, ele){
-					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
-				});
-					 
-					 $('.thumb-box').hide();
-						infinityScroll('thumb-box');
-						aos(); */
+
 				location.reload();
 			}//if
 		});//click
@@ -290,73 +276,41 @@
 		/* 역순 정렬하기 */
 		$('#orderByCBA').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+
+			var items_CBA = $('.thumb-box .book-title').get(); 
+			items_CBA.sort(function(a,b){ 
+				  var keyA = $(a).text();
+				  var keyB = $(b).text();
+				  if (keyB > keyA) return -1;
+				  if (keyA > keyB) return 1;
+				  return 0;
+			});	
 			
 			if($('#orderByABC').attr('class').includes('ok',0)){
 				$('#orderByABC').addClass('not-ok').removeClass('ok');
 				$('#orderByABC .glyphicon-ok').remove();
 			}
-			
 			if($(this).attr('class').includes('not-ok',0)){
 				console.log('내책만보기');
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
-
-				var items_CBA = $('.thumb-box .book-title').get(); 
-				items_CBA.sort(function(a,b){ 
-					  var keyA = $(a).text();
-					  var keyB = $(b).text();
-					  if (keyB > keyA) return -1;
-					  if (keyA > keyB) return 1;
-					  return 0;
-				});	
 				$.each(items_CBA, function(idx, ele){
 					$('.bookclub-contents').prepend($(ele).parent().parent().parent());
 					$(ele).parent().parent().parent().hide();
 				});
-				 $('.thumb-box').hide();
+				
 				infinityScroll(orderby);
 			}else if($(this).attr('class').includes('ok',0)){
 				//console.log('역순취소');
 				$(this).addClass('not-ok').removeClass('ok');
 				$(this).find('.glyphicon-ok').remove();
 			
-				var items = $('.thumb-box .badge').get(); 
-			/*	items.sort(function(a,b){ 
-					  var keyA = $(a).text();
-					  var keyB = $(b).text();
-					  if (keyB > keyA) return -1;
-					  if (keyA > keyB) return 1;
-					  return 0;
-				});	 */
-				/* $.each(items, function(idx, ele){
-					$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
-				}); */
-		/* 		
-				 $('.thumb-box').hide();
-				infinityScroll('thumb-box');
-				aos(); */
+				
 				location.reload();
 			}//if
 		});//click
 		
-		/* 화면 상단에 책더미그림: 모바일, pc에 따라 다른그림 배치 */
-				$('.jumbotron').css('background-image','url("${pageContext.request.contextPath }/resources/imgs/bookclub-main2.png")');				
-/* 			var window_x = $(window).width();
-			console.log(window_x);
-			if(window_x < 666){
-				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main-xs.png");				
-			}else{
-			}
-		setInterval(function() {
-			var window_x = $(window).width();
-			console.log(window_x);
-			if(window_x < 666){
-				$('#main-img').attr('src',"${pageContext.request.contextPath }/resources/imgs/bookclub-main-xs.png");				
-			}else{
-				$('.jumbotron').css('background-image','url("${pageContext.request.contextPath }/resources/imgs/bookclub-main2.png")');				
-			}
-		}, 1000); 
- */		
+		
 		/* 스크롤바 다내리면 새로운 목록 로딩 */
 		
 	    /* 미독완독 미완독 가나다순 정렬 클릭시 검색결과없음 표시. */
@@ -376,15 +330,17 @@
 	    		   }
 	    	   });//click
 	       });//each
-		
+
+	       /* tooltip */
+    	   $('[data-toggle="tooltip"]').tooltip()
 	});//ready
 	
 	
 	function infinityScroll(className){
 		
-		$(document).off('scroll');
+		$(document).off('scroll');//기존 스크롤 이벤트 삭제
 		
- 		$('.'+className+'').each(function(idx,ele){
+ 		$('.'+className+'').each(function(idx,ele){ //첫화면에 6개만 띄움
  			//console.log('check');
 		    			if(idx >= 5 ){
 		    				return false;
@@ -521,64 +477,44 @@
 	background-color: #253629;
 }
 .gradient {
+	background-image: url("${pageContext.request.contextPath }/resources/imgs/bookclub.jpg");
 	margin-top:0px;
-	width: 100%;
-	background: rgb(237, 255, 245); background : radial-gradient( circle,
-	rgba( 237, 255, 245, 1) 0%, rgba( 231, 249, 215, 1) 100%);
-	overflow: hidden;
-	height: 200px;
-	border-radius: 6px;
-	background: radial-gradient(circle, rgba(237, 255, 245, 1) 0%,
-		rgba(231, 249, 215, 1) 100%);
-}
-
-.jumbotron {
-	margin-top:30px;
-	height: 150px;
-	padding: 15px;
-	background-color: rgba(255, 255, 255, 0.0);
-	background-size: contain;
+		background-size: cover;
 	background-repeat: no-repeat;
 	background-position: 30%;
-	height: 140px;
-	padding: 15px;
+	width: 100%;
+/* 	background: rgb(237, 255, 245); background : radial-gradient( circle,
+	rgba( 237, 255, 245, 1) 0%, rgba( 231, 249, 215, 1) 100%); */
+	overflow: hidden;
+	height: 300px;
+/* 	background: radial-gradient(circle, rgba(237, 255, 245, 1) 0%,
+		rgba(231, 249, 215, 1) 100%); */
 }
+
+
 
 .jumbotron div {
 	height: 100%;
 }
 
-.jumbotron h2, .jumbotron h5 {
-	color: #253629;
-	line-height: 2px;
+h2, h5 {
+	color: #ecece9;
 	text-align: center;
-	font-size: 1.4em;
-	margin-top: 33px;
+	font-size: 2em;
+	margin-top: 30px;
+	text-shadow: 1px 1px black;
 }
-
-@media ( max-width :1000px) {
-	.bookclub-msg {
-		margin-left: 140px;
-	}
-	.jumbotron h2, .jumbotron h5 {
-		line-height: normal;
-		margin-top: 15px;
-	}
+.container-fluid .jumbotron {
+	background-color: rgba(0, 0, 0, 0.3);
+	padding-top: 30px;
+	padding-bottom: 75px;
+	border-radius: 0px;
 }
-
-@media ( max-width :460px) {
-	.jumbotron {
-		padding: 7px;
-		background-position-x: 15px;
-	}
-	.jumbotron h2, .jumbotron h5 {
-		margin-top: 11px;
-		line-height: normal;
-	}
-	.bookclub-msg {
-		float: right;
-		width: 66%;
-	}
+@media ( max-width :7600px) {
+	.gradient {height: 240px;}
+	h2, h5 {
+	font-size: 1.6em;
+}
 }
 </style>
 </head>
@@ -587,12 +523,11 @@
 	<!-- **********content start**********-->
 	<div class="row">
 	<div class="gradient bottom-line">
-	<div class="jumbotron">
-		<div class="bookclub-msg">
-		<h5>함께하는 독서라이프, 북클럽에서 함께 나누는 건 어때요?</h5>
+		<div class="jumbotron">
+		<h5>함께하는 독서라이프<br/> 북클럽에서 함께 나누는 건 어때요?</h5>
 		<h2><strong>무엇이든 궁금한 건 북클럽에 물어보세요!</strong></h2>
 		</div>
-	</div>
+
 	</div>
 	</div>
 	<div class="row">
@@ -614,7 +549,6 @@
 					<li><a id="orderByNoGoal" class="not-ok" href="#">미독</a></li>
 					<li><a id="orderByMyBook" class="not-ok" href="#">미완독</a></li>
 					<li><a id="orderByFinished" class="not-ok" href="#">완독</a></li>
-					<!-- <li><a id="orderByStar" class="not-ok" href="#">평점(미구현)</a></li> -->
 					<li><a id="orderByABC" class="not-ok" href="#">가나다</a></li>
 					<li><a id="orderByCBA" class="not-ok" href="#">가나다역순</a></li>
 			</ul>
@@ -646,7 +580,7 @@
 							</c:choose>
 						</a>
 						<div class="caption">
-							<p class="book-title">${bean.title }</p>
+							<p class="book-title" title="${bean.title }"  data-toggle="tooltip" data-placement="bottom">${bean.title }</p>
 							<ul class="pager additional-info">
 								<li><a>함께 읽는 사람 <span class="badge">${bean.readers }명</span></a></li>
 
