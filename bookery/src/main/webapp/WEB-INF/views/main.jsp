@@ -366,7 +366,7 @@
 			북커리를 시작하러 가볼까요?
 		</div>
 		<div class="news-btn">
-			<a class="btn" href="${pageContext.request.contextPath }/news">북커리 바로가기</a>
+			<a class="btn" href="${pageContext.request.contextPath }/news">북커리 둘러보기</a>
 		</div>
 	</div>
 	<div class="col-md-2"></div>

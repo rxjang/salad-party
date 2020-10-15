@@ -308,7 +308,7 @@ var i=0;
 
 $(function(){
 	$(".content-main").hide();
-	
+	$('[data-toggle="tooltip"]').tooltip()
 	
 	//글내용 열고 닫기는 횟수 기준으로
 	$(".content-box").each(function(){
@@ -459,7 +459,7 @@ $(function(){
 		<c:forEach items="${bestBooks }" var="best"><!-- 많이 공부 중인 책 리스트 -->
 		<li class="book-list">
 			<a href="${pageContext.request.contextPath }/find/book/${best.bid}">
-				<div class="list-image">
+				<div class="list-image" data-toggle="tooltip" data-placement="bottom" title="${best.title }">
 					<img class="book-image" alt="image loading fail" src="${best.coverurl }"><br/>
 				</div>
 				<span class="book-title title cut-12">${best.title }</span><span class="glyphicon glyphicon-info-sign"></span>

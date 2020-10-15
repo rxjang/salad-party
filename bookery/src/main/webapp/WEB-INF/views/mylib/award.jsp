@@ -53,13 +53,13 @@
 	}
 	.all-medal{
 		width:100%;
+		text-align:center;
 	}
 	.all-medal li{
-		width:25%;
-		float:left;
+		width:20%;
 		list-style:none;
-		text-align:center;
 		margin-bottom:3em;
+		display:inline-block;
 	}
 	.circle{
 		height:180px;
@@ -92,6 +92,25 @@
 		}
 		#award-account{
 			font-weight:bold;
+		}
+		.all-medal li{
+			width:30%;
+		}
+	}
+	@media (max-width:500px) {
+		.all-medal li{
+			width:45%;
+			margin-bottom:0;
+		}
+		.circle{
+			height:130px;
+			margin-bottom:2em;
+		}
+		.medal-image{
+			width:130px;
+		}
+		.achieve-medal{
+			padding-top:2em;
 		}
 	}
 </style>
