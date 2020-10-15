@@ -10,6 +10,7 @@
 		height:100%;
 	}
 	#today-main{
+/* 		margin-top:100px; */
 		height:300px;
 		overflow:hidden;
 		padding:10px;
@@ -63,82 +64,23 @@
 			border: 4px solid #e4e6da;
 			padding: 4px;
 		}
+		.chart-desc{
+		height:50px;
+		padding:20px;
+	}
 	}
 		
-/* 스터디의 오늘 할일 요약 */
+/* 스터디 요약 */
 	.perStudy{
 		margin:20px 0; 
 		padding:0;
 	}
-	.btn{
-		cursor: pointer;
-		border-radius:15px;
-		color:#8ba989;
-		border: 1px solid #8ba989;
+	.perStudy .row{
+		margin:20px 0; 
 	}
-	.btn:hover{
-		color:#e4e6da;
-		font-weight:bold;
-		background-color:#c0cfb2;
-	}
-	
-	#todayChartList{
-		margin:0 auto;
-	}
-	#todayChartList>div{
-		border-top:1px solid #cccccc;
-		border-bottom:1px solid #cccccc;
-	}
-	
-	#chartList{ /* ul */
-		text-decoration: none;
-		margin:0 auto;
-		padding:0;
-		width:80%;
-		height:50px;
-		overflow:hidden;
-	}
-	#chartList li{
-		display:inline-block;
-		margin:0;
-		padding:0;
-		width: 20%;
-		float:left;
-		line-height:50px;
-		text-align:center;
-		border-left:1px solid #cccccc;
-	}
-	#chartList li:last-child{
-		border-right:1px solid #cccccc;
-	}
-	#chartList li:hover{
-		color:#c0cfb2;
-		box-shadow: 0px 0px 3px 0.1px #c0cfb2;
-	}
-	
-	#chart1{
-		width: 100%;
-		height: 600px;
-		display: block;
-	}
-	.chart-inner{
-		margin:0px auto;
-		width:70%;
-		height:400px;
-	}
-	chartPerDay, chartAccum{
-		width:70%;
-		height:400px;
-	
-	}
-	canvas{
-		margin:0 100px;
-	}
-	
 	#summary{
 		padding:0;
 	}
-	
 	.dates{
 		background-color:#f7f7f7;
 		border-radius:15px;
@@ -166,6 +108,81 @@
 		font-weight:bold;
 		color:#505050;
 	}
+	.btn{
+/* 		margin:30px 0; */
+		border-radius:15px;
+		cursor: pointer;
+		color:#8ba989;
+		border: 1px solid #e4e6da;
+	}
+	.btn:hover{
+/* 		color:white; */
+		color:#8ba989;
+		font-weight:bold;
+		background-color:#e4e6da;
+		border: 1px solid #e4e6da;
+	}
+	
+/* 	차트 목록 */
+	#chartList{
+		margin:0 auto;
+/* 		padding:0; */
+		width:100%;
+		height:50px;
+/* 		overflow:hidden; */
+/* 		border-radius: 15px; */
+	}
+	#chartList a{
+		display:inline-block;
+		margin:0;
+		padding:0;
+		width: 20%;
+		float:left;
+		line-height:50px;
+		text-align:center;
+		cursor: pointer;
+/* 		color:#8ba989; */
+/* 		border: 1px solid #8ba989; */
+		border-radius:0;
+	}
+	#chartList a:first-child{
+		border-top-left-radius:15px;
+		border-bottom-left-radius:15px;
+	}
+	#chartList a:last-child{
+		border-top-right-radius:15px;
+		border-bottom-right-radius:15px;
+	}
+	#chartList a:hover{
+/* 		color:white; */
+/* 		font-weight:bold; */
+/* 		background-color:#c0cfb2; */
+	}
+	.sticky {
+		position: -webkit-sticky; /* Safari */
+		position: sticky;
+		top: 0;
+/* 		background-color: green; */
+/* 		border: 2px solid #4CAF50; */
+	}
+	
+/* 	차트 설명 */
+	.chart-desc{
+		height:500px;
+	}
+	.chart-desc h2{
+		color:49654d;
+		margin-bottom:15px;
+	}
+	.chartOuter{
+		width:90%;
+		height:400px;
+		margin:0px auto;
+	}
+	.col-xs-12{
+		padding:0 20px;
+	}
+	
 </style>
 
 <script type="text/javascript">
@@ -540,104 +557,152 @@
 </div><!-- today-main -->
 
 <div class="row" id="today-body">
-	<div class="col-md-2"></div>
-	<c:forEach items="${studyList }" var="study">
-		<div class="col-md-8 col-xs-12 perStudy">
-			<input type="hidden" value="${study.study_id }" />
-			<div class="row">
-				<c:set var="today" value="<%=new java.util.Date()%>"/>
-				<c:if test="${study.type eq 'chap'}">
-					<c:if test="${study.plan_chap lt study.actual_chap}">
-						<h2 class="main-ment">우와! 정말 대단해요!</h2>
-						<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
-					</c:if>
-					<c:if test="${study.plan_chap eq study.actual_chap}">
-						<h2 class="main-ment">축하합니다!</h2>
-						<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
-					</c:if>
-					<c:if test="${study.plan_chap gt study.actual_chap}">
-						<h2 class="main-ment">열심히 노력하는 당신!</h2>
-						<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_chap-study.actual_chap } 챕터 남았어요!</h4>
-					</c:if>
-				</c:if>
-				<c:if test="${study.type eq 'page'}">
-					<c:if test="${study.plan_page lt study.actual_page}">
-						<h2 class="main-ment">우와! 정말 대단해요!</h2>
-						<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
-					</c:if>
-					<c:if test="${study.plan_page eq study.actual_page}">
-						<h2 class="main-ment">축하합니다!</h2>
-						<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
-					</c:if>
-					<c:if test="${study.plan_page gt study.actual_page}">
-						<h2 class="main-ment">열심히 노력하는 당신!</h2>
-						<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_page-study.actual_page } 페이지 남았어요!</h4>
-					</c:if>
-				</c:if>
-			</div>
-			<div class="row">
-				<div class="col-md-12 col-xs-12" id="summary" >
-					<div class="dates">
-						<div class="date">
-							시작일<br/>
-							<span class="date-data">${study.startdate}</span>
+	<div class="col-md-12 col-xs-12">
+		<div class="row">
+			<div class="col-md-2"></div>
+			<c:forEach items="${studyList }" var="study">
+				<div class="col-md-8 col-xs-12 perStudy">
+					<input type="hidden" value="${study.study_id }" />
+					<div class="row">
+						<c:set var="today" value="<%=new java.util.Date()%>"/>
+						<c:if test="${study.type eq 'chap'}">
+							<c:if test="${study.plan_chap lt study.actual_chap}">
+								<h2 class="main-ment">우와! 정말 대단해요!</h2>
+								<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
+							</c:if>
+							<c:if test="${study.plan_chap eq study.actual_chap}">
+								<h2 class="main-ment">축하합니다!</h2>
+								<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
+							</c:if>
+							<c:if test="${study.plan_chap gt study.actual_chap}">
+								<h2 class="main-ment">열심히 노력하는 당신!</h2>
+								<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_chap-study.actual_chap } 챕터 남았어요!</h4>
+							</c:if>
+						</c:if>
+						<c:if test="${study.type eq 'page'}">
+							<c:if test="${study.plan_page lt study.actual_page}">
+								<h2 class="main-ment">우와! 정말 대단해요!</h2>
+								<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
+							</c:if>
+							<c:if test="${study.plan_page eq study.actual_page}">
+								<h2 class="main-ment">축하합니다!</h2>
+								<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
+							</c:if>
+							<c:if test="${study.plan_page gt study.actual_page}">
+								<h2 class="main-ment">열심히 노력하는 당신!</h2>
+								<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_page-study.actual_page } 페이지 남았어요!</h4>
+							</c:if>
+						</c:if>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-xs-12" id="summary" >
+							<div class="dates">
+								<div class="date">
+									시작일<br/>
+									<span class="date-data">${study.startdate}</span>
+								</div>
+								<div class="date">
+									목표일<br/>
+									<span class="date-data">${study.enddate}</span>
+								</div>
+								<div class="date">
+									남은날짜<br/>
+									<span class="date-data">${study.remain_days}</span>
+								</div>
+								<div class="date">
+									전체<br/>
+									<span class="date-data">${study.total_pages + study.total_chap } ${study.type }</span>
+								</div>
+								<div class="date">
+									완료<br/>
+									<span class="date-data">${study.actual_page + study.actual_chap } ${study.type }</span>
+								</div>
+							</div><!-- dates -->
 						</div>
-						<div class="date">
-							목표일<br/>
-							<span class="date-data">${study.enddate}</span>
+					</div>
+					<div class="row">
+						<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+						type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
+					</div>
+					<div class="row">
+						<h2 class="main-ment">다양한 차트를 통해 진행중인 스터디의 현황을 볼 수 있어요</h2>
+						<h4 class="sub-ment">차트 목록에서 원하는 기록 타입을 선택하세요. 차트들은 어젯밤 12시까지의 기록을 기준으로 그려집니다.</h4>
+						<div id="chartList" class="sticky">
+							<a href="#chart1" type="button" class="btn btn-default btn-lg">타임라인</a>
+							<a href="#chart2" type="button" class="btn btn-default btn-lg">진행률</a>
+							<a href="#chart3" type="button" class="btn btn-default btn-lg">일일 평균</a>
+							<a href="#chart4" type="button" class="btn btn-default btn-lg">일일 기록</a>
+							<a href="#chart5" type="button" class="btn btn-default btn-lg">누적 기록</a>
 						</div>
-						<div class="date">
-							남은날짜<br/>
-							<span class="date-data">${study.remain_days}</span>
-						</div>
-						<div class="date">
-							전체<br/>
-							<span class="date-data">${study.total_pages + study.total_chap } ${study.type }</span>
-						</div>
-						<div class="date">
-							완료<br/>
-							<span class="date-data">${study.actual_page + study.actual_chap } ${study.type }</span>
-						</div>
-					</div><!-- dates -->
-				</div>
-			</div>
-			<div class="row">
-				<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-				type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
-			</div>
-			<div class="row">
-				<h2 class="main-ment">다양한 차트를 통해 진행중인 스터디의 현황을 볼 수 있어요</h2>
-				<h4 class="sub-ment">차트 목록에서 원하는 기록 타입을 선택하세요</h4>
-				<ul id="chartList">
-					<li id="labelChartTimeline"><a href="#chartTimelineOuter">타임라인</a></li>
-					<li id="labelChartGauge"><a href="#chartGaugeOuter">진행률</a></li>
-					<li id="labelChartAvg"><a href="#chartAvgOuter">일일 평균</a></li>
-					<li id="labelChartPerDay"><a href="#chartPerDayOuter">일일 기록</a></li>
-					<li id="labelChartAccum"><a href="#chartAccumOuter">누적 기록</a></li>
-				</ul>
-			</div>
-		</div><!-- perStudy -->
+					</div>
+				</div><!-- col-md-8 col-xs-12 perStudy -->
+		</div>
 	</c:forEach>
-			<div class="row">
-				<div class="col-md-10 col-md-offset-2 col-xs-12">
-					<div class="row" id="chartTimelineOuter">
-						<div id="chartTimeline" class="chart-inner"></div>
-					</div>
-					<div class="row" id="chartGaugeOuter">
-						<div id="chartGauge" class="chart-inner"></div>
-					</div>
-					<div class="row" id="chartAvgOuter">
-						<div id="chartAvg" class="chart-inner"></div>
-					</div>
-					<div class="row" id="chartPerDayOuter">
-						<canvas id="chartPerDay" class="chart-inner" width="500" height="400"></canvas>
-					</div>
-					<div class="row" id="chartAccumOuter">
-						<canvas id="chartAccum" class="chart-inner" width="500" height="400"></canvas>
-					</div>
+		<div class="row" id="chart1">
+			<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+				<h2 class="main-ment">타임라인 차트</h2>
+				<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 하루하루 기록한 챕터 또는 페이지의 양을 시간 순으로 볼 수 있어요.<br><br>
+				더 자세히 보고 싶다면 차트 위에 가로로 있는 바를 움직여 보세요. 최소 5일까지 자세히 볼 수 있어요.<br><br>
+				차트 위를 움직여 보세요. 각 날짜의 값도 볼 수 있어요. </h4>
+			</div>
+			<div class="col-md-5 col-xs-12">
+				<div class="row chartOuter" id="chartTimelineOuter">
+					<div id="chartTimeline" class="chart-inner"></div>
 				</div>
 			</div>
-</div><!-- today-body -->
+		</div>
+		<div class="row" id="chart2">
+			<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+				<h2 class="main-ment">진행률 게이지</h2>
+				<h4 class="sub-ment">전체 중 완료한 양을 볼 수 있어요.<br><br>
+				숫자는 챕터 또는 페이지 수, 바늘은 현재 완료한 위치를 나타냅니다.</h4>
+			</div>
+			<div class="col-md-5 col-xs-12">
+				<div class="row chartOuter" id="chartGaugeOuter">
+					<div id="chartGauge" class="chart-inner"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="chart3">
+			<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+				<h2 class="main-ment">일일평균 차트</h2>
+				<h4 class="sub-ment">목표로 설정한 하루 평균 스터디양과, 실제로 기록한 하루 평균 스터디양을 비교해 보세요.<br><br>
+				어제까지의 기록을 기준으로, 목표 완료일까지 스터디를 마치기 위해 필요한, 이후의 일일 스터디양이 계산됩니다.<br><br>
+				차트 위를 움직여 보세요. 각 날짜의 상세한 값도 볼 수 있어요.</h4>
+			</div>
+			<div class="col-md-5 col-xs-12">
+				<div class="row chartOuter" id="chartAvgOuter">
+					<div id="chartAvg" class="chart-inner"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="chart4">
+			<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+				<h2 class="main-ment">일일 기록</h2>
+				<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 하루하루 기록한 챕터 또는 페이지의 양을 목표량과 비교해서 볼 수 있어요.<br><br>
+				차트 위를 움직여 보세요. 각 날짜의 상세한 값도 볼 수 있어요.<br><br>
+				연한 색은 목표한 양, 진한 색은 완료한 양을 나타냅니다.</h4>
+			</div>
+			<div class="col-md-5 col-xs-12">
+				<div class="row chartOuter" id="chartPerDayOuter">
+					<canvas id="chartPerDay" class="chart-inner"></canvas>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="chart5">
+			<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+				<h2 class="main-ment">누적 기록</h2>
+				<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 기록한 챕터 또는 페이지의 누적량을 목표량과 비교해서 볼 수 있어요.<br><br>
+				차트 위를 움직여 보세요. 각 날짜의 상세한 값도 볼 수 있어요.<br><br>
+				연한 색은 목표한 양, 진한 색 영역은 완료한 양을 나타냅니다.</h4>
+			</div>
+			<div class="col-md-5 col-xs-12">
+				<div class="row chartOuter" id="chartAccumOuter">
+					<canvas id="chartAccum" class="chart-inner" width="500" height="300"></canvas>
+				</div>
+			</div>
+		</div>
+</div><!-- .row.today-body -->
 <!--**********content end**********-->
 
 <script type="text/javascript">
@@ -648,7 +713,7 @@
 		console.log(list_date);
 		
 		var config_perday={
-			type: 'line',
+			type: 'bar',
 			data: {
 				labels:list_date,
 				datasets: [{
