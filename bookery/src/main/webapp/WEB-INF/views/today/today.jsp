@@ -636,8 +636,8 @@
 						</div>
 					</div>
 				</div><!-- col-md-8 col-xs-12 perStudy -->
+			</c:forEach>
 		</div>
-	</c:forEach>
 		<div class="row" id="chart1">
 			<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
 				<h2 class="main-ment">타임라인 차트</h2>
@@ -702,6 +702,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 </div><!-- .row.today-body -->
 <!--**********content end**********-->
 
