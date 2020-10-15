@@ -11,6 +11,7 @@ var img_link;
 var bid = ${bid}; //컨트롤러에서 bid를 받아온다.
 var owlItem='';
 var bookMap ={};
+var review_point;
 
 $(function(){
 
@@ -42,6 +43,10 @@ $(function(){
 			title_original = bookInfo.find('.tit_ori').text().replace('원제','').trim(); //원제
 			//console.log('original_title = '+title_original);
 			description = $(data).find('#bookIntroContent').html(); //책 소개
+			review_point = $(data).find('.book_info_inner .blind').eq(0).parent().text();
+			review_point = review_point.substring(0,review_point.indexOf('.'));
+			$('.review-point').text('★'+review_point);
+			console.log('point = '+review_point);
 			$('#bookIntro').html(description);
 			var translator_cnt = 1;
 			var author_cnt = 1;
@@ -357,7 +362,7 @@ $(function(){
 			$('.book-intro').last().css('border-bottom','1px solid #e4e4e4');
 			
 			
-			$('#crawling_div').remove();
+			//$('#crawling_div').remove();
 	});//ready
 
 </script>
@@ -404,8 +409,10 @@ $(function(){
 		<div class="col-md-3"></div>
 			<div id="book_detail" class="col-xs-12 col-md-6"></div>
 		<div class="col-md-3"></div>
-		<div class="col-md-4"></div>
-		<div class="col-md-4 col-xs-12" id="additional-info">
+		</div>
+		<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8 col-xs-12" id="additional-info">
 		
 
 			<nav aria-label="...">
@@ -414,14 +421,12 @@ $(function(){
 					<li><a>함께 읽는 사람 <span class="badge">${cntReaders.readers }명</span></a>
 					</li>
 				</c:if>
-					<li><a>평균 완독 시간 <span class="badge">4일</span></a>
-					</li>
-					<li><a>평점 <span class="badge">★3.5</span></a>
+					<li><a>네이버평점 <span class="badge review-point">★3.5</span></a>
 					</li>
 				</ul>
 			</nav>
 		</div>
-		<div class="col-md-4"></div>
+		<div class="col-md-2"></div>
 		<div class="col-md-12 col-xs-12 bottom-line"></div>
 	</div>
 	<div class="row">
