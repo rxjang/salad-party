@@ -286,7 +286,7 @@ function delchk() {
 		<form method="post" id="updateForm">
 				<!-- <h1><img src="" alt="Bookery" class="logo"></h1> -->
 				<h1>정보수정</h1>
-			 	<input type="text" placeholder="이메일" name="email" id="email" value="${userBean.email }" readonly/>
+			 	<c:if test="${userBean.lvl ne 'kakao' }"><input type="text" placeholder="이메일" name="email" id="email" value="${userBean.email }" readonly/></c:if>
 			 	<input type="password" placeholder="비밀번호" name="password" id="password" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>/><span id="passwordMessage" class="message" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>></span>
 			 	<input type="password" placeholder="비밀번호 확인" name="passwordChk" id="passwordChk" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if> /><span id="passwordChkMessage" class="message" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>></span>
 			 	<input type="text" placeholder="이름" name="name" id="name" value="${userBean.name }"/><span id="nameMessage" class="message"></span>

@@ -156,6 +156,24 @@ public class LoginController {
 		return null;
 	}
 	
+	@RequestMapping(value="/kakaocallback", method=RequestMethod.POST)
+	public String kakaoCallBack(HttpSession session, HttpServletRequest request, HttpServletResponse resp, @ModelAttribute UserVo bean) {
+		
+		System.out.println(bean.getId());
+		System.out.println(bean.getEmail());
+		System.out.println(bean.getName());
+		System.out.println(bean.getNickname());
+		
+		try {
+			resp.getWriter().write("{\"result\":\"test\"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, HttpSession session) {
 		session.invalidate();

@@ -5,6 +5,10 @@
 <head>
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
+<!-- <link rel="stylesheet" href="https://cdn.rawgit.com/InventPartners/Checkbox2Button/master/css/checkbox2button.css" /> 
+<script src="https://cdn.rawgit.com/InventPartners/Checkbox2Button/master/js/checkbox2button.min.js"></script> -->
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/checkbox2button.css" />
+<script src="${pageContext.request.contextPath }/resources/js/checkbox2button.min.js"></script>
 <script type="text/javascript">
 	var Dday;
 	var deadLine = "${v_study.enddate}";
@@ -33,7 +37,7 @@
 	function chapPicker(){
 		$("#select_chap").css("display", "block");
 		var thisTarget = $(".enable_chap").first().offset();		
-		$('html, body').animate({scrollTop : thisTarget.top-70}, 400);
+		$('html, body').animate({scrollTop : thisTarget.top-30}, 400);
 	}//chapPicker
 	//오늘 공부한 챕터 - 어제까지 actualtime == null인 구간
 
@@ -116,9 +120,10 @@
 	$('#enter_chap').click(function(e){
 		var cnt = 0;
 		var params = new Array();
-		$(".enable_chap").each(function(idx,ele){
-			if($(this).prop('checked') == true){
+		$(".enable_chap input").each(function(idx,ele){
+			if($(this).val() != '' && $(this).val() != null){
 				cnt++;
+				console.log($(this).val());
 				params.push($(this).val());
 			}
 		});
@@ -138,6 +143,7 @@
 				    }
 				  },
 			}).then((value) => {	//value가 true이면 내서재로 이동한다.
+				
 				if(value){
 					$.ajax({
 						url:'${pageContext.request.contextPath}/today/chap/process/${v_study.study_id}/',
@@ -247,15 +253,15 @@
 			  var now;
 			  var max; 
 			  if(Number(actual_chap)>Number(plan_chap)){
-				  now = $(this).attr('aria-valuenow',plan_chap);
-				  max = $(this).attr('aria-valuemax',actual_chap);
+				  now = $(this).attr('aria-valuenow', plan_chap);
+				  max = $(this).attr('aria-valuemax', actual_chap);
 				  $('.bar-text').text('+ '+(actual_chap - plan_chap)+'챕터');				 
 			  		$('.progress2').css('background-color', '#ffc979');
 					$(this).text('Plan:'+plan_chap);
 			  }else if(Number(actual_chap)<Number(plan_chap)){
 				  now = $(this).attr('aria-valuenow',actual_chap);
 				  max = $(this).attr('aria-valuemax',plan_chap);
-					$('.bar-text').text('- '+(plan_page-actual_chap)+'챕터').css({'color':'#555','font-weight':'bold','font-size':'1.1em'});
+					$('.bar-text').text('- '+(plan_chap - actual_chap)+'챕터').css({'color':'#555','font-weight':'bold','font-size':'1.1em'});
 					$(this).text(actual_chap + ' 챕터');
 			  }else if(Number(actual_chap)==Number(plan_chap)){
 				  now = $(this).attr('aria-valuenow',actual_chap);
@@ -280,7 +286,9 @@
 			
 			<div id="select_chap">
 				<c:forEach items="${listChap }" var="listChap">
-					<label><input type='checkbox' name='selectChap' value='${listChap.id}' <c:if test='${listChap.actualtime ne null}'>disabled='disabled' class='disable_chap'</c:if><c:if test='${listChap.actualtime eq null }'>class='enable_chap' </c:if> />${listChap.toc}</label><br/>
+					<div class="checkbox checkbox2button <c:if test='${listChap.actualtime eq null }'>enable_chap</c:if> <c:if test='${listChap.actualtime ne null}'>disable_chap</c:if>">
+						<label><input type='checkbox' name='selectChap' value='${listChap.id}'  />${listChap.toc}</label>
+					</div>
 				</c:forEach>
 			</div>
 			<button id="input_chap" class="btn btn-default btn-block">챕터 입력</button>
@@ -309,7 +317,7 @@
 								</div><!-- D day -->
 								<div class="owl-item">
 									<p><small>오늘의 진도</small></p>	
-									<p><span class="caro-cnt">${plan_chap }</span></p>	
+									<p><span class="caro-cnt">${today_plan_chap }</span></p>	
 									<p><small>챕터</small></p>	
 								</div><!-- plan -->
 								<div class="owl-item" id="owl-chapRate">
