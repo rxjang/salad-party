@@ -230,7 +230,7 @@ $(function(){
 		<a class="write-btn admin-btn 1-box 2-box" href="javascript:moveFunction();">글쓰기</a>
 		<div class="3-box info-ment">
 			<div class="content-title">
-				<h4><span class="usernmae">${user.nickname }</span>님 <br/>무엇을 도와 드릴까요?<img src="${pageContext.request.contextPath}/resources/imgs/Smile-blush.png" alt="?"></h4>
+				<h4><span class="usernmae">${user.nickname }</span>님 <br/>무엇을 도와 드릴까요?<img src="${pageContext.request.contextPath}/resources/imgs/smile-blush.png" alt="?"></h4>
 			</div><!-- content-title -->
 			<div class="info-ment-main">
 				남겨주신 문의는 담당자 확인 후 빠른 시일 내에 답변 드리겠습니다.<br/>
