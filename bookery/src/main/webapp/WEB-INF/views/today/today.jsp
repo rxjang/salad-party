@@ -6,21 +6,15 @@
 <%@ include file="../template/head.jspf" %>
 <style type="text/css">
 /* 캐러셀 */
-	.full{
-		padding:0;
-	}
 	.y-center{
 		height:100%;
 	}
 	#today-main{
-		width:100%;
-		margin:0px;
 		height:300px;
 		overflow:hidden;
 		padding:10px;
-		marding:0;
 		background-image: url("${pageContext.request.contextPath }/resources/imgs/today1.jpg");
-		background-size: 100% 100%;
+		background-size: 100%;
 	}
 	.owl-stage { /* 캐러셀 아래로 정렬 */
 		margin-top:50px;
@@ -34,9 +28,6 @@
 	}
 	.imgs img{
 		box-shadow: 2px 2px 6px #aaaaaa;
-	}
-	#smile img{
-		width: 100%;
 	}
 	@media (max-width:1000px) {
 		#today-main{
@@ -68,24 +59,11 @@
 	.perStudy a{
 		margin-top: 20px;
 	}
-	.green,
-	.yellow,
-	.brown{
-		font-size: 1.5em;
-		text-align: center;
+	#today-body,#today-body>div,#today-body>div>div{
+		margin:0;
 	}
-	.green{
-		background-color: #49654d;
-		color: white;
-	}
-	.yellow{
-		background-color: c0cfb2;
-		color: #49654d;
-	}
-	.brown{
-		background-color: rgb(197,174,132);
-		color: white;
-	}
+	
+	
 	#todayChartList{
 		margin:0 auto;
 	}
@@ -117,8 +95,6 @@
 		border-right:1px solid #cccccc;
 	}
 	#chartList li:hover{
-/* 		background-color:#c0cfb2; */
-/* 		border:1px solid #c0cfb2; */
 		color:#c0cfb2;
 		box-shadow: 0px 0px 3px 0.1px #c0cfb2;
 	}
@@ -143,7 +119,6 @@
 	var start;
 	var actual_perday;
 
-  
 	var list_date=new Array();
 	var list_plan_perday=new Array();
 	var list_actual_perday=new Array();
@@ -155,7 +130,7 @@
 	var progress;// progress_rate
 	var arrPlan=[];// [[x값,y값],[],[],[]]
 	var arrActual=[];// [[x값,y값],[],[],[]]
-	var today=new Date().format('yyyy-MM-dd');
+	var daysPlan;//어제까지의 날짜 수
 
 	// 책 목록 케러셀
 	$(function() {
@@ -165,15 +140,9 @@
 			nav:false,
 			autoPlay:true,
 			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
-				480 : {
-					items:3
-				},
-				800 : {
-					items:5
-				},
-				1200 : {
-					items:7
-				}
+				480 : {items:3},
+				800 : {items:5},
+				1200 : {items:7}
 			}
 		});
 	});
@@ -230,13 +199,14 @@
 							list_plan_accum.push(element.plan_accum);
 							list_actual_accum.push(element.actual_accum);
 						});
-            
+
 						//highcgart
 						var days=studyVo.total_days; //총 날짜 수
-						var daysPlan=studyVo.plan_days_yesterday; //어제까지 계획한 날짜 수
+						daysPlan=studyVo.plan_days_yesterday; //어제까지 계획한 날짜 수
 						var daysActual=studyVo.actual_days_yesterday; //어제까지 공부한 날짜 수
 						var daysRemain=studyVo.remain_days; // 오늘 포함 남은 날 수
 						console.log(daysRemain);
+						console.log(typeof daysRemain);
 						arrPlan=[];
 						arrActual=[];
 						var y_plan;
@@ -256,7 +226,7 @@
 									y_plan=studyVo.plan_chap / studyVo.total_days;
 									temp_plan.push(i+1,y_plan);
 									arrPlan.push(temp_plan);
-									y_actual=(studyVo.total_chap - studyVo.actual_chap_yesterday) / daysRemain;
+									y_actual=(studyVo.total_chap - studyVo.actual_chap_yesterday) / studyVo.remain_days;
 									console.log(y_actual);
 									temp_actual.push(i+1,y_actual);
 									arrActual.push(temp_actual);
@@ -278,19 +248,28 @@
 									temp_actual.push(i+1,y_actual);
 									arrActual.push(temp_actual);
 								}else if(i>=daysPlan && daysRemain>0){
+									console.log('daysRemain:'+daysRemain);
 									y_plan=studyVo.plan_page / studyVo.total_days;
 									temp_plan.push(i+1,y_plan);
 									arrPlan.push(temp_plan);
-									y_actual=(studyVo.total_page - studyVo.actual_page_yesterday) / daysRemain;
+									y_actual=(studyVo.total_pages - studyVo.actual_page_yesterday) / studyVo.remain_days;
+									console.log('y_actual:'+y_actual);
+									console.log('studyVo.total_page:'+studyVo.total_pages);
+									console.log('studyVo.actual_page_yesterday:'+studyVo.actual_page_yesterday);
+									
+									
 									temp_actual.push(i+1,y_actual);
 									arrActual.push(temp_actual);
+									console.log('if 10');
 								}else if(i>=daysPlan && daysRemain==0){	
+									console.log('if 11:'+daysRemain);
 									y_plan=studyVo.plan_page / studyVo.total_days;
 									temp_plan.push(i+1,y_plan);
 									arrPlan.push(temp_plan);
-									y_actual=studyVo.total_page - studyVo.actual_page_yesterday;
+									y_actual=studyVo.total_pages - studyVo.actual_page_yesterday;
 									temp_actual.push(i+1,y_actual);
 									arrActual.push(temp_actual);
+									console.log('if 12');
 								}
 							}
 						} //for
@@ -418,6 +397,8 @@
 		});// am4core.ready()
 	}// chartGaugeStart()
 	
+	// Highchart 
+	// https://www.highcharts.com/docs/stock/depth-chart
 	function chartAvgStart(){
 		Highcharts.chart('chartAvg', {
 				chart: {
@@ -432,11 +413,11 @@
 					maxPadding: 0,
 					plotLines: [{
 						color: '#888',
-						value: today,
+						value: daysPlan+0.5,
 						width: 1,
 						label: {
 							text: '오늘',
-							rotation: 90
+							rotation: 0
 						}
 					}],
 					title: {
@@ -499,137 +480,133 @@
 <body>
 <%@ include file="../template/menu.jspf" %>
 <!-- **********content start**********-->
-<div class="row">
-	<div class="col-xs-12 col-md-12 full">
-		<div class="row" id="today-main">
-			<div class="col-xs-3 col-md-3 ment">
-				<c:if test="${fn:length(studyList) eq 0}">
-					<h2 class="main-ment">기록할 책이 없습니다</h2>
-					<h4 class="sub-ment"><a href="${pageContext.request.contextPath}/find">새 책을 검색하러 가볼까요?</a></h4>
-				</c:if>
-				<c:if test="${fn:length(studyList) ne 0}">
-					<h2 class="main-ment">책 ${fn:length(studyList)}권을 보고 있어요</h2>
-					<h4 class="sub-ment">책 표지를 선택해 주세요</h4>
-				</c:if>
-			</div>
-			<div class="col-xs-9 col-md-9 y-center imgs">
-				<div class="owl-carousel owl-theme y-center">
-					<c:forEach items="${studyList }" var="list">
-						<div class="item">
-							<img class="media-object" src="${list.coverurl }" alt="책 이미지">
-							<input type="hidden" value="${list.study_id }" />
-						</div>
-					</c:forEach>
-				</div><!-- owl end -->
-			</div>
-		</div><!-- today-main -->	
-		<div class="row" id="today-body">
-			<c:forEach items="${studyList }" var="study">
-				<div class="col-md-8 col-md-offset-2 col-xs-12 perStudy">
-					<input type="hidden" value="${study.study_id }" />
-					<div class="row">
-						<c:set var="today" value="<%=new java.util.Date()%>"/>
-						<c:if test="${study.type eq 'chap'}">
-							<c:if test="${study.plan_chap lt study.actual_chap}">
-								<div class="col-md-6 col-xs-10 col-xs-offset-1">
-									<h2 class="main-ment">우와! 정말 대단해요!</h2>
-									<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
-								</div>
-								<div class="col-md-6 col-xs-10 col-xs-offset-1">
-									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-									type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
-								</div>
-							</c:if>
-							<c:if test="${study.plan_chap eq study.actual_chap}">
-								<div class="col-md-6 col-xs-10 col-xs-offset-1">
-									<h2 class="main-ment">축하합니다!</h2>
-									<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
-								</div>
-								<div class="col-md-6 col-xs-10 col-xs-offset-1">
-									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-									type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
-								</div>
-							</c:if>
-							<c:if test="${study.plan_chap gt study.actual_chap}">
-								<div class="col-md-5 col-xs-10 col-xs-offset-1">
-									<h2 class="main-ment">열심히 노력하는 당신!</h2>
-									<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_chap-study.actual_chap } 챕터 남았어요!</h4>
-								</div>
-								<div class="col-md-5 col-xs-10 col-xs-offset-1">
-									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-									type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
-								</div>
-							</c:if>
-						</c:if>
-						<c:if test="${study.type eq 'page'}">
-							<c:if test="${study.plan_page lt study.actual_page}">
-								<div class="col-md-6 col-xs-10 col-xs-offset-1">
-									<h2 class="main-ment">우와! 정말 대단해요!</h2>
-									<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
-								</div>
-								<div class="col-md-6 col-xs-10 col-xs-offset-1">
-									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-									type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
-								</div>
-							</c:if>
-							<c:if test="${study.plan_page eq study.actual_page}">
-								<div class="col-md-6 col-xs-10 col-xs-offset-1">
-									<h2 class="main-ment">축하합니다!</h2>
-									<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
-								</div>
-								<div class="col-md-6 col-xs-10 col-xs-offset-1">
-									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-									type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
-								</div>
-							</c:if>
-							<c:if test="${study.plan_page gt study.actual_page}">
-								<div class="col-md-5 col-xs-10 col-xs-offset-1">
-									<h2 class="main-ment">열심히 노력하는 당신!</h2>
-									<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_page-study.actual_page } 페이지 남았어요!</h4>
-								</div>
-								<div class="col-md-5 col-xs-10 col-xs-offset-1">
-									<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
-									type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
-								</div>
-							</c:if>
-						</c:if>
-					</div>
+<div class="row" id="today-main">
+	<div class="col-xs-3 col-md-3 ment">
+		<c:if test="${fn:length(studyList) eq 0}">
+			<h2 class="main-ment">기록할 책이 없습니다</h2>
+			<h4 class="sub-ment"><a href="${pageContext.request.contextPath}/find">새 책을 검색하러 가볼까요?</a></h4>
+		</c:if>
+		<c:if test="${fn:length(studyList) ne 0}">
+			<h2 class="main-ment">책 ${fn:length(studyList)}권을 보고 있어요</h2>
+			<h4 class="sub-ment">책 표지를 선택해 주세요</h4>
+		</c:if>
+	</div>
+	<div class="col-xs-9 col-md-9 y-center imgs">
+		<div class="owl-carousel owl-theme y-center">
+			<c:forEach items="${studyList }" var="list">
+				<div class="item">
+					<img class="media-object" src="${list.coverurl }" alt="책 이미지">
+					<input type="hidden" value="${list.study_id }" />
 				</div>
 			</c:forEach>
-		</div><!-- today-body -->
-		<div class="row" id="todayChartList">
-			<div class="col-md-12 col-xs-12">
-				<ul id="chartList">
-					<li id="labelChartTimeline">타임라인</li>
-					<li id="labelChartGauge">진행률</li>
-					<li id="labelChartAvg">일일 평균</li>
-					<li id="labelChartPerDay">일일 기록</li>
-					<li id="labelChartAccum">누적 기록</li>
-				</ul>
-			</div>
-		</div><!-- todayChartList -->
-		<div class="row" id="todayCharts">
-			<div class="col-md-8 col-md-offset-2 col-xs-12">
-				<div id="charts" class="chart-inner">
-					<div id="chartCommon">
-						study_id: ${study_id }<br>
-						제목: ${study.title }<br>
-						시작일: ${study.startdate }<br>
-						끝일: ${study.enddate }<br>
-						완료: ${study.actual_page + study.actual_chap }<br>
-						전체: ${study.total_pages + study.total_chap }<br>
-					
-					</div>
-					<div id="chartTimeline"></div>
-					<div id="chartGauge"></div>
-					<div id="chartAvg"></div>
-					<canvas id="chartPerDay"></canvas>
-					<canvas id="chartAccum"></canvas>
-				</div>
-			</div>
-		</div><!-- todayCharts -->
+		</div><!-- owl end -->
 	</div>
-</div>
+</div><!-- today-main -->
+<div class="row" id="today-body">
+	<c:forEach items="${studyList }" var="study">
+		<div class="col-md-8 col-md-offset-2 col-xs-12 perStudy">
+			<input type="hidden" value="${study.study_id }" />
+			<div class="row">
+				<c:set var="today" value="<%=new java.util.Date()%>"/>
+				<c:if test="${study.type eq 'chap'}">
+					<c:if test="${study.plan_chap lt study.actual_chap}">
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<h2 class="main-ment">우와! 정말 대단해요!</h2>
+							<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
+						</div>
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+							type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
+						</div>
+					</c:if>
+					<c:if test="${study.plan_chap eq study.actual_chap}">
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<h2 class="main-ment">축하합니다!</h2>
+							<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
+						</div>
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+							type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
+						</div>
+					</c:if>
+					<c:if test="${study.plan_chap gt study.actual_chap}">
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<h2 class="main-ment">열심히 노력하는 당신!</h2>
+							<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_chap-study.actual_chap } 챕터 남았어요!</h4>
+						</div>
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+							type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
+						</div>
+					</c:if>
+				</c:if>
+				<c:if test="${study.type eq 'page'}">
+					<c:if test="${study.plan_page lt study.actual_page}">
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<h2 class="main-ment">우와! 정말 대단해요!</h2>
+							<h4 class="sub-ment">오늘의 목표를 초과 달성하셨어요!</h4>
+						</div>
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+							type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
+						</div>
+					</c:if>
+					<c:if test="${study.plan_page eq study.actual_page}">
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<h2 class="main-ment">축하합니다!</h2>
+							<h4 class="sub-ment">오늘의 목표를 모두 달성했어요!</h4>
+						</div>
+						<div class="col-md-6 col-xs-10 col-xs-offset-1">
+							<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+							type="button" class="btn btn-default btn-lg btn-block">오늘의 기록 추가 입력하기</a>
+						</div>
+					</c:if>
+					<c:if test="${study.plan_page gt study.actual_page}">
+						<div class="col-md-6 col-xs-12">
+							<h2 class="main-ment">열심히 노력하는 당신!</h2>
+							<h4 class="sub-ment">오늘의 목표 달성까지 ${study.plan_page-study.actual_page } 페이지 남았어요!</h4>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
+							type="button" class="btn btn-default btn-lg btn-block">오늘의 공부 입력하러 가기</a>
+						</div>
+					</c:if>
+				</c:if>
+			</div>
+		</div>
+	</c:forEach>
+</div><!-- today-body -->
+<div class="row" id="todayChartList">
+	<div class="col-md-12 col-xs-12">
+		<ul id="chartList">
+			<li id="labelChartTimeline">타임라인</li>
+			<li id="labelChartGauge">진행률</li>
+			<li id="labelChartAvg">일일 평균</li>
+			<li id="labelChartPerDay">일일 기록</li>
+			<li id="labelChartAccum">누적 기록</li>
+		</ul>
+	</div>
+</div><!-- todayChartList -->
+<div class="row" id="todayCharts">
+	<div class="col-md-8 col-md-offset-2 col-xs-12">
+		<div id="charts" class="chart-inner">
+			<div id="chartCommon">
+				study_id: ${study_id }<br>
+				제목: ${study.title }<br>
+				시작일: ${study.startdate }<br>
+				끝일: ${study.enddate }<br>
+				완료: ${study.actual_page + study.actual_chap }<br>
+				전체: ${study.total_pages + study.total_chap }<br>
+			
+			</div>
+			<div id="chartTimeline"></div>
+			<div id="chartGauge"></div>
+			<div id="chartAvg"></div>
+			<canvas id="chartPerDay"></canvas>
+			<canvas id="chartAccum"></canvas>
+		</div>
+	</div>
+</div><!-- todayCharts -->
 <!--**********content end**********-->
 
 <script type="text/javascript">
