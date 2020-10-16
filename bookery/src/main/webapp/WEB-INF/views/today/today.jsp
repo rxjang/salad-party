@@ -110,6 +110,7 @@
 /* 	차트 목록 */
 	#chartList{
 		margin:0 auto;
+		margin-top:50px;
 /* 		padding:0; */
 		width:100%;
 		height:50px;
@@ -142,22 +143,29 @@
 /* 		font-weight:bold; */
 /* 		background-color:#c0cfb2; */
 	}
-	.sticky {
-		position: -webkit-sticky; /* Safari */
-		position: sticky;
-		top: 0;
-/* 		background-color: green; */
-/* 		border: 2px solid #4CAF50; */
-	}
-	
+
 /* 	차트 */
 	#charts{
 		display:none;
+	}
+	.blankBefore{
+		width:100%;
+		height:70px;
+/* 		background-color:blue; */
 	}
 	.blank{
 		width:100%;
 		height:50px;
 /* 		background-color:red; */
+	}
+	.blank>a{
+		display:inline-block;
+		float:right;
+		height: 20px;
+		font-size: 0.6em;
+		line-height:20px;
+		padding:0 10px;
+		margin:30px 0;
 	}
 	.chart{
 /* 		padding-top:66px; */
@@ -167,9 +175,10 @@
 	}
 	.chart-desc h2{
 		color:49654d;
-		margin-bottom:15px;
+		margin-top:10px;
+		margin-bottom:25px;
 	}
-	.chartOuter{
+	.chartOuter,#chartAvgOuter,#chartPerDayOuter,#chartAccumOuter{
 		width:90%;
 		height:400px;
 		margin:0px auto;
@@ -228,6 +237,11 @@
 			font-size:1em;
 /* 		color:#505050; */
 		}
+		.blankBefore{
+		width:100%;
+		height:120px;
+/* 		background-color:blue; */
+	}
 	}
 </style>
 
@@ -273,11 +287,11 @@
 	// 책 목록에서 책 이미리 클릭할 때의 이벤트
 	function item_click(){
 		// 이전에 rendering됐었던 canvas chart 삭제하고 다시 canvas 만들어 주기
-		$('#chartPerDayOuter').empty();
-		$('#chart4 .blank').before('<div id="chartPerDayOuter"/>');
+		$('#chartPerDayOuter').remove();
+		$('#chart4 .blank').before('<div id="chartPerDayOuter" height="400px"/>');
 		$('#chartPerDayOuter').append('<canvas id="chartPerDay"></canvas>');
-		$('#chartAccum').remove();
-		$('#chart5 .blank').before('<div id="chartAccumOuter"/>');
+		$('#chartAccumOuter').remove();
+		$('#chart5 .blank').before('<div id="chartAccumOuter" height="400px"/>');
 		$('#chartAccumOuter').append('<canvas id="chartAccum"></canvas>');
 		
 		$('.item').find('img').removeClass("selected");
@@ -420,13 +434,14 @@
 			$('#chartList a').each(function(i,e){
 				console.log('scrollto func');
 				$(this).click(function(){
-					var _location=$("#charts").children().eq(i).offset().top;
+// 					var _location=$("#charts").children().eq(i).offset().top;
+					var _location=$("#chart"+i+1).offset().top;
 					scrollChart(_location);
 					//$(document).scrollTop(location-100);
 					console.log(_location);
 				});
 			});//each
-		},1500);//setTimeout
+		},2000);//setTimeout
 	});// doc ready1
 
 	$(function(){//doc ready2
@@ -748,12 +763,12 @@
 					<div class="row" data-aos="fade-up" data-aos-duration="1000">
 						<h2 class="main-ment">다양한 차트를 통해 진행중인 스터디의 현황을 알아 보아요</h2>
 						<h4 class="sub-ment">차트 목록에서 원하는 기록 타입을 선택하세요.</h4>
-						<div id="chartList" class="sticky">
-							<a href="javascript:void(0)" type="button" class="btn btn-default btn-lg">타임라인</a>
-							<a href="javascript:void(0)" type="button" class="btn btn-default btn-lg">진행률</a>
-							<a href="javascript:void(0)" type="button" class="btn btn-default btn-lg">일일평균</a>
-							<a href="javascript:void(0)" type="button" class="btn btn-default btn-lg">일일기록</a>
-							<a href="javascript:void(0)" type="button" class="btn btn-default btn-lg">누적기록</a>
+						<div id="chartList">
+							<a href="#blank1" type="button" class="btn btn-default btn-lg">타임라인</a>
+							<a href="#blank2" type="button" class="btn btn-default btn-lg">진행률</a>
+							<a href="#blank3" type="button" class="btn btn-default btn-lg">일일평균</a>
+							<a href="#blank4" type="button" class="btn btn-default btn-lg">일일기록</a>
+							<a href="#blank5" type="button" class="btn btn-default btn-lg">누적기록</a>
 						</div>
 					</div>
 				</div><!-- col-md-8 col-xs-12 perStudy -->
@@ -761,6 +776,7 @@
 		</div>
 		<div id="charts">
 			<div class="row chart" id="chart1" data-aos="fade-up" data-aos-duration="5000">
+				<div class="row blankBefore" id="blank1"></div>
 				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
 					<h2 class="main-ment">타임라인 차트</h2>
 					<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 하루하루 기록한 챕터 또는 페이지의 양을 시간 순으로 볼 수 있어요.<br><br>
@@ -772,10 +788,12 @@
 						<div id="chartTimeline"></div>
 					</div>
 					<div class="row blank">
+						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
 					</div>
 				</div>
 			</div>
 			<div class="row chart" id="chart2" data-aos="fade-up" data-aos-duration="1000">
+				<div class="row blankBefore" id="blank2"></div>
 				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
 					<h2 class="main-ment">진행률 게이지</h2>
 					<h4 class="sub-ment">전체 중 완료한 양을 볼 수 있어요.<br><br>
@@ -786,10 +804,12 @@
 						<div id="chartGauge"></div>
 					</div>
 					<div class="row blank">
+						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
 					</div>
 				</div>
 			</div>
 			<div class="row chart" id="chart3" data-aos="fade-up" data-aos-duration="1000">
+				<div class="row blankBefore" id="blank3"></div>
 				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
 					<h2 class="main-ment">일일평균 차트</h2>
 					<h4 class="sub-ment">목표로 설정한 하루 평균 스터디양과, 실제로 기록한 하루 평균 스터디양을 비교해 보세요.<br><br>
@@ -801,10 +821,12 @@
 						<div id="chartAvg"></div>
 					</div>
 					<div class="row blank">
+						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
 					</div>
 				</div>
 			</div>
 			<div class="row chart" id="chart4" data-aos="fade-up" data-aos-duration="1000">
+				<div class="row blankBefore" id="blank4"></div>
 				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
 					<h2 class="main-ment">일일 기록</h2>
 					<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 하루하루 기록한 챕터 또는 페이지의 양을 목표량과 비교해서 볼 수 있어요.<br><br>
@@ -816,10 +838,12 @@
 						<canvas id="chartPerDay"></canvas>
 					</div>
 					<div class="row blank">
+						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
 					</div>
 				</div>
 			</div>
 			<div class="row chart" id="chart5" data-aos="fade-up" data-aos-duration="1000">
+				<div class="row blankBefore" id="blank5"></div>
 				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
 					<h2 class="main-ment">누적 기록</h2>
 					<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 기록한 챕터 또는 페이지의 누적량을 목표량과 비교해서 볼 수 있어요.<br><br>
@@ -831,6 +855,7 @@
 						<canvas id="chartAccum"></canvas>
 					</div>
 					<div class="row blank">
+						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
 					</div>
 				</div>
 			</div>
