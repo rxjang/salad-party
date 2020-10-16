@@ -2,6 +2,7 @@ package co.salpa.bookery.account.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -95,7 +96,7 @@ public class AccountController {
 		triming(user);
 		
 		if(user == null) System.out.println("session is null");
-		System.out.println(user.getId());
+//		System.out.println(user.getId());
 		
 		accountService.getUserInfo(user.getId(), model);
 		
@@ -176,8 +177,7 @@ public class AccountController {
 		// 페이지 매핑
 		if(session.getAttribute("user") == null)
 			return "account/findid";
-		
-		else 
+		else  
 			return "redirect:../";
 	}
 	
@@ -188,8 +188,11 @@ public class AccountController {
 		tel = tel.trim();
 		
 		String email = accountService.findId(name, tel);
+		
 		if(email != null) {
 			// 존재하는 계정일 경우, 
+			String lvl = accountService.chkBySns(email);
+			
 			String[] filter = email.split("@");
 			String temp = "";
 			if(filter[0].length() >= 4) {
@@ -206,7 +209,7 @@ public class AccountController {
 			String parsingEmail = temp + "@" + filter[1];
 //			System.out.println(parsingEmail);
 			try {
-				resp.getWriter().write("{\"result\":\"" + parsingEmail +"\"}");
+				resp.getWriter().write("{\"result\":\"" + parsingEmail +"\", \"lvl\":\""+ lvl +"\"}");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -240,20 +243,21 @@ public class AccountController {
 		tel = tel.trim();
 		
 		String lvl = accountService.chkBySns(email);
-		if(lvl == "naver") {
+		if(lvl != null) lvl = lvl.trim();
+		if(lvl.equals("naver") || lvl == "naver") {
 			
 			try {
 				resp.getWriter().write("{\"result\":\"naver\"}");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(lvl == "kakao") {
+		} else if(lvl.equals("kakao") || lvl == "kakao") {
 			try {
 				resp.getWriter().write("{\"result\":\"kakao\"}");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
+		} else if(lvl.equals("") || lvl == null || lvl.equals(null)){
 			int cnt = -1;
 			cnt = accountService.findPw(email, name, tel);
 			if(cnt == 1) {
@@ -445,7 +449,8 @@ public class AccountController {
 		bean.setPassword(bean.getPassword().trim());
 		bean.setName(bean.getName().trim());
 		bean.setNickname(bean.getNickname().trim());
-		if(bean.getTel() != null)bean.setTel(bean.getTel().trim());
+		if(bean.getTel() != null) bean.setTel(bean.getTel().trim());
+		if(bean.getLvl() != null) bean.setLvl(bean.getLvl().trim());
 		
 	}//triming
 

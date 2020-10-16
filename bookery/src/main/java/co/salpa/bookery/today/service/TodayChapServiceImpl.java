@@ -61,11 +61,11 @@ public class TodayChapServiceImpl implements TodayChapService {
 	}// getV_StudyService
 
 	@Override
-	public void checkChapService(List<Integer> id, int study_id) throws DataAccessException {
+	public void checkChapService(List<Integer> selectChap, int study_id) throws DataAccessException {
 		CheckChapDao checkChapDao = sqlSession.getMapper(CheckChapDao.class);
 		
-		for(int i=0; i < id.size(); i++) {
-			checkChapDao.updateOne(id.get(i));			
+		for(int i=0; i < selectChap.size(); i++) {
+			checkChapDao.updateOne(selectChap.get(i));			
 		}
 		checkChapDao.updateTimeStudy(study_id);
 	}// checkPageService

@@ -162,6 +162,12 @@ public class AccountServiceImpl implements AccountService{
 	}
 
 	@Override
+	public int maxId() {
+		UserDao userDao = sqlSession.getMapper(UserDao.class);
+		int maxId = userDao.maxId();
+		return maxId;
+  }
+
 	public Boolean checkUser(HttpSession session,int study_id) throws DataAccessException {
 		UserVo user=(UserVo) session.getAttribute("user");
 		int id=user.getId();
@@ -173,6 +179,7 @@ public class AccountServiceImpl implements AccountService{
 		}else {
 			return false;
 		}
+    
 	}
 
 }

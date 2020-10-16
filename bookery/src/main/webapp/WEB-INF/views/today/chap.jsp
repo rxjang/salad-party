@@ -5,6 +5,10 @@
 <head>
 <title>Bookery</title>
 <%@ include file="../template/head.jspf"%>
+<!-- <link rel="stylesheet" href="https://cdn.rawgit.com/InventPartners/Checkbox2Button/master/css/checkbox2button.css" /> 
+<script src="https://cdn.rawgit.com/InventPartners/Checkbox2Button/master/js/checkbox2button.min.js"></script> -->
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/checkbox2button.css" />
+<script src="${pageContext.request.contextPath }/resources/js/checkbox2button.min.js"></script>
 <script type="text/javascript">
 	var Dday;
 	var deadLine = "${v_study.enddate}";
@@ -17,8 +21,7 @@
 	var coverurl = "${v_study.coverurl}"
 	var title = "${v_study.title}";
 
-	console.log(actual_chap);
-	console.log(plan_chap)
+	console.log(total_chap);
 	//오늘 날짜 yyyy-mm-dd
 	function getRecentDate(){
 	    var dt = new Date();
@@ -79,7 +82,14 @@
 			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 			}
 		});//owl캐러셀
-
+		$('.enable_chap').each(function(){
+			$(this).css({'hover':'none'});
+		});
+		$('.disable_chap').each(function(){
+		      $(this).css({'pointer-events':'none','cursor':'default'});
+		      $(this).find('a').addClass('btn-checkbox-checked').addClass('already');
+		      $(this).find('a').children().eq(0).addClass('glyphicon-check').removeClass('glyphicon-unchecked');
+		});
 		/**
 		 *	페이지 입력 버튼 누르면 페이지 선택할 수 있는 alert가 나타난다.
 		 */
@@ -112,13 +122,42 @@
 			}//else
 	    });//change
 	});//each */
+	  $(".enable_chap").each(function(){
+		$(this).find('a').on('mouseenter', function(){
+			var color = $(this).css('color');
+			var bgcolor = $(this).css('background-color');
+			
+			$(this).css('background-color', bgcolor).css('color', color).css('font-weight', 'bold').css('border', '1px solid #c0cfb2');
+	    });//mouseenter
+	    $(this).find('a').on('click', function(){
+	    	var chkSelect = $(this).attr('class');
+	    	var checked = 'btn-checkbox-checked';
+	    	if(chkSelect.search(checked) <= 0) {
+				$(this).css('background-color', '#8ba989').css('color', 'white').css('font-weight', 'normal');
+			}//if
+			else{
+				$(this).css('background-color', 'white').css('color', 'black').css('font-weight', 'normal');
+			}
+	    });
+	    $(this).find('a').on('mouseout', function(){
+			var chkSelect = $(this).attr('class');
+	    	var checked = 'btn-checkbox-checked';
+	    	if(chkSelect.search(checked) > 0) {
+				$(this).css('background-color', '#8ba989').css('color', 'white').css('font-weight', 'normal');
+			}//if
+			else{
+				$(this).css('background-color', 'white').css('color', 'black').css('font-weight', 'normal');
+			}
+	    });//mouseout
+	});//each 
 	
 	$('#enter_chap').click(function(e){
 		var cnt = 0;
 		var params = new Array();
-		$(".enable_chap").each(function(idx,ele){
-			if($(this).prop('checked') == true){
+		$(".enable_chap input").each(function(idx,ele){
+			if($(this).val() != '' && $(this).val() != null){
 				cnt++;
+				console.log($(this).val());
 				params.push($(this).val());
 			}
 		});
@@ -138,6 +177,7 @@
 				    }
 				  },
 			}).then((value) => {	//value가 true이면 내서재로 이동한다.
+				
 				if(value){
 					$.ajax({
 						url:'${pageContext.request.contextPath}/today/chap/process/${v_study.study_id}/',
@@ -161,7 +201,8 @@
 		  var now = $(this).attr('aria-valuenow');
 		  if(now=='0') {now =1;}
 		  //console.log(now);
-		  var siz = (now-min)*100/(max-min);
+		  /* var siz = (now-min)*100/(max-min); */
+		  var siz = total_actual_chap / total_chap * 100;
 		  
 		  //93600 / 1199
 		  $(this).css('width', siz+'%');
@@ -203,6 +244,17 @@
 }
 #enter_chap{
 	display: none;
+}
+.btn-checkbox-checked{
+	background-color: #8ba989;
+	color: white;
+}
+.already{
+	background-color: #e4e6da;
+	color: #c0cb2;
+}
+#select_chap a{
+	width: 100%;
 }
 </style>
 </head>
@@ -247,25 +299,26 @@
 			  var now;
 			  var max; 
 			  if(Number(actual_chap)>Number(plan_chap)){
-				  now = $(this).attr('aria-valuenow',plan_chap);
-				  max = $(this).attr('aria-valuemax',actual_chap);
+				  now = $(this).attr('aria-valuenow', plan_chap);
+				  max = $(this).attr('aria-valuemax', actual_chap);
 				  $('.bar-text').text('+ '+(actual_chap - plan_chap)+'챕터');				 
 			  		$('.progress2').css('background-color', '#ffc979');
-					$(this).text('Plan:'+plan_chap);
-			  }else if(Number(actual_chap)<Number(plan_chap)){
-				  now = $(this).attr('aria-valuenow',actual_chap);
-				  max = $(this).attr('aria-valuemax',plan_chap);
-					$('.bar-text').text('- '+(plan_page-actual_chap)+'챕터').css({'color':'#555','font-weight':'bold','font-size':'1.1em'});
+					$(this).text('Plan:' + plan_chap);
+			  }else if(Number(actual_chap) < Number(plan_chap)){
+				  now = $(this).attr('aria-valuenow', actual_chap);
+				  max = $(this).attr('aria-valuemax', plan_chap);
+					$('.bar-text').text('- '+(plan_chap - actual_chap)+'챕터').css({'color':'#555','font-weight':'bold','font-size':'1.1em'});
 					$(this).text(actual_chap + ' 챕터');
-			  }else if(Number(actual_chap)==Number(plan_chap)){
-				  now = $(this).attr('aria-valuenow',actual_chap);
-				  max = $(this).attr('aria-valuemax',plan_chap);
+			  }else if(Number(actual_chap) == Number(plan_chap)){
+				  now = $(this).attr('aria-valuenow', actual_chap);
+				  max = $(this).attr('aria-valuemax', plan_chap);
 				  	$('.bar-text').text('');
    				  	$(this).text(actual_chap+'챕터');
 			  }
 			  now = $(this).attr('aria-valuenow');
 			  max = $(this).attr('aria-valuemax');
-			  var siz = (now-min)*100/(max-min);
+			 /*  var siz = (now-min)*100/(max-min); */
+			  var siz = (plan_chap / actual_chap * 100);
 			  $(this).css('width', siz+'%');
 			});
 	});
@@ -280,7 +333,9 @@
 			
 			<div id="select_chap">
 				<c:forEach items="${listChap }" var="listChap">
-					<label><input type='checkbox' name='selectChap' value='${listChap.id}' <c:if test='${listChap.actualtime ne null}'>disabled='disabled' class='disable_chap'</c:if><c:if test='${listChap.actualtime eq null }'>class='enable_chap' </c:if> />${listChap.toc}</label><br/>
+					<div class="checkbox checkbox2button <c:if test='${listChap.actualtime eq null }'>enable_chap</c:if> <c:if test='${listChap.actualtime ne null}'>disable_chap</c:if>">
+						<label><input type='checkbox' name='selectChap' value='${listChap.id}' />${listChap.toc}</label>
+					</div>
 				</c:forEach>
 			</div>
 			<button id="input_chap" class="btn btn-default btn-block">챕터 입력</button>
@@ -309,7 +364,7 @@
 								</div><!-- D day -->
 								<div class="owl-item">
 									<p><small>오늘의 진도</small></p>	
-									<p><span class="caro-cnt">${plan_chap }</span></p>	
+									<p><span class="caro-cnt">${today_plan_chap }</span></p>	
 									<p><small>챕터</small></p>	
 								</div><!-- plan -->
 								<div class="owl-item" id="owl-chapRate">

@@ -53,6 +53,10 @@ public interface UserDao {
 	// 비밀번호 변경처리
 	int newPw(Map<String, String> map) throws DataAccessException;
 
+	// sns를 통한 가입(lvl값이 "naver" or "kakao")
 	String chkBySns(String email);
+
+	// 가장 최근에 가입한 사용자의 id값 구하기
+	int maxId();
 	
 }

@@ -1,6 +1,7 @@
 package co.salpa.bookery.account.service;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -42,5 +43,7 @@ public interface AccountService {
 	public String chkBySns(String email);
 	
 	Boolean checkUser(HttpSession session,int study_id) throws DataAccessException;
+
+	public int maxId();
 
 }

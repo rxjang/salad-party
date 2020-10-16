@@ -76,6 +76,9 @@
 		margin: 0px 10px;
 		cursor: pointer;
 	}
+	#kakaoLogin{
+		cursor: pointer;
+	}
 	.login-sub-menu>a{
 		color: #999;
 	}
@@ -85,6 +88,7 @@
 	}
 	</style>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript">
 	var regMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
@@ -145,6 +149,15 @@
 		return re.test(email);
 	}
 	
+	/* 로그인 관련 쿠키 생성 및 삭제 */
+	function setCookie( name , value , expired ){
+	 
+	 var date = new Date();
+	 date.setHours(date.getHours() + expired);
+	 var expried_set = "expries="+date.toGMTString();
+	 document.cookie = name + "=" + value + "; path=/;" + expried_set + ";"
+	 
+	}
 	</script>
 	</head>
 <body>
@@ -164,14 +177,21 @@
 		<!----><!----><!----><!----> 
 		<img src="${pageContext.request.contextPath}/resources/imgs/loginOption.png" style="width:240px; height:20px;" id="loginOption">
 		<div class="btn-area"><!---->
-			 <!-- 네이버아이디로로그인 버튼 노출 영역 -->
-		  <div id="naver_id_login" style="display:none;"></div>
-		  <!-- //네이버아이디로로그인 버튼 노출 영역 -->
+		
 		<c:set var="naverClientId">
 	    	<spring:eval expression='@naver["naver.LoginClientId"]'/>
 		</c:set>
-			
+		<c:set var="kakaoAppKey">
+	    	<spring:eval expression='@naver["kakao.LoginkakaoAppKey"]'/>
+	    </c:set>
+	    
+			 <!-- 네이버아이디로로그인 버튼 노출 영역 -->
+		  <div id="naver_id_login" style="display:none;"></div>
+		  <a id="kakao-login-btn" style="display:none;"></a>
+		  <!-- //네이버아이디로로그인 버튼 노출 영역 -->
+		
 		  <script type="text/javascript">
+		  		// naver Login start
 			  	var naver_id_login = new naver_id_login("${naverClientId}", "http://localhost:8080/bookery/account/navercallback");
 			  	var state = naver_id_login.getUniqState();
 			  	naver_id_login.setButton("white", 2,40);
@@ -179,15 +199,80 @@
 			  	naver_id_login.setState(state);
 			  	naver_id_login.setPopup();
 			  	naver_id_login.init_naver_id_login();
+			  	// naver Login end
+			  	
+			  	// kakao Login start
+			  	Kakao.init("${kakaoAppKey}");
+				Kakao.isInitialized();
+				
+				Kakao.Auth.createLoginButton({
+				    container: '#kakao-login-btn',
+				    success: function(authObj) {
+				      Kakao.API.request({
+				        url: '/v2/user/me',
+				        success: function(res) {
+				        	console.log(JSON.stringify(res));
+				          /* alert(JSON.stringify(res)); */
+				         /*  {"id":1503885531,"connected_at":"2020-10-15T04:29:56Z","properties":{"nickname":"김지우","profile_image":"http://k.kakaocdn.net/dn/dgQSOc/btqKSVe8KIk/TiC0slgwsOME4U989K8bi0/img_640x640.jpg","thumbnail_image":"http://k.kakaocdn.net/dn/dgQSOc/btqKSVe8KIk/TiC0slgwsOME4U989K8bi0/img_110x110.jpg"},"kakao_account":{"profile_needs_agreement":false,"profile":{"nickname":"김지우","thumbnail_image_url":"http://k.kakaocdn.net/dn/dgQSOc/btqKSVe8KIk/TiC0slgwsOME4U989K8bi0/img_110x110.jpg","profile_image_url":"http://k.kakaocdn.net/dn/dgQSOc/btqKSVe8KIk/TiC0slgwsOME4U989K8bi0/img_640x640.jpg"},"has_email":true,"email_needs_agreement":false,"is_email_valid":true,"is_email_verified":true,"email":"jiw00kim227@gmail.com"}} */
+				          var id = res.id;
+				          var email = res.kakao_account.email;
+				          var password = id;
+				          if(email == '' || email == null || email.length ==0 ) email = id;
+				          var nickname = res.properties.nickname;
+				          var lvl = 'kakao';
+				          var name = nickname;
+				          var param = "email=" + email + "&password=" + password + "&name=" + name + "&nickname=" + nickname + "&lvl=" + lvl;
+				          $.ajax({
+				              type: "POST",
+				              url: "${pageContext.request.contextPath}/account/kakaocallback",
+				              data: param,
+				              dataType:"json",
+				            success : function(data) {
+				               var result = data.result;
+				                if(result == "fail") {
+				                   swal("로그인 실패", "이메일과 비밀번호를 확인해주세요.","warning"); 
+				                } else if(result == "test") {
+				                	console.log()
+				            	}else{
+				               	 var dest = "<%=dest%>";
+					               	 if(dest != "null" && dest != "") {
+					               		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> +""+ dest);
+					               		 return false;
+					               	 } else {
+					                     	window.location.replace("${pageContext.request.contextPath }/"); 
+					               	 }
+				                }
+				            },//success
+				   	         error:function(){
+				   	            swal('로그인 실패', '통신 장애','warning');
+				   	         }//error
+				      		});//ajax 
+				        },
+				        fail: function(error) {
+				          alert(
+				            'login success, but failed to request user information: ' +
+				              JSON.stringify(error)
+				          )
+				        },
+				      })
+				    },
+				    fail: function(err) {
+				      alert('failed to login: ' + JSON.stringify(err))
+				    },
+				  })
+			  	// kakao Login end
+			  	
 		  </script>
 		  
-			<a href="#"><img src="${pageContext.request.contextPath}/resources/imgs/kakaoLogin.png" alt="카카오로 로그인" class="img-circle" id="kakaoLogin" /></a>
+			<img onclick="document.getElementById('kakao-login-btn').click();" src="${pageContext.request.contextPath}/resources/imgs/kakaoLogin.png" alt="카카오로 로그인" class="img-circle" id="kakaoLogin" />
 			<img onclick="document.getElementById('naver_id_login_anchor').click();" src="${pageContext.request.contextPath}/resources/imgs/naverLogin.png" alt="네이버로 로그인" class="img-circle" id="naverLogin" />
 		</div>
 		<div class="login-sub-menu">
 			<a href="${pageContext.request.contextPath}/account/join">회원가입</a>
 			<span class="separate">|</span>
 			<a href="${pageContext.request.contextPath}/account/find">아이디∙패스워드 찾기</a>
+			
+			<p id="token-result"></p>
 		</div>
 	</div>
 </div>

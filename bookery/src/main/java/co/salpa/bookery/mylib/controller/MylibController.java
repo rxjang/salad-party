@@ -85,7 +85,7 @@ public class MylibController {
 		System.out.println(study.getEnddate());
 		mylibService.insertChapPlanService(study, planChap, toc);
 		
-		return "redirect:../../today/chap/"+study.getBook_bid();
+		return "redirect:../../today/chap/"+study.getId();
 	}
 	
 
