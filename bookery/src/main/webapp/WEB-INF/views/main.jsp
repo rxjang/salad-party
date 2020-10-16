@@ -301,6 +301,12 @@
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">
+	<div class="col-xs-12 col-md-12">
+
+	</div>
+</div>
+<div class="row empty">&nbsp;</div>
+<div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8 col-xs-12">
 		<div class="video-box">

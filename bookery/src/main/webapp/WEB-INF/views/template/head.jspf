@@ -9,7 +9,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
  --%>
-
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/resources/js/jquery-1.12.4.min.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
@@ -270,6 +269,8 @@
  	   body{font-size: 1.2em;}
 	}
 </style>
+<link rel=" shortcut icon" href="${pageContext.request.contextPath}/resources/imgs/favicon.ico">
+<link rel="icon" href="${pageContext.request.contextPath}/resources/imgs/favicon.ico">
 <script type="text/javascript">
 var mql = window.matchMedia("screen and (max-width: 1000px)");
 var notisize; 
