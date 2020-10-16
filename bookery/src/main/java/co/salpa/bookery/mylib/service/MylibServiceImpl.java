@@ -220,4 +220,17 @@ public class MylibServiceImpl implements MylibService {
 		}
 	}
 
+	@Override
+	public Boolean checkFinish(int study_id) throws DataAccessException {
+		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
+		V_StudyVo v_StudyVo=v_studyDao.selectOneByStudyId(study_id);
+		double progressRate=v_StudyVo.getProgress_rate();
+		if(progressRate>=100) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+
 }

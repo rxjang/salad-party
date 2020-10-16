@@ -39,9 +39,15 @@ public class MylibController {
 	}
 	
 	@RequestMapping("/{study_id}")
-	public String mylib(@PathVariable int study_id,Model model) {
-		mylibService.selectStudyService(study_id, model);
-		return "mylib/detail";
+	public String mylib(@PathVariable int study_id,Model model,HttpSession session) {
+		Boolean boo=accountService.checkUser(session, study_id);
+		Boolean boo2=mylibService.checkFinish(study_id);
+		if(boo&boo2) {
+			mylibService.selectStudyService(study_id, model);
+			return "mylib/detail";
+		}else {
+			return "redirect:../error";
+		}
 	}
 	
 	

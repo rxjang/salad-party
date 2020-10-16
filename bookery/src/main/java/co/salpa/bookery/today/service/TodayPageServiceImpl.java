@@ -80,12 +80,13 @@ public class TodayPageServiceImpl implements TodayPageService {
 		for (CheckPageVo vo : list) {
 			arrDays.add(sdf.format(vo.getDate()));
 		}
-
 		//오늘 날짜의 플랜데이가 있으면 업데이트. 없으면 인써트
 		if(arrDays.contains(sdf.format(today))) {
 			checkPageDao.updateOne(new CheckPageVo(actualpage, study_id, getSqlToday(), 0));//오늘날짜에 공부한페이지 입력
 		}else {
-			checkPageDao.insertPage(new CheckPageVo(actualpage, study_id, getSqlToday(), 0));
+//			checkPageDao.insertPage(new CheckPageVo(actualpage, study_id, getSqlToday(), 0));
+			checkPageDao.insertPage(new CheckPageVo(actualpage,study_id,getSqlToday()));
+			
 		}
 	
 		
