@@ -28,11 +28,11 @@
 			$('.caption h3').text('우리 아직 갈길이 머네요...');
 			$('.caption h4').text('내일은 더 열심히 달려보자구요!');
 		}//if
-
+/* 
 		setTimeout(
 				function() {
 					location.href = "${pageContext.request.contextPath}/today/page/${v_study.study_id}"
-				}, 3000);
+				}, 3000); */
 	});//ready
 </script>
 <style type="text/css">

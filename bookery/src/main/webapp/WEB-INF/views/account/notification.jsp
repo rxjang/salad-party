@@ -70,6 +70,11 @@
 				$('.div-post').append(post);
 		}	
 		
+
+		$('.update-day').each(function(){
+			$(this).html($(this).text().substring(0,19));
+		});
+		
 		
 	});//ready
 	

@@ -18,18 +18,6 @@
 	    if(recentDay < 10) recentDay = "0" + recentDay;
 	    return recentYear + "-" + recentMonth + "-" + recentDay;
 	}
-	/* 오늘 날짜면 시간으로 변환  */
-	function todayToTime(date){
-		var today = getRecentDate();
-		var update =date.substring(0,10);
-		var updatetime;
-		if(today == update){
-			updatetime = new Date(date).format('a/p hh:mm');
-		}else{
-			updatetime = new Date(date).format('yyyy-MM-dd');
-		}
-		return updatetime;
-	}
 	
 	$(function() {
 		aos();
@@ -129,7 +117,8 @@
 		$('.update-day').each(function(){
 			//console.log($(this).text());
 		//	console.log(new Date($(this).text()).toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
-			$(this).text(todayToTime($(this).text()));
+			var updateDay = todayToTime($(this).text());
+			$(this).html(updateDay);
 		});
 		
 		
