@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import co.salpa.bookery.account.service.AccountService;
 import co.salpa.bookery.model.entity.StudyVo;
 import co.salpa.bookery.model.entity.UserVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
@@ -25,6 +26,7 @@ import co.salpa.bookery.mylib.service.MylibService;
 public class MylibController {
 	
 	@Autowired MylibService mylibService;
+	@Autowired AccountService accountService;
 	
 	@RequestMapping
 	public String myLib(Model model, HttpServletRequest request) throws DataAccessException {
@@ -46,9 +48,15 @@ public class MylibController {
 	/************************************ plan-page ***********************************************/
 	
 	@RequestMapping(value="/plan/page/{study_id}")
-	public String mylibPlanPage(@PathVariable int study_id,Model model) {
-		mylibService.selectStudyService(study_id, model);
-		return "mylib/plan-page";
+	public String mylibPlanPage(@PathVariable int study_id,Model model,HttpSession session) {
+		Boolean boo=accountService.checkUser(session, study_id);
+		Boolean boo2=mylibService.checkPlan(study_id);
+		if(boo&&boo2) {
+			mylibService.selectStudyService(study_id, model);
+			return "mylib/plan-page";
+		}else {
+			return "redirect:../../../error";
+		}
 	}
 	
 	@RequestMapping(value = "/plan/page",method = RequestMethod.POST)

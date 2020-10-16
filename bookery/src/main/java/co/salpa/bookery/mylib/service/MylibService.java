@@ -2,6 +2,8 @@ package co.salpa.bookery.mylib.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.ui.Model;
 
@@ -19,4 +21,6 @@ public interface MylibService {
 	void insertChapPlanService(StudyVo study, int planChap, List<String> tocs) throws DataAccessException;
 	
 	Model awardService(Model model,int user_id) throws DataAccessException;
+	
+	Boolean checkPlan(int study_id) throws DataAccessException;
 }
