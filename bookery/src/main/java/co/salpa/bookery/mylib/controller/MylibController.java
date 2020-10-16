@@ -51,7 +51,7 @@ public class MylibController {
 	public String mylibPlanPage(@PathVariable int study_id,Model model,HttpSession session) {
 		Boolean boo=accountService.checkUser(session, study_id);
 		Boolean boo2=mylibService.checkPlan(study_id);
-		if(boo&&boo2) {
+		if(boo && boo2) {
 			mylibService.selectStudyService(study_id, model);
 			return "mylib/plan-page";
 		}else {
@@ -68,9 +68,15 @@ public class MylibController {
 	}
 	
 	@RequestMapping(value="/plan/chap/{study_id}")
-	public String mylibChapPlan(@PathVariable int study_id, Model model) {
-		mylibService.selectChapStudyService(study_id, model);
-		return "mylib/plan-chap";
+	public String mylibChapPlan(@PathVariable int study_id, HttpSession session, Model model) {
+		Boolean boo=accountService.checkUser(session, study_id);
+		Boolean boo2=mylibService.checkPlan(study_id);
+		if(boo&&boo2) {
+			mylibService.selectChapStudyService(study_id, model);
+			return "mylib/plan-chap";
+		}else {
+			return "redirect:../../../error";
+		}
 	}
 	
 	@RequestMapping(value = "/plan/chap",method = RequestMethod.POST)

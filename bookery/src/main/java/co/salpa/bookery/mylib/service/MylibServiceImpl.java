@@ -212,12 +212,17 @@ public class MylibServiceImpl implements MylibService {
 	public Boolean checkPlan(int study_id) throws DataAccessException {
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
 		V_StudyVo v_StudyVo=v_studyDao.selectOneByStudyId(study_id);
-		Date startDate=v_StudyVo.getStartdate();
-		if(startDate==null) {
-			return true;
-		}else {
+		if(v_StudyVo != null) {
+			Date startDate=v_StudyVo.getStartdate();
+			if(startDate==null) {
+				return true;
+			}else {
+				return false;
+			}
+		} else {
 			return false;
 		}
+		
 	}
 
 }

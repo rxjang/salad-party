@@ -11,6 +11,8 @@ public interface TodayPageService {
 	Model getV_StudyService(int study_id, Model model) throws DataAccessException;
 
 	void checkPageService(int actualpage, int study_id) throws DataAccessException;
+
+	Boolean checkPlan(int study_id);
 	
 	//Model getTodayProgress(Model model, int study_id) throws DataAccessException;
 	

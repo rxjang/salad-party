@@ -1,9 +1,11 @@
 package co.salpa.bookery.mylib.service;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -24,6 +26,23 @@ public class MylibPlanServiceImpl implements MylibPlanService {
 		V_StudyVo v_studyVo=v_studyDao.selectOneByStudyId(study_id);
 		model.addAttribute("v_study", v_studyVo);
 		return model;
+	}
+
+	@Override
+	public Boolean checkPlan(int study_id) throws DataAccessException {
+		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
+		V_StudyVo v_StudyVo=v_studyDao.selectOneByStudyId(study_id);
+		if(v_StudyVo != null) {
+			Date startDate=v_StudyVo.getStartdate();
+			if(startDate==null) {
+				return true;
+			}else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+		
 	}
 	
 //	@Override

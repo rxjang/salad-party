@@ -42,12 +42,10 @@
 				'dataType': 'json',
 				'success':function(data){
 					var result = data.result;
-					
-					
 					if(result == 'login') {
 						 var dest = "<%=dest%>";
 		            	 if(dest != "null" && dest != "") {
-		            		opener.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> +""+ dest);
+		            		opener.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> + dest);
 		            		self.close();
 		            	 } else {
 							opener.location.href='${pageContext.request.contextPath }/';
