@@ -94,9 +94,6 @@
 			responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 			}
 		});//owl캐러셀
-		$('.enable_chap').each(function(){
-			$(this).css({'hover':'none'});
-		});
 		$('.disable_chap').each(function(){
 		      $(this).css({'pointer-events':'none','cursor':'default'});
 		      $(this).find('a').addClass('btn-checkbox-checked').addClass('already');
@@ -106,10 +103,23 @@
 		 *	페이지 입력 버튼 누르면 페이지 선택할 수 있는 alert가 나타난다.
 		 */
 	 $('#input_chap').click(function(){
+		 $(".btn-checkbox2btn").each(function(){
+			 if($(this).text().length > 60) {
+				 var span = $(this).find('span');
+				 $(this).find('span').empty();
+				 
+				 $(this).attr('data-toggle', 'tooltip').attr('data-placement', 'bottom').attr('title', $(this).text());
+				 $(this).text($(this).text().trim().substring(0, 60));
+				 $('[data-toggle="tooltip"]').tooltip();
+				 $(this).prepend(span);
+				 
+			 }
+		 });
 		 chapPicker();//total 챕터를 swal에 출력함
 		 $(this).css('display', 'none');
 		 $('#enter_chap').css('display', 'block');
 		 $('.disable_chap').parent().css('color','lightgray');
+		 
 	});//chap btn
 	
 	/* $(".enable_chap").each(function(idx,ele){
@@ -135,12 +145,14 @@
 	    });//change
 	});//each */
 	  $(".enable_chap").each(function(){
+		$(this).find('a').on('hover', 'none');
 		$(this).find('a').on('mouseenter', function(){
 			var color = $(this).css('color');
 			var bgcolor = $(this).css('background-color');
 			
 			$(this).css('background-color', bgcolor).css('color', color).css('font-weight', 'bold').css('border', '1px solid #c0cfb2');
 	    });//mouseenter
+	   
 	    $(this).find('a').on('click', function(){
 	    	var chkSelect = $(this).attr('class');
 	    	var checked = 'btn-checkbox-checked';
@@ -361,8 +373,8 @@
 			
 			<div id="select_chap">
 				<c:forEach items="${listChap }" var="listChap">
-					<div class="checkbox checkbox2button <c:if test='${listChap.actualtime eq null }'>enable_chap</c:if> <c:if test='${listChap.actualtime ne null}'>disable_chap</c:if>">
-						<label><input type='checkbox' name='selectChap' value='${listChap.id}' />${listChap.toc}</label>
+					<div  class="checkbox checkbox2button <c:if test='${listChap.actualtime eq null }'>enable_chap</c:if> <c:if test='${listChap.actualtime ne null}'>disable_chap</c:if>">
+						<label><input type='checkbox' name='selectChap' value='${listChap.id}' title='${listChap.toc}' />${listChap.toc}</label>
 					</div>
 				</c:forEach>
 			</div>
