@@ -16,6 +16,7 @@
 	var title = "${v_study.title}"
 	var cnt = actual_page; //917
 	var startdate = '${v_study.startdate}';
+	var pages = "${v_study.pages}";
 	//혹시 쓸까봐 일단 전부 선언해둠. 
 	
 	
@@ -160,6 +161,15 @@
 		var infoMsg = $('<p class="info-msg"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 시작일까지 '+ startDday+'일 남았습니다.</p>');
 		$('#book_detail').append(infoMsg);
 	}
+	
+	/* 목표일안에 100% 완료한 경우 */
+	if(actual_page == pages){
+		$('#input_page').hide();
+		var infoMsg = $('<p class="info-msg"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>축하합니다. 완독하셨어요!</p>');
+		$('#book_detail').append(infoMsg);
+	}
+	
+	
 	
 	});//ready
 	
