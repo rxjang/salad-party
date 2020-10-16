@@ -30,17 +30,9 @@ public class TodayPageController {
 	@RequestMapping("/page/{study_id}")
 	public String pageInput(Model model,@PathVariable int study_id,HttpServletRequest request) { // 오늘 공부한 페이지 입력하러가기
 		try {
-//'2', NULL, '14466324', '시나공 정보처리기사 실기 C와 JAVA의 기,산업기사 포함,2019', '3', '2020-09-19 00:18:31', NULL, '2020-09-01', '2020-10-01', '2020-10-17', NULL, 'page', NULL, NULL, NULL, '30', '21', '1200', '840', '680', NULL, NULL, '56.6667', '80.9524', '56.6667', '80.9524'
-			
 			HttpSession session = request.getSession();
 			UserVo user = (UserVo) session.getAttribute("user");
-			//findService.getBookService(bid, model);
 			todayPageService.getV_StudyService(study_id, model);//파라미터 userid와 bid
-			
-			//오늘의 메뉴에서 목표설정 >> 플랜페이지가 생김. >> 목표설정 후 페이지 입력 버튼 누르면 여기로옴.
-			//그럼 study_id도 받을 수 있고 study id를 이용해서 plan page 구간값을 얻을 수 있다. >>오늘 하루 공부 % 나타내기위한값
-			todayPageService.getTodayProgress(model, 3);
-		
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

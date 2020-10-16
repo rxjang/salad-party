@@ -4,15 +4,20 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.UserDao;
+import co.salpa.bookery.model.V_StudyDao;
 import co.salpa.bookery.model.entity.UserVo;
+import co.salpa.bookery.model.entity.V_StudyVo;
 
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -161,6 +166,20 @@ public class AccountServiceImpl implements AccountService{
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
 		int maxId = userDao.maxId();
 		return maxId;
+  }
+
+	public Boolean checkUser(HttpSession session,int study_id) throws DataAccessException {
+		UserVo user=(UserVo) session.getAttribute("user");
+		int id=user.getId();
+		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
+		V_StudyVo v_StudyVo=v_studyDao.selectOneByStudyId(study_id);
+		int user_id=v_StudyVo.getUser_id();
+		if(id==user_id) {
+			return true;
+		}else {
+			return false;
+		}
+    
 	}
 
 }

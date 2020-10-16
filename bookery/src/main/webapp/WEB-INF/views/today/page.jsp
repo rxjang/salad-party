@@ -12,12 +12,10 @@
 	var total_pages = "${v_study.total_pages}";
 	var actual_page = "${v_study.actual_page}";
 	var plan_page = "${v_study.plan_page}";
-	var plan_page_interval = "${plan_interval}"; //오늘 날짜의 actual_page 값이 필요함.
-	var recent_actual_page="${recent_actual_page}";
-	var today_actual_page="${today_actual_page}";
 	var coverurl = "${v_study.coverurl}"
 	var title = "${v_study.title}"
 	var cnt = actual_page; //917
+	var startdate = '${v_study.startdate}';
 	//혹시 쓸까봐 일단 전부 선언해둠. 
 	
 	
@@ -65,23 +63,26 @@
 	}//today_page
 	
 	
-	/**
-	 * 	document Ready
-	 */
-	$(function() {
-		
-		//D day 구하기
+	/* Dday 계산 */
+	 function dDay(targetDay){
 		var currentTime = getRecentDate();
 		var start = new Date(currentTime);
-		var end = new Date(deadLine);
+		var end = new Date(targetDay);
 		var dateDiff = Math.ceil((end.getTime() - start.getTime())
 				/ (1000 * 3600 * 24));
 		Dday = dateDiff;
-		if(dateDiff < 0)
+		return Dday;
+	}
+	/**
+	* 	document Ready
+	*/
+	$(function() {
+
+		Dday = dDay(deadLine);
+		if(Dday < 0)
 			$('#owl-dday').text('D+'+ (-Dday));
 		else 
 			$('#owl-dday').text('D-'+ Dday);
-		console.log(dateDiff);
 		$('.thumbnail').css({'box-shadow':'12px 8px 24px rgba(0,0,0,.3), 4px 8px 8px rgba(0,0,0,.4), 0 0 2px rgba(0,0,0,.4)','display':'block','margin':'auto'});
 		//box-shadow:rgb(37, 54, 41) 5px 5px 10px;
 		/**********************    캐러셀    **********************/
@@ -137,21 +138,6 @@
 			pagePicker();//total 페이지를 swal에 출력함
 	});//page btn
 	
-	
-	
-	
-	
-	/**
-	 * ---------------------------------------
-	 * This demo was created using amCharts 4.
-	 * 
-	 * For more information visit:
-	 * https://www.amcharts.com/
-	 * 
-	 * Documentation is available at:
-	 * https://www.amcharts.com/docs/v4/
-	 * ---------------------------------------
-	 */
 	$('.progress1').css('background-color','#ecece9');
 	$('.progress-bar1').each(function() {
 		$(this).css('height','250px');
@@ -166,6 +152,15 @@
 		  $(this).css('width', siz+'%');
 		  $(this).text(Math.floor(siz)+'%');
 		});
+	
+	/* 목표 시작 날짜 이전이면 페이지 입력 방지 */
+	if(startdate > getRecentDate()){
+		var startDday = dDay(startdate);
+		$('#input_page').hide();
+		var infoMsg = $('<p class="info-msg"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 시작일까지 '+ startDday+'일 남았습니다.</p>');
+		$('#book_detail').append(infoMsg);
+	}
+	
 	});//ready
 	
 </script>
@@ -194,7 +189,13 @@
 	font-weight:bold;
 	color:#555;	
 }
-
+.info-msg{
+	text-align: center;
+	font-size: 1.4em;
+	font-weight:600;
+	color:#787878;
+	padding:5px;
+}
 </style>
 </head>
 <body>
@@ -205,7 +206,7 @@
 	<div class="row">
 		<div class="col-md-3"></div>
 			<div id="book_thumbnail" class="col-xs-12 col-md-6">
-				<a href="#">
+				<a href="${pageContext.request.contextPath }/find/book/${v_study.book_bid}">
 					<img class="thumbnail" src="${v_study.coverurl }" alt="..."/>
 				</a>			
 			</div>

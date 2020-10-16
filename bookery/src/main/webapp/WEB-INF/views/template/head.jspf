@@ -32,6 +32,7 @@
 <script src="${pageContext.request.contextPath }/resources/amcharts4/plugins/wordCloud.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/node_modules/fullcalendar/main.css" />
 <script src="${pageContext.request.contextPath }/resources/node_modules/fullcalendar/main.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/highcharts.js"></script>
 
 <!-- 
 ***************
@@ -56,7 +57,8 @@
 	15.태그 라이브러리 jstl/functions
 	16.데이터 피커 data picker js css
 	17.am chart : core chart timeline bullets animated wordCloud
-	18.fullcalendar 달
+	18.fullcalendar 달력
+	19.Highchart
  
 ***************
  -->
@@ -212,7 +214,7 @@
 			height:50px;
 		}
 		.menu-setting{padding:0px 25px;}
-		.pull-right{padding:23px; padding-bottom:5px;padding-right:10px;}
+		.pull-right{padding:23px; padding-bottom:5px;padding-right:10px;padding-top:15px;}
 		.real-menu{
 			background-color:white;
 			border-top:1px solid #e4e4e4;

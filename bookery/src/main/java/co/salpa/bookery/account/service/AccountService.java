@@ -3,6 +3,9 @@ package co.salpa.bookery.account.service;
 import java.sql.SQLException;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.ui.Model;
 
 import co.salpa.bookery.model.entity.UserVo;
@@ -38,6 +41,8 @@ public interface AccountService {
 	public int withdraw(int id) throws SQLException;
 
 	public String chkBySns(String email);
+	
+	Boolean checkUser(HttpSession session,int study_id) throws DataAccessException;
 
 	public int maxId();
 

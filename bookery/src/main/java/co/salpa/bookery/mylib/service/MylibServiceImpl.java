@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -30,6 +32,7 @@ import co.salpa.bookery.model.entity.CheckPageVo;
 import co.salpa.bookery.model.entity.MedalVo;
 import co.salpa.bookery.model.entity.StudyVo;
 import co.salpa.bookery.model.entity.TocVo;
+import co.salpa.bookery.model.entity.UserVo;
 import co.salpa.bookery.model.entity.V_AwardsVo;
 import co.salpa.bookery.model.entity.V_CalendarVo;
 import co.salpa.bookery.model.entity.V_StudyVo;
@@ -203,6 +206,18 @@ public class MylibServiceImpl implements MylibService {
 		model.addAttribute("awardJson", jsonAward);
 		model.addAttribute("countAchieveMedal", v_AwardsDao.countAchieveMedal(user_id));
 		return null;
+	}
+
+	@Override
+	public Boolean checkPlan(int study_id) throws DataAccessException {
+		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
+		V_StudyVo v_StudyVo=v_studyDao.selectOneByStudyId(study_id);
+		Date startDate=v_StudyVo.getStartdate();
+		if(startDate==null) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }
