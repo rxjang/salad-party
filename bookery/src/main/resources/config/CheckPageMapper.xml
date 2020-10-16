@@ -39,15 +39,15 @@
 	</insert>
 
 	<update id="updateOne" parameterType="checkPageBean">
-		update salpa.checkpage set
+		update checkpage set
 		actualpage=#{actualpage}, updatetime = now() where date = #{date} and
 		study_id=#{study_id}
 		and deleted = 0
 	</update>
-	<update id="insertPage" parameterType="checkPageBean">
-		insert into salpa.checkpage (actualpage,updatetime,date,study_id) values
-		(#{actualpage},now(),now(),#{study_id})
-	</update>
+	<insert id="insertPage" parameterType="checkPageBean">
+		insert into checkpage (actualpage,updatetime,date,study_id) values
+		(#{actualpage},now(),#{date},#{study_id})
+	</insert>
 	<update id="updateTimeStudy">
 		update study set updatetime=now() where id=#{study_id}
 	</update>

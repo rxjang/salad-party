@@ -23,4 +23,6 @@ public interface MylibService {
 	Model awardService(Model model,int user_id) throws DataAccessException;
 	
 	Boolean checkPlan(int study_id) throws DataAccessException;
+
+	Boolean checkFinish(int study_id) throws DataAccessException;
 }

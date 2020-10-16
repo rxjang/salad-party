@@ -28,23 +28,28 @@ public class CheckPageVo {
 	private Date date;
 	@NonNull
 	private int deleted;
-	
+
 	private Date updatetime;
-	
-	public CheckPageVo(Date date,int planpage,int planpageperday, int study_id) {
-		super();
-		this.planpage = planpage;
-		this.study_id = study_id;
-		this.date = date;
-	}
-	
-	public CheckPageVo(Date date,int planpage, int study_id) {
+
+	public CheckPageVo(Date date, int planpage, int planpageperday, int study_id) {
 		super();
 		this.planpage = planpage;
 		this.study_id = study_id;
 		this.date = date;
 	}
 
-	
+	public CheckPageVo(int actualpage, int study_id,Date date) {
+		super();
+		this.actualpage = actualpage;
+		this.study_id = study_id;
+		this.date = date;
+	}
+
+	public CheckPageVo(Date date, int planpage, int study_id) {
+		super();
+		this.planpage = planpage;
+		this.study_id = study_id;
+		this.date = date;
+	}
 
 }

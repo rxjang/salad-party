@@ -301,9 +301,15 @@
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">
-	<div class="col-xs-12 col-md-12">
-
+	<div class="col-md-1"></div>
+	<div class="col-xs-12 col-md-11">
+		<div class="font">
+			오늘의 기록에서 다양한 차트로<br/> 공부현황을 확인해요
+		</div>
 	</div>
+	<div class="col-md-4"></div>
+	<div class="col-xs-12 col-md-6"></div>
+	<div class="col-md-1"></div>
 </div>
 <div class="row empty">&nbsp;</div>
 <div class="row">
