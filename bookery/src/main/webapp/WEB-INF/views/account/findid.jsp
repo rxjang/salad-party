@@ -79,22 +79,44 @@
 					'dataType': 'json',
 					'success':function(data){
 						var result = data.result;
+						var lvl = data.lvl;
+						
 						if(result != 'fail') {
-							swal({
-								  title: "가입 이메일 확인",
-								  text: "회원님의 이메일 계정은 \'" + result  + "\' 입니다.",
-								  icon: "success",
-								  buttons: {
-								    confirm:{
-								    	text:"로그인 페이지로 이동",
-								    	value:true
-								    }
-								  },
-							}).then((value) => {	//value가 true이면 로그인 페이지로 이동한다.
-								if(value){
-										location.href = '${pageContext.request.contextPath }/account/login';
-								}//if
-							});//swal						
+							if(lvl != null && lvl != '') {
+								if(lvl == 'naver') lvl = '네이버';
+								if(lvl == 'kakao') lvl = '카카오';
+								swal({
+									  title: "가입 이메일 확인",
+									  text: "회원님의 이메일 계정은 \'" + result  + "\' 입니다.\n " + lvl +"를 통해 로그인 해주세요.",
+									  icon: "success",
+									  buttons: {
+									    confirm:{
+									    	text:"로그인 페이지로 이동",
+									    	value:true
+									    }
+									  },
+								}).then((value) => {	//value가 true이면 로그인 페이지로 이동한다.
+									if(value){
+											location.href = '${pageContext.request.contextPath }/account/login';
+									}//if
+								});//swal		
+							} else{
+								swal({
+									  title: "가입 이메일 확인",
+									  text: "회원님의 이메일 계정은 \'" + result  + "\' 입니다.",
+									  icon: "success",
+									  buttons: {
+									    confirm:{
+									    	text:"로그인 페이지로 이동",
+									    	value:true
+									    }
+									  },
+								}).then((value) => {	//value가 true이면 로그인 페이지로 이동한다.
+									if(value){
+											location.href = '${pageContext.request.contextPath }/account/login';
+									}//if
+								});//swal			
+							}//else		
 						} else if(result == 'fail') {
 						    swal("계정 조회 실패", "가입된 이력이 없는 회원 정보입니다.\n 이름과 연락처를 확인해주세요.","warning");
 						} else {

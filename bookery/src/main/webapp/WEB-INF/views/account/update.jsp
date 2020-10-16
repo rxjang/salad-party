@@ -84,7 +84,13 @@
 			return false;
 		}	
 	}
-	$(function(){
+	$(function(){ //ready
+		var emailChk = true;
+		if('${user.lvl}' == 'kakao') {
+			/* console.log("lvl:" + "${user.lvl}"); */
+			if('${user.email}'.search('@') <=0) emailChk = false;
+		}
+		 /* console.log("emailChk:" + emailChk); */
 	$('#updateForm').on('submit',function(){ //등록버튼 눌렀을 때 이벤트.
 		/* console.log('서브밋'); */
 		var contact = $('#tel1').val() + $('#tel2').val() + $('#tel3').val();
@@ -231,6 +237,7 @@
        	 }
    	});
 });//ready
+
 function onlyNumber(e){
     if((event.keyCode<48)||(event.keyCode>57)) {
        event.returnValue = false;    	
@@ -282,11 +289,13 @@ function delchk() {
 %>
 <!-- **********content start********** --> 
 <div class="update">
-	<div class="col-xs-12 col-md-12">
+	<c:set var="emailChk" value="${emailChk }" />
+	
+	<div class="col-xs-12 col-md-12">	
 		<form method="post" id="updateForm">
 				<!-- <h1><img src="" alt="Bookery" class="logo"></h1> -->
 				<h1>정보수정</h1>
-			 	<c:if test="${userBean.lvl ne 'kakao' }"><input type="text" placeholder="이메일" name="email" id="email" value="${userBean.email }" readonly/></c:if>
+			 	<c:if test="${emailChk ne false}"><input type="text" placeholder="이메일" name="email" id="email" value="${userBean.email }" readonly/></c:if>
 			 	<input type="password" placeholder="비밀번호" name="password" id="password" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>/><span id="passwordMessage" class="message" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>></span>
 			 	<input type="password" placeholder="비밀번호 확인" name="passwordChk" id="passwordChk" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if> /><span id="passwordChkMessage" class="message" <c:if test="${userBean.lvl ne null }"> style="display:none"</c:if>></span>
 			 	<input type="text" placeholder="이름" name="name" id="name" value="${userBean.name }"/><span id="nameMessage" class="message"></span>

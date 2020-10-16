@@ -59,4 +59,8 @@
   	<update id="newPw" parameterType="map">
   		update user set password=#{password} where deleted=0 and email=#{email}
   	</update>
+  	
+  	<select id="maxId" resultType="int">
+  		select max(id) from user
+  	</select>
   </mapper>

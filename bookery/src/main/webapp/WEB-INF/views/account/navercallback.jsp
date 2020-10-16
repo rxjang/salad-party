@@ -42,7 +42,8 @@
 				'dataType': 'json',
 				'success':function(data){
 					var result = data.result;
-
+					
+					
 					if(result == 'login') {
 						 var dest = "<%=dest%>";
 		            	 if(dest != "null" && dest != "") {

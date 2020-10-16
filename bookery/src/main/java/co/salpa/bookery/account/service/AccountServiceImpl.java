@@ -156,4 +156,11 @@ public class AccountServiceImpl implements AccountService{
 		return lvl;
 	}
 
+	@Override
+	public int maxId() {
+		UserDao userDao = sqlSession.getMapper(UserDao.class);
+		int maxId = userDao.maxId();
+		return maxId;
+	}
+
 }

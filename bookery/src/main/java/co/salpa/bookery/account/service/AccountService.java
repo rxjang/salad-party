@@ -1,6 +1,7 @@
 package co.salpa.bookery.account.service;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.ui.Model;
 
@@ -37,5 +38,7 @@ public interface AccountService {
 	public int withdraw(int id) throws SQLException;
 
 	public String chkBySns(String email);
+
+	public int maxId();
 
 }

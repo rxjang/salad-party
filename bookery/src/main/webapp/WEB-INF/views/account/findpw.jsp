@@ -124,6 +124,7 @@
 					'success':function(data){
 						var result = data.result;
 						/* console.log(result); */
+						
 						if(result == 'ok') {
 							$('#cover').css('display', 'none');
 							swal({
