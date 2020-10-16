@@ -492,5 +492,17 @@ function aos(){
       }//AOS	
 }
 
+/* 오늘 날짜면 시간으로 변환  */
+function todayToTime(date){
+	var today = getRecentDate();
+	var update =date.substring(0,10);
+	var updatetime;
+	if(today == update){
+		updatetime = date.substring(10,19)+'&nbsp;';
+	}else{
+		updatetime = date.substring(0,10)+'&nbsp;';
+	}
+	return updatetime;
+}
 
 </script>

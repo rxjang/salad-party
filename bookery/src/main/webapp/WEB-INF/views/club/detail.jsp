@@ -20,18 +20,6 @@ var session_user_id = '${user.id}';
 	    if(recentDay < 10) recentDay = "0" + recentDay;
 	    return recentYear + "-" + recentMonth + "-" + recentDay;
 	}
-/* 오늘 날짜면 시간으로 변환  */
-	function todayToTime(date){
-		var today = getRecentDate();
-		var update =date.substring(0,10);
-		var updatetime;
-		if(today == update){
-			updatetime = new Date(date).format('a/p hh:mm');
-		}else{
-			updatetime = new Date(date).format('yyyy-MM-dd');
-		}
-	return updatetime;
-	}
 
 	/* document ready */
 	$(function() {
@@ -61,8 +49,8 @@ var session_user_id = '${user.id}';
 		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
 		console.log(new Date('${club.updatetime}').format('HH:mm:ss'));
-		$('.updatetime').text(todayToTime(date));
-		
+		//$('.updatetime').html(todayToTime(date));
+		$('.updatetime').html(date.substring(0,19)+'&nbsp;');
 		
 		$('.input-reply').hide();
 		var btn_reply_cnt = 0;
