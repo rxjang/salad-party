@@ -32,7 +32,7 @@ public class TodayServiceImpl implements TodayService {
 		// 로그인 user_id에 해당하는 진행중인 study_id 목록 전달
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
 		List<V_StudyVo> list_v_study=new ArrayList<V_StudyVo>();
-		list_v_study=v_studyDao.selectActiveByUserId(user_id);
+		list_v_study=v_studyDao.selectActiveByUserIdRecent(user_id);
 		model.addAttribute("studyList", list_v_study);
 		
 		return model;
