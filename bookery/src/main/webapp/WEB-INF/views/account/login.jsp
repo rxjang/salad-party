@@ -130,7 +130,7 @@
              }else{
             	 var dest = "<%=dest%>";
             	 if(dest != "null" && dest != "") {
-            		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> +""+ dest);
+            		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> + dest);
             		 return false;
             	 } else {
                   	window.location.replace("${pageContext.request.contextPath }/"); 
@@ -236,7 +236,7 @@
 				            	}else{
 				               	 var dest = "<%=dest%>";
 					               	 if(dest != "null" && dest != "") {
-					               		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> +""+ dest);
+					               		 window.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> + dest);
 					               		 return false;
 					               	 } else {
 					                     	window.location.replace("${pageContext.request.contextPath }/"); 

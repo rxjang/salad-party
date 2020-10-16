@@ -15,4 +15,6 @@ public interface TodayChapService {
 	
 	Model getTodayProgress(Model model, int study_id) throws DataAccessException;
 
+	Boolean checkPlan(int study_id) throws DataAccessException;
+
 }

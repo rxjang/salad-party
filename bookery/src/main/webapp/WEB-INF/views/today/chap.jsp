@@ -20,6 +20,7 @@
 	var plan_chap = "${today_plan_chap}";
 	var coverurl = "${v_study.coverurl}"
 	var title = "${v_study.title}";
+	var startdate = '${v_study.startdate}';
 
 	console.log(total_chap);
 	//오늘 날짜 yyyy-mm-dd
@@ -39,7 +40,18 @@
 		$('html, body').animate({scrollTop : thisTarget.top-70}, 400);
 	}//chapPicker
 	//오늘 공부한 챕터 - 어제까지 actualtime == null인 구간
-
+	
+	/* Dday 계산 */
+	 function dDay(targetDay){
+		var currentTime = getRecentDate();
+		var start = new Date(currentTime);
+		var end = new Date(targetDay);
+		var dateDiff = Math.ceil((end.getTime() - start.getTime())
+				/ (1000 * 3600 * 24));
+		Dday = dateDiff;
+		return Dday;
+	}
+	
 	/**
 	 * 	document Ready
 	 */
@@ -208,6 +220,15 @@
 		  $(this).css('width', siz+'%');
 		  $(this).text(Math.floor(siz)+'%');
 		});
+	
+	/* 목표 시작 날짜 이전이면 페이지 입력 방지 */
+	if(startdate > getRecentDate()){
+		var startDday = dDay(startdate);
+		$('#input_chap').hide();
+		var infoMsg = $('<p class="info-msg"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 시작일까지 '+ startDday+'일 남았습니다.</p>');
+		$('#book_detail').append(infoMsg);
+	}
+	
 	});//ready
 	
 </script>
@@ -255,6 +276,13 @@
 }
 #select_chap a{
 	width: 100%;
+}
+.info-msg{
+	text-align: center;
+	font-size: 1.4em;
+	font-weight:600;
+	color:#787878;
+	padding:5px;
 }
 </style>
 </head>
@@ -369,7 +397,7 @@
 								</div><!-- plan -->
 								<div class="owl-item" id="owl-chapRate">
 									<p><small>현황</small></p>	
-									<p><span class="caro-cnt" >${v_study.actual_chap}/${v_study.plan_chap}</span></p>	
+									<p><span class="caro-cnt" >${v_study.actual_chap}/${v_study.total_chap}</span></p>	
 									<p><small>챕터</small></p>
 								</div>
 							</div>

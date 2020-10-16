@@ -92,6 +92,22 @@ public class TodayPageServiceImpl implements TodayPageService {
 		checkPageDao.updateTimeStudy(study_id);
 	}// checkPageService
 
+	@Override
+	public Boolean checkPlan(int study_id) throws DataAccessException {
+		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
+		V_StudyVo v_StudyVo=v_studyDao.selectOneByStudyId(study_id);
+		if(v_StudyVo != null) {
+			Date startDate=v_StudyVo.getStartdate();
+			if(startDate!=null) {
+				return true;
+			}else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
 
 	
 	/*

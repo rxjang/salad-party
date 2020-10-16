@@ -166,17 +166,22 @@ public class AccountServiceImpl implements AccountService{
 		UserDao userDao = sqlSession.getMapper(UserDao.class);
 		int maxId = userDao.maxId();
 		return maxId;
-  }
+	}
 
-	public Boolean checkUser(HttpSession session,int study_id) throws DataAccessException {
+	public Boolean checkUser(HttpSession session, int study_id) throws DataAccessException {
 		UserVo user=(UserVo) session.getAttribute("user");
 		int id=user.getId();
 		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
 		V_StudyVo v_StudyVo=v_studyDao.selectOneByStudyId(study_id);
-		int user_id=v_StudyVo.getUser_id();
-		if(id==user_id) {
-			return true;
-		}else {
+		
+		if(v_StudyVo != null) {
+			int user_id=v_StudyVo.getUser_id();
+			if(id==user_id) {
+				return true;
+			}else {
+				return false;
+			}
+		} else {
 			return false;
 		}
     

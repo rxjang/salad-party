@@ -32,7 +32,13 @@
 		width:100%;
 	}
 	.tocItem{
-		width: 80%;
+		width: 85%;
+		margin-right: 5px;
+		border: none;
+		border-right: 0px;
+		border-top: 0px;
+		boder-left: 0px;
+		boder-bottom: 0px;
 	}
 	.book-image{
 		width:14em;
@@ -138,7 +144,7 @@
 		 text-align: center;
 	     font-size: 0.7em;
 	     text-transform: uppercase;
-	     background: #42473d;
+	     background: #8ba989;
 	     padding: 1em 0.5em;
 	     color: #fff;
 	     width: 30px;
@@ -146,6 +152,10 @@
 	     line-height: 10px;
 	     border: none;
 	     margin-left: 2px;
+	}
+	.addToc:hover, .rmvToc:hover{
+		background: #e4e6da;
+		color: #c0cb2;
 	}
 	.lb-chap{
 		width: 120px;
@@ -167,8 +177,8 @@
 		ul{
 			padding: 0px;
 		}
-		.tocItem>input{
-			width:80%;
+		.tocItem{
+			width: 80%;
 		}
 		.temp{
 			margin:0px auto;
@@ -226,13 +236,15 @@ mql.addListener(function(e) {
 var emptyToc  = '<li class="list-group-item tocListItem"><input type="text" class="tocItem" name="toc" /><button type="button" class="btn btn-default addToc">+</button><button type="button" class="btn btn-default rmvToc">-</button></li>';
 	$(document).on('click', '.addToc', function(){
 		$(this).parent().after($(emptyToc));
+		$('h5 strong').text($('.tocListItem').length);
 	});// addToc clicks
 	$(document).on('click', '.rmvToc', function(){
 		if($('ul>li.tocListItem').size() < 2) {
 			swal("주의", "모든 목차를 지울 수 없습니다.","warning");
 			return false;
 		} else{
-			$(this).parent().remove();			
+			$(this).parent().remove();
+			$('h5 strong').text($('.tocListItem').length);
 		}
 	});// rmvToc click
 	$(function() {
@@ -248,7 +260,12 @@ var emptyToc  = '<li class="list-group-item tocListItem"><input type="text" clas
 		$('.by-chapdate').hide();
 	 	$('.chap-result').hide();
 		$('.chapdate-result').hide();
+		$('h5 strong').text($('.tocListItem').length);
+		if ($('.tocListItem').length == 1) {
+			$('.tocItem').val('목차 정보가 없는 책입니다. 직접 설정해주세요.');
+		}
 		$('.setToc').on('click', function(){
+			$('.plan-chap-title').text('목표설정 by CHAPTER');
 			$('.chap-toc').hide();
 			$('.chap-chap').show();
 			$('.chap-date').show();
@@ -409,7 +426,7 @@ var emptyToc  = '<li class="list-group-item tocListItem"><input type="text" clas
 			<div class="chap-content">
 				<div class="book-info-detail">
 					<h4><strong>${v_study.title}</strong></h4>
-					<h5>본 책은 총 <strong>${v_study.pages}</strong>페이지 입니다</h5>
+					<h5>현재 목차는 <strong></strong>개 입니다</h5>
 				</div><!-- book-info-detail -->
 				<div class="chap-toc">
 					<div class="edit toc">
