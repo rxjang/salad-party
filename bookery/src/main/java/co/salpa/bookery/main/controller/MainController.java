@@ -18,5 +18,10 @@ public class MainController {
 		mainService.bookCoverService(model);
 		return "main";
 	}
+	
+	@RequestMapping("/error")
+	public void error() {
+		//에러 페이지
+	}
 
 }
