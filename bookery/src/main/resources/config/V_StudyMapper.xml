@@ -23,6 +23,10 @@
 		parameterType="int">
 		select * from v_study where user_id = #{user} and type is not null and progress_rate &lt; 100
 	</select>
+	<select id="selectActiveByUserIdRecent" resultType="v_studyBean"
+		parameterType="int">
+		select * from v_study where user_id = #{user} and type is not null and progress_rate &lt; 100 order by updatetime desc
+	</select>
 	<select id="selectActiveStudyIDByUserId" resultType="java.lang.Integer"
 		parameterType="int">
 		select study_id from v_study where user_id = #{user} and type is not null and progress_rate &lt; 100
