@@ -10,7 +10,6 @@
 		height:100%;
 	}
 	#today-main{
-/* 		margin-top:100px; */
 		height:300px;
 		overflow:hidden;
 		padding:10px;
@@ -29,6 +28,10 @@
 	.main-ment{
 		margin-top:40px;
 		font-weight:900;
+		line-height: 150%;
+	}
+	.sub-ment{
+		line-height:150%;
 	}
 	.media-object{
 		box-shadow: 2px 2px 6px #aaaaaa;
@@ -39,7 +42,6 @@
 		padding: 5px;
 	}
 	
-		
 /* 스터디 요약 */
 	.perStudy{
 		margin:20px 0; 
@@ -79,14 +81,12 @@
 		color:#505050;
 	}
 	.btn{
-/* 		margin:30px 0; */
 		border-radius:15px;
 		cursor: pointer;
 		color:#8ba989;
 		border: 1px solid #e4e6da;
 	}
 	.btn:hover{
-/* 		color:white; */
 		color:#8ba989;
 		font-weight:bold;
 		background-color:#e4e6da;
@@ -103,19 +103,14 @@
 		color:#e4e6da;
 		color:#ecece9;
 		color:white;
-/* 		border: 1px solid #e4e6da; */
 	}
-	
 	
 /* 	차트 목록 */
 	#chartList{
 		margin:0 auto;
 		margin-top:50px;
-/* 		padding:0; */
 		width:100%;
 		height:50px;
-/* 		overflow:hidden; */
-/* 		border-radius: 15px; */
 	}
 	#chartList a{
 		display:inline-block;
@@ -126,8 +121,6 @@
 		line-height:50px;
 		text-align:center;
 		cursor: pointer;
-/* 		color:#8ba989; */
-/* 		border: 1px solid #8ba989; */
 		border-radius:0;
 	}
 	#chartList a:first-child{
@@ -138,11 +131,6 @@
 		border-top-right-radius:15px;
 		border-bottom-right-radius:15px;
 	}
-	#chartList a:hover{
-/* 		color:white; */
-/* 		font-weight:bold; */
-/* 		background-color:#c0cfb2; */
-	}
 
 /* 	차트 */
 	#charts{
@@ -151,12 +139,12 @@
 	.blankBefore{
 		width:100%;
 		height:70px;
-/* 		background-color:blue; */
+		display:block;
 	}
 	.blank{
 		width:100%;
 		height:50px;
-/* 		background-color:red; */
+		display:block;
 	}
 	.blank>a{
 		display:inline-block;
@@ -166,12 +154,6 @@
 		line-height:20px;
 		padding:0 10px;
 		margin:30px 0;
-	}
-	.chart{
-/* 		padding-top:66px; */
-	}
-	.chart-desc{
-/* 		height:500px; */
 	}
 	.chart-desc h2{
 		color:49654d;
@@ -217,9 +199,8 @@
 		}
 		.chart-desc{
 			width:100%;
-			height:180px;
+			height:220px;
 			padding:20px;
-/* 			background-color:yellow; */
 		}
 		.chartOuter,#chartAvgOuter,#chartPerDayOuter,#chartAccumOuter{
 			width:90%;
@@ -235,13 +216,11 @@
 		}
 		.date-data{
 			font-size:1em;
-/* 		color:#505050; */
 		}
 		.blankBefore{
-		width:100%;
-		height:120px;
-/* 		background-color:blue; */
-	}
+			width:100%;
+			height:60px;
+		}
 	}
 </style>
 
@@ -350,8 +329,6 @@
 				daysPlan=studyVo.plan_days_yesterday; //어제까지 계획한 날짜 수
 				var daysActual=studyVo.actual_days_yesterday; //어제까지 공부한 날짜 수
 				var daysRemain=studyVo.remain_days; // 오늘 포함 남은 날 수
-// 				console.log(daysRemain);
-// 				console.log(typeof daysRemain);
 				arrPlan=[];
 				arrActual=[];
 				arrActual2=[];
@@ -430,32 +407,8 @@
 			$(this).click(item_click);
 		});
 		setTimeout(function(){$('#charts').css('display','block')},1000);
-		setTimeout(function(){
-			$('#chartList a').each(function(i,e){
-				console.log('scrollto func');
-				$(this).click(function(){
-// 					var _location=$("#charts").children().eq(i).offset().top;
-					var _location=$("#chart"+i+1).offset().top;
-					scrollChart(_location);
-					//$(document).scrollTop(location-100);
-					console.log(_location);
-				});
-			});//each
-		},2000);//setTimeout
 	});// doc ready1
 
-	$(function(){//doc ready2
-		AOS.init();//doc ready1 안에 두니 ready1의 데이터를 못 불러옴
-	});// doc ready2
-
-	function scrollChart(loc){
-		if(window.innerWidth<1000){
-			window.scrollTo({top:loc-125,behavior:'smooth'});
-		}else{
-			window.scrollTo({top:loc-100,behavior:'smooth'});
-		}
-	}
-	
 	function chartStart(){//ajax로 데이터 불러온 1초 후에 차트들 실행함
 		setTimeout(function(){
 			chartTimelineStart();
@@ -499,7 +452,6 @@
 			series.tooltipText = "{valueY}";
 			series.tooltip.pointerOrientation = "vertical";
 			series.tooltip.background.fillOpacity = 0.9;
-// 			series.fill = chart.colors.getIndex(3);
 			series.fill = "#8ba989";
 			series.stroke = "#8ba989";
 			
@@ -663,14 +615,14 @@
 			</c:forEach>
 		</div><!-- owl end -->
 	</div>
-</div><!-- today-main -->
+</div><!-- .row.today-main -->
 
 <div class="row" id="today-body">
-	<div class="col-md-12 col-xs-12">
+	<div class="col-md-2"></div>
+	<div class="col-md-8 col-xs-12">
 		<div class="row">
-			<div class="col-md-2"></div>
 			<c:forEach items="${studyList }" var="study">
-				<div class="col-md-8 col-xs-12 perStudy">
+				<div class="col-md-12 col-xs-12 perStudy">
 					<input type="hidden" value="${study.study_id }" />
 					<div class="row">
 						<c:set var="today" value="<%=new java.util.Date()%>"/>
@@ -729,9 +681,9 @@
 								</c:if>
 							</c:if>
 						</c:if>
-					</div>
+					</div><!-- row -->
 					<div class="row">
-						<div class="col-md-12 col-xs-12" id="summary" data-aos="fade-up" data-aos-duration="500">
+						<div class="col-md-12 col-xs-12" id="summary" data-aos="fade-up" data-aos-duration="2000">
 							<div class="dates">
 								<div class="date">
 									시작일<br/>
@@ -755,112 +707,118 @@
 								</div>
 							</div><!-- dates -->
 						</div>
-					</div>
+					</div><!-- row -->
 					<div class="row">
 						<a href="${pageContext.request.contextPath }/today/${study.type }/${study.study_id }"
 						type="button" class="btn btn-default btn-lg btn-block" id="btnGo">오늘의 공부 입력하러 가기</a>
-					</div>
-					<div class="row" data-aos="fade-up" data-aos-duration="1000">
-						<h2 class="main-ment">다양한 차트를 통해 진행중인 스터디의 현황을 알아 보아요</h2>
-						<h4 class="sub-ment">차트 목록에서 원하는 기록 타입을 선택하세요.</h4>
-						<div id="chartList">
-							<a href="#blank1" type="button" class="btn btn-default btn-lg">타임라인</a>
-							<a href="#blank2" type="button" class="btn btn-default btn-lg">진행률</a>
-							<a href="#blank3" type="button" class="btn btn-default btn-lg">일일평균</a>
-							<a href="#blank4" type="button" class="btn btn-default btn-lg">일일기록</a>
-							<a href="#blank5" type="button" class="btn btn-default btn-lg">누적기록</a>
-						</div>
-					</div>
-				</div><!-- col-md-8 col-xs-12 perStudy -->
+					</div><!-- row -->
+				</div><!-- col-md-12 col-xs-12 perStudy -->
 			</c:forEach>
-		</div>
+		</div><!-- row -->
+		<div class="row blankBefore" id="blank0"></div>
+		<div class="row">
+			<div class="col-md-12 col-xs-12" data-aos="fade-up" data-aos-duration="2000">
+				<div class="row">
+					<h2 class="main-ment">다양한 차트를 통해 진행중인 스터디의 현황을 알아 보아요</h2>
+					<h4 class="sub-ment">차트 목록에서 원하는 기록 타입을 선택하세요.</h4>
+					<div id="chartList">
+						<a href="#blank1" type="button" class="btn btn-default btn-lg">타임라인</a>
+						<a href="#blank2" type="button" class="btn btn-default btn-lg">진행률</a>
+						<a href="#blank3" type="button" class="btn btn-default btn-lg">일일평균</a>
+						<a href="#blank4" type="button" class="btn btn-default btn-lg">일일기록</a>
+						<a href="#blank5" type="button" class="btn btn-default btn-lg">누적기록</a>
+					</div>
+				</div>
+			</div>
+		</div><!-- row -->
 		<div id="charts">
-			<div class="row chart" id="chart1" data-aos="fade-up" data-aos-duration="5000">
-				<div class="row blankBefore" id="blank1"></div>
-				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+			<div class="row blankBefore" id="blank1"></div>
+			<div class="row chart" id="chart1">
+				<div class="col-md-4 col-xs-12 chart-desc" data-aos="fade-up" data-aos-duration="2000">
 					<h2 class="main-ment">타임라인 차트</h2>
 					<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 하루하루 기록한 챕터 또는 페이지의 양을 시간 순으로 볼 수 있어요.<br><br>
 					더 자세히 보고 싶다면 차트 위에 가로로 있는 바를 움직여 보세요. 최소 5일까지 자세히 볼 수 있어요.<br><br>
 					차트 위를 움직여 보세요. 각 날짜의 값도 볼 수 있어요. </h4>
 				</div>
-				<div class="col-md-5 col-xs-12">
-					<div class="row chartOuter" id="chartTimelineOuter">
+				<div class="col-md-8 col-xs-12">
+					<div class="row chartOuter" id="chartTimelineOuter" data-aos="fade-up" data-aos-duration="2000">
 						<div id="chartTimeline"></div>
 					</div>
 					<div class="row blank">
-						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
+						<a class="btn" href="#blank0" target="_self">차트목록으로 돌아가기</a>
 					</div>
 				</div>
-			</div>
-			<div class="row chart" id="chart2" data-aos="fade-up" data-aos-duration="1000">
-				<div class="row blankBefore" id="blank2"></div>
-				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+			</div><!-- row -->
+			<div class="row blankBefore" id="blank2"></div>
+			<div class="row chart" id="chart2" data-aos="fade-up" data-aos-duration="2000">
+				<div class="col-md-4 col-xs-12 chart-desc">
 					<h2 class="main-ment">진행률 게이지</h2>
 					<h4 class="sub-ment">전체 중 완료한 양을 볼 수 있어요.<br><br>
 					숫자는 챕터 또는 페이지 수, 바늘은 현재 완료한 위치를 나타냅니다.</h4>
 				</div>
-				<div class="col-md-5 col-xs-12">
+				<div class="col-md-8 col-xs-12">
 					<div class="row chartOuter" id="chartGaugeOuter">
 						<div id="chartGauge"></div>
 					</div>
 					<div class="row blank">
-						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
+						<a class="btn" href="#blank0" target="_self">차트목록으로 돌아가기</a>
 					</div>
 				</div>
-			</div>
-			<div class="row chart" id="chart3" data-aos="fade-up" data-aos-duration="1000">
-				<div class="row blankBefore" id="blank3"></div>
-				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+			</div><!-- row -->
+			<div class="row blankBefore" id="blank3"></div>
+			<div class="row chart" id="chart3" data-aos="fade-up" data-aos-duration="2000">
+				<div class="col-md-4 col-xs-12 chart-desc">
 					<h2 class="main-ment">일일평균 차트</h2>
 					<h4 class="sub-ment">목표로 설정한 하루 평균 스터디양과, 실제로 기록한 하루 평균 스터디양을 비교해 보세요.<br><br>
 					<strong>어제</strong>까지의 기록을 기준으로, 목표 완료일까지 스터디를 마치기 위해 필요한, 이후의 일일 스터디양이 계산됩니다.<br><br>
 					차트 위를 움직여 보세요. 각 날짜의 상세한 값도 볼 수 있어요.</h4>
 				</div>
-				<div class="col-md-5 col-xs-12">
+				<div class="col-md-8 col-xs-12">
 					<div class="row chartOuter" id="chartAvgOuter">
 						<div id="chartAvg"></div>
 					</div>
 					<div class="row blank">
-						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
+						<a class="btn" href="#blank0" target="_self">차트목록으로 돌아가기</a>
 					</div>
 				</div>
 			</div>
-			<div class="row chart" id="chart4" data-aos="fade-up" data-aos-duration="1000">
-				<div class="row blankBefore" id="blank4"></div>
-				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+			<div class="row blankBefore" id="blank4"></div>
+			<div class="row chart" id="chart4" data-aos="fade-up" data-aos-duration="2000">
+				<div class="col-md-4 col-xs-12 chart-desc">
 					<h2 class="main-ment">일일 기록</h2>
 					<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 하루하루 기록한 챕터 또는 페이지의 양을 목표량과 비교해서 볼 수 있어요.<br><br>
 					차트 위를 움직여 보세요. 각 날짜의 상세한 값도 볼 수 있어요.<br><br>
 					연한 색은 목표한 양, 진한 색은 완료한 양을 나타냅니다.</h4>
 				</div>
-				<div class="col-md-5 col-xs-12">
+				<div class="col-md-8 col-xs-12">
 					<div class="row chartOuter" id="chartPerDayOuter">
 						<canvas id="chartPerDay"></canvas>
 					</div>
 					<div class="row blank">
-						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
+						<a class="btn" href="#blank0" target="_self">차트목록으로 돌아가기</a>
 					</div>
 				</div>
 			</div>
-			<div class="row chart" id="chart5" data-aos="fade-up" data-aos-duration="1000">
-				<div class="row blankBefore" id="blank5"></div>
-				<div class="col-md-3 col-md-offset-2 col-xs-12 chart-desc">
+			<div class="row blankBefore" id="blank5"></div>
+			<div class="row chart" id="chart5" data-aos="fade-up" data-aos-duration="2000">
+				<div class="col-md-4 col-xs-12 chart-desc">
 					<h2 class="main-ment">누적 기록</h2>
 					<h4 class="sub-ment">스터디를 시작한 날부터 마치는 날까지 기록한 챕터 또는 페이지의 누적량을 목표량과 비교해서 볼 수 있어요.<br><br>
 					차트 위를 움직여 보세요. 각 날짜의 상세한 값도 볼 수 있어요.<br><br>
 					연한 색은 목표한 양, 진한 색 영역은 완료한 양을 나타냅니다.</h4>
 				</div>
-				<div class="col-md-5 col-xs-12">
+				<div class="col-md-8 col-xs-12">
 					<div class="row chartOuter" id="chartAccumOuter">
 						<canvas id="chartAccum"></canvas>
 					</div>
 					<div class="row blank">
-						<a class="btn" href="#btnGo">차트목록으로 돌아가기</a>
+						<a class="btn" href="#blank0" target="_self">차트목록으로 돌아가기</a>
 					</div>
 				</div>
 			</div>
 		</div><!-- charts -->
-	</div>
+	</div><!-- .col-md-8 .col-xs-12 -->
+	<div class="col-md-2"></div>
 </div><!-- .row.today-body -->
 <!--**********content end**********-->
 
@@ -950,6 +908,7 @@
 		};
 		var chartAccum = new Chart(ctx_accum, config_accum);
 	}
+	AOS.init();
 </script>
 <%@ include file="../template/footer.jspf" %>
 </body>

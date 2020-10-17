@@ -177,6 +177,9 @@ var config = {
 				scaleLabel: {
 					display: true,
 					labelString: '페이지'
+				},
+				ticks:{
+					beginAtZero: true,
 				}
 			}]
 		},
