@@ -17,9 +17,9 @@
 		var calendar=new FullCalendar.Calendar(calendarEl,{
 			initialView: 'dayGridMonth',
 			headerToolbar:{
-				left:'prevYear,prev,next,nextYear today',
-				center: 'title',
-				right: 'dayGridMonth,dayGridWeek'
+				left:'today',
+				center:'title',
+				right:'prevYear,prev,next,nextYear'
 			},
 			navLinks:false,
 			editable:false,
@@ -38,11 +38,10 @@
 <%@ include file="../template/mylib-menu.jspf" %>
 <!-- **********content start**********--> 
 <div class="row">
-	<div class="col-xs-12 col-md-12">
-	<h2>스터디캘린더</h2>
-	<div id='calendar'></div>
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2 col-xs-12">
+	<div class="col-md-2"></div>
+	<div class="col-xs-12 col-md-8">
+		<div id='calendar'></div>
+		<div class="row">
 			<c:forEach items="${cals }" var="cal">
 				${cal.user_id} 
 				${cal.sid_date} 
@@ -53,9 +52,9 @@
 				${cal.actual} 
 				${cal.status}<br>
 			</c:forEach>
-			
 		</div>
 	</div>
+	<div class="col-md-2"></div>
 </div>
 <!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
