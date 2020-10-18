@@ -15,7 +15,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import co.salpa.bookery.model.V_CalendarDao;
+import co.salpa.bookery.model.V_StudyDao;
 import co.salpa.bookery.model.entity.V_CalendarVo;
+import co.salpa.bookery.model.entity.V_StudyVo;
 
 @Service
 public class MylibCalendarServiceImpl implements MylibCalendarService {
@@ -36,5 +38,15 @@ public class MylibCalendarServiceImpl implements MylibCalendarService {
 		
 		model.addAttribute("map", jsonStr);
 		return model;
+	}
+	
+	@Override
+	public Boolean checkActive(int study_id) {
+		V_StudyDao v_studyDao=sqlSession.getMapper(V_StudyDao.class);
+		V_StudyVo v_study=new V_StudyVo();
+		v_study=v_studyDao.selectOneByStudyId(study_id);
+		double progress=v_study.getProgress_rate();
+		if(progress<100) return true;
+		else return false;
 	}
 }

@@ -10,4 +10,6 @@ public interface MylibCalendarService {
 
 	Model calendarService(int user_id, Model model) throws SQLException, JsonProcessingException;
 
+	Boolean checkActive(int study_id);
+
 }
