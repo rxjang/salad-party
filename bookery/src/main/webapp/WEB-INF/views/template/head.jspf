@@ -31,6 +31,7 @@
 <script src="${pageContext.request.contextPath }/resources/amcharts4/plugins/wordCloud.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/node_modules/fullcalendar/main.css" />
 <script src="${pageContext.request.contextPath }/resources/node_modules/fullcalendar/main.js"></script>
+<script src="${pageContext.request.contextPath }/resources/node_modules/fullcalendar/locales/ko.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/highcharts.js"></script>
 
 <!-- 

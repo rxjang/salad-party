@@ -170,7 +170,62 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY 
 DROP TABLE IF EXISTS `salpa`.`v_cal_chap`;
 DROP VIEW IF EXISTS `salpa`.`v_cal_chap` ;
 USE `salpa`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY DEFINER VIEW `salpa`.`v_cal_chap` AS select `salpa`.`book`.`title` AS `title`,`v_cal_chap_sid_date`.`study_id` AS `url`,`salpa`.`study`.`user_id` AS `user_id`,`v_cal_chap_sid_date`.`sid_date` AS `sid_date`,'chap' AS `type`,`v_cal_chap_sid_date`.`study_id` AS `study_id`,`v_cal_chap_sid_date`.`date` AS `start`,(select sum(coalesce(`v_cal_chap_plan`.`plan`,0)) from `salpa`.`v_cal_chap_plan` where ((`v_cal_chap_sid_date`.`date` >= `v_cal_chap_plan`.`date`) and (`v_cal_chap_sid_date`.`study_id` = `v_cal_chap_plan`.`study_id`))) AS `plan_accum`,(select sum(coalesce(`v_cal_chap_actual`.`actual`,0)) from `salpa`.`v_cal_chap_actual` where ((`v_cal_chap_sid_date`.`date` >= `v_cal_chap_actual`.`date`) and (`v_cal_chap_sid_date`.`study_id` = `v_cal_chap_actual`.`study_id`))) AS `actual_accum`,coalesce(`v_cal_chap_plan`.`plan`,0) AS `plan_perday`,coalesce(`v_cal_chap_actual`.`actual`,0) AS `actual_perday`,(coalesce(`v_cal_chap_actual`.`actual`,0) - coalesce(`v_cal_chap_plan`.`plan`,0)) AS `status`,(case when (coalesce(`v_cal_chap_actual`.`actual`,0) > coalesce(`v_cal_chap_plan`.`plan`,0)) then '#49654d' when (coalesce(`v_cal_chap_actual`.`actual`,0) = coalesce(`v_cal_chap_plan`.`plan`,0)) then '#8ba989' when (coalesce(`v_cal_chap_actual`.`actual`,0) < coalesce(`v_cal_chap_plan`.`plan`,0)) then '#a0522d' else '#e4e6da' end) AS `color`,(case when (coalesce(`v_cal_chap_actual`.`actual`,0) > coalesce(`v_cal_chap_plan`.`plan`,0)) then '#ecece9' when (coalesce(`v_cal_chap_actual`.`actual`,0) = coalesce(`v_cal_chap_plan`.`plan`,0)) then '#ecece9' when (coalesce(`v_cal_chap_actual`.`actual`,0) < coalesce(`v_cal_chap_plan`.`plan`,0)) then '#ecece9' else '#49654d' end) AS `textColor` from ((((`salpa`.`v_cal_chap_sid_date` left join `salpa`.`study` on((`v_cal_chap_sid_date`.`study_id` = `salpa`.`study`.`id`))) left join `salpa`.`book` on((`salpa`.`study`.`book_bid` = `salpa`.`book`.`bid`))) left join `salpa`.`v_cal_chap_plan` on((`v_cal_chap_sid_date`.`sid_date` = `v_cal_chap_plan`.`sid_plandate`))) left join `salpa`.`v_cal_chap_actual` on((`v_cal_chap_sid_date`.`sid_date` = `v_cal_chap_actual`.`sid_actualdate`))) where (`v_cal_chap_sid_date`.`sid_date` is not null);
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_chap` AS
+    SELECT 
+        `book`.`title` AS `title`,
+        IF((`v_study`.`progress_rate` = 100),
+            `v_cal_chap_sid_date`.`study_id`,
+            CONCAT('../today/',
+                    `study`.`type`,
+                    '/',
+                    `v_cal_chap_sid_date`.`study_id`)) AS `url`,
+        `study`.`user_id` AS `user_id`,
+        `v_cal_chap_sid_date`.`sid_date` AS `sid_date`,
+        'chap' AS `type`,
+        `v_cal_chap_sid_date`.`study_id` AS `study_id`,
+        `v_cal_chap_sid_date`.`date` AS `start`,
+        (SELECT 
+                SUM(COALESCE(`v_cal_chap_plan`.`plan`, 0))
+            FROM
+                `v_cal_chap_plan`
+            WHERE
+                ((`v_cal_chap_sid_date`.`date` >= `v_cal_chap_plan`.`date`)
+                    AND (`v_cal_chap_sid_date`.`study_id` = `v_cal_chap_plan`.`study_id`))) AS `plan_accum`,
+        (SELECT 
+                SUM(COALESCE(`v_cal_chap_actual`.`actual`, 0))
+            FROM
+                `v_cal_chap_actual`
+            WHERE
+                ((`v_cal_chap_sid_date`.`date` >= `v_cal_chap_actual`.`date`)
+                    AND (`v_cal_chap_sid_date`.`study_id` = `v_cal_chap_actual`.`study_id`))) AS `actual_accum`,
+        COALESCE(`v_cal_chap_plan`.`plan`, 0) AS `plan_perday`,
+        COALESCE(`v_cal_chap_actual`.`actual`, 0) AS `actual_perday`,
+        (COALESCE(`v_cal_chap_actual`.`actual`, 0) - COALESCE(`v_cal_chap_plan`.`plan`, 0)) AS `status`,
+        (CASE
+            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) > COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#49654d'
+            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) = COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#8ba989'
+            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) < COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#a0522d'
+            ELSE '#e4e6da'
+        END) AS `color`,
+        (CASE
+            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) > COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#ecece9'
+            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) = COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#ecece9'
+            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) < COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#ecece9'
+            ELSE '#49654d'
+        END) AS `textColor`
+    FROM
+        (((((`v_cal_chap_sid_date`
+        LEFT JOIN `study` ON ((`v_cal_chap_sid_date`.`study_id` = `study`.`id`)))
+        LEFT JOIN `book` ON ((`study`.`book_bid` = `book`.`bid`)))
+        LEFT JOIN `v_cal_chap_plan` ON ((`v_cal_chap_sid_date`.`sid_date` = `v_cal_chap_plan`.`sid_plandate`)))
+        LEFT JOIN `v_cal_chap_actual` ON ((`v_cal_chap_sid_date`.`sid_date` = `v_cal_chap_actual`.`sid_actualdate`)))
+        LEFT JOIN `v_study` ON ((`v_cal_chap_sid_date`.`study_id` = `v_study`.`study_id`)))
+    WHERE
+        (`v_cal_chap_sid_date`.`sid_date` IS NOT NULL);
 
 -- -----------------------------------------------------
 -- View `salpa`.`v_cal_chap_actual`
@@ -226,7 +281,80 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY 
 DROP TABLE IF EXISTS `salpa`.`v_cal_page_base2`;
 DROP VIEW IF EXISTS `salpa`.`v_cal_page_base2` ;
 USE `salpa`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY DEFINER VIEW `salpa`.`v_cal_page_base2` AS select `salpa`.`book`.`title` AS `title`,`v_cal_page_sid_date`.`study_id` as `url`,`salpa`.`study`.`user_id` AS `user_id`,'page' AS `type`,`v_cal_page_sid_date`.`sid_date` AS `sid_date`,`v_cal_page_sid_date`.`study_id` AS `study_id`,`v_cal_page_sid_date`.`date` AS `start`,`v_cal_page_base`.`planpage` AS `planpage`,`v_cal_page_base`.`actualpage` AS `actualpage`,(select max(`v_cal_page_base`.`planpage`) from `salpa`.`v_cal_page_base` where ((`v_cal_page_base`.`date` <= `v_cal_page_sid_date`.`date`) and (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`))) AS `plan_accum`,(select max(coalesce(`v_cal_page_base`.`actualpage`,0)) from `salpa`.`v_cal_page_base` where ((`v_cal_page_base`.`date` <= `v_cal_page_sid_date`.`date`) and (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`))) AS `actual_accum`,if((`v_cal_page_base`.`planpage` is null),0,if(((select max(`v_cal_page_base`.`planpage`) from `salpa`.`v_cal_page_base` where ((`v_cal_page_base`.`date` < `v_cal_page_sid_date`.`date`) and (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`))) is null),`v_cal_page_base`.`planpage`,(`v_cal_page_base`.`planpage` - (select max(`v_cal_page_base`.`planpage`) from `salpa`.`v_cal_page_base` where ((`v_cal_page_base`.`date` < `v_cal_page_sid_date`.`date`) and (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`)))))) AS `plan_perday`,if((`v_cal_page_base`.`actualpage` is null),0,if(((select max(coalesce(`v_cal_page_base`.`actualpage`,0)) from `salpa`.`v_cal_page_base` where ((`v_cal_page_base`.`date` < `v_cal_page_sid_date`.`date`) and (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`))) is null),coalesce(`v_cal_page_base`.`actualpage`,0),(coalesce(`v_cal_page_base`.`actualpage`,0) - (select max(coalesce(`v_cal_page_base`.`actualpage`,0)) from `salpa`.`v_cal_page_base` where ((`v_cal_page_base`.`date` < `v_cal_page_sid_date`.`date`) and (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`)))))) AS `actual_perday` from (((`salpa`.`v_cal_page_sid_date` left join `salpa`.`v_cal_page_base` on((`v_cal_page_sid_date`.`sid_date` = `v_cal_page_base`.`sid_date`))) left join `salpa`.`study` on((`v_cal_page_sid_date`.`study_id` = `salpa`.`study`.`id`))) left join `salpa`.`book` on((`salpa`.`study`.`book_bid` = `salpa`.`book`.`bid`)));
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_page_base2` AS
+    SELECT 
+        `book`.`title` AS `title`,
+        IF((`v_study`.`progress_rate` = 100),
+            `v_cal_page_sid_date`.`study_id`,
+            CONCAT('../today/',
+                    `study`.`type`,
+                    '/',
+                    `v_cal_page_sid_date`.`study_id`)) AS `url`,
+        `study`.`user_id` AS `user_id`,
+        'page' AS `type`,
+        `v_cal_page_sid_date`.`sid_date` AS `sid_date`,
+        `v_cal_page_sid_date`.`study_id` AS `study_id`,
+        `v_cal_page_sid_date`.`date` AS `start`,
+        `v_cal_page_base`.`planpage` AS `planpage`,
+        `v_cal_page_base`.`actualpage` AS `actualpage`,
+        (SELECT 
+                MAX(`v_cal_page_base`.`planpage`)
+            FROM
+                `v_cal_page_base`
+            WHERE
+                ((`v_cal_page_base`.`date` <= `v_cal_page_sid_date`.`date`)
+                    AND (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`))) AS `plan_accum`,
+        (SELECT 
+                MAX(COALESCE(`v_cal_page_base`.`actualpage`, 0))
+            FROM
+                `v_cal_page_base`
+            WHERE
+                ((`v_cal_page_base`.`date` <= `v_cal_page_sid_date`.`date`)
+                    AND (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`))) AS `actual_accum`,
+        IF((`v_cal_page_base`.`planpage` IS NULL),
+            0,
+            IF(((SELECT 
+                        MAX(`v_cal_page_base`.`planpage`)
+                    FROM
+                        `v_cal_page_base`
+                    WHERE
+                        ((`v_cal_page_base`.`date` < `v_cal_page_sid_date`.`date`)
+                            AND (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`))) IS NULL),
+                `v_cal_page_base`.`planpage`,
+                (`v_cal_page_base`.`planpage` - (SELECT 
+                        MAX(`v_cal_page_base`.`planpage`)
+                    FROM
+                        `v_cal_page_base`
+                    WHERE
+                        ((`v_cal_page_base`.`date` < `v_cal_page_sid_date`.`date`)
+                            AND (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`)))))) AS `plan_perday`,
+        IF((`v_cal_page_base`.`actualpage` IS NULL),
+            0,
+            IF(((SELECT 
+                        MAX(COALESCE(`v_cal_page_base`.`actualpage`, 0))
+                    FROM
+                        `v_cal_page_base`
+                    WHERE
+                        ((`v_cal_page_base`.`date` < `v_cal_page_sid_date`.`date`)
+                            AND (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`))) IS NULL),
+                COALESCE(`v_cal_page_base`.`actualpage`, 0),
+                (COALESCE(`v_cal_page_base`.`actualpage`, 0) - (SELECT 
+                        MAX(COALESCE(`v_cal_page_base`.`actualpage`, 0))
+                    FROM
+                        `v_cal_page_base`
+                    WHERE
+                        ((`v_cal_page_base`.`date` < `v_cal_page_sid_date`.`date`)
+                            AND (`v_cal_page_sid_date`.`study_id` = `v_cal_page_base`.`study_id`)))))) AS `actual_perday`
+    FROM
+        ((((`v_cal_page_sid_date`
+        LEFT JOIN `v_cal_page_base` ON ((`v_cal_page_sid_date`.`sid_date` = `v_cal_page_base`.`sid_date`)))
+        LEFT JOIN `study` ON ((`v_cal_page_sid_date`.`study_id` = `study`.`id`)))
+        LEFT JOIN `book` ON ((`study`.`book_bid` = `book`.`bid`)))
+        LEFT JOIN `v_study` ON ((`v_cal_page_sid_date`.`study_id` = `v_study`.`study_id`)));
 
 -- -----------------------------------------------------
 -- View `salpa`.`v_cal_page_sid_date`

@@ -5,6 +5,28 @@
 	<title>Bookery</title>
 <%@ include file="../template/head.jspf" %>
 <style type="text/css">
+	#calOuter{
+		overflow:hidden;
+		padding:10px;
+		background-image: url("${pageContext.request.contextPath }/resources/imgs/cal1.jpg");
+		background-size: 100% 100%;
+		background-repeat: none;
+	}
+	#calendar{
+		margin:50px;
+		padding:50px;
+		background-color:white;
+		opacity:0.9;
+	}
+@media (max-width:1000px) {
+	#calOuter{
+/* 		padding:0px; */
+	}
+	#calendar{
+		margin:0px;
+		padding:10px;
+	}
+}
 </style>
 <script type="text/javascript">
 	var map='${map}';
@@ -17,15 +39,16 @@
 		var calendar=new FullCalendar.Calendar(calendarEl,{
 			initialView: 'dayGridMonth',
 			headerToolbar:{
-				left:'today',
-				center:'title',
-				right:'prevYear,prev,next,nextYear'
+				left:'title',
+				right:'today prevYear,prev,next,nextYear'
 			},
 			navLinks:false,
 			editable:false,
 			dayMaxEvents:true,
-			contentHeight: 'auto',
-
+			contentHeight: 550,
+			eventLimit: true,
+			locale:'ko',
+			displayEventTime: false,
 			events: arr
 		});
 		calendar.render();
@@ -37,24 +60,8 @@
 <%@ include file="../template/menu.jspf" %>
 <%@ include file="../template/mylib-menu.jspf" %>
 <!-- **********content start**********--> 
-<div class="row">
-	<div class="col-md-2"></div>
-	<div class="col-xs-12 col-md-8">
-		<div id='calendar'></div>
-		<div class="row">
-			<c:forEach items="${cals }" var="cal">
-				${cal.user_id} 
-				${cal.sid_date} 
-				${cal.type} 
-				${cal.study_id} 
-				${cal.date} 
-				${cal.plan} 
-				${cal.actual} 
-				${cal.status}<br>
-			</c:forEach>
-		</div>
-	</div>
-	<div class="col-md-2"></div>
+<div class="row" id="calOuter">
+	<div id='calendar' class="col-md-12 col-xs-12"></div>
 </div>
 <!--**********content end**********-->
 <%@ include file="../template/footer.jspf" %>
