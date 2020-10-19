@@ -68,6 +68,17 @@ public class ClubVo {
 		this.search = search;
 		this.nickname = nickname;
 	}
+	public ClubVo(int ref, int depth, int user_id, int book_bid,String title, String content, Date createtime, Timestamp updatetime) {
+		super();
+		this.ref = ref;
+		this.depth = depth;
+		this.user_id = user_id;
+		this.book_bid = book_bid;
+		this.title = title;
+		this.content = content;
+		this.createtime = createtime;
+		this.updatetime = updatetime;
+	}
 
 	public ClubVo(int id, int book_bid, String title, String content, String book_title, String coverurl, String writer,
 			Date createtime, String nickname) {
