@@ -4,9 +4,6 @@
 <head>
 	<title>Bookery</title>
 <%@ include file="../template/head.jspf" %>
-<link href="${pageContext.request.contextPath }/resources/css/datepicker.min.css" rel="stylesheet" type="text/css" media="all">
-<script src="${pageContext.request.contextPath }/resources/js/datepicker.min.js"></script> <!-- Air datepicker js -->
-<script src="${pageContext.request.contextPath }/resources/js/i18n/datepicker.ko.js"></script>
 <Script type="text/javascript">
 var pagechoice;
 var content;
@@ -266,6 +263,9 @@ $(function() {
 			width:100%;
 			margin:0 auto;
 			font-size:1.3em;
+		}
+		.assert1,.assert2{
+			font-size:1em;
 		}
 		.temp{
 			margin:0px auto;

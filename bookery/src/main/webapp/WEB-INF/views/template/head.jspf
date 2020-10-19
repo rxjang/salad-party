@@ -494,15 +494,27 @@ function aos(){
       }//AOS	
 }
 
+//오늘 날짜 yyyy-mm-dd
+function getRecentDate(){
+    var dt = new Date();
+    var recentYear = dt.getFullYear();
+    var recentMonth = dt.getMonth() + 1;
+    var recentDay = dt.getDate();
+ 	
+    if(recentMonth < 10) recentMonth = "0" + recentMonth;
+    if(recentDay < 10) recentDay = "0" + recentDay;
+    return recentYear + "-" + recentMonth + "-" + recentDay;
+}
+
 /* 오늘 날짜면 시간으로 변환  */
 function todayToTime(date){
 	var today = getRecentDate();
 	var update =date.substring(0,10);
 	var updatetime;
 	if(today == update){
-		updatetime = date.substring(10,19)+'&nbsp;';
+		updatetime = date.substring(10,19);
 	}else{
-		updatetime = date.substring(0,10)+'&nbsp;';
+		updatetime = date.substring(0,10);
 	}
 	return updatetime;
 }

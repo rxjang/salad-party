@@ -41,8 +41,8 @@
 	</insert>
 	
 	<insert id="insertNotice" parameterType="clubBean">
-		insert into club (createtime, title, content, depth, num, ref, user_id, book_bid) 
-			values(now(),#{title},#{content},#{depth},#{num}, #{ref}, #{user_id}, 0);
+		insert into club (createtime, updatetime, title, content, depth, num, ref, user_id, book_bid) 
+			values(now(),now(),#{title},#{content},#{depth},#{num}, #{ref}, #{user_id}, 0);
 	</insert>
 	
 	<update id="updateNotice" parameterType="clubBean">

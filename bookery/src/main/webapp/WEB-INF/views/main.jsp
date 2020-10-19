@@ -5,7 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Bookery</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/jquery.booklet.latest.css"/>
 <%@ include file="template/head.jspf"%>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-2.1.0.min.js"></script>
+<script> window.jQuery || document.write('<script src="${pageContext.request.contextPath }/resources/js/jquery-2.1.0.min.js"><\/script>') </script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery.easing.1.3.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery.booklet.latest.min.js"></script>
 <style>
 @import url(http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
 	body{
@@ -106,6 +112,7 @@
 		margin-top:40px;
 		text-align:center;
 	}
+	/********************************내 서재************************************/
 	.mylib img{
 		width:100%;
 	}
@@ -124,20 +131,48 @@
 		position:relative;
 		text-align:center;
 	}
-	.news-img{
-		width:100%;
-		position:absolute;
-		top:-10%;
-		left:0%;
+	/********************************오늘의 기록************************************/
+	.record-font{
+		font-size:3em;
+		margin:20px;
 	}
-	.news-ment{
-		font-family:나눔명조, Nanum Myeongjo;
-		text-align:center;
-		margin-top:1em;
-		font-weight:bold;
+	.record-sub-font{
+		margin:30px;
+		color:#787878;	
+	}
+	.charts{
+		padding:0em 1.5em;
+	}
+	.chart-title{
 		font-size:2em;
+		font-weight:bold;
 		color:#49654d;
 	}
+	.chart-info{
+		padding:1em;
+		color:#787878;
+	}
+	.chart-img{
+		margin-top:3em;
+		width:100%;
+	}
+	.booklet .b-tab {
+    	background: #8ba989;
+    	color:white;
+    }
+    .booklet .b-tab:hover {
+    	background: white;
+    	color:#8ba989;
+    }
+    .booklet .b-counter {
+    	background:none;
+    }
+	/********************************awards************************************/
+	.awards-img{
+		margin-top:2em;
+		width:70%;
+	}
+	/********************************북클럽************************************/
 	.club-img-outter{
 		position:relative;
 	}
@@ -153,6 +188,22 @@
 		margin-top:80px;
 		margin-left:200px;
 	}
+	/********************************책거리 뉴스************************************/
+	.news-img{
+		width:100%;
+		position:absolute;
+		top:-10%;
+		left:0%;
+	}
+	.news-ment{
+		font-family:나눔명조, Nanum Myeongjo;
+		text-align:center;
+		margin-top:1em;
+		font-weight:bold;
+		font-size:2em;
+		color:#49654d;
+	}
+	/********************************즐겨찾는 책************************************/
 	.books-title{
 		margin-left:2em;
 		font-size:3em;
@@ -178,6 +229,12 @@
 	}
 	.news-btn{
 		margin-top:20px;
+	}
+	.for-padding-top{
+		padding-top:1em;
+	}
+	.center{
+		text-align:center;
 	}
 	@media (max-width:1000px) {
 		.empty{
@@ -205,11 +262,33 @@
 			font-size:1.5em;
 		}
 	}
+	@media (max-width:550px) {
+		.record-font{
+			font-size:1.6em;
+			margin:20px;
+		}
+		.record-sub-font{
+			margin:20px;
+			color:#787878;	
+		}
+		.charts{
+			padding:0em 1em;
+		}
+		.chart-title{
+			font-size:1.5em;
+		}
+		.chart-info{
+			padding:0.5em;
+			font-size:1.2em;
+		}
+		.chart-img{
+			margin-top:1.5em;
+			width:100%;
+		}
+	}
 </style>
 <script>
 	$(function(){
-		AOS.init();	
-		
 		$('.book-list').each(function(){
 			$(this).mouseenter(function(){
 				$(this).css('z-index','10');
@@ -217,8 +296,45 @@
 			$(this).mouseleave(function(){
 				$(this).css('z-index','2');
 			});
+		});//each
+		
+		$('#mybook').booklet({
+		        width: '80%',
+		        height: 550,
+		        shadows: false,
+		        pagePadding: 0,
+		        tabs:  true,
+		        tabWidth:  '15%',
+		        tabHeight:  20,
+		        change: function(event, data){
+		    		resizeBook();
+		        }
+		});//booklet
+		$( window ).resize(function() {
+			resizeBook();
+		});//resize
+		AOS.init();	
+		resizeBook();
+	});//ready
+	
+function resizeBook(){
+	var windowWidth = $( window ).width();
+	if( windowWidth > 550 && windowWidth < 1000) {
+		$('#mybook').css('height',450);
+		$('.b-page').each(function(){
+			var wrap=$(this).children('.b-wrap');
+			$(this).css('height',450);
+			wrap.css('height',450);
 		});
-	});
+	}else if(windowWidth < 550){
+		$('#mybook').css('height',300);
+		$('.b-page').each(function(){
+			var wrap=$(this).children('.b-wrap');
+			$(this).css('height',300);
+			wrap.css('height',300);
+		});
+	}
+}
 </script>
 </head>
 <body>
@@ -302,33 +418,75 @@
 <div class="row empty">&nbsp;</div>
 <div class="row">
 	<div class="col-md-1"></div>
-	<div class="col-xs-12 col-md-11">
-		<div class="font">
-			오늘의 기록에서 다양한 차트로<br/> 공부현황을 확인해요
+	<div class="col-xs-12 col-md-10 bookjs">
+		<div id="mybook">
+			<div>
+			    <div class="record-font font">
+					오늘의 기록에서<br/>다양한 차트로<br/> 공부현황을 확인해요
+				</div>
+				<div class="font-sub record-sub-font">
+					페이지를 넘겨서 북커리의 차트들을 확인해 보세요!
+				</div><!-- record-sub-font -->
+			</div><!-- p1 -->
+		    <div>
+		      <div class="charts">
+		       		<h3 class="chart-title">타임라인 차트</h3>
+		       		<h4 class="chart-info">
+			       		스터디를 시작한 날부터 마치는 날까지 하루하루 기록한 챕터 또는 페이지의 양을 시간 순으로 볼 수 있어요
+		       		</h4>
+		       		<img class="chart-img" src="${pageContext.request.contextPath}/resources/imgs/main/time-line-chart.png"/>
+		       </div><!-- charts -->
+		    </div><!-- p2 -->
+		    <div>
+		        <div class="charts">
+		       		<img class="chart-img" src="${pageContext.request.contextPath}/resources/imgs/main/gauge-chart.png"/>
+		       		<h3 class="chart-title for-padding-top">진행률 게이지</h3>
+		       		<h4 class="chart-info">
+			       		전체 중 완료한 양을 볼 수 있어요<br/>
+						숫자는 챕터 또는 페이지 수, 바늘은 현재 완료한 위치를 나타냅니다
+		       		</h4>
+		       </div><!-- charts -->
+		    </div><!-- p3 -->
+		    <div>
+		        <div class="charts">
+		       		<h3 class="chart-title">일일평균 차트</h3>
+		       		<h4 class="chart-info">
+			       		목표로 설정한 하루 평균 스터디양과, 실제로 기록한 하루 평균 스터디양을 비교해 보세요
+		       		</h4>
+		       		<img class="chart-img" src="${pageContext.request.contextPath}/resources/imgs/main/average-chart.png"/>
+		       </div><!-- charts -->
+		    </div><!-- p4 -->
+		    <div>
+		         <div class="charts">
+		       		<img class="chart-img" src="${pageContext.request.contextPath}/resources/imgs/main/daily-record-chart.png"/>
+		       		<h3 class="chart-title">일일 기록</h3>
+		       		<h4 class="chart-info">
+			       		스터디를 시작한 날부터 마치는 날까지 하루하루 기록한 챕터 또는 페이지의 양을 목표량과 비교해서 볼 수 있어요
+		       		</h4>
+		       </div><!-- charts -->
+		    </div><!-- p5 -->
+		    <div>
+		        <div class="charts">
+		       		<h3 class="chart-title">누적 기록</h3>
+		       		<h4 class="chart-info">
+			       		스터디를 시작한 날부터 마치는 날까지 기록한 챕터 또는 페이지의 누적량을 목표량과 비교해서 볼 수 있어요
+		       		</h4>
+		       		<img class="chart-img" src="${pageContext.request.contextPath}/resources/imgs/main/accum-record-chart.png"/>
+		       </div><!-- charts -->
+		    </div><!-- p6 -->
 		</div>
 	</div>
-	<div class="col-md-4"></div>
-	<div class="col-xs-12 col-md-6"></div>
 	<div class="col-md-1"></div>
 </div>
 <div class="row empty">&nbsp;</div>
 <div class="row">
-	<div class="col-md-2"></div>
-	<div class="col-md-8 col-xs-12">
-		<div class="video-box">
-  			<video muted autoplay loop>
-    			<source src="${pageContext.request.contextPath}/resources/imgs/main/main-news.mp4" type="video/mp4">
-			</video>
-			<img class="news-img" src="${pageContext.request.contextPath}/resources/imgs/main/macbook.png"/>
-		</div><!-- video-box -->
-		<div class="news-ment">
-			<span data-aos="fade-down" data-aos-duration="500">
-				북커리 뉴스에서 북커리의 최신소식을 만날 수 있어요
-			</span>
-		</div>	
+	<div class="col-xs-1 col-md-1"></div>
+	<div class="col-xs-10 col-md-10 font center">
+		북커리에서 다양한 어워드를 획득해 보세요!
+		<img data-aos="fade-up" data-aos-duration="1500" class="awards-img" src="${pageContext.request.contextPath}/resources/imgs/main/award.png"/>
 	</div>
-	<div class="col-md-2"></div>
-</div><!-- row -->
+	<div class="col-xs-1 col-md-1"></div>
+</div>
 <div class="row empty">&nbsp;</div>
 <div class="row">
 	<div class="col-xs-1 col-md-1"></div>
@@ -350,6 +508,24 @@
 			<a class="btn" href="${pageContext.request.contextPath }/club">북클럽 바로가기</a>
 		</div>
 	</div>
+</div><!-- row -->
+<div class="row empty">&nbsp;</div>
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-8 col-xs-12">
+		<div class="video-box">
+  			<video muted autoplay loop>
+    			<source src="${pageContext.request.contextPath}/resources/imgs/main/main-news.mp4" type="video/mp4">
+			</video>
+			<img class="news-img" src="${pageContext.request.contextPath}/resources/imgs/main/macbook.png"/>
+		</div><!-- video-box -->
+		<div class="news-ment">
+			<span data-aos="fade-down" data-aos-duration="500">
+				북커리 뉴스에서 북커리의 최신소식을 만날 수 있어요
+			</span>
+		</div>	
+	</div>
+	<div class="col-md-2"></div>
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">

@@ -99,7 +99,6 @@
 </style>
 <script>
 var id=${user.id}//admin계정일시 공지사항 수정 위해
-
 $(function(){
 	//기본적으로 글 내용은 숨기고 글 제목 클릭시 내용 보이게 함
 	//1-box:공지사항 2-box:FAQ 3-box:1:1 문의
@@ -181,12 +180,12 @@ $(function(){
 		
 	//time formating
 	$(".createtime").each(function(){
-		var createtime=$(this).text();
-		$(this).text(new Date(createtime).format('yyyy-MM-dd a/p hh:mm'));
+		var updateDay = todayToTime($(this).text());
+		$(this).text(updateDay);
 	});//createtime
 	$(".answertime").each(function(){
-		var answertime=$(this).text();
-		$(this).text(new Date(answertime).format('yyyy-MM-dd a/p hh:mm'));
+		var updateDay = todayToTime($(this).text());
+		$(this).text(updateDay);
 	});//answertime
 });//ready
 
@@ -258,7 +257,7 @@ $(function(){
 			<div class="content-title">
 				<span class="glyphicon glyphicon-menu-down"></span><span class="ref">답변 전</span>
 				<h4 class="title">${bean2.title }</h4>
-				<p>${bean2.createtime }&nbsp;</p>
+				<p><span class="createtime">${bean2.updatetime }</span>&nbsp;</p>
 			</div><!-- content-title -->
 			<div class="content-main">
 				${bean2.content }
