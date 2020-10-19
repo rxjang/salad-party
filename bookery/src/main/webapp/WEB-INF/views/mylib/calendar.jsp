@@ -110,7 +110,7 @@
 		<div id='index'>
 			<div>
 				<span class="bull green1">&#x25CF;</span><span>&nbsp;Goal over-achieved &nbsp;&nbsp;</span>
-				<span class="bull green">&#x25CF;</span><span>&nbsp;Goal achieved &nbsp;&nbsp;</span>
+				<span class="bull green2">&#x25CF;</span><span>&nbsp;Goal achieved &nbsp;&nbsp;</span>
 				<span class="bull red">&#x25CF;</span><span>&nbsp;Goal missed &nbsp;&nbsp;</span>
 				<span class="bull gray">&#x25CF;</span><span>&nbsp;To do</span>
 			</div>
