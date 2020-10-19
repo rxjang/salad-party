@@ -8,6 +8,7 @@
 	#calOuter{
 		overflow:hidden;
 		padding:10px;
+		margin-bottom:-30px;
 		background: linear-gradient(#e4e6da,#c0cfb2,#8ba989);
 	}
 	#calendar{
@@ -50,6 +51,9 @@
 	.gray{
 		color:#bebebe;
 	}
+	#footer {
+		margin-bottom: 9px;
+	}
 
 @media (max-width:1000px) {
 	#calOuter>div{
@@ -63,6 +67,9 @@
 	#index{
 		margin-bottom:0;
 		padding-left:5px;
+	}
+	#footer {
+		margin-bottom: 88px;
 	}
 }
 </style>
