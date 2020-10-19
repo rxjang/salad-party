@@ -58,9 +58,7 @@
 			cnt_posts++;
 		});//each
 		if(cnt_posts<9 && cnt_posts>0){
-			$('.more-posts').hide();
 		}else if(cnt_posts == 0){   //게시물이 1건도 없을 때 기본으로 공지사항 1개 생성.
-			$('.more-posts').hide();
 			var post = '';
 				post += '<div class="panel panel-default panel-post">'
 				post += '<div class="panel-body"><span class="lead">새로운 알림이 없습니다.</span></div>'
@@ -103,7 +101,7 @@
 	</head>
 <body>
 <%@ include file="../template/menu.jspf" %>
-<!-- **********content start********** -->.
+<!-- **********content start********** -->
 
 <div class="row">
 <div class="col-md-2"></div>
@@ -125,7 +123,7 @@
 	<div class="col-md-2"></div>
 	<div class="col-xs-12 col-md-8  div-post">
 	
-		<c:forEach items="${awardNotice }" var="bean2" begin="0" end="29">
+		<c:forEach items="${awardNotice }" var="bean2" begin="0" end="10">
 				<div class="panel panel-default panel-post to-award" data-aos="fade-up">
 					<input type="hidden" name="id" class="id" value="${bean2.award_id }"/>
 					<div class="panel-body">
@@ -135,7 +133,7 @@
 					</div>
 				</div>
 		</c:forEach>
-		<c:forEach items="${QnANotice }" var="bean1" begin="0" end="29">
+		<c:forEach items="${QnANotice }" var="bean1" begin="0" end="10">
 				<div class="panel panel-default panel-post to-club" data-aos="fade-up">
 					<input type="hidden" name="id" id="id" value="${bean1.club_id }"/>
 					<div class="panel-body">
@@ -145,7 +143,7 @@
 					</div>
 				</div>
 		</c:forEach>
-		<c:forEach items="${replyMyPost }" var="bean" begin="0" end="29">
+		<c:forEach items="${replyMyPost }" var="bean" begin="0" end="10">
 				<div class="panel panel-default panel-post to-club" data-aos="fade-up">
 					<input type="hidden" name="id" id="id" value="${bean.id }"/>
 					<div class="panel-body">
@@ -166,7 +164,6 @@
 	<div class="col-xs-12 col-md-8">
 				<br/>
 				<br/>
-				<button class="btn btn-default more-posts">더보기</button>
 				<button class="btn btn-default btn-top">Top</button>
 	</div>
 	</div>
