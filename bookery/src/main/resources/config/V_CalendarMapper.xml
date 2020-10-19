@@ -10,7 +10,7 @@
 	</select>
 	<select id="selectAllByStudyId" resultType="v_calendarBean"
 		parameterType="_int">
-		select * from v_calendar where study_id=#{study_id}
+		select * from v_calendar where study_id=#{study_id} order by start
 	</select>
 	
 	<select id="selectFinData" resultType="v_calendarBean" parameterType="_int">

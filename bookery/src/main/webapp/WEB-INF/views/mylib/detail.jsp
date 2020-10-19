@@ -159,12 +159,21 @@ var config = {
 			borderColor: '#e4e6da',
 			fill: false,
 			data: plan,
+			pointRadius: 2,
+			pointHoverRadius: 2,
+			pointBackgroundColor:'white',
+			lineTension:0
 		}, {
 			label: '실제 공부한 양',
 			backgroundColor: '#8ba989',
 			borderColor: '#8ba989',
 			fill: true,
 			data: actual,
+			pointStyle:'rectRounded',
+			pointRadius: 2,
+			pointHoverRadius: 2,
+			pointBackgroundColor:'#c0cfb2',
+			lineTension:0
 		}]
 	},
 	options: {
@@ -183,6 +192,7 @@ var config = {
 				}
 			}]
 		},
+		
 	}
 };
  
