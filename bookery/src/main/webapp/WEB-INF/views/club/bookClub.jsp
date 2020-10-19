@@ -26,7 +26,12 @@
 			console.log(keyword);
 			$('.thumb-box').hide();
 			$('.thumb-box:contains("'+keyword+'")').show();
-			$('.not-found').hide();  
+			$('.not-found').hide();
+			$(document).off('scroll'); //검색시 스크롤이벤트 삭제. 
+			if(keyword == ''){//검색창 지우면 다시 무한 스크롤이벤트 생성
+				$('.thumb-box').hide();
+				infinityScroll(show_class_name);
+			}
 			aos();
 		});//input change
 		

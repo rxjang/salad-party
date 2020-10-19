@@ -22,7 +22,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             logger.info("current user is not logined");
             
             // 로그인하지 않은 사용자일 경우 로그인 페이지로 이동
-            response.sendRedirect("/bookery/account/login");
+            response.sendRedirect("/account/login");
             saveDest(request);
             
             return false;
