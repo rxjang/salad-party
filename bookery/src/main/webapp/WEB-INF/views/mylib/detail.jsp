@@ -163,7 +163,7 @@ var config = {
 			label: '실제 공부한 양',
 			backgroundColor: '#8ba989',
 			borderColor: '#8ba989',
-			fill: false,
+			fill: true,
 			data: actual,
 		}]
 	},
