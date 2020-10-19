@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +15,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
 	body{
 		background-color:#e4e6da;
+		width:100%;
 	}
 	video{
 		width:80%;
@@ -285,6 +285,12 @@
 			margin-top:1.5em;
 			width:100%;
 		}
+		.awards-img{
+			width:100%;
+		}
+		.book-list{
+			width:20%;
+		}
 	}
 </style>
 <script>
@@ -338,6 +344,8 @@ function resizeBook(){
 </script>
 </head>
 <body>
+<div class="container">
+<div class="container-fluid">
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 		<div class="nav">
@@ -358,8 +366,7 @@ function resizeBook(){
 			<img src="${pageContext.request.contextPath}/resources/imgs/main/main-ment.png"/>
 		</div>
 	</div>
-	<div class="col-xs-4 col-md-3"></div>
-	<div class="col-xs-8 col-md-5">
+	<div class="col-xs-8 col-xs-offset-4 col-md-5 col-md-offset-3">
 		<div class="studying-image-box">
 			<img src="${pageContext.request.contextPath}/resources/imgs/main/studying.png"/>
 		</div>
@@ -367,8 +374,7 @@ function resizeBook(){
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">
-	<div class="col-xs-1 col-md-1"></div>
-	<div class="col-xs-11 col-md-4">
+	<div class="col-xs-11 col-xs-offset-1 col-md-4 col-md-offset-1">
 		<div class="find" data-aos="fade-right" data-aos-duration="1500">
 			<img src="${pageContext.request.contextPath}/resources/imgs/main/find.PNG"/>
 		</div>
@@ -380,7 +386,6 @@ function resizeBook(){
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">
-
 </div>
 <div class="row">
 	<div class="col-xs-1 col-md-1"></div>
@@ -413,11 +418,11 @@ function resizeBook(){
 			<img src="${pageContext.request.contextPath}/resources/imgs/main/mylib.png"/>
 		</div><!-- mylib -->
 	</div>
-	<div class="col-md-1"></div>
+	<div class="col-xs-12 col-md-1"></div>
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">
-	<div class="col-md-1"></div>
+	<div class="col-xs-12 col-md-1"></div>
 	<div class="col-xs-12 col-md-10 bookjs">
 		<div id="mybook">
 			<div>
@@ -476,7 +481,7 @@ function resizeBook(){
 		    </div><!-- p6 -->
 		</div>
 	</div>
-	<div class="col-md-1"></div>
+	<div class="col-xs-12 col-md-1"></div>
 </div>
 <div class="row empty">&nbsp;</div>
 <div class="row">
@@ -496,7 +501,6 @@ function resizeBook(){
 			<img class="club-img club-move" data-aos="fade-right" data-aos-duration="1500" src="${pageContext.request.contextPath}/resources/imgs/main/club-detail.jpg"/>
 		</div>
 	</div>
-	<div class="col-xs-1 col-md-6"></div>
 	<div class="col-xs-11 col-md-6">
 		<div class="font">
 			스터디는 북커리<br/>회원들과 함께해요
@@ -511,8 +515,8 @@ function resizeBook(){
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">
-	<div class="col-md-2"></div>
-	<div class="col-md-8 col-xs-12">
+	<div class="col-xs-12 col-md-2"></div>
+	<div class="col-xs-12 col-md-8">
 		<div class="video-box">
   			<video muted autoplay loop>
     			<source src="${pageContext.request.contextPath}/resources/imgs/main/main-news.mp4" type="video/mp4">
@@ -525,11 +529,11 @@ function resizeBook(){
 			</span>
 		</div>	
 	</div>
-	<div class="col-md-2"></div>
+	<div class="col-xs-12 col-md-2"></div>
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-xs-12 col-md-12">
 		<div class="font books-title">
 			북커리 회원들이 공부하는 책
 		</div>
@@ -545,19 +549,21 @@ function resizeBook(){
 	</div>
 </div>
 <div class="row end">
-	<div class="col-md-2"></div>
+	<div class="col-xs-12 col-md-2"></div>
 	<div class="col-xs-12 col-md-8" data-aos="zoom-out">
 		<div class="font-sub">
 			이제 북커리의 대략적인 기능을 다 알아보았습니다
-		</div>
+		</div><!-- font-sub -->
 		<div class="font">
 			북커리를 시작하러 가볼까요?
-		</div>
+		</div><!-- font -->
 		<div class="news-btn">
 			<a class="btn" href="${pageContext.request.contextPath }/news">북커리 둘러보기</a>
-		</div>
+		</div><!-- news-btn -->
 	</div>
-	<div class="col-md-2"></div>
-</div>
+	<div class="col-xs-12 col-md-2"></div>
+</div><!-- row -->
+</div><!-- container -->
+</div><!-- container -->
 </body>
 </html>

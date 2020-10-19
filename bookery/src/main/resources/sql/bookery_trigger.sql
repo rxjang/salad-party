@@ -1,6 +1,6 @@
 delimiter //
-drop trigger if exists medal_record//
-CREATE TRIGGER medal_record
+drop trigger if exists medal_record_page//
+CREATE TRIGGER medal_record_page
 	AFTER update ON salpa.checkpage for each row
 	begin
 		if
@@ -25,10 +25,37 @@ CREATE TRIGGER medal_record
 			insert into salpa.award (awarddate,medal_id,user_id) values (now(),4,(select distinct user_id from study where id=(select study_id from salpa.checkpage order by updatetime desc limit 1)));
         END IF;
 	END//
-    
 delimiter //
-drop trigger if exists medal_finbooks//
-CREATE TRIGGER medal_finbooks
+drop trigger if exists medal_record_chap//
+CREATE TRIGGER medal_record_chap
+	AFTER update ON salpa.checkchap for each row
+	begin
+		if
+			(select distinct user_id from salpa.award where medal_id=1 and user_id=(select distinct user_id from study where id=(select study_id from salpa.checkchap order by actualtime desc limit 1)))
+			is null            
+		THEN
+			insert into salpa.award (awarddate,medal_id,user_id) values (now(),1,(select distinct user_id from study where id=(select study_id from salpa.checkchap order by actualtime desc limit 1)));
+		END IF;
+        if
+			(select count(distinct c.actualtime) from checkchap as c inner join study as s on c.study_id=s.id where s.user_id=(select distinct user_id from study where id=(select study_id from salpa.checkchap order by actualtime desc limit 1)))=10
+		THEN
+			insert into salpa.award (awarddate,medal_id,user_id) values (now(),2,(select distinct user_id from study where id=(select study_id from salpa.checkchap order by actualtime desc limit 1)));
+        END IF;
+        if
+			(select count(distinct c.actualtime) from checkchap as c inner join study as s on c.study_id=s.id where s.user_id=(select distinct user_id from study where id=(select study_id from salpa.checkchap order by actualtime desc limit 1)))=30
+		THEN
+			insert into salpa.award (awarddate,medal_id,user_id) values (now(),3,(select distinct user_id from study where id=(select study_id from salpa.checkchap order by actualtime desc limit 1)));
+        END IF;
+        if
+			(select count(distinct c.actualtime) from checkchap as c inner join study as s on c.study_id=s.id where s.user_id=(select distinct user_id from study where id=(select study_id from salpa.checkchap order by actualtime desc limit 1)))=77
+		THEN
+			insert into salpa.award (awarddate,medal_id,user_id) values (now(),4,(select distinct user_id from study where id=(select study_id from salpa.checkchap order by actualtime desc limit 1)));
+        END IF;
+	END//
+
+delimiter //
+drop trigger if exists medal_finbooks_page//
+CREATE TRIGGER medal_finbooks_page
 	AFTER UPDATE ON salpa.checkpage FOR EACH ROW
 	BEGIN
 		IF 
@@ -58,6 +85,38 @@ CREATE TRIGGER medal_finbooks
 		END IF;
 	END//
     
+delimiter //
+drop trigger if exists medal_finbooks_chap//
+CREATE TRIGGER medal_finbooks_chap
+	AFTER UPDATE ON salpa.checkchap FOR EACH ROW
+	BEGIN
+		IF 
+			(select count(plantime) from salpa.checkchap where salpa.checkchap.study_id=(select salpa.checkchap.study_id from salpa.checkchap order by salpa.checkchap.actualtime desc limit 1))             
+			=
+			(select count(actualtime) from salpa.checkchap where salpa.checkchap.study_id=(select salpa.checkchap.study_id from salpa.checkchap order by salpa.checkchap.actualtime desc limit 1))               
+		THEN
+			insert into salpa.award (awarddate,medal_id,user_id) values (now(),5,(select salpa.study.user_id from salpa.study where salpa.study.id=(select salpa.checkpage.study_id from salpa.checkpage order by salpa.checkpage.updatetime desc limit 1)));
+		END IF;
+        IF
+			(select count(medal_id) from salpa.award where salpa.award.user_id=(select salpa.award.user_id from salpa.award order by salpa.award.awarddate desc limit 1) and medal_id=5)               
+			=3    
+        THEN
+			insert into salpa.award (awarddate,medal_id,user_id) values (now(),6,(select a.user_id from salpa.award as a order by a.awarddate desc limit 1));
+		END IF;
+        IF
+			(select count(medal_id) from salpa.award where salpa.award.user_id=(select salpa.award.user_id from salpa.award order by salpa.award.awarddate desc limit 1) and medal_id=5)               
+			=5
+        THEN
+			insert into salpa.award (awarddate,medal_id,user_id) values (now(),7,(select a.user_id from salpa.award as a order by a.awarddate desc limit 1));
+		END IF;
+        IF
+			(select count(medal_id) from salpa.award where salpa.award.user_id=(select salpa.award.user_id from salpa.award order by salpa.award.awarddate desc limit 1) and medal_id=5)               
+			=10
+        THEN
+			insert into salpa.award (awarddate,medal_id,user_id) values (now(),8,(select a.user_id from salpa.award as a order by a.awarddate desc limit 1));
+		END IF;
+	END//    
+
 delimiter //
 drop trigger if exists medal_club_content//
 CREATE TRIGGER medal_club_content
