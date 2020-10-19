@@ -24,7 +24,6 @@ $(function() {
 	$('.owl-carousel').each(function(){
 		$(this).owlCarousel({
 	   		margin:20,
-	    	nav:true,
 	    	responsiveClass:true,
 	    	responsive : {//반응성 window size에따라 캐러셀 사진 수 조절.
 				250 : {

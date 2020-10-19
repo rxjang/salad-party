@@ -51,15 +51,15 @@
 	.award-info-ment span{
 		opacity: 0.8;
 	}
-	.all-medal{
-		width:100%;
+	.medal-list{
 		text-align:center;
 	}
-	.all-medal li{
-		width:20%;
+	.all-medal{
+		width:24%;
 		list-style:none;
 		margin-bottom:3em;
 		display:inline-block;
+		text-align:center;
 	}
 	.circle{
 		height:180px;
@@ -85,6 +85,12 @@
 			padding-left:30px;
 			text-shadow: 2px 2px 2px #000000;
 		}
+		.all-medal{
+			width:30%;
+		}
+		.achieve-medal{
+			width:150px;
+		}
 		.award-info-ment{
 			font-weight:bold;
 			text-shadow: 2px 2px 2px #000000;
@@ -93,21 +99,17 @@
 		#award-account{
 			font-weight:bold;
 		}
-		.all-medal li{
-			width:30%;
-		}
 	}
 	@media (max-width:500px) {
-		.all-medal li{
-			width:45%;
-			margin-bottom:0;
-		}
 		.circle{
 			height:130px;
 			margin-bottom:2em;
 		}
+		.all-medal{
+			width:45%;
+		}
 		.medal-image{
-			width:130px;
+			width:100px;
 		}
 		.achieve-medal{
 			padding-top:2em;
@@ -132,14 +134,14 @@ $(function(){
 			if(medalName==achieve[i]){
 				$(this).children(".medal-image").addClass("achieve-medal");
 				$(this).children(".medal-image").attr("src","${pageContext.request.contextPath}/resources/imgs/award/"+medalName+".png");
-				$(this).parent("li").tooltip();
+				$(this).parent(".all-medal").tooltip();
 			}//if
 		}//for
 		var imgClass=$(this).children('img').attr('class');
 		var am='achieve-medal';
 		if(imgClass.search(am)>0){
 		}else{
-			$(this).parent("li").attr("title","");
+			$(this).parent(".all-medal").attr("title","");
 		}
 	});//each
 });//ready
@@ -163,18 +165,16 @@ $(function(){
 				</a>
 			</div><!-- .award-info-ment end -->
 		</div><!-- award-account -->	
-		<div class="jumbotron">
-			<ul class="all-medal">
-				<c:forEach items="${medalList }" var="medal">
-				<li class="${medal.medal}" data-toggle="tooltip" data-placement="bottom" title="${medal.criteria }">
-					<div class="circle">
-						<img src="${pageContext.request.contextPath}/resources/imgs/award/lock.png" alt="${medal.medal }" class="medal-image"/><br/>
-						<input type="hidden" class="medal-name" value="${medal.medal }"/>
-					</div><!-- circle -->
-					<span class="medal-title">${medal.medal }</span>
-				</li>
-				</c:forEach>
-			</ul>		
+		<div class="jumbotron medal-list">
+			<c:forEach items="${medalList }" var="medal">
+			<div class="${medal.medal} all-medal" data-toggle="tooltip" data-placement="bottom" title="${medal.criteria }">
+				<div class="circle">
+					<img src="${pageContext.request.contextPath}/resources/imgs/award/lock.png" alt="${medal.medal }" class="medal-image"/><br/>
+					<input type="hidden" class="medal-name" value="${medal.medal }"/>
+				</div><!-- circle -->
+				<span class="medal-title">${medal.medal }</span>
+			</div>
+			</c:forEach>
 		</div>
 	</div>		
 </div><!-- .row end -->
