@@ -169,7 +169,7 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY 
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `salpa`.`v_cal_chap`;
 DROP VIEW IF EXISTS `salpa`.`v_cal_chap` ;
-USE `salpa`;
+
 CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `scott`@`localhost` 
@@ -205,18 +205,14 @@ VIEW `v_cal_chap` AS
         COALESCE(`v_cal_chap_plan`.`plan`, 0) AS `plan_perday`,
         COALESCE(`v_cal_chap_actual`.`actual`, 0) AS `actual_perday`,
         (COALESCE(`v_cal_chap_actual`.`actual`, 0) - COALESCE(`v_cal_chap_plan`.`plan`, 0)) AS `status`,
-        (CASE
-            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) > COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#49654d'
-            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) = COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#8ba989'
-            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) < COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#a0522d'
-            ELSE '#e4e6da'
-        END) AS `color`,
-        (CASE
-            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) > COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#ecece9'
-            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) = COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#ecece9'
-            WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) < COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#ecece9'
-            ELSE '#49654d'
-        END) AS `textColor`
+        IF((`v_cal_chap_sid_date`.`date` > NOW()),
+            '#bebebe',
+            (CASE
+                WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) > COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#54BD54'
+                WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) = COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#A8F552'
+                WHEN (COALESCE(`v_cal_chap_actual`.`actual`, 0) < COALESCE(`v_cal_chap_plan`.`plan`, 0)) THEN '#FF0000'
+                ELSE '#bebebe'
+            END)) AS `color`
     FROM
         (((((`v_cal_chap_sid_date`
         LEFT JOIN `study` ON ((`v_cal_chap_sid_date`.`study_id` = `study`.`id`)))
@@ -265,7 +261,34 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY 
 DROP TABLE IF EXISTS `salpa`.`v_cal_page`;
 DROP VIEW IF EXISTS `salpa`.`v_cal_page` ;
 USE `salpa`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY DEFINER VIEW `salpa`.`v_cal_page` AS select `v_cal_page_base2`.`title` AS `title`,`v_cal_page_base2`.`url` AS `url`,`v_cal_page_base2`.`user_id` AS `user_id`,`v_cal_page_base2`.`sid_date` AS `sid_date`,`v_cal_page_base2`.`type` AS `type`,`v_cal_page_base2`.`study_id` AS `study_id`,`v_cal_page_base2`.`start` AS `start`,`v_cal_page_base2`.`plan_accum` AS `plan_accum`,`v_cal_page_base2`.`actual_accum` AS `actual_accum`,`v_cal_page_base2`.`plan_perday` AS `plan_perday`,`v_cal_page_base2`.`actual_perday` AS `actual_perday`,(`v_cal_page_base2`.`actual_perday` - `v_cal_page_base2`.`plan_perday`) AS `status`,(case when (`v_cal_page_base2`.`actual_perday` > `v_cal_page_base2`.`plan_perday`) then '#49654d' when (`v_cal_page_base2`.`actual_perday` = `v_cal_page_base2`.`plan_perday`) then '#8ba989' when (`v_cal_page_base2`.`actual_perday` < `v_cal_page_base2`.`plan_perday`) then '#a0522d' else '#e4e6da' end) AS `color`,(case when (`v_cal_page_base2`.`actual_perday` > `v_cal_page_base2`.`plan_perday`) then '#ecece9' when (`v_cal_page_base2`.`actual_perday` = `v_cal_page_base2`.`plan_perday`) then '#ecece9' when (`v_cal_page_base2`.`actual_perday` < `v_cal_page_base2`.`plan_perday`) then '#ecece9' else '#49654d' end) AS `textColor` from `salpa`.`v_cal_page_base2`;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_cal_page` AS
+    SELECT 
+        `v_cal_page_base2`.`title` AS `title`,
+        `v_cal_page_base2`.`url` AS `url`,
+        `v_cal_page_base2`.`user_id` AS `user_id`,
+        `v_cal_page_base2`.`sid_date` AS `sid_date`,
+        `v_cal_page_base2`.`type` AS `type`,
+        `v_cal_page_base2`.`study_id` AS `study_id`,
+        `v_cal_page_base2`.`start` AS `start`,
+        `v_cal_page_base2`.`plan_accum` AS `plan_accum`,
+        `v_cal_page_base2`.`actual_accum` AS `actual_accum`,
+        `v_cal_page_base2`.`plan_perday` AS `plan_perday`,
+        `v_cal_page_base2`.`actual_perday` AS `actual_perday`,
+        (`v_cal_page_base2`.`actual_perday` - `v_cal_page_base2`.`plan_perday`) AS `status`,
+        IF((`v_cal_page_base2`.`start` > NOW()),
+            '#bebebe',
+            (CASE
+                WHEN (`v_cal_page_base2`.`actual_perday` > `v_cal_page_base2`.`plan_perday`) THEN '#54BD54'
+                WHEN (`v_cal_page_base2`.`actual_perday` = `v_cal_page_base2`.`plan_perday`) THEN '#A8F552'
+                WHEN (`v_cal_page_base2`.`actual_perday` < `v_cal_page_base2`.`plan_perday`) THEN '#FF0000'
+                ELSE '#bebebe'
+            END)) AS `color`
+    FROM
+        `v_cal_page_base2`;
 
 -- -----------------------------------------------------
 -- View `salpa`.`v_cal_page_base`
@@ -370,7 +393,44 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY 
 DROP TABLE IF EXISTS `salpa`.`v_calendar`;
 DROP VIEW IF EXISTS `salpa`.`v_calendar` ;
 USE `salpa`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`scott`@`localhost` SQL SECURITY DEFINER VIEW `salpa`.`v_calendar` AS select `v_cal_chap`.`title` AS `title`,`v_cal_chap`.`url` AS `url`,`v_cal_chap`.`user_id` AS `user_id`,`v_cal_chap`.`sid_date` AS `sid_date`,`v_cal_chap`.`type` AS `type`,`v_cal_chap`.`study_id` AS `study_id`,`v_cal_chap`.`start` AS `start`,`v_cal_chap`.`plan_accum` AS `plan_accum`,`v_cal_chap`.`actual_accum` AS `actual_accum`,`v_cal_chap`.`plan_perday` AS `plan_perday`,`v_cal_chap`.`actual_perday` AS `actual_perday`,`v_cal_chap`.`status` AS `status`,`v_cal_chap`.`color` AS `color`,`v_cal_chap`.`textColor` AS `textColor` from `salpa`.`v_cal_chap` union select `v_cal_page`.`title` AS `title`,`v_cal_page`.`url` AS `url`,`v_cal_page`.`user_id` AS `user_id`,`v_cal_page`.`sid_date` AS `sid_date`,`v_cal_page`.`type` AS `type`,`v_cal_page`.`study_id` AS `study_id`,`v_cal_page`.`start` AS `start`,`v_cal_page`.`plan_accum` AS `plan_accum`,`v_cal_page`.`actual_accum` AS `actual_accum`,`v_cal_page`.`plan_perday` AS `plan_perday`,`v_cal_page`.`actual_perday` AS `actual_perday`,`v_cal_page`.`status` AS `status`,`v_cal_page`.`color` AS `color`,`v_cal_page`.`textColor` AS `textColor` from `salpa`.`v_cal_page` order by `sid_date`;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `scott`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_calendar` AS
+    SELECT 
+        `v_cal_chap`.`title` AS `title`,
+        `v_cal_chap`.`url` AS `url`,
+        `v_cal_chap`.`user_id` AS `user_id`,
+        `v_cal_chap`.`sid_date` AS `sid_date`,
+        `v_cal_chap`.`type` AS `type`,
+        `v_cal_chap`.`study_id` AS `study_id`,
+        `v_cal_chap`.`start` AS `start`,
+        `v_cal_chap`.`plan_accum` AS `plan_accum`,
+        `v_cal_chap`.`actual_accum` AS `actual_accum`,
+        `v_cal_chap`.`plan_perday` AS `plan_perday`,
+        `v_cal_chap`.`actual_perday` AS `actual_perday`,
+        `v_cal_chap`.`status` AS `status`,
+        `v_cal_chap`.`color` AS `color`
+    FROM
+        `v_cal_chap` 
+    UNION SELECT 
+        `v_cal_page`.`title` AS `title`,
+        `v_cal_page`.`url` AS `url`,
+        `v_cal_page`.`user_id` AS `user_id`,
+        `v_cal_page`.`sid_date` AS `sid_date`,
+        `v_cal_page`.`type` AS `type`,
+        `v_cal_page`.`study_id` AS `study_id`,
+        `v_cal_page`.`start` AS `start`,
+        `v_cal_page`.`plan_accum` AS `plan_accum`,
+        `v_cal_page`.`actual_accum` AS `actual_accum`,
+        `v_cal_page`.`plan_perday` AS `plan_perday`,
+        `v_cal_page`.`actual_perday` AS `actual_perday`,
+        `v_cal_page`.`status` AS `status`,
+        `v_cal_page`.`color` AS `color`
+    FROM
+        `v_cal_page`
+    ORDER BY `sid_date`;
 
 -- -----------------------------------------------------
 -- View `salpa`.`v_checkchap_actual`
