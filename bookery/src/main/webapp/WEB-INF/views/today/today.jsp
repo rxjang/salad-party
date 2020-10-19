@@ -523,7 +523,7 @@
 						color: '#e4e6da',
 						fillOpacity: 0.5,
 						value: daysPlan+0.5,
-						width: 550/days,
+						width: 600/days,
 						label: {
 							text: '오늘',
 							rotation: 0,
@@ -880,12 +880,21 @@
 					borderColor: '#e4e6da',
 					fill: false,
 					data: list_plan_accum,
+					pointRadius: 2,
+					pointHoverRadius: 2,
+					pointBackgroundColor:'white',
+					lineTension:0
 				}, {
 					label: '완료한 누적 스터디 양',
 					backgroundColor: '#8ba989',
 					borderColor: '#8ba989',
 					fill: true,
 					data: list_actual_accum,
+					pointStyle:'rectRounded',
+					pointRadius: 2,
+					pointHoverRadius: 2,
+					pointBackgroundColor:'#c0cfb2',
+					lineTension:0
 				}]
 			},
 			options: {
