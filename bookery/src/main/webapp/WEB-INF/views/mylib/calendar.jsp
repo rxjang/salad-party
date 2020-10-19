@@ -5,11 +5,13 @@
 	<title>Bookery</title>
 <%@ include file="../template/head.jspf" %>
 <style type="text/css">
+	body{
+		background: linear-gradient(#e4e6da,#c0cfb2,#8ba989);
+	}
 	#calOuter{
 		overflow:hidden;
 		padding:10px;
 		margin-bottom:-30px;
-		background: linear-gradient(#e4e6da,#c0cfb2,#8ba989);
 	}
 	#calendar{
 		margin-top:15px;
@@ -52,7 +54,7 @@
 		color:#bebebe;
 	}
 	#footer {
-		margin-bottom: 9px;
+/* 		margin-bottom: 9px; */
 	}
 
 @media (max-width:1000px) {
@@ -69,9 +71,11 @@
 		padding-left:5px;
 	}
 	#footer {
-		margin-bottom: 88px;
+		margin-bottom: 0px;
 	}
-}
+	.footer-content{
+		padding-bottom:90px;
+	}
 </style>
 <script type="text/javascript">
 	var map='${map}';
