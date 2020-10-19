@@ -15,7 +15,6 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
 	body{
 		background-color:#e4e6da;
-		width:100%;
 	}
 	video{
 		width:80%;
@@ -156,6 +155,9 @@
 		margin-top:3em;
 		width:100%;
 	}
+	.booklet{
+		box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
+	}
 	.booklet .b-tab {
     	background: #8ba989;
     	color:white;
@@ -171,6 +173,14 @@
 	.awards-img{
 		margin-top:2em;
 		width:70%;
+	}
+	/********************************calendar************************************/
+	.cal-font{
+		text-align:right;
+	}
+	.calendar{
+		width:90%;
+		box-shadow: 2px 2px 6px rgba(0,0,0,.1), 0 0 2px rgba(0,0,0,.2);
 	}
 	/********************************북클럽************************************/
 	.club-img-outter{
@@ -295,6 +305,13 @@
 </style>
 <script>
 	$(function(){
+		$('.calendar').mouseover(function(){
+			$(this).attr('src','${pageContext.request.contextPath}/resources/imgs/main/calendarb.png');
+		});
+		$('.calendar').mouseleave(function(){
+			$(this).attr('src','${pageContext.request.contextPath}/resources/imgs/main/calendarf.png');
+		});
+		
 		$('.book-list').each(function(){
 			$(this).mouseenter(function(){
 				$(this).css('z-index','10');
@@ -344,8 +361,6 @@ function resizeBook(){
 </script>
 </head>
 <body>
-<div class="container">
-<div class="container-fluid">
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 		<div class="nav">
@@ -374,7 +389,8 @@ function resizeBook(){
 </div><!-- row -->
 <div class="row empty">&nbsp;</div>
 <div class="row">
-	<div class="col-xs-11 col-xs-offset-1 col-md-4 col-md-offset-1">
+	<div class="col-xs-1 col-md-1"></div>
+	<div class="col-xs-11 col-md-4">
 		<div class="find" data-aos="fade-right" data-aos-duration="1500">
 			<img src="${pageContext.request.contextPath}/resources/imgs/main/find.PNG"/>
 		</div>
@@ -495,6 +511,24 @@ function resizeBook(){
 <div class="row empty">&nbsp;</div>
 <div class="row">
 	<div class="col-xs-1 col-md-1"></div>
+	<div class="col-xs-10 col-md-6">
+		<div class="font center">
+			스터디 캘린더에서는 <br/>모든 스터디 상태를<br/>한 눈에 확인 할 수 있어요
+		</div><!-- font -->
+		<div class="font-sub center">
+			해당 스터디를 클릭하면 상세페이지로 이동합니다.
+		</div><!-- font-sub -->
+	</div>
+	<div class="col-xs-1"></div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-9 col-md-4">
+		<img data-aos="flip-left" data-aos-duration="1500" class="calendar" src="${pageContext.request.contextPath}/resources/imgs/main/calendarf.png"/>
+	</div>
+	<div class="col-xs-1 col-md-1"></div>
+</div><!-- row -->
+<div class="row empty">&nbsp;</div>
+<div class="row">
+	<div class="col-xs-1 col-md-1"></div>
 	<div class="col-xs-11 col-md-5">
 		<div class="club-img-outter">
 			<img class="club-img" src="${pageContext.request.contextPath}/resources/imgs/main/bookclub.jpg"/>
@@ -563,7 +597,5 @@ function resizeBook(){
 	</div>
 	<div class="col-xs-12 col-md-2"></div>
 </div><!-- row -->
-</div><!-- container -->
-</div><!-- container -->
 </body>
 </html>
