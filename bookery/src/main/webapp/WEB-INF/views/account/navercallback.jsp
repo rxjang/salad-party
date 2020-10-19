@@ -18,7 +18,7 @@
 	    	<spring:eval expression='@naver["naver.LoginClientId"]'/>
 		</c:set>
 <script type="text/javascript">
- 	 var naver_id_login = new naver_id_login("${naverClientID}", "http://localhost:8080/bookery/account/navercallback");
+ 	 var naver_id_login = new naver_id_login("${naverClientID}", "http://bookery.live/account/navercallback");
 	  // 접근 토큰 값 출력
 	  /* alert(naver_id_login.oauthParams.access_token); */
 	  // 네이버 사용자 프로필 조회
@@ -45,7 +45,7 @@
 					if(result == 'login') {
 						 var dest = "<%=dest%>";
 		            	 if(dest != "null" && dest != "") {
-		            		opener.location.replace("http://<%=ip%>:"+<%=request.getServerPort()%> + dest);
+		            		opener.location.replace("http://bookery.live/" + dest);
 		            		self.close();
 		            	 } else {
 							opener.location.href='${pageContext.request.contextPath }/';

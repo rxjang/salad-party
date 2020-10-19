@@ -22,7 +22,7 @@
 	</select>
 	
 	<select id="popularContents" resultType="clubBean">
-		select max(title) as title, max(num) as num,max(id) as id from club where book_bid!=0 and title is not null group by title order by max(num) desc limit 5
+		select max(title) as title, max(num) as num,max(id) as id from club where book_bid!=0 and deleted != 1 and title is not null group by title order by max(num) desc limit 5
 	</select>
 	
 	<select id="selectContentForNews" resultType="clubBean">
