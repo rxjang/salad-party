@@ -285,8 +285,8 @@ mql.addListener(function(e) {
 
 $(function(){
 	var str = location.href;
-	var temp1=str.indexOf("bookery/");
-	var temp2=str.substring(temp1,temp1+9);
+	var temp1=str.indexOf("live/");
+	var temp2=str.substring(temp1,temp1+6);
 	var temp=temp2.substring(temp2.lastIndexOf('/')+1);
 	
 	if (mql.matches) {
@@ -297,22 +297,27 @@ $(function(){
 	
 	if(temp=="t"){
 		$(".menu-today").css("font-weight","bold")
+		$(".menu-today").css("color","black")
 		temp="오늘의 기록";
 		temp2="#오늘의 기록";
 	}else if(temp=="m"){
 		$(".menu-mylib").css("font-weight","bold")
+		$(".menu-mylib").css("color","black")
 		temp="내서재";
 		temp2="#내서재";
 	}else if(temp=="c"){
 		$(".menu-club").css("font-weight","bold")
+		$(".menu-club").css("color","black")
 		temp="북클럽";
 		temp2="#북클럽";
 	}else if(temp=="f"){
 		$(".menu-find").css("font-weight","bold")
+		$(".menu-find").css("color","black")
 		temp="검색";
 		temp2="#검색";
 	}else if(temp=="n"){
 		$(".menu-news").css("font-weight","bold")
+		$(".menu-news").css("color","black")
 		temp="책거리 뉴스";
 		temp2="#책거리 뉴스";
 	}
@@ -438,7 +443,7 @@ function mobile(){
 	$(".menu-club").prepend( "<span class=\"menu-icon glyphicon glyphicon-link\"></span><br/>" );
 	$(".menu-find").prepend( "<span class=\"menu-icon glyphicon glyphicon-search\"></span><br/>" );
 	$(".menu-news").prepend( "<span class=\"menu-icon glyphicon glyphicon-comment\"></span><br/>" );
-	$(".add-jung").css("color","#666666");
+	$(".add-jung").css("color","#777777");
 	$(".rank-who b").addClass("cut-10");
 }
 function pc(){
