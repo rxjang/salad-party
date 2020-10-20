@@ -107,11 +107,12 @@ public class AccountController {
 	public String updateFinished(HttpSession session, HttpServletResponse resp, @ModelAttribute UserVo bean) throws SQLException {
 		
 		triming(bean);
-		
+		System.out.println(bean.getTel());
 		int cntChkNickName = accountService.chkUpdateNickName(bean.getEmail(), bean.getNickname());
 		
 		int cntChkTel = accountService.chkUpdateTel(bean.getEmail(), bean.getTel());
-		
+		System.out.println("chknickname:" +  cntChkNickName);
+		System.out.println("chkTel:" + cntChkTel);
 		if(cntChkNickName == 0 && cntChkTel == 0) {
 			int cnt = accountService.updateInfo(bean);
 			System.out.println("updateResult: " + cnt);
@@ -193,6 +194,13 @@ public class AccountController {
 			// 존재하는 계정일 경우, 
 			String lvl = accountService.chkBySns(email);
 			
+			if(lvl == "naver") {
+				try {
+					resp.getWriter().write("{\"result\":\"" + lvl +"\", \"lvl\":\""+ lvl +"\"}");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} 
 			String[] filter = email.split("@");
 			String temp = "";
 			if(filter[0].length() >= 4) {

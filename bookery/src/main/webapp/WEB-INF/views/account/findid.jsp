@@ -87,7 +87,7 @@
 								if(lvl == 'kakao') lvl = '카카오';
 								swal({
 									  title: "가입 이메일 확인",
-									  text: "회원님의 이메일 계정은 \'" + result  + "\' 입니다.\n " + lvl +"를 통해 로그인 해주세요.",
+									  text: "회원은 " + lvl +"통해 가입하셨습니다. \n " + lvl +"로 로그인 해주세요.",
 									  icon: "success",
 									  buttons: {
 									    confirm:{
