@@ -78,13 +78,17 @@ public class LoginController {
 		
 		UserVo userBean = null;
 		
+		// 이메일 전송을 위한 메일
+		String send_email = bean.getEmail();
+		
+		// db에 넣을 이메일은 password(naver가 주는 고유 식별 코드)로 변경.
 		triming(bean);
 		// 북커리로 가입된 회원 인지 확인
-		int cntMember =  accountService.chkEmail(bean.getEmail());
+		int cntMember =  accountService.chkEmail(bean.getPassword());
 		
 		if(cntMember != 0) {
 			// 네이버 회원으로 가입된 계정인지 확인.
-			String lvl = accountService.chkBySns(bean.getEmail());
+			String lvl = accountService.chkBySns(bean.getPassword());
 			System.out.println(lvl);
 			if(!lvl.equals("naver")) {
 				// 북커리로 가입된 이메일 계정. 북커리로 로그인 요청
@@ -95,7 +99,7 @@ public class LoginController {
 				}
 			} else {
 				// 네이버 로그인 처리
-				userBean = accountService.login(bean.getEmail(), bean.getPassword());
+				userBean = accountService.login(bean.getPassword(), bean.getPassword());
 				
 				if(userBean != null) {
 					int notiSize = -1; 
@@ -117,6 +121,7 @@ public class LoginController {
 				}
 			}
 		} else {
+			bean.setEmail(bean.getPassword());
 			// 회원 등록
 			int cntChkNickName = accountService.chkNickName(bean.getNickname());
 			
@@ -167,7 +172,7 @@ public class LoginController {
 		int cntMember =  accountService.chkEmail(bean.getEmail());
 		
 		if(cntMember != 0) {
-			// 네이버 회원으로 가입된 계정인지 확인.
+			// 카카오 회원으로 가입된 계정인지 확인.
 			String lvl = accountService.chkBySns(bean.getEmail());
 			if(!lvl.equals("kakao")) {
 				// 북커리로 가입된 이메일 계정. 북커리로 로그인 요청

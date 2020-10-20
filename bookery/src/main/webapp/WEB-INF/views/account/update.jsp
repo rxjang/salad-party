@@ -86,9 +86,10 @@
 	}
 	$(function(){ //ready
 		var emailChk = true;
-		if('${user.lvl}' == 'kakao') {
-			/* console.log("lvl:" + "${user.lvl}"); */
-			if('${user.email}'.search('@') <=0) emailChk = false;
+		if('${user.lvl}' == 'naver' || '${user.email}'.search('@') <= 0) {
+			console.log("lvl:" + "${user.lvl}"); 
+			console.log("email" + "${user.email}");
+			emailChk = false;
 		}
 		 /* console.log("emailChk:" + emailChk); */
 	$('#updateForm').on('submit',function(){ //등록버튼 눌렀을 때 이벤트.
@@ -106,9 +107,8 @@
 		$('#nicknameMessage').text('');
 		$('#telMessage').text('');
 		
-		if($('#password').css('display') != 'none'){
-			if($('#password').val() == "")
-				$('#passwordMessage').text('비밀번호를 입력해주세요.');
+		if($('#password').css('display') != 'none' && $('#password').val() == ""){
+			$('#passwordMessage').text('비밀번호를 입력해주세요.');
 		}else if($('#name').val() == ""){
 			$('#nameMessage').text('이름을 입력해주세요.');
 		}else if($('#nickname').val() == "") {
@@ -117,17 +117,14 @@
 			$('#nicknameMessage').text('닉네임은 3자 이상 입력해주세요.');
 		}else if($('#tel1').val() == "" || $('#tel2').val() == "" || $('#tel3').val() == ""){
 			$('#telMessage').text('전화번호를 입력해주세요.');
-		}else if($('#password').css('display') != 'none'){
+		}else if($('#password').css('display') != 'none' && pwCheck(passwordVal)){
 			//비밀번호 검증 하기.	영문이나 숫자가 포함되어야함., 포함되어있으면 false 영어나숫자만 true
-			if(pwCheck(passwordVal))
-				$('#passwordMessage').text('비밀번호는 영문 + 숫자 조합이어야 합니다.');
-		}else if($('#password').css('display') != 'none'){
+			$('#passwordMessage').text('비밀번호는 영문 + 숫자 조합이어야 합니다.');
+		}else if($('#password').css('display') != 'none' && (passwordVal.length < 8 || passwordVal.length > 12)){
 			//비밀번호 길이는 8자~12자까지. 
-			if(passwordVal.length < 8 || passwordVal.length > 12)
-				$('#passwordMessage').text('비밀번호는 8 ~ 12자리 입니다.');	
-		}else if($('#password').css('display') != 'none'){
-			if(passwordVal!=signuppw2)
-				$('#passwordMessage').text('비밀번호가 일치하지 않습니다.');	
+			$('#passwordMessage').text('비밀번호는 8 ~ 12자리 입니다.');
+		}else if($('#password').css('display') != 'none' && passwordVal!=signuppw2){
+			$('#passwordMessage').text('비밀번호가 일치하지 않습니다.');	
 		}else{
 			var param;
 			if($('#password').val().length != 0) {
@@ -136,7 +133,7 @@
 				param = 'email=' + $('#email').val()+'&password='+${userBean.password}+'&name='+$('#name').val()+'&nickname='+$('#nickname').val()+'&tel='+contact;
 			}
 			
-			
+			console.log("beore ajax");
 			$.ajax('${pageContext.request.contextPath}/account/update',{
 				'method':'post',
 				'data':param,
