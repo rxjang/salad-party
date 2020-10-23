@@ -310,7 +310,7 @@
 			</form> --%>
 			<form action="${pageContext.request.contextPath }/club/list/${book.bid }" method="get" class="search-form form-inline">
 				<div class="input-search input-group">
-					<input type="text" class="" placeholder="책 제목을 입력해보세요." name="search"
+					<input type="text" class="" placeholder="제목을 입력해보세요." name="search"
 						id="search" /> <span class="input-group-btn" id="input_group_btn">
 						<button type="submit" id="search-btn"
 							class="btn btn-default btn-md">

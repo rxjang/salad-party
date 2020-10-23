@@ -241,6 +241,17 @@
 		$('#book_detail').append(infoMsg);
 	}
 	
+	
+	/* 목표일안에 100% 완료한 경우 */
+	if(total_chap == total_actual_chap){
+		$('#enter_chap').hide();
+		$('#input_chap').hide();
+		var infoMsg = $('<p class="info-msg"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>축하합니다. 완독하셨어요!</p>');
+		$('#book_detail').append(infoMsg);
+	}
+	
+	
+	
 	});//ready
 	
 </script>

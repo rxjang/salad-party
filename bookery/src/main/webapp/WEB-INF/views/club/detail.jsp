@@ -45,7 +45,7 @@ var session_user_id = '${user.id}';
 				}
 		});//foreach
 		// {   'key'  :  [{} {} {} {} {}]     } 
-		
+		console.log("${club.updatetime}");
 		console.log(date);
 		console.log(new Date().format('HH:mm:ss'));
 		console.log(new Date('${club.updatetime}').format('HH:mm:ss'));

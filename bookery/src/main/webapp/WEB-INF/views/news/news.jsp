@@ -557,7 +557,7 @@ $(function(){
 	<div class="col-xs-12 col-md-10 notice">
 	<h4 class="title">
 		<a href="${pageContext.request.contextPath }/news/notice">
-		<span class="glyphicon glyphicon-bullhorn"></span>&nbsp;책거리 알림</a>
+		<span class="glyphicon glyphicon-bullhorn"></span>&nbsp;북커리 알림</a>
 	</h4>
 	<c:forEach items="${noticeList }" var="bean">
 		<div class="content-box">
