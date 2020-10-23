@@ -318,8 +318,8 @@ $(function(){
 	}else if(temp=="n"){
 		$(".menu-news").css("font-weight","bold")
 		$(".menu-news").css("color","black")
-		temp="책거리 뉴스";
-		temp2="#책거리 뉴스";
+		temp="북커리 뉴스";
+		temp2="#북커리 뉴스";
 	}
 	
   $('.add-jung').mouseenter(function(){
