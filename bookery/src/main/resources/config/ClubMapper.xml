@@ -93,7 +93,7 @@
 	</select>
 	
 	<select id="countOfPosts" parameterType="_int" resultType="_int">
-		select count(*) from club  where book_bid = #{book_bid} and deleted != 1
+		select count(*) from club  where book_bid = #{book_bid} and deleted != 1 and depth != 1
 	</select>
 	
 	<update id="updateClubPost" parameterType="clubBean">
