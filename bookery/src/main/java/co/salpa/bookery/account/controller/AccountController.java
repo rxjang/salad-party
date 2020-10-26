@@ -193,33 +193,35 @@ public class AccountController {
 		if(email != null) {
 			// 존재하는 계정일 경우, 
 			String lvl = accountService.chkBySns(email);
-			
-			if(lvl == "naver") {
+		
+			if(lvl != null && !lvl.equals(null)) {
 				try {
 					resp.getWriter().write("{\"result\":\"" + lvl +"\", \"lvl\":\""+ lvl +"\"}");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} 
-			String[] filter = email.split("@");
-			String temp = "";
-			if(filter[0].length() >= 4) {
-				char[] filter2 = filter[0].toCharArray();
-				for(int i=0; i<filter2.length; i++) {
-					if(i>2) {
-						temp += "*";
-					} else {
-						temp += filter2[i];
+			} else {
+				String[] filter = email.split("@");
+				String temp = "";
+				if(filter[0].length() >= 4) {
+					char[] filter2 = filter[0].toCharArray();
+					for(int i=0; i<filter2.length; i++) {
+						if(i>2) {
+							temp += "*";
+						} else {
+							temp += filter2[i];
+						}
 					}
 				}
-			}
-			
-			String parsingEmail = temp + "@" + filter[1];
+				
+				String parsingEmail = temp + "@" + filter[1];
 //			System.out.println(parsingEmail);
-			try {
-				resp.getWriter().write("{\"result\":\"" + parsingEmail +"\", \"lvl\":\""+ lvl +"\"}");
-			} catch (IOException e) {
-				e.printStackTrace();
+				try {
+					resp.getWriter().write("{\"result\":\"" + parsingEmail +"\", \"lvl\":\" bookery\"}");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			}
 		} else {
 			// 존재하지 않는 계정일 경우,
@@ -251,21 +253,23 @@ public class AccountController {
 		tel = tel.trim();
 		
 		String lvl = accountService.chkBySns(email);
-		if(lvl != null) lvl = lvl.trim();
-		if(lvl.equals("naver") || lvl == "naver") {
-			
-			try {
-				resp.getWriter().write("{\"result\":\"naver\"}");
-			} catch (IOException e) {
-				e.printStackTrace();
+
+		if(lvl != null && !lvl.equals(null)) {
+			if(lvl == "naver" || lvl.contentEquals("naver")) {
+				try {
+					resp.getWriter().write("{\"result\":\"naver\"}");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-		} else if(lvl.equals("kakao") || lvl == "kakao") {
-			try {
-				resp.getWriter().write("{\"result\":\"kakao\"}");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if(lvl.equals("") || lvl == null || lvl.equals(null)){
+			else if(lvl == "kakao" || lvl.equals("kakao")) {
+				try {
+					resp.getWriter().write("{\"result\":\"kakao\"}");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} 
+		} else{
 			int cnt = -1;
 			cnt = accountService.findPw(email, name, tel);
 			if(cnt == 1) {
