@@ -82,7 +82,7 @@
 						var lvl = data.lvl;
 						
 						if(result != 'fail') {
-							if(lvl != null && lvl != '') {
+							if(lvl == 'naver' || lvl == 'kakao') {
 								if(lvl == 'naver') lvl = '네이버';
 								if(lvl == 'kakao') lvl = '카카오';
 								swal({
