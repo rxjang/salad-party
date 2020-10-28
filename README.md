@@ -1,6 +1,7 @@
 # 3rd Project - http://bookery.live #
 
 :books: 북커리(Bookery) 도서를 통한 학습 및 독서활동 일정 / 기록 관리 어플리케이션
+
 :herb: salad-party presents
 
 ## 구현 기능 ##
