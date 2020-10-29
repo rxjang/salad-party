@@ -83,7 +83,6 @@ public class FIndServiceImpl implements FindService {
 	/*
 	 * 검색페이지에서 검색항목(저자, 출판사, 제목) 선택해서 검색하면 검색결과를 보여주는 순서 start와 검색어search, 검색항목
 	 * select를 받아 검색한 뒤 html문서 전체를 결과로 String으로 반환해준다.
-	 * 
 	 */
 	@Override
 	public String searchService(int start, String search, String select) {
@@ -92,15 +91,12 @@ public class FIndServiceImpl implements FindService {
 		String param_start = "&start=" + start;// 검색결과 문서들 읽는 시작순서.
 		String findOpt = null;
 		// select = {제목,저자,출판사} 상세검색 요청변수 생성
-
-		System.out.println(search + start);
 		try {
 			search = URLEncoder.encode(search.trim(), "UTF-8");// 검색단어는 UTF-8 url로 전달
 			System.out.println(search);
 			findOpt = detailSearch(select.trim(), search.trim());
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("encoding error", e);
-
 		} // catch
 		String apiURL = null;
 		if (select.equals("출판사") || select.equals("저자") || select.equals("제목")) {
@@ -110,13 +106,10 @@ public class FIndServiceImpl implements FindService {
 			apiURL = "https://openapi.naver.com/v1/search/book.xml?query=" + search + param_start; // book
 		}
 		// search
-		System.out.println(apiURL);
-
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("X-Naver-Client-Id", client);
 		requestHeaders.put("X-Naver-Client-Secret", secret);
 		String responseBody = get(apiURL, requestHeaders);// 네이버북 검색결과 페이지 내용을 responseBody에 담음
-
 		return responseBody;
 	}// searchService
 
@@ -186,11 +179,8 @@ public class FIndServiceImpl implements FindService {
 	}// readBody
 
 	/****
-	 * 
 	 * naver books bid로 책 상세검색을 한 결과를 jsoup Document 타입으로 반환한다.
-	 * 
 	 ****/
-
 	@Override
 	public Model crawlingService(int bid, Model model) {
 		// TODO Auto-generated method stub
@@ -217,7 +207,6 @@ public class FIndServiceImpl implements FindService {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
 		return model.addAttribute("crawlingDoc", result);
 	}// crawlingService
 
@@ -264,7 +253,6 @@ public class FIndServiceImpl implements FindService {
 	 ****/
 
 	public void tocsPut(BookVo book, TocDao tocDao, String chapters) throws DataAccessException {
-
 		if (tocDao.selectOne(book.getBid()).size() != 0) {
 		} else {
 			String[] tmp = chapters.split("\n");
@@ -283,26 +271,18 @@ public class FIndServiceImpl implements FindService {
 	}// tocsPut
 
 	/****
-	 * 
 	 * 검색해서 선택한 책정보를 book테이블에 추가하고 그 책의 목차를 toc테이블에 추가한다.
-	 * 
 	 * 그리고 study테이블에도 책정보와함게 스터디생성 Transactional 어노테이션으로 insertStudyService 메소드가
 	 * 정상종료되기전에 예외가 발생하면 모두 롤백된다. throws SQLException
-	 * 
 	 ****/
 	@Override
-
 	public void insertStudyService(BookVo book, StudyVo study, String chapters) throws DataAccessException {
-
-		// TODO Auto-generated method stub
 		BookDao bookDao = sqlSession.getMapper(BookDao.class);
 		TocDao tocDao = sqlSession.getMapper(TocDao.class);
 		StudyDao studyDao = sqlSession.getMapper(StudyDao.class);
-
 		bookDao.insertOne(book);// 책입력
 		tocsPut(book, tocDao, chapters);// 목차들 입력
 		studyDao.insertOne(study);// 스터디생성
-
 	}// studyAddService
 
 	/****

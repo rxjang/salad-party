@@ -99,7 +99,6 @@
 		$('#orderByMyBook').click(function(){
 			var okIcon = $('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
 			orderby = 'studying';
-			
 			$('.order-btn a').not($(this)).each(function(){
 				if($(this).attr('class').includes('ok',0)){
 					$(this).addClass('not-ok').removeClass('ok');
@@ -111,9 +110,6 @@
 				//console.log('내책만보기');
 				$(this).append(okIcon);
 				$(this).addClass('ok').removeClass('not-ok');
-				
-				
-				//$('.studying').show();
 				$('.thumb-box').not('.studying').hide();
 				infinityScroll('studying');
 			}else if($(this).attr('class').includes('ok',0)){
@@ -125,21 +121,6 @@
 						$(this).find('.glyphicon-ok').remove();
 					}//if
 				});//each
-
-				//full_badge_items = $('.thumb-box').get();
-				//var items = full_badge_items;
-			//	var items = $('.thumb-box .badge').get(); 
-				/* items.sort(function(a,b){ 
-					  var keyA = $(a).text();
-					  var keyB = $(b).text();
-					  if (keyB > keyA) return -1;
-					  if (keyA > keyB) return 1;
-					  return 0;
-				});	 */
-			//	$.each(items, function(idx, ele){
-			//		$('.bookclub-contents').prepend($(ele).parent().parent().parent().parent().parent().parent());
-			//		$(ele).parent().parent().parent().parent().parent().parent().hide();
-			//	});
 				$('.thumb-box').hide();
 				infinityScroll('thumb-box');
 			}//if
@@ -344,7 +325,6 @@
 	function infinityScroll(className){
 		
 		$(document).off('scroll');//기존 스크롤 이벤트 삭제
-		
  		$('.'+className+'').each(function(idx,ele){ //첫화면에 6개만 띄움
  			//console.log('check');
 		    			if(idx >= 5 ){
@@ -353,19 +333,12 @@
 				   $(ele).show();
 				   aos();
    		}); 
-
 		var cnt = 1;
-		
 		var sevent= $(document).on('scroll',function(){
-			//console.log('스크롤');
 	        var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
-			//console.log(scrollT)
 	        var scrollH = $('.thumb-box').height(); //스크롤바를 갖는 div의 높이
 	        var contentH = $('.bookclub-contents').height(); //문서 전체 내용을 갖는 div의 높이
-			//console.log(scrollH);
-			//console.log(contentH);
 	        if(scrollT + scrollH+1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
-	          // $('.bookclub-contents').append($('<div class="col-xs-12 col-md-4 thumb-box" data-aos="fade-down"><p>APPEND</p></div>'));
 	        $('.'+className+'').each(function(idx,ele){
 		    			if(cnt*5 > (idx-1) ){
 		    				$(this).show();
