@@ -58,10 +58,8 @@ pubdate	datetime	출간일 정보이다.
 			$('#moreResult').hide();//더 보기 버튼 비활성화
 			$('#moveTop').hide();//탑 버튼 비활성화
 			return;
-		}else{0
-			//$('#moreResult').show();//더 보기 버튼 활성화
-			//$('#moveTop').show();//탑 버튼 비활성화
 		}
+		
 		$.ajax('${pageContext.request.contextPath }/find/result', {
 			method : 'GET',
 			data : 'search=' + $('#search').val()+'&start='+start+'&select='+findOpt,
@@ -69,7 +67,6 @@ pubdate	datetime	출간일 정보이다.
 			contentType:'application/xml;charset=utf-8',
 			success : function(data) {
 				result = $(data).find('item');
-				
 				$('#cntOfTotal').text($(data).find('total').text()+'건의 책이 검색되었습니다.');
 				if($(data).find('total').text()==0||$(data).find('total').text()<=10){ 
 					$('#moreResult').hide();//더 보기 버튼 비활성화
@@ -84,12 +81,6 @@ pubdate	datetime	출간일 정보이다.
 				//	console.log(result[i].link.substring(idxBid+4));
 					var bid = $(ele).find('link').text().substring(idxBid+4);
 					scrollMove_cnt++;//div에 id를 매겨 검색결과 더보기 할때마다 스크롤 위치 정해주기 위한 변수
-					/* 
-     				data-aos="fade-down"
-     				data-aos="zoom-out-down"
-    				data-aos="flip-down"
-    				data-aos="flip-up"
-					*/
 					content += '<div id="scrollMove'+scrollMove_cnt+'" class="media" data-aos="fade-up"><div class="media-left media-middle">'
 					content += '<a class="bid"  href="' + $(ele).find('link').text() + '">'  
 					content += '<img class="media-object" src="' + $(ele).find('image').text() + '" onerror="this.src=\'${pageContext.request.contextPath}/resources/imgs/no-image.png\'" alt="loading fail">'    
@@ -108,7 +99,6 @@ pubdate	datetime	출간일 정보이다.
 				 bookDetail(); //비동기 웹 크롤링
 				//$('#moreResult').show();//더 보기 버튼 활성화
 				$('#moveTop').show();//탑 버튼
-				
 			},//success
 			error:function(){
 				swal("검색 실패", "검색어를 바르게 입력해주세요.", "error");
